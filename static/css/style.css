@@ -1,0 +1,338 @@
+/* CSS Document */
+
+
+
+/* ==========================================================================
+   	Fullpage re-sizable background image using CSS3
+	Works in:
+	Safari 3+
+	Chrome Whatever+
+	IE 9+
+	Opera 10+ (Opera 9.5 supported background-size but not the keywords)
+	Firefox 3.6+ (Firefox 4 supports non-vendor prefixed version)
+   ========================================================================== */
+
+html {
+	background: url('../images/bg_progressive.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+	/* To make older IEs do cover backgrounds
+	   Do not use them on the html or body element. But instead a fixed position div with 100% width and height. */
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale'); 
+	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
+}
+
+body {
+	font:12px/1.4 Verdana,Arial;
+}
+
+/* ==========================================================================
+ 	 White outline border
+   ========================================================================== */
+#container {
+	position: relative;
+	border: 1px solid white;
+	width: 520px;
+	height: 260px;
+	left: 50%;
+	margin-left: -250px;
+	top: 260px;
+	/* rounded corners */
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+/* ==========================================================================
+ 	 Grey background
+   ========================================================================== */
+
+#main {
+	position: absolute;
+	width: 470px;
+	height: 210px;
+	left: 50%;
+	top: -225px;
+	margin-left: -255px;
+	margin-top: 230px;
+	background-color: #666666;
+	filter:alpha(opacity=50);
+	-moz-opacity:0.50;
+	-khtml-opacity: 0.50;
+	opacity: 0.50;
+	padding: 20px;
+	text-align: center;
+	border: 1px solid #333;
+	/* rounded corners */
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+/* ==========================================================================
+ 	 StartAhead Logo
+   ========================================================================== */
+   
+#logo {
+	position:absolute;
+	left: 50%;
+	margin-left: -190px;
+	margin-top: 20px;		
+}
+
+
+/* ==========================================================================
+ 	 Middle Login Fields
+   ========================================================================== */
+ 
+#overlay {
+	position: relative;
+	width:400px;
+	left: 50%;
+	margin-left: -250px;
+	margin-top: 15px;
+	text-align:center;
+}
+
+#message {
+	width: 500px;
+	height: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 22px;
+	font-family: Arial;
+	color: #06C;
+	font-weight:600;
+	text-align: center;	
+}
+
+#formArea {
+	position:relative;
+	top:-150px;
+	width: 500px;
+	padding: 0px;
+	margin: 0px;
+	
+}
+
+#formArea input{
+	border:2px solid #bebbbb;
+	padding:5px;
+	width: 200px;
+	height: 15px;
+	font: normal 12px Arial;
+	color:#333;
+	background:#fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;	
+	
+}
+
+#formArea .university{
+	border:2px solid #bebbbb;
+	padding:5px;
+	width: 215px;
+	height: 30px;
+	font: normal 12px Arial;
+	color:#333;
+	background:#fff;
+}
+
+#formArea .submit {
+	border:1px solid #bebbbb;
+	padding:1px;
+	width: 100px;
+	height: 30px;
+	font: bold 20px Arial;
+	color:#06F;
+	background:#fff;
+	filter:alpha(opacity=50);
+	-moz-opacity:0.50;
+	-khtml-opacity: 0.50;
+	opacity: 0.50;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	position:relative;
+	left:55px;
+}
+
+#formArea .submitOver {
+	border:1px solid #bebbbb;
+	padding:1px;
+	width: 100px;
+	height: 30px;
+	font: bold 20px Arial;
+	color:#06F;
+	background:#fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	position:relative;
+	left:55px;
+}
+
+/* ==========================================================================
+ 	 Bottom Navigation List
+   ========================================================================== */
+
+.nav_list {
+	position: absolute;
+	bottom: 16px;
+	left: 20px;
+	font: normal 14px Arial;
+	color:#CCC;
+}
+
+.nav_list ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;	
+}
+
+.nav_list ul li {
+	position: relative;
+	display: inline;
+	float: left;
+	padding-right: 20px;
+	cursor:pointer;
+	color: #CCC;
+}
+
+.nav_list ul li:hover {
+	color: #06F;
+}
+
+/* ==========================================================================
+ 	 TinyBox CSS
+   ========================================================================== */
+
+.tbox {
+	position:absolute; 
+	display:none; 
+	padding:14px 17px; 
+	z-index:900
+}
+
+.tinner {
+	padding:15px;
+	-moz-border-radius:5px; 
+	border-radius:5px; 
+	background:#fff url(../images/preload.gif) no-repeat 50% 50%; 
+	border-right:1px solid #333; 
+	border-bottom:1px solid #333;
+}
+
+.tmask {
+	position:absolute; 
+	display:none; 
+	top:0px; 
+	left:0px; 
+	height:100%; 
+	width:100%; 
+	background:#000; 
+	z-index:800;
+}
+
+.tclose {
+	position:absolute; 
+	top:0px; 
+	left:0px; 
+	width:30px; 
+	height:30px; 
+	cursor:pointer; 
+	background:url(../images/close.png) no-repeat;
+}
+
+.tclose:hover {
+	background-position:0 -30px;
+}
+
+/* ==========================================================================
+ 	 Nav List Content Styling 
+   ========================================================================== */
+
+#about {
+	background:#000; 
+	color:#fff;
+	border-right:1px solid #000; 
+	border-bottom:1px solid #000; 
+	padding:0; 
+}
+
+
+#privacy {
+	background:#000; 
+	color:#fff;
+	width:300px;
+	border-right:1px solid #000; 
+	border-bottom:1px solid #000; 
+	padding:10; 
+	-moz-border-radius:0; 
+	border-radius:0;filter:alpha(opacity=50);
+	-moz-opacity:0.50;
+	-khtml-opacity: 0.50;
+	opacity: 0.50;
+}
+
+#tos {
+	background:#000; 
+	color:#fff;
+	width:300px;
+	border-right:1px solid #000; 
+	border-bottom:1px solid #000; 
+	padding:10; 
+	-moz-border-radius:0; 
+	border-radius:0;filter:alpha(opacity=50);
+	-moz-opacity:0.50;
+	-khtml-opacity: 0.50;
+	opacity: 0.50;
+}
+
+#help {
+	background:#000; 
+	color:#fff;
+	border-right:1px solid #000; 
+	border-bottom:1px solid #000; 
+	padding:10; 
+	-moz-border-radius:0; 
+	border-radius:0;filter:alpha(opacity=50);
+	-moz-opacity:0.50;
+	-khtml-opacity: 0.50;
+	opacity: 0.50;
+}
+
+/* ==========================================================================
+ 	 Submit Buttons tbox  
+   ========================================================================== */
+   
+#signin {
+	background:#000; 
+	color:#fff;
+	font-size:14px;
+	padding:10; 
+	-moz-border-radius:0;
+	border-radius:0;
+	filter:alpha(opacity=50);
+	-moz-opacity:0.50;
+	-khtml-opacity: 0.50;
+	opacity: 0.50;
+}
+
+#register {
+	background:#06C; 
+	color:#fff; 
+	border-right:1px solid #000; 
+	border-bottom:1px solid #000; 
+	padding:0
+}
+
+#register .tcontent {
+	padding:10px 14px 11px; 
+	border:1px solid #CCC; 
+	-moz-border-radius:5px; 
+	border-radius:5px
+}

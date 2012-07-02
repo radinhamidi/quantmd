@@ -1,0 +1,42 @@
+#For configuration file that have different settings in Unix and Windows
+#For the knowledge: http://progit.org/book/ch2-2.html
+
+
+#Django ignore
+*.log
+*.pot
+*.pyc
+*.pyo
+*~
+
+
+
+
+# Windows image file caches
+Thumbs.db 
+
+# Vim and Mac OS files
+*~
+.DS_Store
+.s
+
+
+#Eclipse files
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# CDT-specific
+.cproject
+

@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Startahead</title>
+
+<link rel="stylesheet" href="{{STATIC_URL}}css/style.css">
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery.js"></script> 
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery.cookie.js"></script> 
+<script type="text/javascript" src="{{STATIC_URL}}js/forms.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/tinybox.js"></script>
+
+</head>
+
+<body>
+	<img src="{{STATIC_URL}}images/logo.png" width="400" height="66" id="logo" />
+ 	<div id="container">
+		<div id="main">
+		</div>
+		<div id="overlay">
+			<div id="message">Don't Wait. <img src="{{STATIC_URL}}images/logo.png" width="125" height="20"/></div>
+            	<table id="formArea" cellspacing="10px">
+                    <tr>
+                        <td><input type="text" id="email_prefix" class="nameTxt" value="Email Prefix" />	</td>
+                        <td>
+                            <select id="org_select" class="university">
+                                {% for org in orgs %}
+                                <option value="{{org.domain}}">@{{org.domain}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                        <tr></tr>
+                        <tr></tr>
+                    <tr>
+                        <td><input type="text" id="password" class="passTxt" value="Password (more than 8 letters)" />	</td>
+                        <td><input type="text" id="password_confirm" class="passTxt2" value="Retype password to sign up" />	</td>
+                    </tr>
+                    <tr></tr>
+                    <tr></tr>
+                    <tr>
+                        <td><input type="submit" id="signin_button" class="submit" value="Sign In" onmouseover="this.className='submitOver'" onmouseout="this.className='submit'" />	
+                        </td>
+                        <td><input type="submit" id="register_button" class="submit" value="Register" onmouseover="this.className='submitOver'" onmouseout="this.className='submit'"/>	
+                        </td>
+                    </tr>
+				</table>
+    		</div>
+  		</div>
+        <div class="nav_list">
+            <ul>
+                <li onclick="TINY.box.show({
+                    html: 'About',
+                    animate:true,
+                    close:true,
+                    mask:false,
+                    boxid:'help',
+                    top:0,
+                    left:0 } )">
+                    About
+                </li>
+                <li onclick="TINY.box.show({
+                    url:'{% url main.views.misc.privacy %}',
+                    animate:true,
+                    close:true,
+                    mask:false,
+                    boxid:'privacy',
+                    top:0,
+                    left:0 } )">
+                    Privacy
+                </li>
+                <li onclick="TINY.box.show({
+                    url:'{% url main.views.misc.tos %}',
+                    animate:true,
+                    close:true,
+                    mask:false,
+                    boxid:'tos',
+                    top:0,
+                    left:0 } )">
+                    Terms
+                </li>
+                <li onclick="TINY.box.show({
+                    html: 'contact@startahead.com',
+                    animate:true,
+                    close:true,
+                    mask:false,
+                    boxid:'help',
+                    top:0,
+                    left:0 } )">
+                    Contact
+                </li>
+             </ul>
+		</div>
+<script type="text/javascript">
+    $('#signin_button').click(function(){
+        TINY.box.show({
+		   html:'Signing in...',
+           width: 100,
+           height: 20,
+           animate:false,
+           close:false,
+           mask:false,
+           boxid:'signin',
+           autohide:2,
+           top:-14,left:-17});
+        
+        $.ajax({
+			url: "{% url main.views.account.login_action %}",
+            type: "POST",
+			timeout: 50000,
+            data: {
+                'email_prefix': $('#email_prefix').val(),
+				'password':$('#password').val(),
+				'domain': $('#org_select option:selected').val()
+            },
+            beforeSend: function(XMLHttpRequest){
+                XMLHttpRequest.setRequestHeader("X-CSRFToken", $.cookie("csrftoken"));
+		    },
+			dataType:'json',
+            success: function(data, textStatus){
+				if(data.code && data.code == '0'){
+			       location.href = "{% url main.views.index.index %}";	
+				} else {
+					TINY.box.show({
+					   html: data.msg,
+			           width: 200,
+			           height: 50,
+			           animate:false,
+			           close:false,
+			           mask:false,
+			           boxid:'signin',
+			           autohide:2,
+			           top:-14,left:-17});
+				}
+            },
+			failure:function(data, statusText){
+				
+			}
+	    });
+    });
+    
+    
+    $('#register_button').click(function(){
+    	$.ajax({
+			url: "{% url main.views.account.register_action %}",
+            type: "POST",
+			timeout: 50000,
+            data: {
+                'email_prefix': $('#email_prefix').val(),
+				'password':$('#password').val(),
+				'password_confirm':$('#password_confirm').val(),
+				'domain': $('#org_select option:selected').val()
+            },
+            beforeSend: function(XMLHttpRequest){
+                XMLHttpRequest.setRequestHeader("X-CSRFToken", $.cookie("csrftoken"));
+		    },
+			dataType:'json',
+            success: function(data, textStatus){
+				if(data.code && data.code == '0'){
+				   TINY.box.show({html:'You will be receiving an email confirmation momentarily.',animate:false,close:false,boxid:'register',top:5});	
+			       
+				} else {
+					TINY.box.show({html:data.msg,animate:false,close:false,boxid:'register',top:5});
+				}
+            },
+			failure:function(data, statusText){
+				
+			}
+	    });
+    });
+    
+
+</script>
+</body>
+</html>
