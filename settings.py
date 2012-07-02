@@ -17,8 +17,8 @@ MANAGERS = ADMINS
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'noreply@startahead.com'
-EMAIL_HOST_PASSWORD = 'Qwerty123!' 
+EMAIL_HOST_USER = 'noreply@quantmd.com'
+EMAIL_HOST_PASSWORD = '' 
 EMAIL_PORT = 587
 
 
@@ -27,7 +27,7 @@ if PRODUCTION:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'startahead',                    
+            'NAME': 'quantmd',                    
             'USER': 'root',                     
             'PASSWORD': 'quantmd:cool1',                
             'HOST': '',                   
@@ -87,7 +87,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '06vvg%or3-(v3=_2gq6f!7*7)hstlzcgw*k)!^)a_89fzy%*ee'
+SECRET_KEY = '06vvg%or3-(v3=jqwrjpo6f!7*7)hstlzcgw*k234hajfzy%*ee'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -118,7 +118,7 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
-ROOT_URLCONF = 'startahead.urls'
+ROOT_URLCONF = 'quantmd.urls'
 
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__),'templates').replace('\\','/'),

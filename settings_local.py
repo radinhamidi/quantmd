@@ -2,8 +2,20 @@
 import os.path
 import sys
 
+LINUX = sys.platform.startswith('linux')
+MAC = sys.platform.startswith('darwin')
+WINDOWS = sys.platform.startswith('win32')
+
 APP_URL = 'http://localhost:8000/'
-MEDIA_ROOT = '/home/media/startahead/'
+LOGIN_URL = APP_URL + 'account/login/' 
+
+if WINDOWS:
+    MEDIA_ROOT = 'c:/media/quantmd/'
+elif MAC:
+    MEDIA_ROOT = '/home/media/quantmd/'
+else:
+    MEDIA_ROOT = '/home/media/quantmd/'
+
 STATIC_URL = APP_URL + 'static/'
 MEDIA_URL = APP_URL + 'media/'
 
@@ -12,7 +24,7 @@ if 'test' in sys.argv:  #Make the test much faster to put sqlite3 database in me
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'startahead.db',                
+            'NAME': 'quantmd.db',                
             'USER': '',                    
             'PASSWORD': '',                  
             'HOST': '',                     
@@ -23,10 +35,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql', 
-            'NAME': 'startahead',                     
-            'USER': 'root',                     
+            'NAME': 'quantmd-dev',                     
+            'USER': 'dev',                     
             'PASSWORD': 'q1w2e3',               
-            'HOST': 'localhost',                  
+            'HOST': '23.20.239.242',                  
             'PORT': '',
             'TEST_CHARSET': 'utf8',
             'TEST_COLLATION': 'utf8_general_ci',
