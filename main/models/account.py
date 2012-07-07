@@ -1,39 +1,36 @@
 #coding=utf-8 
-from django.contrib.auth.models import User as DjangoUser
 from django.db import models
 
     
+class User(models.Model):
+    name = models.CharField(max_length=200,unique=True)
+    password = models.CharField(max_length=200)
+    role = models.IntegerField(max_length=1)
+    profileId = models.ForeignKey('Profile')
+   
+    class Meta: 
+        app_label = 'main'
+    
 class Profile(models.Model):
-    """Extends authorization module in Django"""  
-    user = models.ForeignKey(DjangoUser, primary_key=True)
-    name = models.CharField(max_length=200, db_index=True)
-    bio = models.CharField(max_length=200, blank=True)
-    gender = models.BooleanField(default=True)  #True(1) for male; False(0) for female
+    name = models.CharField(max_length=200)
+    gender = models.IntegerField(max_length=1)
+    email = models.EmailField()
+    phone = models.IntegerField(max_length=30)
+    address = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=200)
+    zip = models.IntegerField(max_length=20)
+    mriId = models.ForeignKey('MriCenter')
     
-    def __unicode__(self):
-        return self.name
-    class Meta: 
-        app_label = 'main'
-
-
-class Organization(models.Model):
-    """The site only opens to user with organization email specified here"""  
-    name = models.CharField(max_length=100, db_index=True)
-    domain = models.CharField(max_length=100, db_index=True)
-    user_count = models.IntegerField(default=0)
-    
-    def __unicode__(self):
-        return self.name
-    class Meta: 
-        app_label = 'main'
-
-class EmailValidation(models.Model):
-    user = models.ForeignKey(DjangoUser)
-    email = models.CharField(max_length=75, unique=True)
-    code = models.CharField(max_length=32)
-    validated = models.BooleanField(default=False)
     class Meta: 
         app_label = 'main'
         
-        
-        
+class Message(models.Model):
+    sender = models.ForeignKey('User', related_name='Message_sender')
+    receiver = models.ForeignKey('User',related_name='Message_receiver')
+    content = models.CharField(max_length=200)
+    date = models.DateField()
+    isRead = models.BooleanField(default = False)
+     
+    class Meta: 
+        app_label = 'main'
