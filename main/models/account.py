@@ -16,17 +16,6 @@ class Profile(models.Model):
         app_label = 'main'
 
 
-class Organization(models.Model):
-    """The site only opens to user with organization email specified here"""  
-    name = models.CharField(max_length=100, db_index=True)
-    domain = models.CharField(max_length=100, db_index=True)
-    user_count = models.IntegerField(default=0)
-    
-    def __unicode__(self):
-        return self.name
-    class Meta: 
-        app_label = 'main'
-
 class EmailValidation(models.Model):
     user = models.ForeignKey(DjangoUser)
     email = models.CharField(max_length=75, unique=True)
