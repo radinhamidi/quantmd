@@ -38,7 +38,7 @@ else:
             'NAME': 'quantmd-dev',                     
             'USER': 'dev',                     
             'PASSWORD': 'q1w2e3',               
-            'HOST': '23.20.239.242',                  
+            'HOST': '23.20.201.4',                  
             'PORT': '',
             'TEST_CHARSET': 'utf8',
             'TEST_COLLATION': 'utf8_general_ci',

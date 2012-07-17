@@ -1,28 +1,30 @@
 #coding=utf-8 
-from django.contrib.auth.models import User as DjangoUser
 from django.db import models
-
+from django.contrib.auth.models import User
+from mri import MRICenter
     
 class Profile(models.Model):
-    """Extends authorization module in Django"""  
-    user = models.ForeignKey(DjangoUser, primary_key=True)
-    name = models.CharField(max_length=200, db_index=True)
-    bio = models.CharField(max_length=200, blank=True)
-    gender = models.BooleanField(default=True)  #True(1) for male; False(0) for female
+    user = models.ForeignKey(User, primary_key=True)
+    first_name = models.CharField(max_length=20)
+    middle_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+    gender = models.BooleanField(default=True) #1 for male, 0 for female
+    email = models.EmailField()
+    phone = models.IntegerField(max_length=30)
+    address = models.CharField(max_length=200)
+    address2 = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=200)
+    zip = models.IntegerField(max_length=20)
     
+    #0 for admin, 1 for doctor, 2 for register, 3 for broker, 4 for cardiologist
+    role = models.SmallIntegerField(default=0)
+    #Each register and broker is associated with a MRI center
+    mri_id = models.ForeignKey(MRICenter, null=True) 
+    
+    class Meta: 
+        app_label = 'main'
     def __unicode__(self):
-        return self.name
-    class Meta: 
-        app_label = 'main'
+        return self.first_name + ' ' + self.last_name
+        
 
-
-class EmailValidation(models.Model):
-    user = models.ForeignKey(DjangoUser)
-    email = models.CharField(max_length=75, unique=True)
-    code = models.CharField(max_length=32)
-    validated = models.BooleanField(default=False)
-    class Meta: 
-        app_label = 'main'
-        
-        
-        
