@@ -87,6 +87,42 @@ def schedule_detail(request, schedule_id):
         schedule = Schedule.objects.get(id=schedule_id)
         return render_to_response('referring/schedule-detail.htm',{'Schedule':schedule, 'MRI':schedule.mri}, context_instance=RequestContext(request))
     else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))    
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))   
+    
+    
+def make_appointment(request, schedule_id):
+    print "make - appointment"
+    if request.user.is_authenticated():
+        error = []
+        patient_ssn = request.POST['schedule-detail-patientid']
+        patient = Patient.objects.get(ssn=patient_id)
+        schedule = Schedule.objects.get(id=schedule_id)
+        doctor = request.user
+        mri = schedule.mri
+        if patient is None:
+            error.append("Patient id is incorrect")
+            
+        if schedule is None:
+            error.append("Schedule id is not exist")
+        
+        if len(error) == 0:
+            return render_to_response('referring/schedule-detail.htm',{'Schedule':schedule, 'MRI':schedule.mri, 'Error':error}, context_instance=RequestContext(request))
+            
+        # update schedule
+        schedule = Schedule.objects.get(id=schedule_id)
+        schedule.is_available = True
+        schedule.save()
+        
+        # create appointment
+        appointment = Appointment.create(doctor=doctor, patient=patient,schedule=schedule,mri=mri,is_cancelled=False)
+        appointment.save()
+        
+        # create case
+        case = Case.create(appointment=appointment)
+        case.save()
+        
+        return render_to_response('referring/appointmentConfirm.htm',{'Schedule':schedule, 'MRI':schedule.mri, 'Patient':patient}, context_instance=RequestContext(request))
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))   
     
     

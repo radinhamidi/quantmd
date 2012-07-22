@@ -14,7 +14,7 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient)
     schedule = models.ForeignKey(Schedule)
     mri = models.ForeignKey(MRICenter)
-    is_cancelled = models.BooleanField(default=True)
+    is_cancelled = models.BooleanField(default=False)
     cancelled_by_doctor = models.BooleanField(default=True) #otherwise, cancelled by mri center
     
     class Meta: 

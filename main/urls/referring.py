@@ -11,4 +11,5 @@ urlpatterns = patterns('main.views',
     (r'^mriInfo/(?P<mri_id>\d+)/$', 'appointment.mri_info'),
     (r'^mriSchedule/(?P<mri_id>\d+)/$', 'appointment.mri_schedule'),
     (r'^scheduleDetail/(?P<schedule_id>\d+)/$', 'appointment.schedule_detail'),
+    (r'^makeAppointment/(?P<schedule_id>\d+)/$', 'appointment.make_appointment'),
 )
