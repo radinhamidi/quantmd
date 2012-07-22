@@ -1,0 +1,40 @@
+<!-- JAVASCRIPT LIBRARY IMPORTS -->
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/subpage.js"></script>
+<script src="{{STATIC_URL}}referring/js/referring.js"></script>
+
+
+<!-- CONTENT BELOW THIS LINE -->
+
+<!-- HEADER REQUIRED -->
+<div class="window-header">select mri center</div>
+
+<!-- PAGE CONTENT -->
+<div  style="	float: left; margin-top:-5px; margin-bottom:15px;">
+            <form name="select-center" id="select-center"  method="POST" action="/referring/appointmentsSearch/">{% csrf_token %}
+            <b>Date:</b>&nbsp;
+            <input  size="15" type="text" name="popup-schedule-date" id="popup-schedule-date" class="textfield"/>&nbsp;&nbsp;&nbsp;
+            <b>Location:</b>&nbsp;
+            <input  size="30" type="text" name="popup-schedule-location" id="textfield-textfield" class="textfield"/>
+            <input  size="30" type="text" id="textfield-clear" class="textfield" value="Patient Zip" />
+            &nbsp;&nbsp;&nbsp;
+            <input type="submit" name="searchbutton" class="button" id="searchbutton" value="SEARCH"/></form>
+            <hr style="clear: both;">
+			{%if Centers %}
+			<table>
+				<tbody>
+					{% for center in Centers %}
+					<tr>
+						<td><b>{{center.name}}</b>
+						<td><br>{{center.address}}<br></td>
+						<td>{{center.address2}}, {{center.city}}, {{center.state}}, {{center.zip}}</td>
+						<td><div id="info" style=" cursor: pointer;  "><img src="{{STATIC_URL}}referring/images/info.png" width="30" height="30" />&nbsp;INFO</div>
+						<div id="schedule" style=" cursor: pointer;" class = "panebutton" load = "center-timeslot.htm"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" width="30" height="30" id=/>&nbsp;SCHEDULE</div></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+</div>

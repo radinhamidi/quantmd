@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 
 class MRICenter(models.Model):
+    name = models.CharField(max_length=200)
     email = models.EmailField()
     phone = models.IntegerField()
     address = models.CharField(max_length=200)

@@ -12,7 +12,7 @@ class Patient(models.Model):
     gender = models.BooleanField(default=True) #1 for male, 0 for female
     birthday = models.DateField()
     email = models.EmailField()
-    phone = models.IntegerField(max_length=20)
+    phone = models.IntegerField()
     address = models.CharField(max_length=200)
     address2 = models.CharField(max_length=200)
     city = models.CharField(max_length=200)

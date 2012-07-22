@@ -1,0 +1,10 @@
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url(../fonts/HelveticaNeue.ttf);
+  src: local("Helvetica Neue"), url(../fonts/HelveticaNeue.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Tw Cen MT";
+  src: url(../fonts/tcm.ttf);
+  src: local("Tw Cen MT"), url(../fonts/tcm.ttf) format("truetype");
+}

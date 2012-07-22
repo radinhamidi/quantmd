@@ -1,0 +1,7 @@
+/* Initializing Offsets */
+#patients { top: 20; left: 20; }
+#schedule { top: 50; left: 50; }
+#diagnosis { top: 80; left: 80; }
+#messages { top: 110; left: 110; }
+
+#patient-table { width: 710px; }

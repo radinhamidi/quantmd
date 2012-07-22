@@ -1,0 +1,29 @@
+/* Initializing Offsets */
+#patients { top: 20; left: 20; }
+#schedule { top: 50; left: 50; }
+#diagnosis { top: 80; left: 80; }
+#messages { top: 110; left: 110; }
+
+#patient-table { width: 710px; }
+#schedule-table { width: 710px; display: none; }
+#message-table { width: 710px; }
+#schedule-timeslot-table { width: 710px; }
+#create-patient-table { width: 710px; }
+#patient-info-table { width: 600px; }
+#diagnosis-table { width: 710px; }
+
+/* Specific Table */
+
+#schedule-table td {
+	padding: 10px;
+    background-color: #FFF;	 
+}
+
+#create-patient-table td {
+	padding: 10px;
+    background-color: #FFF;	 
+}
+
+#patient-info-table td {
+    background-color: #FFF;	 
+}

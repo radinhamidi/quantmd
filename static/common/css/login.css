@@ -1,0 +1,23 @@
+*{margin:0}
+body{background-image:url('../images/bg.png'); font-size:14px; height:100%; color:#777; font-family:"Tw Cen MT","Helvetica Neue"}
+html{height:100%; width:100%; overflow:hidden}
+a:link, a:visited{color:#5c9ccc; text-decoration:none}
+a:hover, a:active{color:#60C2FF}
+#loginbox{width:180px; min-height:280px; position:absolute; left:50%; top:50%; margin-left:-110px; margin-top:-170px; background:#fff; border-radius:8px; border:8px solid #ccc; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF',endColorstr='#EEE'); background:-webkit-gradient(linear,right top,left bottom,from(#FFF),to(#eee)); background:-moz-linear-gradient(top, #fff, #eee); padding:20px}
+#loginbox-content{padding:20px}
+#loginbox-header{font-size:32px; color:#aaa; font-weight:bold; margin-bottom:16px}
+#loginbox-form{border-bottom:1px solid #ccc; padding-bottom:5px; margin-bottom:8px}
+p{margin-bottom:5px}
+.defaultTextActive{color:#AAA; font-style:italic; font-weight:normal}
+input {font-size:15px; border-radius:5px; font-family:"Tw Cen MT","Helvetica Neue"; width:180px; padding:5px; border:1px #888 solid; margin-bottom:10px}
+#icon-base{float:right; margin-top:-10px}
+#logoutbox{width:180px; min-height:210px; position:absolute; left:50%; top:50%; margin-left:-110px; margin-top:-145px; background:#fff; border-radius:8px; border:8px solid #ccc; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF',endColorstr='#EEE'); background:-webkit-gradient(linear,right top,left bottom,from(#FFF),to(#eee)); background:-moz-linear-gradient(top, #fff, #eee); padding:20px}
+#logoutbox-content{padding:20px}
+#logoutbox-header{font-size:32px; color:#aaa; font-weight:bold; margin-bottom:16px}
+#logoutbox-form{border-bottom:1px solid #ccc; padding-bottom:5px; margin-bottom:8px}
+#forgotbox{width:180px; min-height:400px; position:absolute; left:50%; top:50%; margin-left:-110px; margin-top:-230px; background:#fff; border-radius:8px; border:8px solid #ccc; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF',endColorstr='#EEE'); background:-webkit-gradient(linear,right top,left bottom,from(#FFF),to(#eee)); background:-moz-linear-gradient(top, #fff, #eee); padding:20px}
+#forgotbox-content{padding:20px}
+#forgotbox-header{font-size:32px; color:#aaa; font-weight:bold; margin-bottom:16px}
+#forgotbox-form{border-bottom:1px solid #ccc; padding-bottom:5px; margin-bottom:8px}
+.button { padding: 5px; }
+.orange .button { padding: 5px; }

@@ -1,0 +1,5 @@
+/* Initializing Offsets */
+#register { top: 20; left: 20; }
+#schedule { top: 50; left: 50; }
+#timeslot { top: 80; left: 80; }
+#logs { top: 110; left: 110; }

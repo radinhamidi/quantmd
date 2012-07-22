@@ -15,5 +15,7 @@ handler500 = 'main.views.error.server_error'
 
 urlpatterns += patterns('main.views',
     (r'^$','index.index'),
-    (r'^account/',include('main.urls.account')),
+    (r'^login/$','account.login_action'),
+     (r'^logout/$','account.logout_view'),
+      (r'^referring/',include('main.urls.referring')),
 )

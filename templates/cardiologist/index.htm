@@ -1,0 +1,104 @@
+<html>
+	
+	<head>
+		
+		<title>Cardiologists - QuantMD</title>
+		
+		<!-- Import Scripts -->
+		<script src="../common/js/jquery.js"></script>
+		<script src="../common/js/jquery-ui.js"></script>
+		<script src="../common/js/datatables.js"></script>
+		<script src="../common/js/jscrollpane.js"></script>
+		<script src="../common/js/mousewheel.js"></script>
+		<script src="../common/js/common.js"></script>
+
+		<!-- Import Styles -->
+		<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="../common/css/theme/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="../common/css/fonts.css" />
+		<link rel="stylesheet" type="text/css" href="../common/css/common.css" />
+		
+		<!-- Local Scripts & Styles -->
+		<script src="js/cardiologist.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/cardiologist.css" />
+		
+	</head>
+	
+	<body>
+	
+		<div id="wrapper">
+		
+			<!-- User Box Section -->
+			<div id="user-box">
+				<div id="user-box-text"><center>WELCOME, <b>USERABC</b>&nbsp; <img src="../common/images/drop-arrow.png" /></center></div>
+				<div id="user-box-options">
+					<div id="user-box-options-text">
+						&nbsp;<img src="../common/images/square.png" /> &nbsp; <a href="#">ACCOUNT SETTINGS</a><p />
+						&nbsp;<img src="../common/images/square.png" /> &nbsp; <a href="#" onClick="logout();">SIGN OUT</a>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Navigation Bar -->
+			<div id="navbar">
+				<img id="nav-accept" class="showbutton" show="accept" load="accept.htm" src="images/icon-accept.png" />&nbsp;
+				<img id="nav-cases" class="showbutton" show="cases" load="cases.htm" src="images/icon-cases.png" />&nbsp; 
+				<img id="nav-messages" class="showbutton" show="messages" load="messages.htm" src="images/icon-messages.png" />&nbsp;
+				<img id="nav-completed" class="showbutton" show="completed" load="completed.htm" src="images/icon-completed.png" />
+			</div>
+			
+			<!-- MAIN CONTENT AREA -->
+			
+			<div id="drag-container">
+			
+				<div id="accept" class="windows">
+					<div id="accept-close" class="hidebutton">X</div>
+					<div id="accept-content" class="content">
+						hello world
+					</div>
+				</div>
+				
+				<div id="cases" class="windows">
+					<div id="cases-close" class="hidebutton">X</div>
+					<div id="cases-content" class="content">
+						hello world
+					</div>
+				</div>
+				
+				<div id="messages" class="windows">
+					<div id="messages-close" class="hidebutton">X</div>
+					<div id="messages-content" class="content">
+						hello world
+					</div>
+				</div>
+				
+				<div id="completed" class="windows">
+					<div id="completed-close" class="hidebutton">X</div>
+					<div id="completed-content" class="content">
+						hello world
+					</div>
+				</div>
+			
+			</div>
+		
+		</div>
+
+		<!-- Logout Confirmation Box -->
+		<div id="logout-confirm" title="Confirm Sign Out?">
+			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This will sign you out of your current session. Any unsaved work will be lost.<br /></p>
+		</div>
+		
+		<!-- Footer Bar -->
+		<div id="footer">
+			<div id="footer-left">
+				<div id="footer-left-logo"><img src="../common/images/icon-quantmd-mini-black.png" height="20px" width="20px" /></div>
+				<div>&nbsp; &#0169; 2012 QUANTMD</div>
+			</div>
+			<div id="footer-right">
+				<a href="#">TERMS OF SERVICE</a> | <a href="#">PATIENT PRIVACY NOTICE</a> | <a href="#">CONTACT QUANTMD</a>
+			</div>
+		</div>
+	
+	</body>
+	
+</html>

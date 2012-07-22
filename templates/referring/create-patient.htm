@@ -1,0 +1,86 @@
+<!-- JAVASCRIPT LIBRARY IMPORTS -->
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/subpage.js"></script>
+<script src="{{STATIC_URL}}referring/js/referring.js"></script>
+
+
+<!-- CONTENT BELOW THIS LINE -->
+<div id = "createbox">
+<!-- HEADER REQUIRED -->
+<div class="window-header">create patient</div>
+
+<!-- PAGE CONTENT -->
+<form method="POST" name="create-patient" id="create-patient" action="/referring/createPatientAction/">
+ {% csrf_token %}
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><b>First name:</b></td>
+				<td><input class="textfield" type="text" name="first_name"></td>
+				<td></td>
+				<td><b>Last name:</b></td>
+				<td><input class="textfield" type="text" name="last_name"></td>
+			</tr>
+			<tr>
+				<td><b>Middle name:</b></td>
+				<td><input class="textfield" type="text" name="middle_name"></td>
+			</tr>
+			<tr>
+				<td><b>SSN:</b></td>
+				<td><input class="textfield" type="text" name="ssn"></td>
+				<td></td>
+				<td><b>gender:</b></td>
+				<td><input type="radio" name="sex" value="1" /> Male &nbsp
+  					<input type="radio" name="sex" value="0" checked="checked" /> Female<br/></td>
+			</tr>
+			<tr>
+				<td><b>birthday:</b></td>
+				<td><input class="textfield" type="text" id="textfield-textfield" name="birthday">
+				    <input class="textfield" type="text" id="textfield-clear" value="mm-dd-year"></td>
+				<td></td>
+				<td><b>email:</b></td>
+				<td><input class="textfield" type="text" name="email"></td>
+			</tr>
+			<tr>
+				<td><b>phone</b></td>
+				<td><input class="textfield" type="text" name="phone"></td>
+				<td></td>
+				<td><b>address</b></td>
+				<td><input class="textfield" type="text" name="address"></td>
+			</tr>
+			<tr>
+				<td><b>city</b></td>
+				<td><input class="textfield" type="text" name="city"></td>
+				<td></td>
+				<td><b>address2</b></td>
+				<td><input class="textfield" type="text" name="address2"></td>
+			</tr>
+			<tr>
+				<td><b>state</b></td>
+				<td><input class="textfield" type="text" name="state"></td>
+				<td></td>
+				<td><b>zip</b></td>
+				<td><input class="textfield" type="text" name="zip"></td>
+			</tr>
+			<tr>
+				<td><img src="{{STATIC_URL}}referring/images/back.png" width="30" height="30" style="cursor: pointer;" class="panebutton" load="patients.htm"/>BACK</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><input type="submit" name="sumbitbutton" class="button" id="sumbitbutton" value="SUMBIT" style="margin-left: 50px; margin-top: 5px;"/></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+</div>

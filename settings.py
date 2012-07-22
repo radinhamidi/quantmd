@@ -76,6 +76,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put absolute path here, like "/home/html/static" or "C:/www/django/static".
+    os.path.join(os.path.dirname(__file__),'static/').replace('\\','/')
 )
 
 # List of finder classes that know how to find static files in
@@ -115,7 +116,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.transaction.TransactionMiddleware', #Adds transaction to all views
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'quantmd.urls'

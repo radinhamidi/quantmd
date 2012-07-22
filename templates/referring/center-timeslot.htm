@@ -1,0 +1,84 @@
+<!-- JAVASCRIPT LIBRARY IMPORTS -->
+<!--
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<script src="../common/js/datatables.js"></script>
+<script src="../common/js/common.js"></script>
+<script src="js/referring.js"></script>
+-->
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<script src="../common/js/datatables.js"></script>
+<script src="../common/js/subpage.js"></script>
+<script src="js/referring.js"></script>
+
+<!-- CONTENT BELOW THIS LINE -->
+
+<!-- HEADER REQUIRED -->
+<div class="window-header">timeslot</div>
+
+<!-- PAGE CONTENT -->
+
+<table id="schedule-timeslot-table">
+				<thead>
+					<tr>
+						<th >Time</th>
+						<th >Status</th>
+						<th ></th>
+					
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>09:00-09:30</td>
+						<td>Avaialbe</td>
+						<td><a href="#" id="book-timeslot" style=" cursor: pointer;" class="panebutton" load="schedule-detail.htm"><img src="images/button-add.png" width="15" height="15"/>&nbsp;BOOK</a></td>
+				
+					</tr>
+					<tr>
+						<td>09:30-10:00</td>
+						<td>Avaialbe</td>
+						<td><div id="book-timeslot" style=" cursor: pointer;  "><img src="images/button-add.png" width="15" height="15"/>&nbsp;BOOK</div></td>
+					</tr>
+					<tr>
+						<td>10:00-10:30</td>
+						<td>Occupied</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>10:30-11:00</td>
+						<td>Avaialbe</td>
+						<td><div id="book-timeslot" style=" cursor: pointer;  "><img src="images/button-add.png" width="15" height="15"/>&nbsp;BOOK</div></td>
+					</tr>
+					<tr>
+						<td>11:30-12:00</td>
+						<td>Occupied</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>14:00-14:30</td>
+						<td>Avaialbe</td>
+						<td><div id="book-timeslot" style=" cursor: pointer;  "><img src="images/button-add.png" width="15" height="15"/>&nbsp;BOOK</div></td>
+					</tr>
+					<tr>
+						<td>14:30-15:00</td>
+						<td>Occupied</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>15:30-16:00</td>
+						<td>Avaialbe</td>
+						<td><div id="book-timeslot" style=" cursor: pointer;  "><img src="images/button-add.png" width="15" height="15"/>&nbsp;BOOK</div></td>
+					</tr>
+					<tr>
+					<td>16:30-17:00</td>
+						<td>Avaialbe</td>
+						<td><div id="book-timeslot" style=" cursor: pointer;  "><img src="images/button-add.png" width="15" height="15"/>&nbsp;BOOK</div></td>
+					</tr>
+				
+				</tbody>
+			</table>
+			<div class ="panebutton" load="schedule.htm"><img src="images/back.png" width="30" height="30" />&nbsp;BACK</div>
+			<div id="reset" style="float:right; margin-top: -30px; margin-right: 5px; cursor: pointer;"><input type="button" onClick="reset_dt_view();" value="reset" /></div>
+		
+

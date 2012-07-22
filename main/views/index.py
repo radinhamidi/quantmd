@@ -8,10 +8,9 @@ from main.models.account import *
 
 def index(request):
     if not request.user.is_authenticated():
-        orgs = Organization.objects.all()
-        return render_to_response('main/account/login.html', {'orgs':orgs},
+        return render_to_response('login.htm', {},
                               context_instance=RequestContext(request))
     
-    return render_to_response('main/index.html',{}, context_instance=RequestContext(request))
+    return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
     

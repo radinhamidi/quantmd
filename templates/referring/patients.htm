@@ -1,0 +1,48 @@
+<!-- JAVASCRIPT LIBRARY IMPORTS -->
+<!--
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/common.js"></script>
+<script src="{{STATIC_URL}}referring/js/referring.js"></script>
+-->
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/subpage.js"></script>
+<script src="{{STATIC_URL}}referring/js/referring.js"></script>
+
+<!-- CONTENT BELOW THIS LINE -->
+
+<!-- HEADER REQUIRED -->
+<div class="window-header">patients</div>
+
+<!-- PAGE CONTENT -->
+<div style="float:right; margin-top:-35px; margin-right:6px; cursor: pointer;" class="panebutton" load="/referring/createPatient/" ><img src="{{STATIC_URL}}referring/images/button-add.png" width="15" height="15"/>&nbsp;CREATE A PATIENT</div>
+<table id="patient-table">
+	<thead>
+		<tr>
+			<th width="200px">Name</th>
+			<th width="50px">Gender</th>
+			<th width="50px">Birthday</th>
+			<th width="120px">Last Updated</th>
+			<th width="180px"></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for patient in Patients %}
+		<tr>
+			<td>{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</td>
+			{% if patient.gender == 1 %}
+			<td>Male</td>
+			{% endif %}
+			{% if patient.gender == 0 %}
+			<td>Female</td>
+			{% endif %}
+			<td>{{patient.birthday|date:"SHORT_DATE_FORMAT"}}</td>
+			<td>N/A</td>
+			<td><img src="{{STATIC_URL}}referring/images/info.png" width="20" height="20" />&nbsp;<a href="#" class="panebutton" load="/referring/patientInfo/{{patient.ssn}}/">Info</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table><input type="button" onClick="reset_dt_view();" value="reset" />

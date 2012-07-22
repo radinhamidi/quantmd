@@ -1,0 +1,81 @@
+<!-- JAVASCRIPT LIBRARY IMPORTS -->
+<!--
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/common.js"></script>
+<script src="js/referring.js"></script>
+-->
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/subpage.js"></script>
+<script src="{{STATIC_URL}}referring/js/referring.js"></script>
+
+<!-- CONTENT BELOW THIS LINE -->
+
+<!-- HEADER REQUIRED -->
+<div class="window-header">Patient one</div>
+
+<!-- PAGE CONTENT -->
+<div style="margin-top: -45px; margin-bottom: -10px;float:right;">
+<img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="50" width="50" style="margin-left: 8px;">
+<img src="{{STATIC_URL}}referring/images/folder.png" height="50" width="50" style="margin-left: 12px;">
+<img src="{{STATIC_URL}}referring/images/mail.png" height="50" width="50" style="margin-left: 15px;">
+<br>
+<a href="#"><font size="2">SCHEDULED</font></a>
+<a href="#" style="margin-left: 5px;"><font size="2">0 REPORTS</font></a>
+<a href="#" style="margin-left: 5px;"><font size="2">0 MESSAGES</font></a>
+</div>
+<table id="patient-info-table">
+	<thead>
+		<tr>
+			<th>{{Patient.first_name}} {{Patient.middle_name}} {{Patient.last_name}}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{Patient.ssn}}</td>
+		</tr>
+		<tr>
+			<td>{{Patient.address}},{{Patient.address2}}, {{Patient.city}}, {{Patient.state}},{{Patient.zip}}&nbsp;<img src="{{STATIC_URL}}referring/images/pen.png" /></td>
+
+		</tr>
+		<tr>
+		{% if Patient.gender == 1 %}
+			<td>Male</td>
+			{% endif %}
+		{% if Patient.gender == 0 %}
+			<td>Female</td>
+			{% endif %}
+		</tr>
+		<tr>
+			<td>{{Patient.birthday}} (AGE {{Age}})</td>
+	
+		</tr>
+		<tr>
+			<td>{{Patient.email}}</td>
+	
+		</tr>
+		<tr>
+			<td>{{Patient.phone}}</td>
+	
+		</tr>
+		<tr>
+			<td>JULY,2012@2:45PM</td>
+		</tr>
+		<tr>
+			<td>SUBJECT COMPLAIN CHEST PAIN, BP 120/85BPM NORMAL HEALTHY
+				EXERCISE OK<br /> NO SPEC PAIN TRIGGER. HISTORY PENCI USE 150/365.<br />
+				SAW GP 15/6 ADVISED FOR REST 3/7. NO KNW STRESS IND<br /> GP AGAIN
+				18/6 FOR ECG NORMAL NO ARR SEEN<br /> REFER CARDIAC MRI.<br />
+			</td>
+	
+		</tr>
+		<tr>
+			<td><textarea id="new-entry" cols="80" rows="10"></textarea></td>
+	
+		</tr>
+	</tbody>
+</table>
+<div class ="panebutton" load="/referring/patientsInfo/"><img src="{{STATIC_URL}}referring/images/back.png" width="30" height="30"/>&nbsp;BACK</div>
