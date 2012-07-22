@@ -8,4 +8,7 @@ urlpatterns = patterns('main.views',
     (r'^createPatientAction/$', 'patients.createPatient'),
     (r'^appointmentsInfo/$', 'appointment.appointment_view'),
     (r'^appointmentsSearch/$', 'appointment.appointment_search'),
+    (r'^mriInfo/(?P<mri_id>\d+)/$', 'appointment.mri_info'),
+    (r'^mriSchedule/(?P<mri_id>\d+)/$', 'appointment.mri_schedule'),
+    (r'^scheduleDetail/(?P<schedule_id>\d+)/$', 'appointment.schedule_detail'),
 )

@@ -30,8 +30,8 @@
 						<td><b>{{center.name}}</b>
 						<td><br>{{center.address}}<br></td>
 						<td>{{center.address2}}, {{center.city}}, {{center.state}}, {{center.zip}}</td>
-						<td><div id="info" style=" cursor: pointer;  "><img src="{{STATIC_URL}}referring/images/info.png" width="30" height="30" />&nbsp;INFO</div>
-						<div id="schedule" style=" cursor: pointer;" class = "panebutton" load = "center-timeslot.htm"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" width="30" height="30" id=/>&nbsp;SCHEDULE</div></td>
+						<td><div id="info" style=" cursor: pointer;" class = "panebutton" load = "/referring/mriInfo/{{center.id}}/""><img src="{{STATIC_URL}}referring/images/info.png" width="30" height="30"/>&nbsp;INFO</div>
+						<div id="schedule" style=" cursor: pointer;" class = "panebutton" load = "/referring/mriSchedule/{{center.id}}/"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" width="30" height="30" id=/>&nbsp;SCHEDULE</div></td>
 					</tr>
 					{% endfor %}
 				</tbody>

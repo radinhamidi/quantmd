@@ -1,16 +1,16 @@
 <!-- JAVASCRIPT LIBRARY IMPORTS -->
 <!--
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<script src="../common/js/common.js"></script>
-<script src="js/referring.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/common.js"></script>
+<script src="{{STATIC_URL}}referring/js/referring.js"></script>
 -->
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<script src="../common/js/subpage.js"></script>
-<script src="js/referring.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/subpage.js"></script>
+<script src="{{STATIC_URL}}referring/js/referring.js"></script>
 
 <!-- CONTENT BELOW THIS LINE -->
 
@@ -19,15 +19,15 @@
 
 <!-- PAGE CONTENT -->
 
-<div id="schedule-detail-time" class="sub-header" ><b>Jul 11 2012 Wed</b><br>9:00-9:30</div>
-			<div id="schedule-detail-mriad" class="sub-header" ><b>DENLEY MRI CENTER</b><br>1500 CENTER AVE<br>PITTSBURGH, PA 15213</div>
+<div id="schedule-detail-time" class="sub-header" ><b>{{Schedule.date}}</b><br>{{Schedule.startTime}}-{{Schedule.endTime}}</div>
+			<div id="schedule-detail-mriad" class="sub-header" ><b>{{MRI.name}}</b><br>{{MRI.address}} {{MRI.address2}}<br>{{MRI.city}}, {{MRI.state}}, {{MRI.zip}}</div>
 			<hr style="clear: both;">
 			<div><form>
 			<label style="margin: 15px;">Patient ID:</label><input id= "schedule-detail-patientid" name="schedule-detail-patientid" class="textfield" type="text" size="30" style="margin: 15px;"/><br>
 		    <label  style="margin-top:5px; margin-left: 15px; float:left; " >Note: If this is a new patient&nbsp;&nbsp;&nbsp;PLEASE FIRST</label>
-		    <img src="images/button-add.png" width="15" height="15" style="margin:5px; float:left; "/>
+		    <img src="{{STATIC_URL}}referring/images/button-add.png" width="15" height="15" style="margin:5px; float:left; "/>
 		    <label  style="margin-top:5px;  margin-left:-5px; float:left; " >&nbsp;CREATE A PATIENT</label><br>
-			<img src="images/back.png" width="30" height="30" style="margin-top: 200px; margin-left: -400px; cursor: pointer;" class="panebutton" load="center-timeslot.htm"/>
+			<img src="{{STATIC_URL}}referring/images/back.png" width="30" height="30" style="margin-top: 200px; margin-left: -400px; cursor: pointer;" class="panebutton" load="center-timeslot.htm"/>
 			<label style="float: left; margin-top:205px; margin-left: -370px">BACK</label>
 		    <input type="button" name="confirmbutton" class="button" id="confirmbutton" value="CONFIRM" style="margin-top: 190px; margin-right: 15px; float: right;"/>
 			</form></div>
