@@ -6,13 +6,13 @@ from mri import MRICenter
 class Profile(models.Model):
     user = models.ForeignKey(User, primary_key=True)
     first_name = models.CharField(max_length=20)
-    middle_name = models.CharField(max_length=20, null=True)
+    middle_name = models.CharField(max_length=20, blank=True)
     last_name = models.CharField(max_length=20)
     gender = models.BooleanField(default=True) #1 for male, 0 for female
     email = models.EmailField()
     phone = models.IntegerField()
     address = models.CharField(max_length=200)
-    address2 = models.CharField(max_length=200)
+    address2 = models.CharField(max_length=200, blank=True)
     city = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
     zip = models.IntegerField()
