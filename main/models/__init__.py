@@ -5,3 +5,4 @@ from patient import *
 from appointment import *
 from report import *
 from data import *
+from message import *

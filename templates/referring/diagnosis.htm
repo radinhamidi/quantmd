@@ -30,12 +30,19 @@
 		</tr>
 	</thead>
 	<tbody>
+		{% for k,v in Cases.iteritems %}
 		<tr>
-			<td>Patient One</td>
+			<td>{{v.first_name}} {{v.middle_name}} {{v.last_name}}</td>
+			{% if v.gender == 1 %}
 			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td><a href="#" class="showbutton" show="patients2" load="diagnosis.htm">Diagnosis</a></td>
+			{% endif %}
+			{% if v.gender == 0 %}
+			<td>Female</td>
+			{% endif %}
+			<td>{{v.birthday}}</td>
+			<td>{{k.create_time}}</td>
+			<td><a href="#" class="panebutton" load="/referring/dignosisView/{{k.id}}/"><img src="{{STATIC_URL}}referring/images/folder_full.png" height="30" width="30"></a></td>
 		</tr>
+		{% endfor %}
 	</tbody>
 </table><input type="button" onClick="reset_dt_view();" value="reset" />

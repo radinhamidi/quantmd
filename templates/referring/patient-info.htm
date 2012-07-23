@@ -15,67 +15,53 @@
 <!-- CONTENT BELOW THIS LINE -->
 
 <!-- HEADER REQUIRED -->
-<div class="window-header">Patient one</div>
+<div class="window-header">{{Patient.first_name}} {{Patient.middle_name}} {{Patient.last_name}}</div>
 
 <!-- PAGE CONTENT -->
-<div style="margin-top: -45px; margin-bottom: -10px;float:right;">
-<img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="50" width="50" style="margin-left: 8px;">
-<img src="{{STATIC_URL}}referring/images/folder.png" height="50" width="50" style="margin-left: 12px;">
-<img src="{{STATIC_URL}}referring/images/mail.png" height="50" width="50" style="margin-left: 15px;">
-<br>
-<a href="#"><font size="2">SCHEDULED</font></a>
-<a href="#" style="margin-left: 5px;"><font size="2">0 REPORTS</font></a>
-<a href="#" style="margin-left: 5px;"><font size="2">0 MESSAGES</font></a>
-</div>
-<table id="patient-info-table">
-	<thead>
-		<tr>
-			<th>{{Patient.first_name}} {{Patient.middle_name}} {{Patient.last_name}}</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>{{Patient.ssn}}</td>
-		</tr>
-		<tr>
-			<td>{{Patient.address}},{{Patient.address2}}, {{Patient.city}}, {{Patient.state}},{{Patient.zip}}&nbsp;<img src="{{STATIC_URL}}referring/images/pen.png" /></td>
+<table class="right-table">
+	<tr>
+		<td width="100px"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="50" width="50"> <br /> <a href="#" class="panebutton" load="/referring/patientAppointmentList/{{Patient.ssn}}/"><font size="2">SCHEDULE INFO</font></a></td>
+		<td width="100px"><img src="{{STATIC_URL}}referring/images/folder_full.png" height="50" width="50"> <br /> <a href="#" class="panebutton" load="/referring/patientCaseList/{{Patient.ssn}}/"><font size="2">REPORTS</font></a></td>
+		<td width="100px"><img src="{{STATIC_URL}}referring/images/comments.png" height="50" width="50"> <br /> <a href="#"><font size="2">0 MESSAGES</font></a></td>
+	</tr>
+</table>
 
-		</tr>
-		<tr>
+<table class="left-table">
+	<tr>
+		<td><a href="#"><img src="{{STATIC_URL}}referring/images/pen.png" height="15"  width="15"/>&nbsp;<font size="2">EDIT PATIENT</font></a></td>
+	</tr>
+	<tr>
+		<td><b>Address:</b></td> 
+		<td>{{Patient.address}},{{Patient.address2}}, {{Patient.city}}, {{Patient.state}},{{Patient.zip}}</td>
+	</tr>
+	<tr>
+		<td><b>SSN:</b></td> 
+		<td>{{Patient.ssn}}</td>
+	</tr>
+	<tr>
+		<td><b>Gender:</b></td>	
 		{% if Patient.gender == 1 %}
 			<td>Male</td>
 			{% endif %}
 		{% if Patient.gender == 0 %}
 			<td>Female</td>
 			{% endif %}
-		</tr>
-		<tr>
-			<td>{{Patient.birthday}} (AGE {{Age}})</td>
+	</tr>
+	<tr>
+		<td><b>Birthday:</b></td> 
+		<td>{{Patient.birthday}} (AGE {{Age}})</td>
+	</tr>
+	<tr>
+		<td><b>Phone:</b></td>
+		<td>{{Patient.phone}}</td>
+	</tr>
 	
-		</tr>
-		<tr>
-			<td>{{Patient.email}}</td>
-	
-		</tr>
-		<tr>
-			<td>{{Patient.phone}}</td>
-	
-		</tr>
-		<tr>
-			<td>JULY,2012@2:45PM</td>
-		</tr>
-		<tr>
-			<td>SUBJECT COMPLAIN CHEST PAIN, BP 120/85BPM NORMAL HEALTHY
-				EXERCISE OK<br /> NO SPEC PAIN TRIGGER. HISTORY PENCI USE 150/365.<br />
-				SAW GP 15/6 ADVISED FOR REST 3/7. NO KNW STRESS IND<br /> GP AGAIN
-				18/6 FOR ECG NORMAL NO ARR SEEN<br /> REFER CARDIAC MRI.<br />
-			</td>
-	
-		</tr>
-		<tr>
-			<td><textarea id="new-entry" cols="80" rows="10"></textarea></td>
-	
-		</tr>
-	</tbody>
+	<tr>
+		<td><b>Email:</b></td>
+		<td>{{Patient.email}}</td>
+	</tr>
 </table>
-<div class ="panebutton" load="/referring/patientsInfo/"><img src="{{STATIC_URL}}referring/images/back.png" width="30" height="30"/>&nbsp;BACK</div>
+
+<a href="#" id="back-diagnosis" class="panebutton" load="patients.htm">
+	<img src="images/back_small.png" height="16" width="16" style="margin-top: 150px;">&nbsp;BACK
+</a>

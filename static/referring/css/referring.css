@@ -11,6 +11,9 @@
 #create-patient-table { width: 710px; }
 #patient-info-table { width: 600px; }
 #diagnosis-table { width: 710px; }
+#message-table { width: 710px; }
+#individual-diagnosis-table { width: 710px; }
+#individual-schedule-table { width: 710px; }
 
 /* Specific Table */
 
@@ -24,6 +27,21 @@
     background-color: #FFF;	 
 }
 
-#patient-info-table td {
-    background-color: #FFF;	 
+.right-table{
+	float: right;
+	margin-top: -50px;	
+	margin-right: -40px;
 }
+
+.left-table{
+	margin-top: 8px;	
+}
+.bottom-pane{
+	margin-left:8px;
+	height: 200px; 
+	width: 700px; 
+	overflow-y: scroll; 
+	overflow-x: hidden;
+}
+
+

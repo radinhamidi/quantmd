@@ -6,8 +6,11 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from main.models.account import *
 from main.models.patient import *
+from main.models.appointment import *
+from main.models.mri import *
 from datetime import *
 from main.utils.form_check import *
+from main.models.case import *
 
 # patients list
 def patientsList(request):
@@ -107,8 +110,69 @@ def createPatient(request):
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-      
+
+def patient_appotiments(request, patient_ssn):
+ if request.user.is_authenticated():
+    print "patient apps"
+    patient = Patient.objects.get(ssn=patient_ssn)
+    print patient
+    appointments = Appointment.objects.filter(patient=patient)
     
+    dic = {}
+    for appointment in appointments:
+        dic[appointment.schedule] = appointment.mri
+    
+    print dic                            
+    return render_to_response('referring/Individual-schedule-list.htm', {'Dic': dic, 'Patient':patient},
+                            context_instance=RequestContext(request))
+    
+ else:
+    return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+
+
+def patient_appotiment(request, schedule_id, patient_ssn):
+    print "appointment"
+    if request.user.is_authenticated():
+        schedule = Schedule.objects.get(id=schedule_id)
+        patient = Patient.objects.get(ssn=patient_ssn)
+        mri = schedule.mri                        
+        return render_to_response('referring/individual-schedule.htm', {'Schedule':schedule, 'Patient':patient, 'MRI':mri},
+                            context_instance=RequestContext(request))
+    
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+    
+def patient_cases(request, patient_ssn):
+    print "cases"
+    if request.user.is_authenticated():
+        patient = Patient.objects.get(ssn=patient_ssn)
+        appointments = Appointment.objects.filter(patient=patient)
+        cases = {}
+        for appointment in appointments:
+            case = Case.objects.get(appointment=appointment)
+            if case.report is not None:
+                cases[case] = case.report 
+        print cases                    
+        return render_to_response('referring/Individual-diagnosis-list.htm', {'Cases':cases, 'Patient':patient},
+                            context_instance=RequestContext(request))
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+      
+def patient_case(request, case_id):
+    print "case"
+    if request.user.is_authenticated():
+        case = Case.objects.get(id=case_id)
+        report = case.report
+        appointment = case.appointment
+        patient = appointment.patient
+        mri = appointment.mri                     
+        return render_to_response('referring/individual-diagnosis.htm', {'Report':report, 'Patient':patient, 'MRI':mri},
+                            context_instance=RequestContext(request))
+    
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))    
     
 
 

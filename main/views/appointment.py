@@ -6,7 +6,10 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from main.models.mri import *
 from main.models.appointment import *
+from main.models.patient import *
+from main.models.account import *
 from django.utils.datetime_safe import datetime
+from main.models.case import *
 
 def appointment_view(request):
     print "appointmentView"
@@ -94,33 +97,40 @@ def make_appointment(request, schedule_id):
     print "make - appointment"
     if request.user.is_authenticated():
         error = []
-        patient_ssn = request.POST['schedule-detail-patientid']
-        patient = Patient.objects.get(ssn=patient_id)
+        patient_ssn = request.POST['patient_id']
+        patient = Patient.objects.get(ssn=patient_ssn)
         schedule = Schedule.objects.get(id=schedule_id)
-        doctor = request.user
+        doctor = Profile.objects.get(user=request.user)
         mri = schedule.mri
+        
+        print patient
+        print schedule
+        print doctor
+        print mri
         if patient is None:
-            error.append("Patient id is incorrect")
+            error.append("Patient ssn is incorrect")
             
         if schedule is None:
             error.append("Schedule id is not exist")
         
-        if len(error) == 0:
+        if len(error) != 0:
             return render_to_response('referring/schedule-detail.htm',{'Schedule':schedule, 'MRI':schedule.mri, 'Error':error}, context_instance=RequestContext(request))
-            
+        
+        print "here"   
         # update schedule
         schedule = Schedule.objects.get(id=schedule_id)
-        schedule.is_available = True
+        schedule.is_available = False
         schedule.save()
         
+        print "here3"  
         # create appointment
-        appointment = Appointment.create(doctor=doctor, patient=patient,schedule=schedule,mri=mri,is_cancelled=False)
+        appointment = Appointment.objects.create(doctor=doctor, patient=patient,schedule=schedule,mri=mri)
         appointment.save()
-        
+        print "here4"
         # create case
-        case = Case.create(appointment=appointment)
+        case = Case.objects.create(appointment=appointment)
         case.save()
-        
+        print "here5"
         return render_to_response('referring/appointmentConfirm.htm',{'Schedule':schedule, 'MRI':schedule.mri, 'Patient':patient}, context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))   

@@ -23,7 +23,8 @@
 			<div id="schedule-detail-mriad" class="sub-header" ><b>{{MRI.name}}</b><br>{{MRI.address}} {{MRI.address2}}<br>{{MRI.city}}, {{MRI.state}}, {{MRI.zip}}</div>
 			<hr style="clear: both;">
 			<div><form name = "makeAppointment" id = "makeAppointment" action = "/referring/makeAppointment/{{Schedule.id}}/" method = "POST">
-			<label style="margin: 15px;">Patient SSN:</label><input id= "schedule-detail-patientid" name="schedule-detail-patientid" class="textfield" type="text" size="30" style="margin: 15px;"/><br>
+			{% csrf_token %}
+			<label style="margin: 15px;">Patient SSN:</label><input id= "patient_id" name="patient_id" class="textfield" type="text" size="30" style="margin: 15px;"/><br>
 		    <label  style="margin-top:5px; margin-left: 15px; float:left; " >Note: If this is a new patient&nbsp;&nbsp;&nbsp;PLEASE FIRST</label>
 		    <img src="{{STATIC_URL}}referring/images/button-add.png" width="15" height="15" style="margin:5px; float:left; "/>
 		    <label  style="margin-top:5px;  margin-left:-5px; float:left; " >&nbsp;CREATE A PATIENT</label><br>
