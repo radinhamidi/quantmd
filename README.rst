@@ -18,6 +18,4 @@ System Dependencies::
 Python module dependencies::
 
     $ pip install django-debug-toolbar
-    $ pip install redis (https://github.com/andymccurdy/redis-py)
-    $ pip install hiredis
 	
