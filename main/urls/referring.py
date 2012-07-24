@@ -18,4 +18,5 @@ urlpatterns = patterns('main.views',
     (r'^patientCase/(?P<case_id>\d+)/$', 'patients.patient_case'),
     (r'^diagnosisesInfo/$', 'diagnosis.diagnosis_lsit'),
     (r'^dignosisView/(?P<report_id>\d+)/$', 'diagnosis.diagnosis_view'),
+    (r'^cancelAppointment/(?P<appointment_id>\d+)/$', 'appointment.appointment_cancel'),
 )

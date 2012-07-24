@@ -22,21 +22,28 @@
 <table id="individual-schedule-table">
 	<thead>
 		<tr>
-			<th width="170px">Patient Name</th>
 			<th width="150px">MRI Center</th>
 			<th width="160px">Date</th>
 			<th width="160px">TimeSolt</th>
+			<th width="160px">Status</th>
 			<th width="60px"></th>
 		</tr>
 	</thead>
+	<b>{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</b>
 	<tbody>
-		{% for k,v in Dic.iteritems %}
+		{% for k,v in dic.iteritems %}
 		<tr>
-			<td>{{Patient.first_name}} {{Patient.middle_name}} {{Patient.last_name}}</td>
-			<td>{{v.name}}</td>
-			<td>{{k.date}}</td>
-			<td>{{k.startTime}}-{{k.endTime}}</td>
-			<td><a href="#" class="panebutton" load="/referring/patientAppointment/{{k.id}}/{{Patient.ssn}}"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="30" width="30"></a></td>
+			<td>{{k.mri.name}}</td>
+			<td>{{k.schedule.date}}</td>
+			<td>{{k.schedule.start_time}}-{{k.schedule.end_time}}</td>
+			{% if v.status == -1  %}
+				<td> Cancelled </td>
+			{% else %}{% if v.status == 0 %}
+				<td> Booked </td>
+			{% else %}
+				<td> Completed</td>
+			{% endif %}{% endif %}
+			<td><a href="#" class="panebutton" load="/referring/patientAppointment/{{k.schedule.id}}/{{patient.ssn}}"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="30" width="30"></a></td>
 		</tr>
 		{% endfor %}
 	</tbody>

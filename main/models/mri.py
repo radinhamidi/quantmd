@@ -25,8 +25,8 @@ class Schedule(models.Model):
     """
     mri = models.ForeignKey(MRICenter)
     date = models.DateField()
-    startTime = models.TimeField()
-    endTime = models.TimeField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
     is_available = models.BooleanField(default=True)
     
     class Meta: 

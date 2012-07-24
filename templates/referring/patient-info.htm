@@ -15,13 +15,13 @@
 <!-- CONTENT BELOW THIS LINE -->
 
 <!-- HEADER REQUIRED -->
-<div class="window-header">{{Patient.first_name}} {{Patient.middle_name}} {{Patient.last_name}}</div>
+<div class="window-header">{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</div>
 
 <!-- PAGE CONTENT -->
 <table class="right-table">
 	<tr>
-		<td width="100px"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="50" width="50"> <br /> <a href="#" class="panebutton" load="/referring/patientAppointmentList/{{Patient.ssn}}/"><font size="2">SCHEDULE INFO</font></a></td>
-		<td width="100px"><img src="{{STATIC_URL}}referring/images/folder_full.png" height="50" width="50"> <br /> <a href="#" class="panebutton" load="/referring/patientCaseList/{{Patient.ssn}}/"><font size="2">REPORTS</font></a></td>
+		<td width="100px"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="50" width="50"> <br /> <a href="#" class="panebutton" load="/referring/patientAppointmentList/{{patient.ssn}}/"><font size="2">SCHEDULE INFO</font></a></td>
+		<td width="100px"><img src="{{STATIC_URL}}referring/images/folder_full.png" height="50" width="50"> <br /> <a href="#" class="panebutton" load="/referring/patientCaseList/{{patient.ssn}}/"><font size="2">REPORTS</font></a></td>
 		<td width="100px"><img src="{{STATIC_URL}}referring/images/comments.png" height="50" width="50"> <br /> <a href="#"><font size="2">0 MESSAGES</font></a></td>
 	</tr>
 </table>
@@ -32,33 +32,33 @@
 	</tr>
 	<tr>
 		<td><b>Address:</b></td> 
-		<td>{{Patient.address}},{{Patient.address2}}, {{Patient.city}}, {{Patient.state}},{{Patient.zip}}</td>
+		<td>{{patient.address}},{{patient.address2}}, {{patient.city}}, {{patient.state}},{{patient.zip}}</td>
 	</tr>
 	<tr>
 		<td><b>SSN:</b></td> 
-		<td>{{Patient.ssn}}</td>
+		<td>{{patient.ssn}}</td>
 	</tr>
 	<tr>
 		<td><b>Gender:</b></td>	
-		{% if Patient.gender == 1 %}
+		{% if patient.gender == 1 %}
 			<td>Male</td>
 			{% endif %}
-		{% if Patient.gender == 0 %}
+		{% if patient.gender == 0 %}
 			<td>Female</td>
 			{% endif %}
 	</tr>
 	<tr>
 		<td><b>Birthday:</b></td> 
-		<td>{{Patient.birthday}} (AGE {{Age}})</td>
+		<td>{{patient.birthday}} (AGE {{age}})</td>
 	</tr>
 	<tr>
 		<td><b>Phone:</b></td>
-		<td>{{Patient.phone}}</td>
+		<td>{{patient.phone}}</td>
 	</tr>
 	
 	<tr>
 		<td><b>Email:</b></td>
-		<td>{{Patient.email}}</td>
+		<td>{{patient.email}}</td>
 	</tr>
 </table>
 

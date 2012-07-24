@@ -24,22 +24,16 @@
 					<tr>
 						<th>Date</th>
 						<th>Time</th>
-						<th>Status</th>
 						<th></th>
 					
 					</tr>
 				</thead>
 				<tbody>
-				{% for schedule in Schedules %}
+				{% for schedule in schedules %}
 					<tr>
 						<td>{{schedule.date}}</td>
-						<td>{{schedule.startTime}}-{{schedule.endTime}}</td>
-						{% if schedule.is_available %}
-							<td>Avaialbe</td>
-							<td><a href="#" id="book-timeslot" style=" cursor: pointer;" class="panebutton" load="/referring/scheduleDetail/{{schedule.id}}/"><img src="{{STATIC_URL}}referring/images/button-add.png" width="15" height="15"/>&nbsp;BOOK</a></td>
-						{% else %}
-							<td>Not Avaialbe</td>
-						{% endif %}
+						<td>{{schedule.start_time}}-{{schedule.end_time}}</td>
+						<td><a href="#" id="book-timeslot" style=" cursor: pointer;" class="panebutton" load="/referring/scheduleDetail/{{schedule.id}}/"><img src="{{STATIC_URL}}referring/images/button-add.png" width="15" height="15"/>&nbsp;BOOK</a></td>
 					</tr>
 				{% endfor %}
 				</tbody>

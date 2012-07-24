@@ -33,14 +33,14 @@ def appointment_search(request):
         
                 
         if len(error) != 0:
-            return render_to_response('referring/schedule.htm',{'Error':error}, context_instance=RequestContext(request))
+            return render_to_response('referring/schedule.htm',{'error':error}, context_instance=RequestContext(request))
         elif len(schedule_date) == 0:
             code = int(zipCode)
             upper = code + 500
             lower = code - 500
             centers = MRICenter.objects.exclude(zip__gte=upper).exclude(zip__lte=lower)
             print centers
-            return render_to_response('referring/schedule.htm',{'Centers':centers}, context_instance=RequestContext(request))
+            return render_to_response('referring/schedule.htm',{'centers':centers}, context_instance=RequestContext(request))
         else:
             format="%m/%d/%Y"
             date = datetime.strptime(schedule_date,format)
@@ -54,7 +54,7 @@ def appointment_search(request):
                 if center.zip <= upper and center.zip >= lower:
                     centers.append(center)
                     
-            return render_to_response('referring/schedule.htm',{'Centers':centers}, context_instance=RequestContext(request))  
+            return render_to_response('referring/schedule.htm',{'centers':centers}, context_instance=RequestContext(request))  
                
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -65,7 +65,7 @@ def mri_info(request, mri_id):
     if request.user.is_authenticated():
         mri = MRICenter.objects.get(id=mri_id)
         
-        return render_to_response('referring/mri-info.htm',{'MRI':mri}, context_instance=RequestContext(request))
+        return render_to_response('referring/mri-info.htm',{'mri':mri}, context_instance=RequestContext(request))
         
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -76,9 +76,8 @@ def mri_schedule(request, mri_id):
     print "mri schedule"
     if request.user.is_authenticated():
         mri = MRICenter.objects.get(id=mri_id)
-        schedules = Schedule.objects.filter(mri=mri).filter(date__gte=datetime.today())
-        print schedules
-        return render_to_response('referring/center-timeslot.htm',{'Schedules':schedules}, context_instance=RequestContext(request))
+        schedules = Schedule.objects.filter(mri=mri).filter(date__gte=datetime.today()).filter(is_available=True).order_by('-date','start_time')
+        return render_to_response('referring/center-timeslot.htm',{'schedules':schedules}, context_instance=RequestContext(request))
         
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -88,7 +87,7 @@ def schedule_detail(request, schedule_id):
     print "detail"
     if request.user.is_authenticated():
         schedule = Schedule.objects.get(id=schedule_id)
-        return render_to_response('referring/schedule-detail.htm',{'Schedule':schedule, 'MRI':schedule.mri}, context_instance=RequestContext(request))
+        return render_to_response('referring/schedule-detail.htm',{'schedule':schedule, 'mri':schedule.mri}, context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))   
     
@@ -114,7 +113,7 @@ def make_appointment(request, schedule_id):
             error.append("Schedule id is not exist")
         
         if len(error) != 0:
-            return render_to_response('referring/schedule-detail.htm',{'Schedule':schedule, 'MRI':schedule.mri, 'Error':error}, context_instance=RequestContext(request))
+            return render_to_response('referring/schedule-detail.htm',{'schedule':schedule, 'mri':schedule.mri, 'error':error}, context_instance=RequestContext(request))
         
         print "here"   
         # update schedule
@@ -131,8 +130,32 @@ def make_appointment(request, schedule_id):
         case = Case.objects.create(appointment=appointment)
         case.save()
         print "here5"
-        return render_to_response('referring/appointmentConfirm.htm',{'Schedule':schedule, 'MRI':schedule.mri, 'Patient':patient}, context_instance=RequestContext(request))
+        return render_to_response('referring/appointmentConfirm.htm',{'schedule':schedule, 'mri':schedule.mri, 'patient':patient}, context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))   
     
+
+def appointment_cancel(request, appointment_id):
+     if request.user.is_authenticated():
+        print "cancel"
+        appointment = Appointment.objects.get(id=appointment_id)
+        schedule = appointment.schedule
+        case = Case.objects.get(appointment=appointment)
+        error = []
+        if case.status != 0:
+            error.append("This appointment cannot be cancel")
+            return render_to_response('referring/appointmentConfirm.htm',{'error':error}, context_instance=RequestContext(request))
+        else:
+            case.status = -1
+            case.save()
+            schedule.is_available = True
+            schedule.save()
+            appointment.is_cancelled = True 
+            appointment.save()
+            print "tt"
+            return render_to_response('referring/appointmentCancelConfirm.htm',{'schedule':schedule, 'mri':schedule.mri, 'patient':appointment.patient}, context_instance=RequestContext(request))
+     else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))   
     
+    
+     

@@ -22,10 +22,10 @@
             &nbsp;&nbsp;&nbsp;
             <input type="submit" name="searchbutton" class="button" id="searchbutton" value="SEARCH"/></form>
             <hr style="clear: both;">
-			{%if Centers %}
+			{%if centers %}
 			<table>
 				<tbody>
-					{% for center in Centers %}
+					{% for center in centers %}
 					<tr>
 						<td><b>{{center.name}}</b>
 						<td><br>{{center.address}}<br></td>

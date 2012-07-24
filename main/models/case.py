@@ -19,7 +19,7 @@ class Case(models.Model):
     data = models.ForeignKey(MRIData, blank=True, null=True)
     report = models.ForeignKey(Report,blank=True, null=True)
     cardiologist = models.ForeignKey(Profile,blank=True, null=True)
-    createTime = models.DateTimeField(default=datetime.now)
+    create_time = models.DateTimeField(default=datetime.now)
     #0 for appointment created, -1 for appointment cancelled, 1 for MRI scan complete, 
     #2 for broker uploaded, 3 for report uploaded, 4 for doctor have read the report
     status = models.SmallIntegerField(default=0)

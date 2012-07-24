@@ -26,7 +26,7 @@ def diagnosis_lsit(request):
             if case.report is not None:
                 cases[case.report] = patient
         print cases   
-        return render_to_response('referring/diagnosis.htm', {'Cases':cases},
+        return render_to_response('referring/diagnosis.htm', {'cases':cases},
                               context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -40,7 +40,7 @@ def diagnosis_view(request, report_id):
         patient = appointment.patient
         mri = appointment.mri
         print report                
-        return render_to_response('referring/individual-diagnosis.htm', {'Report':report, 'Patient':patient, 'MRI':mri},
+        return render_to_response('referring/individual-diagnosis.htm', {'report':report, 'patient':patient, 'mri':mri},
                             context_instance=RequestContext(request))
     
     else:

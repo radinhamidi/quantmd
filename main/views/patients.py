@@ -11,18 +11,37 @@ from main.models.mri import *
 from datetime import *
 from main.utils.form_check import *
 from main.models.case import *
+from main.models.data import *
 
 # patients list
 def patientsList(request):
     print "patientsList"
     if request.user.is_authenticated():
-        patients = []
         profile = Profile.objects.get(user=request.user)
         doctorAndPatients = PatientAndDoctor.objects.filter(doctor = profile)
+        dic = {}
         for doctorAndPatient in doctorAndPatients:
             patient = doctorAndPatient.patient
-            patients.append(patient)
-        return render_to_response('referring/patients.htm',{'Patients': patients}, context_instance=RequestContext(request)) 
+            appointments = Appointment.objects.filter(patient=patient)
+            if len(appointments) != 0 :
+                case = Case.objects.get(appointment=appointments[0])
+                max_time = case.create_time
+                for appointment in appointments:
+                    case = Case.objects.get(appointment=appointment)
+                    if case.status == 2:
+                        time = case.data.create_time
+                    elif case.status == 3:
+                        time = case.report.create_time
+                    else:
+                        time = case.create_time
+                    
+                    if time > max_time:
+                        max_time = time
+                dic[patient] = max_time
+            else:
+                dic[patient] = 'N/A'
+        print dic
+        return render_to_response('referring/patients.htm',{'dic': dic}, context_instance=RequestContext(request)) 
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
@@ -35,7 +54,7 @@ def patientInfo(request, patient_ssn):
         if patient is not None:
             age = datetime.now().year - patient.birthday.year
             print age
-            return render_to_response('referring/patient-info.htm',{'Patient': patient, 'Age': age}, context_instance=RequestContext(request)) 
+            return render_to_response('referring/patient-info.htm',{'patient': patient, 'age': age}, context_instance=RequestContext(request)) 
         else:
             return HttpResponse('{"code":"0","msg":"No such patient"}')
     else: 
@@ -115,15 +134,13 @@ def patient_appotiments(request, patient_ssn):
  if request.user.is_authenticated():
     print "patient apps"
     patient = Patient.objects.get(ssn=patient_ssn)
-    print patient
     appointments = Appointment.objects.filter(patient=patient)
-    
     dic = {}
     for appointment in appointments:
-        dic[appointment.schedule] = appointment.mri
-    
-    print dic                            
-    return render_to_response('referring/Individual-schedule-list.htm', {'Dic': dic, 'Patient':patient},
+        case = Case.objects.get(appointment=appointment)
+        dic[appointment] = case
+    print dic
+    return render_to_response('referring/Individual-schedule-list.htm', {'dic': dic, 'patient':patient},
                             context_instance=RequestContext(request))
     
  else:
@@ -135,8 +152,9 @@ def patient_appotiment(request, schedule_id, patient_ssn):
     if request.user.is_authenticated():
         schedule = Schedule.objects.get(id=schedule_id)
         patient = Patient.objects.get(ssn=patient_ssn)
+        appointment = Appointment.objects.get(schedule=schedule)
         mri = schedule.mri                        
-        return render_to_response('referring/individual-schedule.htm', {'Schedule':schedule, 'Patient':patient, 'MRI':mri},
+        return render_to_response('referring/individual-schedule.htm', {'schedule':schedule, 'patient':patient, 'mri':mri, 'appointment':appointment},
                             context_instance=RequestContext(request))
     
     else:
@@ -154,7 +172,7 @@ def patient_cases(request, patient_ssn):
             if case.report is not None:
                 cases[case] = case.report 
         print cases                    
-        return render_to_response('referring/Individual-diagnosis-list.htm', {'Cases':cases, 'Patient':patient},
+        return render_to_response('referring/Individual-diagnosis-list.htm', {'cases':cases, 'patient':patient},
                             context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -168,7 +186,7 @@ def patient_case(request, case_id):
         appointment = case.appointment
         patient = appointment.patient
         mri = appointment.mri                     
-        return render_to_response('referring/individual-diagnosis.htm', {'Report':report, 'Patient':patient, 'MRI':mri},
+        return render_to_response('referring/individual-diagnosis.htm', {'report':report, 'patient':patient, 'mri':mri},
                             context_instance=RequestContext(request))
     
     else:

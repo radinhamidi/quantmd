@@ -30,11 +30,11 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for k,v in Cases.iteritems %}
+		{% for k,v in cases.iteritems %}
 		<tr>
 			<td>{{k.id}}</td>
-			<td>{{Patient.first_name}} {{Patient.middle_name}} {{Patient.last_name}}</td>
-			<td>{{k.createTime}}</td>
+			<td>{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</td>
+			<td>{{k.create_time}}</td>
 			<td>{{v.create_time}}</td>
 			<td><a href="#" class="panebutton" load="/referring/patientCase/{{k.id}}/"><img src="{{STATIC_URL}}referring/images/folder_full.png" height="30" width="30"></a></td>
 		</tr>

@@ -21,23 +21,23 @@
 <table>
 	<tr>
 		<td><a href="#" class="panebutton" load="schedule.htm"><img src="{{STATIC_URL}}referring/images/pen.png" height="15"  width="15"/>&nbsp;<font size="2">RESCHEDULE</font></a></td>
-		<td><a href="#"><img src="{{STATIC_URL}}referring/images/delete.png" height="15"  width="15" />&nbsp;<font size="2">CANCEL</font></a></td>
+		<td><a href="#" class="panebutton" load="/referring/cancelAppointment/{{appointment.id}}/" ><img src="{{STATIC_URL}}referring/images/delete.png" height="15"  width="15" />&nbsp;<font size="2">CANCEL</font></a></td>
 	</tr>
 	<tr>
 		<td>Patient Name:</td> 
-		<td><b>{{Patient.first_name}} {{Patient.middle_name}} {{Patient.last_name}}</b></td>
+		<td><b>{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</b></td>
 	</tr>
 	<tr>
 		<td>Date:</td> 
-		<td><b>{{Schedule.date}}</b></td>
+		<td><b>{{schedule.date}}</b></td>
 	</tr>
 	<tr>
 		<td>Time:</td>	
-		<td><b>{{Schedule.startTime}}-{{Schedule.endTime}}</b></td>
+		<td><b>{{schedule.start_time}}-{{schedule.end_time}}</b></td>
 	</tr>
 	<tr>
 		<td style="vertical-align: top;">Location:</b></td>
-		<td><b>{{MRI.name}}</b></br><b>{{MRI.address}} {{MRI.address2}}</b><br><b>{{MRI.city}}, {{MRI.state}} {{MRI.zip}}</b></td>
+		<td><b>{{mri.name}}</b></br><b>{{mri.address}} {{mri.address2}}</b><br><b>{{mri.city}}, {{mri.state}} {{mri.zip}}</b></td>
 	</tr>
 </table>
 

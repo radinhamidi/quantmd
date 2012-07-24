@@ -19,10 +19,10 @@
 
 <!-- PAGE CONTENT -->
 
-<div id="schedule-detail-time" class="sub-header" ><b>{{Schedule.date}}</b><br>{{Schedule.startTime}}-{{Schedule.endTime}}</div>
-			<div id="schedule-detail-mriad" class="sub-header" ><b>{{MRI.name}}</b><br>{{MRI.address}} {{MRI.address2}}<br>{{MRI.city}}, {{MRI.state}}, {{MRI.zip}}</div>
+<div id="schedule-detail-time" class="sub-header" ><b>{{schedule.date}}</b><br>{{schedule.start_time}}-{{Schedule.end_time}}</div>
+			<div id="schedule-detail-mriad" class="sub-header" ><b>{{mri.name}}</b><br>{{mri.address}} {{mri.address2}}<br>{{mri.city}}, {{mri.state}}, {{mri.zip}}</div>
 			<hr style="clear: both;">
-			<div><form name = "makeAppointment" id = "makeAppointment" action = "/referring/makeAppointment/{{Schedule.id}}/" method = "POST">
+			<div><form name = "makeAppointment" id = "makeAppointment" action = "/referring/makeAppointment/{{schedule.id}}/" method = "POST">
 			{% csrf_token %}
 			<label style="margin: 15px;">Patient SSN:</label><input id= "patient_id" name="patient_id" class="textfield" type="text" size="30" style="margin: 15px;"/><br>
 		    <label  style="margin-top:5px; margin-left: 15px; float:left; " >Note: If this is a new patient&nbsp;&nbsp;&nbsp;PLEASE FIRST</label>

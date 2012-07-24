@@ -15,36 +15,36 @@
 <!-- CONTENT BELOW THIS LINE -->
 
 <!-- HEADER REQUIRED -->
-<div class="window-header">{{Patient.first_name}} {{Patient.middle_name}} {{Patient.last_name}}</div>
+<div class="window-header">{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</div>
 
 <!-- PAGE CONTENT -->
 <table class="right-table">
 	<tr>
 		<td width="100px"><img src="{{STATIC_URL}}referring/images/user.png" height="50"
 			width="50"> <br /> <a href="#" class="panebutton"
-			load="/referring/patientInfo/{{Patient.ssn}}/"><font size="2">PATIENT INFO</font></a></td>
+			load="/referring/patientInfo/{{patient.ssn}}/"><font size="2">PATIENT INFO</font></a></td>
 		<td width="100px"><img src="{{STATIC_URL}}referring/images/heart.png" height="50"
-			width="50"> <br /> <a href="#" load="/referring/mriInfo/{{center.id}}/"><font size="2">VIEW MRI</font></a></td>			
+			width="50"> <br /> <a href="#" class="panebutton" load="/referring/mriInfo/{{center.id}}/"><font size="2">VIEW MRI</font></a></td>			
 	</tr>
 </table>
 
 <table class="left-table">
 	<tr>
-		<td>{{Patient.address}},{{Patient.address2}}, {{Patient.city}}, {{Patient.state}},{{Patient.zip}}</td>
+		<td>{{patient.address}},{{patient.address2}}, {{patient.city}}, {{patient.state}},{{patient.zip}}</td>
 		<td><a href="#">&nbsp;<img src="{{STATIC_URL}}referring/images/pen.png" /></a></td>
 	</tr>
 	<tr>
 		<td><b>Gender:</b></td>	
-		{% if Patient.gender == 1 %}
+		{% if patient.gender == 1 %}
 			<td>Male</td>
 			{% endif %}
-		{% if Patient.gender == 0 %}
+		{% if patient.gender == 0 %}
 			<td>Female</td>
 			{% endif %}
 	</tr>
 	<tr>
 		<td><b>Birthday:</b></td> 
-		<td>{{Patient.birthday}}</td>
+		<td>{{patient.birthday}}</td>
 	</tr>
 </table>
 
@@ -55,7 +55,7 @@
 				DIAGNOSIS</td>
 		</tr>
 		<tr>
-			<td>{{Report.content}}<br />
+			<td>{{report.content}}<br />
 			</td>
 		</tr>
 		<tr>

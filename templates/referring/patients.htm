@@ -31,7 +31,7 @@
 		</tr>
 	</thead>
 	<tbody>	
-		{% for patient in Patients %}
+		{% for patient,time in dic.iteritems %}
 		<tr>
 			<td>{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</td>
 			{% if patient.gender == 1 %}
@@ -41,7 +41,7 @@
 			<td>Female</td>
 			{% endif %}
 			<td>{{patient.birthday|date:"SHORT_DATE_FORMAT"}}</td>
-			<td>N/A</td>
+			<td>{{time}}</td>
 			<td><a href="#" class="panebutton" load="/referring/patientInfo/{{patient.ssn}}/"><img src="{{STATIC_URL}}referring/images/info.png" height="30" width="30"></a>&nbsp;
 			<a href="#" class="panebutton" load="/referring/patientCaseList/{{patient.ssn}}/"><img src="{{STATIC_URL}}referring/images/folder_full.png" height="30" width="30"></a>&nbsp;
 			<a href="#" class="panebutton" load="/referring/patientAppointmentList/{{patient.ssn}}/"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="30" width="30"></a>&nbsp;

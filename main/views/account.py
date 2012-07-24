@@ -24,19 +24,19 @@ def login_action(request):
         login(request, user)
         profile = Profile.objects.get(user=user)
         if profile.role == 1:
-            return render_to_response('referring/index.htm', {'Profile':profile},
+            return render_to_response('referring/index.htm', {'profile':profile},
                                       context_instance=RequestContext(request))
         elif profile.role == 2:
-            return render_to_response('receptionist/index.htm', {'Profile':profile},
+            return render_to_response('receptionist/index.htm', {'profile':profile},
                                       context_instance=RequestContext(request))
         elif profile.role == 3:
-            return render_to_response('broker/index.htm', {'Profile':profile},
+            return render_to_response('broker/index.htm', {'profile':profile},
                                       context_instance=RequestContext(request))
         elif profile.role == 4:
-            return render_to_response('cardiologist/index.htm', {'Profile':profile},
+            return render_to_response('cardiologist/index.htm', {'profile':profile},
                                       context_instance=RequestContext(request))
         elif profile.role == 0:
-            return render_to_response('quantmd/index.htm', {'Profile':profile},
+            return render_to_response('quantmd/index.htm', {'profile':profile},
                                       context_instance=RequestContext(request))             
     else:
         return HttpResponse('{"code":"1","msg":"Username or password incorrect."}')
