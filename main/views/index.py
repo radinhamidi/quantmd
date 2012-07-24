@@ -11,6 +11,21 @@ def index(request):
         return render_to_response('login.htm', {},
                               context_instance=RequestContext(request))
     
-    return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    profile = Profile.objects.get(pk=request.user.pk)
+    if profile.role == 1:
+        return render_to_response('referring/index.htm', {'Profile':profile},
+                                  context_instance=RequestContext(request))
+    elif profile.role == 2:
+        return render_to_response('receptionist/index.htm', {'Profile':profile},
+                                  context_instance=RequestContext(request))
+    elif profile.role == 3:
+        return render_to_response('broker/index.htm', {'Profile':profile},
+                                  context_instance=RequestContext(request))
+    elif profile.role == 4:
+        return render_to_response('cardiologist/index.htm', {'Profile':profile},
+                                  context_instance=RequestContext(request))
+    elif profile.role == 0:
+        return render_to_response('quantmd/index.htm', {'Profile':profile},
+                                  context_instance=RequestContext(request))
     
     

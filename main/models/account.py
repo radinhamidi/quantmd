@@ -17,7 +17,7 @@ class Profile(models.Model):
     state = models.CharField(max_length=200)
     zip = models.IntegerField()
     
-    #0 for admin, 1 for doctor, 2 for register, 3 for broker, 4 for cardiologist
+    #0 for admin, 1 for doctor, 2 for register(receptionist), 3 for broker, 4 for cardiologist
     role = models.SmallIntegerField(default=0)
     #Each register and broker is associated with a MRI center
     mri_id = models.ForeignKey(MRICenter, blank=True, null=True) 
