@@ -109,13 +109,6 @@ function make_dt() {
 		"bFilter": false,
 		"bSort": false,
 		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_PatientTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_PatientTable') );
-		},
 		"bAutoWidth": false,
 		"bRetrieve": true,
 		"bJQueryUI": false,
