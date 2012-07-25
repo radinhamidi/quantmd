@@ -63,18 +63,64 @@ def patientInfo(request, patient_ssn):
     
 def createView(request):
     if request.user.is_authenticated():
-        return render_to_response('referring/create-patient.htm', {},
+        return render_to_response('referring/create-patient-ssn.htm', {},
                               context_instance=RequestContext(request))
     
     return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+
+
+def check_ssn(request):
+    if request.user.is_authenticated():
+        ssn = request.POST['ssn']
+        print ssn
+        error = []
+        if IsEmpty(ssn) or not ssn.isdigit():
+            error.append('SSN is empty or incorrect format')
+        if len(error) != 0:
+            return render_to_response('referring/create-patient-ssn.htm',{'error':error},context_instance=RequestContext(request))
+        
+        if Patient.objects.filter(ssn=ssn).exists():
+            patient = Patient.objects.get(ssn=ssn)
+            doctor = Profile.objects.get(user=request.user)
+            if PatientAndDoctor.objects.filter(patient=patient).filter(doctor=doctor).exists():
+                error.append("This patient already belongs to you")
+                return render_to_response('referring/create-patient-ssn.htm',{'error':error},context_instance=RequestContext(request))
+            else:
+                return render_to_response('referring/create-patient-link.htm', {'patient':patient}, context_instance=RequestContext(request))
+        else:
+            return render_to_response('referring/create-patient.htm', {'ssn':ssn}, context_instance=RequestContext(request))
+           
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+def ssn_link(request):
+    if request.user.is_authenticated():
+        ssn = request.POST['ssn']
+        error = []
+        if IsEmpty(ssn) or not ssn.isdigit():
+            error.append('SSN is empty or incorrect format')
+        if len(error) != 0:
+            return render_to_response('referring/create-patient-ssn.htm',{'error':error},context_instance=RequestContext(request))
+        
+        patient = Patient.objects.get(ssn=ssn)
+        doctor = Profile.objects.get(user=request.user)
+        doctor_and_patient = PatientAndDoctor.objects.create(patient = patient, doctor = doctor)
+        doctor_and_patient.save()
+        
+        return HttpResponseRedirect("/referring/patientsInfo/")
+        
+           
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
 
 def createPatient(request):
     print 'wo lai le'
     if request.user.is_authenticated():
         first_name = request.POST['first_name']
         middle_name = request.POST['middle_name']
-        last_name = request.POST['last_name']
         ssn = request.POST['ssn']
+        last_name = request.POST['last_name']
         gender = request.POST['sex']
         email = request.POST['email']
         birthday = request.POST['birthday']
@@ -84,15 +130,13 @@ def createPatient(request):
         state = request.POST['state']
         zip = request.POST['zip']
         city = request.POST['city']
-        
+        print ssn
         error = []
         print "here1"   
         if Patient.objects.filter(ssn=ssn).exists():
             error.append('Patient already exists')
         if IsEmpty(first_name):
             error.append('First name is empty')
-        if IsEmpty(middle_name):
-            error.append('Middle name is empty')
         if IsEmpty(last_name):
             error.append('Last name is empty')
         if IsEmpty(email):
@@ -114,17 +158,15 @@ def createPatient(request):
         if len(error) != 0:
             return render_to_response('referring/create-patient.htm',{'error':error},context_instance=RequestContext(request))
         else:
-            print "here2"
             format="%m/%d/%Y"
             birthday_date = datetime.strptime(birthday,format)   
             patient = Patient.objects.create(ssn=ssn,first_name=first_name,middle_name=middle_name,last_name=last_name,gender=gender,address=address,address2=address2,phone=phone,
-                                             state=state,city=city,zip=zip,birthday=birthday_date)
-            print "here3"   
+                                             state=state,city=city,zip=zip,birthday=birthday_date)  
             patient.save()
             doctor = Profile.objects.get(user=request.user)
             patient_and_doctor = PatientAndDoctor.objects.create(patient=patient,doctor=doctor)
             patient_and_doctor.save()
-            return HttpResponseRedirect("/referring/patientsInfo/")
+            return redirect("/referring/patientsInfo/")
             
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))

@@ -10,10 +10,16 @@
 <div id = "createbox">
 <!-- HEADER REQUIRED -->
 <div class="window-header">create patient</div>
-
+{% if error %}
+		{% for message in error %}
+			{{message}}</br>
+		{% endfor %}
+		
+{% endif %}
 <!-- PAGE CONTENT -->
 <form method="POST" name="create-patient" id="create-patient" action="/referring/createPatientAction/">
  {% csrf_token %}
+ 	<input type="hidden" name="ssn" value={{ssn}} >
 	<table>
 		<thead>
 			<tr>
@@ -35,10 +41,6 @@
 			<tr>
 				<td><b>Middle name:</b></td>
 				<td><input class="textfield" type="text" name="middle_name"></td>
-			</tr>
-			<tr>
-				<td><b>SSN:</b></td>
-				<td><input class="textfield" type="text" name="ssn"></td>
 				<td></td>
 				<td><b>gender:</b></td>
 				<td><input type="radio" name="sex" value="1" /> Male &nbsp
