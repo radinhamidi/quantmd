@@ -74,6 +74,42 @@ $(document).ready(function() {
 		}
 		);
      });
+     
+     $("#ssn-form").submit(function(event) {
+
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#ssn-form").serialize(),
+		function( data ) {
+			$( "#patients-content" ).empty().append($(data));
+		}
+		);
+     });
+     
+     
+     $("#create-link").submit(function(event) {
+
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#create-link").serialize(),
+		function( data ) {
+			$( "#patients-content" ).empty().append($(data));
+		}
+		);
+     });
+     
 	
 });
 
@@ -109,13 +145,6 @@ function make_dt() {
 		"bFilter": false,
 		"bSort": false,
 		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_PatientTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_PatientTable') );
-		},
 		"bAutoWidth": false,
 		"bRetrieve": true,
 		"bJQueryUI": false,
