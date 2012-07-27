@@ -16,7 +16,7 @@
 <!-- CONTENT BELOW THIS LINE -->
 
 <!-- HEADER REQUIRED -->
-<div class="window-header">patients</div>
+<div class="window-header">Patients</div>
 
 <!-- PAGE CONTENT -->
 <div style="float: right; margin-top: -45px; margin-right: 8px;" class="panebutton" load="/referring/createPatient/"><a href="#"><img src="{{STATIC_URL}}referring/images/button-add.png" width="15" height="15"/>&nbsp;NEW PATIENT</a></div>
@@ -24,10 +24,10 @@
 	<thead>
 		<tr>
 			<th width="200px">Name</th>
-			<th width="50px">Gender</th>
-			<th width="50px">Birthday</th>
+			<th width="60px">Gender</th>
+			<th width="70px">Birthday</th>
 			<th width="120px">Last Updated</th>
-			<th width="180px"></th>
+			<th width="150px"></th>
 		</tr>
 	</thead>
 	<tbody>	
@@ -50,4 +50,4 @@
 		</tr>
 		{% endfor %}
 	</tbody>
-</table><input type="button" onClick="reset_dt_view();" value="reset" />
+</table><input type="button" onClick="patient_reset_dt_view();" value="reset" />

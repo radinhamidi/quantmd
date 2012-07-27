@@ -19,19 +19,19 @@
 
 <!-- PAGE CONTENT -->
 <table class="right-table">
-	<tr>
-		<td width="100px"><img src="{{STATIC_URL}}referring/images/user.png" height="50"
+	<tr><td width="130px"></td>
+		<td width="90px"><img src="{{STATIC_URL}}referring/images/user.png" height="50"
 			width="50"> <br /> <a href="#" class="panebutton"
 			load="/referring/patientInfo/{{patient.ssn}}/"><font size="2">PATIENT INFO</font></a></td>
-		<td width="100px"><img src="{{STATIC_URL}}referring/images/heart.png" height="50"
+		<td width="90px"><img src="{{STATIC_URL}}referring/images/heart.png" height="50"
 			width="50"> <br /> <a href="#" class="panebutton" load="/referring/mriInfo/{{center.id}}/"><font size="2">VIEW MRI</font></a></td>			
 	</tr>
 </table>
 
 <table class="left-table">
 	<tr>
-		<td>{{patient.address}},{{patient.address2}}, {{patient.city}}, {{patient.state}},{{patient.zip}}</td>
-		<td><a href="#">&nbsp;<img src="{{STATIC_URL}}referring/images/pen.png" /></a></td>
+		<td><b>Birthday:</b></td> 
+		<td>{{patient.birthday}}</td>
 	</tr>
 	<tr>
 		<td><b>Gender:</b></td>	
@@ -42,9 +42,8 @@
 			<td>Female</td>
 			{% endif %}
 	</tr>
-	<tr>
-		<td><b>Birthday:</b></td> 
-		<td>{{patient.birthday}}</td>
+	<tr><td style="vertical-align:top;"><b>Address:</b></td>
+		<td>{{patient.address}} {{patient.address2}}<br>{{patient.city}},{{patient.state}},{{patient.zip}}</td>
 	</tr>
 </table>
 
@@ -65,17 +64,15 @@
 			<td><form name="individualdiagnosismessageform" id="individualdiagnosismessageform"  action="" method="post">
 					<textarea id="new-entry" cols="80" rows="10"></textarea>
 					<br/> <input type="submit" name="rd-message-sendbutton"
-						class="button" value="SEND"
-						style="margin-top: 5px; margin-left: 565px;">
+						class="button" value="SEND" style="margin-top: 5px; margin-left: 580px; font-size:12px;">
 				</form></td>
 		</tr>
 	</table>
 
 </div>
-<a href="#" id="back-diagnosis" class="panebutton" load="diagnosis.htm">
-	<img src="{{STATIC_URL}}referring/images/back_small.png" height="16" width="16"
-	style="margin-top: 10px;">&nbsp;BACK
-</a>
+<div class="footer-backbutton"><a href="#" id="back-diagnosis" class="panebutton" load="diagnosis.htm">
+	<img src="{{STATIC_URL}}referring/images/back_small.png" height="16" width="16">&nbsp;BACK
+</a></div>
 
 <script>
   /* attach a submit handler to the form */
