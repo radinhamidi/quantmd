@@ -18,7 +18,9 @@ def patientsList(request):
     print "patientsList"
     if request.user.is_authenticated():
         profile = Profile.objects.get(user=request.user)
+        print profile
         doctorAndPatients = PatientAndDoctor.objects.filter(doctor = profile)
+        print doctorAndPatients
         dic = {}
         for doctorAndPatient in doctorAndPatients:
             patient = doctorAndPatient.patient

@@ -3,3 +3,7 @@
 #schedule { top: 50; left: 50; }
 #timeslot { top: 80; left: 80; }
 #logs { top: 110; left: 110; }
+
+#register-table { width: 710px; }
+#rp-schedule-timeslot-table { width: 710px; display: none; }
+#rp-reschedule-timeslot-table { width: 710px; display: none; }

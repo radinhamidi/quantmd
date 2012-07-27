@@ -236,4 +236,37 @@ function make_dt() {
 		"iDisplayLength": 10,
 		"sPaginationType": "full_numbers"
 	});
+	
+	message_dt = $('#message-table').dataTable({
+		"bPaginate": true,
+		"bLengthChange": false,
+		"bFilter": true,
+		"bSort": true,
+		"bInfo": false,
+		"bStateSave": true,
+		"fnStateSave": function (oSettings, oData) {
+			localStorage.setItem( 'DataTables_MessageTable', JSON.stringify(oData) );
+		},
+		"fnStateLoad": function (oSettings) {
+			return JSON.parse( localStorage.getItem('DataTables_MessageTable') );
+		},
+		"bAutoWidth": false,
+		"bRetrieve": true,
+		"bJQueryUI": false,
+		"iDisplayLength": 7,
+		"sPaginationType": "full_numbers",
+		"aaSorting": [[0, "asc"]]
+	});
+	
+	individual_message_dt = $('#individual-message-table').dataTable({
+		"bPaginate": false,
+		"bLengthChange": false,
+		"bFilter": false,
+		"bSort": false,
+		"bInfo": false,
+		"bAutoWidth": false,
+		"bRetrieve": false,
+		"bJQueryUI": false,
+	    "sScrollY": "100px"
+	});
 }

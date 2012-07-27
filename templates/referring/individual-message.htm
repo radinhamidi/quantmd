@@ -1,0 +1,68 @@
+<!-- JAVASCRIPT LIBRARY IMPORTS -->
+<!--
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<script src="../common/js/datatables.js"></script>
+<script src="../common/js/common.js"></script>
+<script src="js/referring.js"></script>
+-->
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/subpage.js"></script>
+<script src="{{STATIC_URL}}referring/js/referring.js"></script>
+
+<!-- CONTENT BELOW THIS LINE -->
+
+<!-- HEADER REQUIRED -->
+<div class="window-header">Merriam Webster [Case ID: #810787255]</div>
+
+<!-- PAGE CONTENT -->
+<h2>Subject: patient history question</h2>
+
+<div style="margin:5px;">
+	
+<p><img src="{{STATIC_URL}}referring/images/folder.png" height="25" width="25">&nbsp;FINAL DIAGNOSIS<br>
+		                      SUBJECT COMPLAIN CHEST PAIN, BP 120/85BPM NORMAL HEALTHY EXERCISE OK<br/>
+		                      NO SPEC PAIN TRIGGER. HISTORY PENCI USE 150/365.<br />
+		                      SAW GP 15/6 ADVISED FOR REST 3/7. NO KNW STRESS IND<br /> 
+		                      GP AGAIN 18/6 FOR ECG NORMAL NO ARR SEEN<br /></p>
+</div>
+			
+<table id="individual-message-table">
+	<thead>
+		<tr>
+			<th width="710px"></th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr>
+	 	<td><font size="3"><b>Cardiologist:</b></font>&nbsp;Lorem Ipsum is simply dummy text of the printing and typesetting industry.</td>	
+	</tr>
+	<tr>
+		<td><font size="3"><b>Referring:</b></font>&nbsp;Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</td>	
+	</tr>
+	<tr>
+		<td><font size="3"><b>Cardiologist:</b></font>&nbsp;There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</td>	
+	</tr>
+<tr>
+		<td><font size="3"><b>Referring:</b></font>&nbsp;Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</td>	
+	</tr>
+	<tr>
+		<td><font size="3"><b>Cardiologist:</b></font>&nbsp;There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</td>	
+	</tr>
+
+	</tbody>
+</table>
+
+
+<div style="margin:5px; height: 60px; width: 700px; ">
+<form name="individualmessageform" id="individualform"  action="" method="post">
+	<textarea id="new-entry" cols="80" rows="6"></textarea>
+	<input type="submit" name="rd-individual-message-sendbutton" class="button" value="SEND" style="float:right; margin-top: 5px;">
+</form>
+</div>
+
+<a href="#" id="back-diagnosis" class="panebutton" load="messages.htm">
+	<img src="{{STATIC_URL}}referring/images/back_small.png" height="16" width="16" style="margin-top: 55px;">&nbsp;BACK
+</a>
