@@ -1,7 +1,31 @@
 import re
 import types
 
+def IsEmpty(varObj):
+    if len(varObj) == 0:
+        return True
+    return False
 
+def IsEmail(varObj):
+    #rule = '[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$'
+    #match = re.match( rule , varObj )
+    #if match:
+    #    return True
+    #return False
+    if len(varObj) > 7:
+        if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", varObj) != None:
+            return 1
+    return 0
+
+
+
+
+
+
+
+def IsSSN(varObj):
+
+def IsPhoneNumber(varObj):
 
 def IsDate(varObj):
  
@@ -12,22 +36,6 @@ def IsDate(varObj):
             return True
         return False
     return False
-
-def IsEmail(varObj):
- 
-    rule = '[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$'
-    match = re.match( rule , varObj )
- 
-    if match:
-        return True
-    return False
-
-def IsEmpty(varObj):
- 
-    if len(varObj) == 0:
-        return True
-    return False
-
 
 def IsNumber(varObj):
  

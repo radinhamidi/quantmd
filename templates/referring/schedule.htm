@@ -22,9 +22,10 @@
             &nbsp;&nbsp;&nbsp;
             <input type="submit" name="searchbutton" class="button" id="searchbutton" value="SEARCH"/></form>
             <hr style="clear: both;">
-			{%if centers %}
+			
 			<table>
 				<tbody>
+				{%if centers %}
 					{% for center in centers %}
 					<tr>
 						<td><b>{{center.name}}</b>
@@ -34,7 +35,8 @@
 						<div id="schedule" style=" cursor: pointer;" class = "panebutton" load = "/referring/mriSchedule/{{center.id}}/"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" width="30" height="30" id=/>&nbsp;SCHEDULE</div></td>
 					</tr>
 					{% endfor %}
+					{% endif %}
 				</tbody>
 			</table>
-			{% endif %}
+			
 </div>

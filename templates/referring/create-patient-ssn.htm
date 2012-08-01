@@ -10,15 +10,16 @@
 <div id = "createbox">
 <!-- HEADER REQUIRED -->
 <div class="window-header">create patient</div>
-	
 	{% if error %}
 		{% for message in error %}
 			{{message}}</br>
 		{% endfor %}
 		
-	{% endif %}
+	{% endif %}	
+
 <!-- PAGE CONTENT -->
 <form method="POST" name="ssn-form" id="ssn-form" action="/referring/patientSSNCheck/">
+
  {% csrf_token %}
  	Please Enter patient's SSN
 			<b>SSN:</b>
