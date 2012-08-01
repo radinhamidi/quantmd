@@ -20,19 +20,20 @@
 <!-- PAGE CONTENT -->
 <table class="right-table">
 	<tr>
-		<td width="100px"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="50" width="50"> <br /> <a href="#" class="panebutton" load="/referring/patientAppointmentList/{{patient.ssn}}/"><font size="2">SCHEDULE INFO</font></a></td>
-		<td width="100px"><img src="{{STATIC_URL}}referring/images/folder_full.png" height="50" width="50"> <br /> <a href="#" class="panebutton" load="/referring/patientCaseList/{{patient.ssn}}/"><font size="2">REPORTS</font></a></td>
-		<td width="100px"><img src="{{STATIC_URL}}referring/images/comments.png" height="50" width="50"> <br /> <a href="#"><font size="2">0 MESSAGES</font></a></td>
+		<td width="130px"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="50" width="50"> <br /> <a href="#" class="panebutton" load="/referring/patientAppointmentList/{{patient.ssn}}/"><font size="2">SCHEDULE INFO</font></a></td>
+		<td width="90px"><img src="{{STATIC_URL}}referring/images/folder_full.png" height="50" width="50"> <br /> <a href="#" class="panebutton" load="/referring/patientCaseList/{{patient.ssn}}/"><font size="2">REPORTS</font></a></td>
+		<td width="90px"><img src="{{STATIC_URL}}referring/images/comments.png" height="50" width="50"> <br /> <a href="#"><font size="2">0 MESSAGES</font></a></td>
 	</tr>
 </table>
 
 <table class="left-table">
 	<tr>
-		<td><a href="#"><img src="{{STATIC_URL}}referring/images/pen.png" height="15"  width="15"/>&nbsp;<font size="2">EDIT PATIENT</font></a></td>
+		<td width="100px"><a href="#"><img src="{{STATIC_URL}}referring/images/pen.png" height="15"  width="15"/>&nbsp;<font size="2">EDIT PATIENT</font></a></td>
+		<td></td>
 	</tr>
 	<tr>
-		<td><b>Address:</b></td> 
-		<td>{{patient.address}},{{patient.address2}}, {{patient.city}}, {{patient.state}},{{patient.zip}}</td>
+		<td style="vertical-align: top;"><b>Address:</b></td> 
+		<td>{{patient.address}} {{patient.address2}}<br>{{patient.city}},{{patient.state}},{{patient.zip}}</td>
 	</tr>
 	<tr>
 		<td><b>SSN:</b></td> 
@@ -62,6 +63,6 @@
 	</tr>
 </table>
 
-<a href="#" id="back-diagnosis" class="panebutton" load="patients.htm">
-	<img src="images/back_small.png" height="16" width="16" style="margin-top: 150px;">&nbsp;BACK
-</a>
+<div class ="footer-backbutton"><a href="#" id="back-diagnosis" class="panebutton" load="patients.htm">
+	<img src="{{STATIC_URL}}referring/images/back_small.png" height="16" width="16">&nbsp;BACK
+</a></div>

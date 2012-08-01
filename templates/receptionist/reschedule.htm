@@ -1,0 +1,86 @@
+<!-- JAVASCRIPT LIBRARY IMPORTS -->
+<!--
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<script src="../common/js/datatables.js"></script>
+<script src="../common/js/common.js"></script>
+<script src="js/referring.js"></script>
+-->
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<script src="../common/js/subpage.js"></script>
+<script src="../common/js/datatables.js"></script>
+<script src="js/receptionist.js"></script>
+
+<!-- CONTENT BELOW THIS LINE -->
+
+<!-- HEADER REQUIRED -->
+<div class="window-header">reschedule</div>
+
+<!-- PAGE CONTENT -->
+<div  style="float: left; margin-top:-5px; margin-bottom:15px;">
+            <form name="centerrescheduleform" id="centerrescheduleform" action="" method="POST">
+            <b>Date:</b>&nbsp;
+            <input  size="15" type="text" name="rp-reschedule-date" id="rp-reschedule-date" class="textfield"/>&nbsp;&nbsp;&nbsp;
+            <input type="button" name="reschedule-viewbutton" class="button" id="reschedule-viewbutton" value="VIEW TIMESLOT"/>
+            </form></div>
+            <hr style="clear: both;">
+            
+<table id="rp-reschedule-timeslot-table">
+	<thead>
+		<tr>
+			<th>Time</th>
+			<th>Status</th>
+			<th></th>
+
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>09:00-09:30</td>
+			<td>Avaialbe</td>
+			<td><a href="#" class="panebutton" load="new-appointment.htm"><img src="images/add.png" width="15" height="15" />&nbsp;BOOK</a></td>
+
+		</tr>
+		<tr>
+			<td>09:30-10:00</td>
+			<td>Avaialbe</td>
+			<td><a href="#" class="panebutton" load="schedule-cancellation.htm"><img src="images/add.png" width="15" height="15" />&nbsp;BOOK</a></td>
+		</tr>
+		<tr>
+			<td>10:00-10:30</td>
+			<td>Occupied</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>10:30-11:00</td>
+			<td>Avaialbe</td>
+			<td><a href="#" class="panebutton" load="schedule-cancellation.htm"><img src="images/add.png" width="15" height="15" />&nbsp;BOOK</a></td>
+		</tr>
+		<tr>
+			<td>11:30-12:00</td>
+			<td>Occupied</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>14:00-14:30</td>
+			<td>Avaialbe</td>
+			<td><a href="#" class="panebutton" load="schedule-cancellation.htm"><img src="images/add.png" width="15" height="15" />&nbsp;BOOK</a></td>
+		</tr>
+		<tr>
+			<td>14:30-15:00</td>
+			<td>Occupied</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>15:30-16:00</td>
+			<td>Avaialbe</td>
+			<td><a href="#" class="panebutton" load="schedule-cancellation.htm"><img src="images/add.png" width="15" height="15" />&nbsp;BOOK</a></td>
+		</tr>
+		<tr>
+			<td>16:30-17:00</td>
+			<td>Avaialbe</td>
+			<td><a href="#" class="panebutton" load="schedule-cancellation.htm"><img src="images/add.png" width="15" height="15" />&nbsp;BOOK</a></td>
+		</tr>
+	</tbody>
+</table>

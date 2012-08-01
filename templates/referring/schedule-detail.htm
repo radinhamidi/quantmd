@@ -19,7 +19,7 @@
 
 <!-- PAGE CONTENT -->
 
-<div id="schedule-detail-time" class="sub-header" ><b>{{schedule.date}}</b><br>{{schedule.start_time}}-{{Schedule.end_time}}</div>
+<div id="schedule-detail-time" class="sub-header" ><b>{{schedule.date}}</b><br>{{schedule.start_time}}-{{schedule.end_time}}</div>
 			<div id="schedule-detail-mriad" class="sub-header" ><b>{{mri.name}}</b><br>{{mri.address}} {{mri.address2}}<br>{{mri.city}}, {{mri.state}}, {{mri.zip}}</div>
 			<hr style="clear: both;">
 			<div><form name = "makeAppointment" id = "makeAppointment" action = "/referring/makeAppointment/{{schedule.id}}/" method = "POST">

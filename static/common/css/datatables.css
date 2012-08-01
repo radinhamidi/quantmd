@@ -58,12 +58,12 @@
 }
 
 .dataTables_filter {
-        margin-top: -20px;
+    margin-top: -30px;
 	width: 50%;
 	float: right;
 	text-align: right;
-        padding: 8px;
-        color: #8AE;
+    padding: 8px;
+    color: #8AE;
 }
 
 .dataTables_info {

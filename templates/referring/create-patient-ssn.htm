@@ -9,7 +9,9 @@
 <!-- CONTENT BELOW THIS LINE -->
 <div id = "createbox">
 <!-- HEADER REQUIRED -->
-<div class="window-header">create patient</div>
+
+<div class="window-header">Create Patient</div>
+	
 	{% if error %}
 		{% for message in error %}
 			{{message}}</br>
@@ -21,10 +23,9 @@
 <form method="POST" name="ssn-form" id="ssn-form" action="/referring/patientSSNCheck/">
 
  {% csrf_token %}
- 	Please Enter patient's SSN
-			<b>SSN:</b>
-			<input class="textfield" type="text" name="ssn"></br>
-			<input type="submit" name="sumbitbutton" class="button" id="sumbitbutton" value="SUMBIT" style="margin-left: 50px; margin-top: 5px;"/></td>
+ <div style="text-align: center; margin-top: 120px;">
+			<input id="ssnbox" type="text" name="ssn" size="22" placeholder="Enter Patient's SSN Here">
+			<input type="submit" name="sumbitbutton" class="button" id="sumbitbutton" value="SUBMIT" style="margin-left: 3px; font-size:23px;"/></div>
 
 </form>
 </div>

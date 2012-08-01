@@ -9,34 +9,34 @@
 <!-- CONTENT BELOW THIS LINE -->
 
 <!-- HEADER REQUIRED -->
-<div class="window-header">select mri center</div>
+<div class="window-header">Select MRI Center</div>
 
 <!-- PAGE CONTENT -->
-<div  style="	float: left; margin-top:-5px; margin-bottom:15px;">
+<div  style="margin-left: 15px; margin-bottom:15px;">
             <form name="select-center" id="select-center"  method="POST" action="/referring/appointmentsSearch/">{% csrf_token %}
             <b>Date:</b>&nbsp;
             <input  size="15" type="text" name="popup-schedule-date" id="popup-schedule-date" class="textfield"/>&nbsp;&nbsp;&nbsp;
             <b>Location:</b>&nbsp;
-            <input  size="30" type="text" name="popup-schedule-location" id="textfield-textfield" class="textfield"/>
-            <input  size="30" type="text" id="textfield-clear" class="textfield" value="Patient Zip" />
+            <input  size="30" type="text" name="popup-schedule-location" id="textfield-textfield" placeholder="Patient Zip" class="textfield"/>
             &nbsp;&nbsp;&nbsp;
-            <input type="submit" name="searchbutton" class="button" id="searchbutton" value="SEARCH"/></form>
+            <input type="submit" name="searchbutton" class="button" id="searchbutton" value="SEARCH" style="font-size:12px;"/></form></div>
             <hr style="clear: both;">
-			
-			<table>
-				<tbody>
-				{%if centers %}
-					{% for center in centers %}
-					<tr>
-						<td><b>{{center.name}}</b>
-						<td><br>{{center.address}}<br></td>
-						<td>{{center.address2}}, {{center.city}}, {{center.state}}, {{center.zip}}</td>
-						<td><div id="info" style=" cursor: pointer;" class = "panebutton" load = "/referring/mriInfo/{{center.id}}/""><img src="{{STATIC_URL}}referring/images/info.png" width="30" height="30"/>&nbsp;INFO</div>
-						<div id="schedule" style=" cursor: pointer;" class = "panebutton" load = "/referring/mriSchedule/{{center.id}}/"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" width="30" height="30" id=/>&nbsp;SCHEDULE</div></td>
-					</tr>
-					{% endfor %}
-					{% endif %}
-				</tbody>
-			</table>
-			
-</div>
+            
+			{%if centers %}
+			<div style="overflow:auto; height:300px; width: 720px;">
+			<table class="display-table">
+			<tr><th width="300px">Center Name</th>
+			<th width="290px">Address</th>
+			<th width="110px">Info & Schedule</th>
+			</tr>
+			{% for center in centers %}
+			<tr>
+			<td><b>{{center.name}}</b>
+			<td>{{center.address}} {{center.address2}}<br>{{center.city}}, {{center.state}}, {{center.zip}}</td>
+			<td><div id="info" class = "panebutton" load = "/referring/mriInfo/{{center.id}}/"><a href="#"><img src="{{STATIC_URL}}referring/images/info.png" width="30" height="30"/>&nbsp;INFO</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><br>
+			<div id="schedule" class = "panebutton" load = "/referring/mriSchedule/{{center.id}}/"><a href="#"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" width="30" height="30" id=/>&nbsp;SCHEDULE</a></div></td>
+			</tr>
+			{% endfor %}
+			</table></div>
+			{% endif %}
+

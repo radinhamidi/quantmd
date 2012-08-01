@@ -20,8 +20,11 @@
 		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/common.css" />
 		
 		<!-- Local Scripts & Styles -->
-		<script src="js/referring.js"></script>
+		<script src="{{STATIC_URL}}referring/js/referring.js"></script>
+		<script src="{{STATIC_URL}}referring/js/jquery.validate.js"></script>
+		<script src="{{STATIC_URL}}referring/js/jquery.validation.functions.js"></script>
 		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}referring/css/referring.css" />
+		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}referring/css/jquery.validate.css" />
 		
 	</head>
 	
@@ -45,7 +48,7 @@
 				<img id="nav-patients" class="showbutton" show="patients" load="/referring/patientsInfo/" src="{{STATIC_URL}}referring/images/icon-patients.png" />&nbsp;
 				<img id="nav-schedule" class="showbutton" show="schedule" load="/referring/appointmentsInfo/" src="{{STATIC_URL}}referring/images/icon-schedule.png" />&nbsp; 
 				<img id="nav-diagnosis" class="showbutton" show="diagnosis" load="/referring/diagnosisesInfo/" src="{{STATIC_URL}}referring/images/icon-diagnosis.png" />&nbsp;
-				<img id="nav-messages" class="showbutton" show="messages" load="messages.htm" src="{{STATIC_URL}}referring/images/icon-messages.png" />
+				<img id="nav-messages" class="showbutton" show="messages" load="/referring/messagesInfo/" src="{{STATIC_URL}}referring/images/icon-messages.png" />
 			</div>
 			
 			<!-- MAIN CONTENT AREA -->

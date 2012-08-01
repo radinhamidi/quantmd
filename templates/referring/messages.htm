@@ -6,11 +6,11 @@
 <script src="../common/js/common.js"></script>
 <script src="js/referring.js"></script>
 -->
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<script src="../common/js/subpage.js"></script>
-<script src="js/referring.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/subpage.js"></script>
+<script src="{{STATIC_URL}}referring/js/referring.js"></script>
 
 <!-- CONTENT BELOW THIS LINE -->
 
@@ -18,101 +18,88 @@
 <div class="window-header">message</div>
 
 <!-- PAGE CONTENT -->
-
-<table id="patient-table">
+<div style="float: right; margin-top: -45px; margin-right: 8px;" class="panebutton" load=""><a href="#"><img src="{{STATIC_URL}}referring/images/button-add.png" width="15" height="15"/>&nbsp;NEW MESSAGE</a></div>
+<table id="message-table">
 	<thead>
 		<tr>
-			<th width="200px">Name</th>
-			<th width="50px">Gender</th>
-			<th width="50px">Age</th>
-			<th width="120px">Last Updated</th>
-			<th width="180px"></th>
+			<th width="50px">Type</th>
+			<th width="300px">Subject</th>
+			<th width="120px">Received</th>
+			<th width="50px"></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td><a href="#" class="showbutton" show="patients2" load="patient-info.htm">Info</a></td>
+			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
+			<td>John Doe - Rescheduled 8/19</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+		    <td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
+			<td>John Doe - Rescheduled 8/19</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
+			<td>John Doe - Rescheduled 8/19</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
+			<td>John Doe - Rescheduled 8/19</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
+			<td>John Doe - Rescheduled 8/19</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
+			<td>John Doe - Rescheduled 8/19</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
+			<td>John Doe - Rescheduled 8/19</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
+			<td>John Doe - Rescheduled 8/19</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
+			<td>John Doe - Rescheduled 8/19</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
+			<td>John Doe - Rescheduled 8/19</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Patient One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+			<td><img src="{{STATIC_URL}}referring/images/flag_green.png" height="15" width="15">&nbsp;Message</td>
+			<td>Merriam Webster [#810787255] - Patient History ...</td>
+			<td>07/01 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 		<tr>
-			<td>Test One</td>
-			<td>Male</td>
-			<td>22</td>
-			<td>07/10/2012</td>
-			<td></td>
+		    <td><img src="{{STATIC_URL}}referring/images/flag_red.png" height="15" width="15">&nbsp;Cancelled</td>
+			<td>Carol Higgins - Cancelled Appt</td>
+			<td>07/02 17:22</td>
+			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
 		</tr>
 	</tbody>
 </table><input type="button" onClick="reset_dt_view();" value="reset" />

@@ -16,9 +16,12 @@ class Appointment(models.Model):
     mri = models.ForeignKey(MRICenter)
     is_cancelled = models.BooleanField(default=False)
     cancelled_by_doctor = models.BooleanField(default=True) #otherwise, cancelled by mri center
+    is_check_in = models.BooleanField(default=False)
+    check_in_time = models.DateTimeField()
     
     class Meta: 
         app_label = 'main'
+        
 
         
 #class Service(models.Model):
