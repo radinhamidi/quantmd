@@ -19,4 +19,5 @@ urlpatterns += patterns('main.views',
     (r'^logout/$', 'account.logout_view'),
     (r'^referring/', include('main.urls.referring')),
     (r'^receptionist/', include('main.urls.receptionist')),
+    (r'^broker/', include('main.urls.broker')),
 )

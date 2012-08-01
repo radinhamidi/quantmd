@@ -14,9 +14,7 @@ from main.models.account import *
 
 
 
-@csrf_exempt
 def login_action(request):
-    """Need to figure out why csrf_token is not set"""
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)

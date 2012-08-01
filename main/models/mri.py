@@ -4,9 +4,9 @@ from datetime import datetime
 class MRICenter(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField()
-    phone = models.IntegerField()
+    phone = models.BigIntegerField()
     address = models.CharField(max_length=200)
-    address2 = models.CharField(max_length=200)
+    address2 = models.CharField(max_length=200,blank=True)
     city = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
     zip = models.IntegerField(default=0)

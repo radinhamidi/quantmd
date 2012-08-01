@@ -18,4 +18,7 @@ System Dependencies::
 Python module dependencies::
 
     $ pip install django-debug-toolbar
+    
+    On Mac:
+    pip install MySQL-python
 	

@@ -16,15 +16,11 @@ from django.utils.datetime_safe import datetime
 
 def register_list(request):
     if request.user.is_authenticated():
+        print "here"
         profile = Profile.objects.get(user = request.user)
-        appointments = Appointment.objects.filter(mri=profile.mri_id)
-        appointment_set = []
-        for appointment in appointments:
-            case = Case.objects.get(appointment=appointment)
-            if case.status == 0:
-                appointment_set.append(appointment)
-        print appointment_set
-        return render_to_response('receptionist/register.htm',{'appointments':appointment_set}, context_instance=RequestContext(request))  
+        appointments = Appointment.objects.filter(mri=profile.mri_id).filter(is_check_in = False)
+        print appointments
+        return render_to_response('receptionist/register.htm',{'appointments':appointments}, context_instance=RequestContext(request))  
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
@@ -46,6 +42,9 @@ def check_in(request, appointment_id):
     if request.user.is_authenticated():
         if Appointment.objects.filter(id=appointment_id).exists():
             appointment = Appointment.objects.get(id=appointment_id)
+            appointment.check_in_time = datetime.now()
+            appointment.is_check_in = True
+            appointment.save()
             case = Case.objects.get(appointment=appointment)
             case.status = 1
             case.save()
@@ -95,15 +94,52 @@ def cancel(request, appointment_id):
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
 def cancel_schedule(request, schedule_id):
-    print "here"
     if request.user.is_authenticated():
         if Schedule.objects.filter(id=schedule_id).exists():
             schedule.objects.get(id=schedule_id)
             schedule.delete()
-            print "aaaa"
             return redirect('main.views.receptionist.schedule_list_view')    
         else:
             return render_to_response('receptionist/error.htm',{'error':"error"}, context_instance=RequestContext(request))
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+
+def logs(request):
+    if request.user.is_authenticated():
+        print "logs"
+        profile = Profile.objects.get(user = request.user)
+        appointments = Appointment.objects.filter(mri=profile.mri_id).filter(is_check_in = True)
+        return render_to_response('receptionist/logs.htm',{'appointments':appointments}, context_instance=RequestContext(request))
+    else: 
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+    
+    
+def register_cancellation_view(request, appointment_id):
+    if request.user.is_authenticated():
+        if Appointment.objects.filter(id=appointment_id).exists():
+            appointment = Appointment.objects.get(id=appointment_id)
+            return render_to_response('receptionist/register-cancellation.htm',{'appointment':appointment}, context_instance=RequestContext(request))
+    else: 
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+    
+def cancel_register(request, appointment_id):
+    if request.user.is_authenticated():
+        print "hahaha"
+        if Appointment.objects.filter(id=appointment_id).exists():
+            appointment = Appointment.objects.get(id=appointment_id)
+            appointment.is_cancelled = True
+            appointment.cancelled_by_doctor = False
+            appointment.save()
+            case = Case.objects.get(appointment = appointment)
+            case.status = -1
+            case.save()
+            return redirect('main.views.receptionist.logs')    
+    else: 
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+    
+    
     

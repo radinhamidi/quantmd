@@ -6,7 +6,7 @@ $(document).ready(function() {
     $("#popup-schedule-date").datepicker({
 		
 	});
-	
+    
 	  /* attach a submit handler to the form */
 	$("#select-center").submit(function(event) {
 
@@ -24,23 +24,7 @@ $(document).ready(function() {
 		}
 		);
      });
-  
-
-    $('#textfield-clear').show();
-	$('#textfield-textfield').hide();
-
-	$('#textfield-clear').focus(function() {
-		$('#textfield-clear').hide();
-		$('#textfield-textfield').show();
-		$('#textfield-textfield').focus();
-	});
-	$('#textfield-textfield').blur(function() {
-		if($('#textfield-textfield').val() == '') {
-			$('#textfield-clear').show();
-			$('#textfield-textfield').hide();
-		}
-	}); 
-	
+  	
 	$("#create-patient").submit(function(event) {
 
     /* stop form from submitting normally */
@@ -109,11 +93,10 @@ $(document).ready(function() {
 		}
 		);
      });
-     
-	
+
 });
 
-function reset_dt_view() {
+function patient_reset_dt_view() {
   localStorage.removeItem('DataTables_PatientTable');
   patient_dt.fnDestroy();
   make_dt();
@@ -145,13 +128,6 @@ function make_dt() {
 		"bFilter": false,
 		"bSort": false,
 		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_PatientTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_PatientTable') );
-		},
 		"bAutoWidth": false,
 		"bRetrieve": true,
 		"bJQueryUI": false,
@@ -164,25 +140,6 @@ function make_dt() {
 		"bLengthChange": false,
 		"bFilter": false,
 		"bSort": true,
-		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_PatientTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_PatientTable') );
-		},
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 10,
-		"sPaginationType": "full_numbers"
-	});
-	schedule_dt = $('#create-patient-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": false,
-		"bSort": false,
 		"bInfo": false,
 		"bStateSave": true,
 		"fnStateSave": function (oSettings, oData) {

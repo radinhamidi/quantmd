@@ -4,12 +4,56 @@
 <script src="{{STATIC_URL}}common/js/datatables.js"></script>
 <script src="{{STATIC_URL}}common/js/subpage.js"></script>
 <script src="{{STATIC_URL}}referring/js/referring.js"></script>
-
-
+<script src="{{STATIC_URL}}referring/js/jquery.validate.js"></script>
+<script src="{{STATIC_URL}}referring/js/jquery.validation.functions.js"></script>
+<script>jQuery(function (){
+ 	  jQuery("#validdate").validate({
+ 		  expression: "if (!isValidDate(parseInt(VAL.split('-')[2], 10), parseInt(VAL.split('-')[0], 10), parseInt(VAL.split('-')[1], 10))) return false; else return true;",
+           message: "Please enter a valid Date"
+ 	       });
+ 	  jQuery("#validfield1").validate({
+           expression: "if (VAL) return true; else return false;",
+           message: "Please enter the Required field"
+       });
+ 	  jQuery("#validfield2").validate({
+           expression: "if (VAL) return true; else return false;",
+           message: "Please enter the Required field"
+       });
+ 	  jQuery("#validfield3").validate({
+           expression: "if (VAL) return true; else return false;",
+           message: "Please enter the Required field"
+       });
+ 	  jQuery("#validfield4").validate({
+           expression: "if (VAL) return true; else return false;",
+           message: "Please enter the Required field"
+       });
+ 	  jQuery("#validfield5").validate({
+           expression: "if (VAL) return true; else return false;",
+           message: "Please enter the Required field"
+       });
+ 	  jQuery("#validfield6").validate({
+           expression: "if (VAL) return true; else return false;",
+           message: "Please enter the Required field"
+       });
+ 	  jQuery("#validzip").validate({
+           expression: "if (isValidZip(parseInt(VAL))) return true; else return false;",
+           message: "Please enter a valid Zip"
+       });
+ 	  jQuery("#validemail").validate({
+           expression: "if (VAL.match(/^[^\\W][a-zA-Z0-9\\_\\-\\.]+([a-zA-Z0-9\\_\\-\\.]+)*\\@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*\\.[a-zA-Z]{2,4}$/)) return true; else return false;",
+           message: "Please enter a valid Email"
+       });
+ 	  jQuery("#validselection").validate({
+           expression: "if (VAL != '0') return true; else return false;",
+           message: "Please make a selection"
+       });
+   });
+   
+</script>
 <!-- CONTENT BELOW THIS LINE -->
 <div id = "createbox">
 <!-- HEADER REQUIRED -->
-<div class="window-header">create patient</div>
+<div class="window-header">Create Patient</div>
 {% if error %}
 		{% for message in error %}
 			{{message}}</br>
@@ -20,69 +64,105 @@
 <form method="POST" name="create-patient" id="create-patient" action="/referring/createPatientAction/">
  {% csrf_token %}
  	<input type="hidden" name="ssn" value={{ssn}} >
-	<table>
-		<thead>
-			<tr>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
+	<table id="create-patient-table" >
 			<tr>
 				<td><b>First name:</b></td>
-				<td><input class="textfield" type="text" name="first_name"></td>
-				<td></td>
+				<td><input class="textfield" type="text" name="first_name" id="validfield1"></td>
+			
 				<td><b>Last name:</b></td>
-				<td><input class="textfield" type="text" name="last_name"></td>
+				<td><input class="textfield" type="text" name="last_name" id="validfield2"></td>
 			</tr>
 			<tr>
 				<td><b>Middle name:</b></td>
-				<td><input class="textfield" type="text" name="middle_name"></td>
-				<td></td>
-				<td><b>gender:</b></td>
-				<td><input type="radio" name="sex" value="1" /> Male &nbsp
+				<td><input class="textfield" type="text" name="middle_name" id="validfield3"></td>
+		
+				<td><b>Gender:</b></td>
+				<td><input type="radio" name="sex" value="1" /> Male &nbsp;
   					<input type="radio" name="sex" value="0" checked="checked" /> Female<br/></td>
 			</tr>
 			<tr>
-				<td><b>birthday:</b></td>
-				<td><input class="textfield" type="text" id="textfield-textfield" name="birthday">
-				    <input class="textfield" type="text" id="textfield-clear" value="mm-dd-year"></td>
-				<td></td>
-				<td><b>email:</b></td>
-				<td><input class="textfield" type="text" name="email"></td>
+				<td><b>Birthday:</b></td>
+				<td><input class="textfield" type="text" id="validdate" placeholder="mm-dd-yyyy" name="birthday"></td>
+			
+				<td><b>Email:</b></td>
+				<td><input class="textfield" type="text" name="email" id="validemail"></td>
 			</tr>
 			<tr>
-				<td><b>phone</b></td>
-				<td><input class="textfield" type="text" name="phone"></td>
-				<td></td>
-				<td><b>address</b></td>
-				<td><input class="textfield" type="text" name="address"></td>
+				<td><b>Phone:</b></td>
+				<td><input class="textfield" type="text" name="phone" id="validphone"></td>
+
+				<td><b>Address:</b></td>
+				<td><input class="textfield" type="text" name="address" id="validfield4"></td>
 			</tr>
 			<tr>
-				<td><b>city</b></td>
-				<td><input class="textfield" type="text" name="city"></td>
-				<td></td>
-				<td><b>address2</b></td>
-				<td><input class="textfield" type="text" name="address2"></td>
+				<td><b>City:</b></td>
+				<td><input class="textfield" type="text" name="city" id="validfield5"></td>
+		
+				<td><b>Address2:</b></td>
+				<td><input class="textfield" type="text" name="address2" id="validfield6"></td>
 			</tr>
 			<tr>
-				<td><b>state</b></td>
-				<td><input class="textfield" type="text" name="state"></td>
-				<td></td>
-				<td><b>zip</b></td>
-				<td><input class="textfield" type="text" name="zip"></td>
+				<td><b>State:</b></td>
+		<td><select class="textfield" name="state" id="validselection">
+                    <option value="0" selected="selected">Select a State</option> 
+                    <option value="AL">Alabama</option> 
+                    <option value="AK">Alaska</option> 
+                    <option value="AZ">Arizona</option> 
+                    <option value="AR">Arkansas</option> 
+                    <option value="CA">California</option> 
+                    <option value="CO">Colorado</option> 
+                    <option value="CT">Connecticut</option> 
+                    <option value="DE">Delaware</option> 
+                    <option value="DC">District Of Columbia</option> 
+                    <option value="FL">Florida</option> 
+                    <option value="GA">Georgia</option> 
+                    <option value="HI">Hawaii</option> 
+                    <option value="ID">Idaho</option> 
+                    <option value="IL">Illinois</option> 
+                    <option value="IN">Indiana</option> 
+                    <option value="IA">Iowa</option> 
+                    <option value="KS">Kansas</option> 
+                    <option value="KY">Kentucky</option> 
+                    <option value="LA">Louisiana</option> 
+                    <option value="ME">Maine</option> 
+                    <option value="MD">Maryland</option> 
+                    <option value="MA">Massachusetts</option> 
+                    <option value="MI">Michigan</option> 
+                    <option value="MN">Minnesota</option> 
+                    <option value="MS">Mississippi</option> 
+                    <option value="MO">Missouri</option> 
+                    <option value="MT">Montana</option> 
+                    <option value="NE">Nebraska</option> 
+                    <option value="NV">Nevada</option> 
+                    <option value="NH">New Hampshire</option> 
+                    <option value="NJ">New Jersey</option> 
+                    <option value="NM">New Mexico</option> 
+                    <option value="NY">New York</option> 
+                    <option value="NC">North Carolina</option> 
+                    <option value="ND">North Dakota</option> 
+                    <option value="OH">Ohio</option> 
+                    <option value="OK">Oklahoma</option> 
+                    <option value="OR">Oregon</option> 
+                    <option value="PA">Pennsylvania</option> 
+                    <option value="RI">Rhode Island</option> 
+                    <option value="SC">South Carolina</option> 
+                    <option value="SD">South Dakota</option> 
+                    <option value="TN">Tennessee</option> 
+                    <option value="TX">Texas</option> 
+                    <option value="UT">Utah</option> 
+                    <option value="VT">Vermont</option> 
+                    <option value="VA">Virginia</option> 
+                    <option value="WA">Washington</option> 
+                    <option value="WV">West Virginia</option> 
+                    <option value="WI">Wisconsin</option> 
+                    <option value="WY">Wyoming</option></select></td>
+				<td><b>Zip:</b></td>
+				<td><input class="textfield" type="text" name="zip" id="validzip"></td>
 			</tr>
-			<tr>
-				<td><img src="{{STATIC_URL}}referring/images/back.png" width="30" height="30" style="cursor: pointer;" class="panebutton" load="patients.htm"/>BACK</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><input type="submit" name="sumbitbutton" class="button" id="sumbitbutton" value="SUMBIT" style="margin-left: 50px; margin-top: 5px;"/></td>
-			</tr>
-		</tbody>
 	</table>
+	<input type="submit" name="sumbitbutton" class="button" id="sumbitbutton" value="SUBMIT" style="top: 415px; right: 10px; position:absolute; font-size: 11px;"/>
 </form>
+<div class="footer-backbutton"><a href="#" id="back-diagnosis" class="panebutton" load="patients.htm">
+	<img src="{{STATIC_URL}}referring/images/back_small.png" height="16" width="16">&nbsp;BACK
+</a></div>
 </div>
