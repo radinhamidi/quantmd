@@ -95,9 +95,8 @@ def check_ssn(request):
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-def ssn_link(request):
+def ssn_link(request,ssn):
     if request.user.is_authenticated():
-        ssn = request.POST['ssn']
         error = []
         if IsEmpty(ssn) or not ssn.isdigit():
             error.append('SSN is empty or incorrect format')

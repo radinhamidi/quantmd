@@ -11,6 +11,7 @@ from django.core.validators import email_re
 from django.template import loader, Context
 from django.core.mail import send_mail
 from main.models.account import *
+from main.utils.form_check import *
 
 
 
@@ -37,6 +38,7 @@ def change_password_view(request):
 
 
 def change_password(request):
+    print "haha"
     if request.user.is_authenticated():
         password = request.POST['password']
         new_password = request.POST['new-password']
@@ -51,6 +53,7 @@ def change_password(request):
         if new_password != confirm_password:
             error.append("new password is inconsistent")
         
+        print "here"
         if len(error) != 0:
              return render_to_response('changePassword.htm', {},
                               context_instance=RequestContext(request))
@@ -58,7 +61,7 @@ def change_password(request):
         user = request.user
         user.set_password(new_password)
         user.save()
-        
+        print "success"
         return redirect('main.views.index.index')
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
