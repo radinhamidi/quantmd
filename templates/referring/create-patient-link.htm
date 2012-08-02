@@ -46,9 +46,5 @@
 		<td>{{patient.email}}</td>
 	</tr>
 	</table>
-<form method="POST" name="create-link" id="create-link" action="/referring/patientSSNlink/">
-{% csrf_token %}
-	<input type="hidden" name="ssn" value={{patient.ssn}}/>
-	<input type="submit" name="sumbitbutton" class="button" id="sumbitbutton" value="CONFIRM" style="margin-left: 50px; margin-top: 5px;"/>
-</form>
+<a href="#" class="panebutton" load="/referring/patientSSNlink/{{patient.ssn}}/"><img src="{{STATIC_URL}}referring/images/folder_full.png" height="30" width="30">Confirm</a>
 </div>
