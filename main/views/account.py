@@ -18,7 +18,6 @@ def login_action(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
-    print 11
     if user is not None:
         login(request, user)
         return redirect('main.views.index.index')             
@@ -28,6 +27,41 @@ def login_action(request):
 def logout_view(request):
     logout(request)
     return redirect('main.views.index.index')
+
+def change_password_view(request):
+    if request.user.is_authenticated():
+        return render_to_response('changePassword.htm', {},
+                              context_instance=RequestContext(request))
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+
+
+def change_password(request):
+    if request.user.is_authenticated():
+        password = request.POST['password']
+        new_password = request.POST['new-password']
+        confirm_password = request.POST['confirm-password']
+        
+        error = []
+        
+        if IsEmpty(password):
+            error.append("Please enter current password")
+        if IsEmpty(new_password):
+            error.append("Please enter new password")
+        if new_password != confirm_password:
+            error.append("new password is inconsistent")
+        
+        if len(error) != 0:
+             return render_to_response('changePassword.htm', {},
+                              context_instance=RequestContext(request))
+        
+        user = request.user
+        user.set_password(new_password)
+        user.save()
+        
+        return redirect('main.views.index.index')
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
 
 
     

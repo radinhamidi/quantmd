@@ -20,8 +20,10 @@ class Case(models.Model):
     report = models.ForeignKey(Report,blank=True, null=True)
     cardiologist = models.ForeignKey(Profile,blank=True, null=True)
     create_time = models.DateTimeField(default=datetime.now)
+    #the time of the cardiologist assigned to the case
+    assigned_time = models.DateTimeField(blank=True, null=True)
     #0 for appointment created, -1 for appointment cancelled, 1 for MRI scan complete, 
-    #2 for broker uploaded, 3 for report uploaded, 4 for doctor have read the report
+    #2 for broker uploaded, 3 for cardiologist assigned, 4 for report uploaded, 5 for doctor have read the report
     status = models.SmallIntegerField(default=0)
     
     class Meta: 
