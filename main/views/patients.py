@@ -77,7 +77,9 @@ def check_ssn(request):
         print ssn
         error = []
         if IsEmpty(ssn) or not ssn.isdigit():
-            error.append('SSN is empty or incorrect format')
+            error.append('SSN is empty ')
+        if IsSSN(ssn)!=0:
+            error.append('SSN is not valid')
         if len(error) != 0:
             return render_to_response('referring/create-patient-ssn.htm',{'error':error},context_instance=RequestContext(request))
         
