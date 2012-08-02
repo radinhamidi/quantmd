@@ -32,7 +32,7 @@ def patientsList(request):
                     case = Case.objects.get(appointment=appointment)
                     if case.status == 2:
                         time = case.data.create_time
-                    elif case.status == 3:
+                    elif case.status == 4:
                         time = case.report.create_time
                     else:
                         time = case.create_time
