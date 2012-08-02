@@ -17,16 +17,27 @@ def IsEmail(varObj):
             return 1
     return 0
 
-
-
-
-
-
-
 def IsSSN(varObj):
-    return True
+    if re.match(r"^(?!000|666)(?:[0-6][0-9]{2}|7(?:[0-6][0-9]|7[0-2]))(?!00)[0-9]{2}(?!0000)[0-9]{4}$", varObj) != None:
+        return True 
+    else:
+        return False
+
+
+
+
+
+
+
+
+
+
 
 def IsPhoneNumber(varObj):
+    
+    return True
+   
+def IsZip(varObj):
     return True
     
 def IsDate(varObj):
