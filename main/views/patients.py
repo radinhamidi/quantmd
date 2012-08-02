@@ -62,7 +62,7 @@ def patientInfo(request, patient_ssn):
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))    
     
-    
+#e.g. if length>9....    
 def createView(request):
     if request.user.is_authenticated():
         return render_to_response('referring/create-patient-ssn.htm', {},
