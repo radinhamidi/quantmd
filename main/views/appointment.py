@@ -11,33 +11,48 @@ from main.models.account import *
 from django.utils.datetime_safe import datetime
 from main.models.case import *
 
-def appointment_view(request):
+def appointment_view(request, patient_id):
     if request.user.is_authenticated():
-        return render_to_response('referring/case-create.htm', {},
-                              context_instance=RequestContext(request))
-    
+        if Patient.objects.filter(id = patient_id).exists():
+            patient = Patient.objects.get(id = patient_id)
+            return render_to_response('referring/case-create.htm', {'patient':patient},
+                                      context_instance=RequestContext(request))
+        else:
+            return render_to_response('error.htm', {},
+                                      context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
     
-def appointment_search(request):
-    print "search"
+def appointment_search(request, patient_id):
+    print "aaaaa"
     if request.user.is_authenticated():
-        schedule_date = request.POST['popup-schedule-date']
-        zip_code = request.POST['popup-schedule-location']
+        schedule_date = request.POST['preferreddate']
+        schedule_time = request.POST['preferredtime']
+        zip_code = request.POST['zipcode']
         
+        if Patient.objects.filter(id = patient_id).exists():
+            patient = Patient.objects.get(id = patient_id)
+        else:
+            return render_to_response('error.htm', {"error": "No such patient"},
+                                      context_instance=RequestContext(request))
+    
         errors = []
-        if len(zip_code) == 0 and len(schedule_data) == 0:
+        if len(zip_code) == 0 and len(schedule_date) == 0 and len(schedule_time) == 0 :
             errors.append("Zip code and date cannot be empty")
-                 
+
         if len(errors) != 0:
-            return render_to_response('referring/schedule.htm',{'errors':errors}, context_instance=RequestContext(request))
+            return render_to_response('referring/case-create.htm',{'errors':errors,'patient':patient}, context_instance=RequestContext(request))
         
+        dic = {}
         if len(schedule_date) == 0 and len(zip_code) != 0:
             code = int(zip_code)
             upper = code + 500
             lower = code - 500
             centers = MRICenter.objects.exclude(zip__gte=upper).exclude(zip__lte=lower)
+            for center in centers:
+                timeslot = []
+                schedules = Schedule.objects.filter(mri=centers).filter(is_available=True).filter(is_cancelled=False)
         elif len(schedule_date) != 0 and len(zip_code) == 0:
             format="%m/%d/%Y"
             date = datetime.strptime(schedule_date,format)
@@ -56,8 +71,9 @@ def appointment_search(request):
             for schedule in schedules:
                 center = schedule.mri 
                 if center.zip <= upper and center.zip >= lower:
-                    centers.append(center)           
-        return render_to_response('referring/schedule.htm',{'centers':centers}, context_instance=RequestContext(request))  
+                    centers.append(center)
+        
+        return render_to_response('referring/case-create.htm',{'dic':dic, 'patient':patient}, context_instance=RequestContext(request))  
                
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))

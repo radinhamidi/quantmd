@@ -1,6 +1,6 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 
 <script>
 $(document).ready(function() {
@@ -37,11 +37,24 @@ $(document).ready(function() {
 </script>
 
 <div class="title-text">New Appointment</div>
-Michael, Shamos<br />
-Male - October 10, 1980<br />
+{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}<br />
+Birthday: {{patient.birthday|date:"SHORT_DATE_FORMAT"}}<br />
+{% if patient.gender == 1 %}
+			Male
+			{% endif %}
+		{% if patient.gender == 0 %}
+			Female
+			{% endif %}<br />
 <br />
 Select a MRI center for scan.<br /><br />
-<form id="form-create-case" name="form-create-case" action="case-create.htm">
+
+{% if errors %}
+	{% for error in errors %}
+		{{error}}</br>
+	{% endfor %}
+{% endif %}
+
+<form id="form-create-case" name="form-create-case" action="/referring/appointmentsSearch/{{patient.id}}/" method="post">{% csrf_token %}
 	<table class="formtable">
 		<tr>
 			<td width="120px">Preferred Date</td>
@@ -58,7 +71,7 @@ Select a MRI center for scan.<br /><br />
 	</table>
 <br />
 <span class="orange">
-<a id="create-case-back" href="patient-info.htm" class="orange loadright">Cancel</a></span>
+<a id="create-case-back" href="/referring/patientInfo/{{patient.id}}/" class="orange loadright">Cancel</a></span>
 <input type="submit" id="submit-create-case" value="Search" />
 </form>
 <br />
@@ -84,4 +97,4 @@ Select a MRI center for scan.<br /><br />
 </div>
 <div id="timeslot-confirm" title="Confirm Timeslot">
 			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Confirm booking?<br /></p>
-		</div>
+</div>
