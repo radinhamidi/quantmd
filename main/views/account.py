@@ -52,8 +52,13 @@ def change_password(request):
             error.append("Please enter new password")
         if new_password != confirm_password:
             error.append("new password is inconsistent")
+            
+        user = authenticate(username=request.user.user_name, password=password)
+         
+        if user is None:
+            error.append("Current password is incorrect")
         
-        print "here"
+        
         if len(error) != 0:
              return render_to_response('changePassword.htm', {},
                               context_instance=RequestContext(request))

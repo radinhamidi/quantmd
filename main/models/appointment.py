@@ -2,6 +2,7 @@ from django.db import models
 from account import Profile
 from mri import Schedule, MRICenter
 from patient import Patient
+from case import Case
 
 class Appointment(models.Model):
     """
@@ -14,10 +15,13 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient)
     schedule = models.ForeignKey(Schedule)
     mri = models.ForeignKey(MRICenter)
+    case = models.ForeignKey(Case)
     is_cancelled = models.BooleanField(default=False)
     cancelled_by_doctor = models.BooleanField(default=True) #otherwise, cancelled by mri center
     is_check_in = models.BooleanField(default=False)
-    check_in_time = models.DateTimeField()
+    check_in_time = models.DateTimeField(blank=True, null=True)
+    is_check_out = models.BooleanField(default=False)
+    check_out_time = models.DateTimeField(blank=True, null=True)
     
     class Meta: 
         app_label = 'main'

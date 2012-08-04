@@ -29,9 +29,9 @@ def accept_case_action(request):
             return render_to_response('cardiologist/accept.htm', {'error':error},
                                 context_instance=RequestContext(request))
             
-        if Case.objects.filter(status = 2).exists():
-            case = Case.objects.filter(status = 2)[0]
-            case.status = 3
+        if Case.objects.filter(status = 3).exists():
+            case = Case.objects.filter(status = 3)[0]
+            case.status = 4
             case.cardiologist = Profile.objects.get(user = request.user)
             case.assigned_time = datetime.now()
             case.save()
@@ -49,8 +49,8 @@ def case_view(request):
     if request.user.is_authenticated():
         profile = Profile.objects.get(user = request.user)
         print "right"
-        if Case.objects.filter(cardiologist = profile).filter(status=3).exists():
-            case = Case.objects.filter(cardiologist = profile).filter(status=3)[0]
+        if Case.objects.filter(cardiologist = profile).filter(status=4).exists():
+            case = Case.objects.filter(cardiologist = profile).filter(status=4)[0]
             return render_to_response('cardiologist/case.htm', {'case':case},
                                 context_instance=RequestContext(request))
         else:
@@ -78,7 +78,7 @@ def handin_report(request, case_id):
                                 context_instance=RequestContext(request))
         
         case = Case.objects.get(id=case_id)
-        case.status = 4
+        case.status = 5
         report = Report.objects.create(content = diagnosis)
         case.report = report
         report.save()
@@ -92,7 +92,7 @@ def diagnosis_list(request):
     print "aaa"
     if request.user.is_authenticated():
         profile = Profile.objects.get(user=request.user)
-        cases = Case.objects.filter(cardiologist = profile).filter(status = 4)
+        cases = Case.objects.filter(cardiologist = profile).filter(status = 5)
         return render_to_response('cardiologist/completed.htm', {'cases': cases},
                                 context_instance=RequestContext(request))
     else:
@@ -111,5 +111,8 @@ def view_report(request, case_id):
                                       context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+    
+    
     
     

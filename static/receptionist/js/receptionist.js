@@ -7,6 +7,10 @@ $(document).ready(function() {
 			
 	});
 	
+	$("#rp-reschedule-date").datepicker({
+			
+	});
+	
 	$('#reschedule-viewbutton').click(function() {
 		$('#rp-reschedule-timeslot-table').fadeIn('fast');
 	});

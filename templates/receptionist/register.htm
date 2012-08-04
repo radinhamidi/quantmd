@@ -20,7 +20,6 @@
 <!-- PAGE CONTENT -->
 <table id="register-table">
 	<thead>
-		
 		<tr>
 			<th width="100px">Name</th>
 			<th width="50px">Gender</th>
@@ -28,7 +27,6 @@
 			<th width="180px">Scheduled Time</th>
 			<th width="120px"></th>
 		</tr>
-		
 	</thead>
 	<tbody>
 		{% for appointment in appointments %}
@@ -43,7 +41,7 @@
 			<td>{{appointment.patient.birthday}}</td>
 			<td>{{appointment.schedule.date}}<br>{{appointment.schedule.start_time}}-{{appointment.schedule.end_time}}</td>
 			<td><a href="#" class="panebutton" load="/receptionist/register/{{appointment.id}}/"><img src="{{STATIC_URL}}receptionist/images/register.png" height="30" width="30"></a>&nbsp;
-				<a href="#" class="panebutton" load=/receptionist/reschedule/{{appointment.id}}/"><img src="{{STATIC_URL}}receptionist/images/calendar_empty.png" height="30" width="30"></a>
+				<a href="#" class="panebutton" load="/receptionist/reschedule/{{appointment.id}}/"><img src="{{STATIC_URL}}receptionist/images/calendar_empty.png" height="30" width="30"></a>
 			</td>
 		</tr>
 		{% endfor %}

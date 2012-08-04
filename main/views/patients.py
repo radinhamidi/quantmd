@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import *
 from django.shortcuts import render_to_response, get_object_or_404, redirect
@@ -12,50 +11,39 @@ from datetime import *
 from main.utils.form_check import *
 from main.models.case import *
 from main.models.data import *
-
+from main.models.message import *
 # patients list
 def patientsList(request):
     print "patientsList"
     if request.user.is_authenticated():
         profile = Profile.objects.get(user=request.user)
-        print profile
-        doctorAndPatients = PatientAndDoctor.objects.filter(doctor = profile)
-        print doctorAndPatients
+        patients = Patient.objects.filter(doctor = profile)
         dic = {}
-        for doctorAndPatient in doctorAndPatients:
+        for patient in patients:
             patient = doctorAndPatient.patient
-            appointments = Appointment.objects.filter(patient=patient)
-            if len(appointments) != 0 :
-                case = Case.objects.get(appointment=appointments[0])
-                max_time = case.create_time
-                for appointment in appointments:
-                    case = Case.objects.get(appointment=appointment)
-                    if case.status == 2:
-                        time = case.data.create_time
-                    elif case.status == 4:
-                        time = case.report.create_time
-                    else:
-                        time = case.create_time
-                    
-                    if time > max_time:
-                        max_time = time
-                dic[patient] = max_time
-            else:
-                dic[patient] = 'N/A'
-        print dic
+            appointments = Appointment.objects.filter(patient=patient).filter(is_cancelled=False)
+            for appointment in appointments:
+                messages = Message.objects.filter(case = appointment.case).filter(is_read=False)
+                if len(messages) != 0:
+                    dic[patient] = True
+                    continue
+                chats = Chat.objects.filter(case = appointment.case).filter(is_read=False)
+                if len(chats) !=0:
+                    dic[patient] = True
+                    continue
+                dic[patient] = False
         return render_to_response('referring/patients.htm',{'dic': dic}, context_instance=RequestContext(request)) 
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
     
 # patient information   
-def patientInfo(request, patient_ssn):
+def patientInfo(request, patient_id):
     print 'i am here'
-    if request.user.is_authenticated():
-        patient = Patient.objects.get(ssn = patient_ssn)        
-        if patient is not None:
+    if request.user.is_authenticated():       
+        if patient.objects.filter(id = patient_id).exists():
+            patient = Patient.objects.get(id = patient_id)  
             age = datetime.now().year - patient.birthday.year
-            print age
             return render_to_response('referring/patient-info.htm',{'patient': patient, 'age': age}, context_instance=RequestContext(request)) 
         else:
             return HttpResponse('{"code":"0","msg":"No such patient"}')
@@ -70,7 +58,7 @@ def createView(request):
     
     return render_to_response('login.htm',{}, context_instance=RequestContext(request))
 
-
+""""
 def check_ssn(request):
     if request.user.is_authenticated():
         ssn = request.POST['ssn']
@@ -115,7 +103,7 @@ def ssn_link(request,ssn):
            
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
+"""
 
 def createPatient(request):
     print 'wo lai le'
@@ -156,8 +144,7 @@ def createPatient(request):
             error.append('Zip is empty or incorrect format')
         if IsEmpty(city):
             error.append('City is empty')
-         
-        print "here0"   
+           
         if len(error) != 0:
             return render_to_response('referring/create-patient.htm',{'error':error},context_instance=RequestContext(request))
         else:
@@ -175,10 +162,10 @@ def createPatient(request):
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
 
-def patient_appotiments(request, patient_ssn):
+def patient_appotiments(request, patient_id):
  if request.user.is_authenticated():
     print "patient apps"
-    patient = Patient.objects.get(ssn=patient_ssn)
+    patient = Patient.objects.get(id=patient_id)
     appointments = Appointment.objects.filter(patient=patient)
     dic = {}
     for appointment in appointments:
@@ -206,11 +193,16 @@ def patient_appotiment(request, schedule_id, patient_ssn):
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
     
-def patient_cases(request, patient_ssn):
+def patient_cases(request, patient_id):
     print "cases"
     if request.user.is_authenticated():
-        patient = Patient.objects.get(ssn=patient_ssn)
-        appointments = Appointment.objects.filter(patient=patient)
+        errors = []
+        if Patient.objects.filter(id=patient_id):
+            errors.append('Patient is not exist')
+            return render_to_response('referring/Individual-diagnosis-list.htm', {'errors': errors},
+                            context_instance=RequestContext(request))
+        patient = Patient.objects.get(id=patient_id)
+        appointments = Appointment.objects.filter(patient=patient).filter(is_cancelled=False)
         cases = {}
         for appointment in appointments:
             case = Case.objects.get(appointment=appointment)

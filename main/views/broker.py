@@ -17,12 +17,11 @@ def upload(request):
 @csrf_exempt   
 def upload_action(request):
     file = request.FILES['fileToUpload']
-    
-    f = open(settings.MEDIA_ROOT + 'dicom/' + generate_random_string() + '.dcm', 'w')
+    path = settings.MEDIA_ROOT + 'dicom/' + generate_random_string() + '.dcm'
+    f = open(path, 'w')
     f.write(file.read())
     f.close()
     return HttpResponse('{"code":"0", "msg":"success"}')
-
 
     
     

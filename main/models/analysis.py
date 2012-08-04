@@ -1,11 +1,11 @@
 from django.db import models
+from account import Profile
 from datetime import datetime
 
-class Report(models.Model):
+class Analysis(models.Model):
+    admin = models.ForeignKey(Profile)
     content = models.TextField()
     create_time = models.DateTimeField(default=datetime.now)
-    report_file = models.CharField(max_length=200, null=True)
     
-    class Meta:
+    class Meta: 
         app_label = 'main'
-        
