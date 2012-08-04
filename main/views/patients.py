@@ -66,7 +66,7 @@ def check_ssn(request):
         error = []
         if IsEmpty(ssn) or not ssn.isdigit():
             error.append('SSN is empty ')
-        if IsSSN(ssn)!=0:
+        if not IsSSN(ssn):
             error.append('SSN is not valid')
         if len(error) != 0:
             return render_to_response('referring/create-patient-ssn.htm',{'error':error},context_instance=RequestContext(request))
@@ -124,8 +124,8 @@ def createPatient(request):
         print ssn
         error = []
         print "here1"   
-        if Patient.objects.filter(ssn=ssn).exists():
-            error.append('Patient already exists')
+        #if Patient.objects.filter(ssn=ssn).exists():
+        #   error.append('Patient already exists')
         if IsEmpty(first_name):
             error.append('First name is empty')
         if IsEmpty(last_name):
