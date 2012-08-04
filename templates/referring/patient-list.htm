@@ -5,25 +5,10 @@
 
 <script>
 	$(document).ready(function() {
-		$('.data-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": true,
-		"oLanguage": {
-		  "sSearch": "<img src='{{STATIC_URL}}referring/images/find.png' />"
-		},
-		"bSort": true,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 20,
-		"sPaginationType": "full_numbers"
-	});
 });
 </script>
 
-<table name="patients-table" class="data-table">
+<table id="patients-table" class="data-table">
 	<thead>
 		<tr>
 			<th width="50%">Name</th>

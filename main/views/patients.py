@@ -48,10 +48,12 @@ def patientsList(request):
 # patient information   
 def patientInfo(request, patient_id):
     print 'i am here'
-    if request.user.is_authenticated():       
-        if patient.objects.filter(id = patient_id).exists():
-            patient = Patient.objects.get(id = patient_id)  
+    if request.user.is_authenticated():
+        if Patient.objects.filter(id = patient_id).exists():
+            patient = Patient.objects.get(id = patient_id)
+            print patient.birthday.year
             age = datetime.now().year - patient.birthday.year
+            print age
             return render_to_response('referring/patient-info.htm',{'patient': patient, 'age': age}, context_instance=RequestContext(request)) 
         else:
             return HttpResponse('{"code":"0","msg":"No such patient"}')

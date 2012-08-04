@@ -28,10 +28,19 @@
 	<span class="orange"><a id="create-case-button" href="case-create.htm" class="orange loadright">New Appointment</a></span>
 </div>
 <div class="title-text">{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</div>
+SSN: {{patient.ssn}}<br/>
 Birthday: {{patient.birthday}}<br />
-Male<br />
-<br />
-Attributes here
+{% if patient.gender == 1 %}
+			Male
+			{% endif %}
+		{% if patient.gender == 0 %}
+			Female
+			{% endif %}<br />
+Address: {{patient.address}} {{patient.address2}}<br>{{patient.city}},{{patient.state}},{{patient.zip}}<br/>
+Phone: {{patient.phone}}<br/>
+Email: {{patient.email}}<br/>
+<br/>
+
 <br /><br />
 <div class="small-title">Case History</div>
 <table id="case-table">

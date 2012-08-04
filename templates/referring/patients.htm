@@ -4,7 +4,23 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 	$(document).ready(function() {
-	$("#inner-left-patient").load('/referring/patientsInfo/');
+	$("#inner-left-patient").load('/referring/patientsInfo/', function() {
+		$('#patients-table').dataTable({
+		"bPaginate": false,
+		"bLengthChange": false,
+		"bFilter": true,
+		"oLanguage": {
+		  "sSearch": "<img src='{{STATIC_URL}}referring/images/find.png' />"
+		},
+		"bSort": true,
+		"bInfo": false,
+		"bAutoWidth": false,
+		"bRetrieve": true,
+		"bJQueryUI": false,
+		"iDisplayLength": 20,
+		"sPaginationType": "full_numbers"
+	});
+	});
 	$("#btn-new-patient").button({
 		icons: {
 			primary: "ui-icon-plus"
@@ -20,7 +36,24 @@
 		$("#updating-text").html('<br />Refreshing...');
 		$("#inner-left-patient").fadeOut('fast', function() {
 			$("#inner-left-patient").load('/referring/patientsInfo/', function() {
-				$("#inner-left-patient").fadeIn('fast');
+				
+				$("#inner-left-patient").fadeIn('fast', function() {
+					$('#patients-table').dataTable({
+		"bPaginate": false,
+		"bLengthChange": false,
+		"bFilter": true,
+		"oLanguage": {
+		  "sSearch": "<img src='{{STATIC_URL}}referring/images/find.png' />"
+		},
+		"bSort": true,
+		"bInfo": false,
+		"bAutoWidth": false,
+		"bRetrieve": true,
+		"bJQueryUI": false,
+		"iDisplayLength": 20,
+		"sPaginationType": "full_numbers"
+	});
+				});
 				$("#updating-text").empty();
 				$("*").css("cursor", "");
 			});

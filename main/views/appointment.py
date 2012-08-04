@@ -13,7 +13,7 @@ from main.models.case import *
 
 def appointment_view(request):
     if request.user.is_authenticated():
-        return render_to_response('referring/schedule.htm', {},
+        return render_to_response('referring/case-create.htm', {},
                               context_instance=RequestContext(request))
     
     else:
