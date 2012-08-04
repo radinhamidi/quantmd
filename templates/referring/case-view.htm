@@ -1,0 +1,48 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$("table#case-table tr:even").css("background-color", "#F4F4F8");
+		$("table#case-table tr:odd").css("background-color", "#EFF1F1");
+	$("#case-back").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#view-diagnosis").button({
+		icons: {
+			primary: "ui-icon-clipboard"
+		}
+	});
+	$("#change-schedule").button({
+		icons: {
+			primary: "ui-icon-script"
+		}
+	});
+	$("#case-cancel").button({
+		icons: {
+			primary: "ui-icon-closethick"
+		}
+	});
+});
+</script>
+<div id="patient-info-nav">
+	<span class="orange"><a id="case-back" href="patient-info.htm" class="orange loadright">Back to Patient</a></span>
+</div>
+<div class="title-text">Case #1343</div>
+Michael, Shamos<br />
+October 10, 1980<br />
+Male<br />
+<br />
+Attributes here (status, etc)
+<br /><br />
+All messages...<br />
+<a id="change-schedule" href="schedule-change.htm" class="loadright">Change Appointment</a>
+<span class="orange">
+<a id="case-cancel" href="case-cancel.htm" class="orange loadright">Cancel Case</a>
+</span>
+<br /><br />
+<div class="small-title">Case History</div>
+<br />
+<a id="view-diagnosis" href="view-diagnosis.htm" class="loadright">View Diagnosis</a>

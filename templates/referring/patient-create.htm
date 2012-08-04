@@ -1,0 +1,68 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+
+<script>
+	$(document).ready(function() {
+	$("#create-patient-back").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#submit-create-patient").button({
+		icons: {
+			primary: "ui-icon-plus"
+		}
+	});
+	$("#form-create-patient").submit(function(event) {
+	
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+		$( "#inner-right" ).hide();
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#form-create-patient").serialize(),
+		function( data ) {
+			$( "#inner-right" ).empty().append($(data));
+			$( "#inner-right" ).fadeIn('fast');
+			$("*").css("cursor", "wait");
+			$("#updating-text").html('<br />Refreshing...');
+			$("#inner-left-patient").fadeOut('fast', function() {
+			$("#inner-left-patient").load('patient-list.htm', function() {
+				$("#inner-left-patient").fadeIn('fast');
+				$("#updating-text").empty();
+				$("*").css("cursor", "");
+				});
+			});
+		});
+     });
+});
+</script>
+
+<div class="title-text">Create Patient</div>
+<br />
+<form id="form-create-patient" name="form-create-patient" action="patient-create-confirm.htm">
+	<table class="formtable">
+		<tr>
+			<td width="120px">First Name</td>
+			<td><input type="text" name="firstname" /></td>
+		</tr>
+		<tr>
+			<td>Last Name</td>
+			<td><input type="text" name="firstname" /></td>
+		</tr>
+		<tr>
+			<td>Email</td>
+			<td><input type="text" name="firstname" /></td>
+		</tr>
+	</table>
+
+<br /><br />
+<span class="orange">
+<a id="create-patient-back" href="patients.htm" class="orange innerlink">Back</a></span>
+<input type="submit" id="submit-create-patient" value="Create" />
+</form>

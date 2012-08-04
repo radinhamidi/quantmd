@@ -1,53 +1,50 @@
-<!-- JAVASCRIPT LIBRARY IMPORTS -->
-<!--
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
 <script src="{{STATIC_URL}}common/js/datatables.js"></script>
-<script src="{{STATIC_URL}}common/js/common.js"></script>
-<script src="{{STATIC_URL}}referring/js/referring.js"></script>
--->
-<script src="{{STATIC_URL}}common/js/jquery.js"></script>
-<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
-<script src="{{STATIC_URL}}common/js/datatables.js"></script>
-<script src="{{STATIC_URL}}common/js/subpage.js"></script>
-<script src="{{STATIC_URL}}referring/js/referring.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+	$("#inner-left-patient").load('/referring/patientsInfo/');
+	$("#btn-new-patient").button({
+		icons: {
+			primary: "ui-icon-plus"
+		}
+	});
+	$("#btn-patient-refresh").button({
+		icons: {
+			primary: "ui-icon-refresh"
+		}
+	});
+	$("#btn-patient-refresh").click(function() {
+		$("*").css("cursor", "wait");
+		$("#updating-text").html('<br />Refreshing...');
+		$("#inner-left-patient").fadeOut('fast', function() {
+			$("#inner-left-patient").load('/referring/patientsInfo/', function() {
+				$("#inner-left-patient").fadeIn('fast');
+				$("#updating-text").empty();
+				$("*").css("cursor", "");
+			});
+		});
+	});
+});
+</script>
 
-
-<!-- CONTENT BELOW THIS LINE -->
-
-<!-- HEADER REQUIRED -->
-<div class="window-header">Patients</div>
-
-<!-- PAGE CONTENT -->
-<div style="float: right; margin-top: -45px; margin-right: 8px;" class="panebutton" load="/referring/createPatient/"><a href="#"><img src="{{STATIC_URL}}referring/images/button-add.png" width="15" height="15"/>&nbsp;NEW PATIENT</a></div>
-<table id="patient-table">
-	<thead>
-		<tr>
-			<th width="200px">Name</th>
-			<th width="60px">Gender</th>
-			<th width="70px">Birthday</th>
-			<th width="120px">Last Updated</th>
-			<th width="150px"></th>
-		</tr>
-	</thead>
-	<tbody>	
-		{% for patient,time in dic.iteritems %}
-		<tr>
-			<td>{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</td>
-			{% if patient.gender == 1 %}
-			<td>Male</td>
-			{% endif %}
-			{% if patient.gender == 0 %}
-			<td>Female</td>
-			{% endif %}
-			<td>{{patient.birthday|date:"SHORT_DATE_FORMAT"}}</td>
-			<td>{{time}}</td>
-			<td><a href="#" class="panebutton" load="/referring/patientInfo/{{patient.ssn}}/"><img src="{{STATIC_URL}}referring/images/info.png" height="30" width="30"></a>&nbsp;
-			<a href="#" class="panebutton" load="/referring/patientCaseList/{{patient.ssn}}/"><img src="{{STATIC_URL}}referring/images/folder_full.png" height="30" width="30"></a>&nbsp;
-			<a href="#" class="panebutton" load="/referring/patientAppointmentList/{{patient.ssn}}/"><img src="{{STATIC_URL}}referring/images/calendar_empty.png" height="30" width="30"></a>&nbsp;
-			<a href="#" class="panebutton" load="patient-info.htm"><img src="{{STATIC_URL}}referring/images/comments.png" height="30" width="30"></a>
+<div id="left-bar">
+	<div id="inner-left">
+		<span class="orange">
+			<a class="orange loadright" id="btn-new-patient" href="patient-create.htm">New Patient</a>
+		</span>
+		<a id="btn-patient-refresh">Refresh</a>
+		<br />
+		<div id="updating-text"></div>
+		<div id="inner-left-patient">
 			
-		</tr>
-		{% endfor %}
-	</tbody>
-</table><input type="button" onClick="patient_reset_dt_view();" value="reset" />
+		</div>
+		
+	</div>
+</div>
+<div id="right-bar">
+	<div id="inner-right">
+		Select a patient to proceed.
+	</div>
+</div>

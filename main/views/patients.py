@@ -12,27 +12,35 @@ from main.utils.form_check import *
 from main.models.case import *
 from main.models.data import *
 from main.models.message import *
+
+
+def patients_view(request):
+    if request.user.is_authenticated():       
+        return render_to_response('referring/patients.htm',{}, context_instance=RequestContext(request))
+    else: 
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))    
 # patients list
 def patientsList(request):
     print "patientsList"
     if request.user.is_authenticated():
         profile = Profile.objects.get(user=request.user)
         patients = Patient.objects.filter(doctor = profile)
+        print patients
         dic = {}
         for patient in patients:
-            patient = doctorAndPatient.patient
             appointments = Appointment.objects.filter(patient=patient).filter(is_cancelled=False)
             for appointment in appointments:
                 messages = Message.objects.filter(case = appointment.case).filter(is_read=False)
                 if len(messages) != 0:
                     dic[patient] = True
-                    continue
+                    break
                 chats = Chat.objects.filter(case = appointment.case).filter(is_read=False)
                 if len(chats) !=0:
                     dic[patient] = True
-                    continue
-                dic[patient] = False
-        return render_to_response('referring/patients.htm',{'dic': dic}, context_instance=RequestContext(request)) 
+                    break
+            dic[patient] = False
+        print dic
+        return render_to_response('referring/patient-list.htm',{'dic': dic}, context_instance=RequestContext(request)) 
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
@@ -58,7 +66,7 @@ def createView(request):
     
     return render_to_response('login.htm',{}, context_instance=RequestContext(request))
 
-""""
+
 def check_ssn(request):
     if request.user.is_authenticated():
         ssn = request.POST['ssn']
@@ -103,7 +111,7 @@ def ssn_link(request,ssn):
            
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-"""
+
 
 def createPatient(request):
     print 'wo lai le'
