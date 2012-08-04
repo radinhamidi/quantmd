@@ -6,10 +6,10 @@
 <script src="../common/js/common.js"></script>
 <script src="js/referring.js"></script>
 -->
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/subpage.js"></script>
-<script src="js/cardiologist.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/subpage.js"></script>
+<script src="{{STATIC_URL}}cardiologist/js/cardiologist.js"></script>
 
 <!-- CONTENT BELOW THIS LINE -->
 
@@ -17,4 +17,12 @@
 <div class="window-header">completed</div>
 
 <!-- PAGE CONTENT -->
-hello!
+<table>
+{% for case in cases%}
+	<tr>
+		<td>#Case ID: {{case.id}}</td>
+		<td>{{case.report.create_time}}></td>
+		<td><a href="#" class="panebutton" load="/cardiologist/viewReport/{{case.id}}/">View Report</a></td>
+	</tr>
+{% endfor %}
+</table>

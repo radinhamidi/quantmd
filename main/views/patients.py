@@ -32,7 +32,7 @@ def patientsList(request):
                     case = Case.objects.get(appointment=appointment)
                     if case.status == 2:
                         time = case.data.create_time
-                    elif case.status == 3:
+                    elif case.status == 4:
                         time = case.report.create_time
                     else:
                         time = case.create_time
@@ -62,7 +62,7 @@ def patientInfo(request, patient_ssn):
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))    
     
-    
+#e.g. if length>9....    
 def createView(request):
     if request.user.is_authenticated():
         return render_to_response('referring/create-patient-ssn.htm', {},
@@ -77,7 +77,9 @@ def check_ssn(request):
         print ssn
         error = []
         if IsEmpty(ssn) or not ssn.isdigit():
-            error.append('SSN is empty or incorrect format')
+            error.append('SSN is empty ')
+        if not IsSSN(ssn):
+            error.append('SSN is not valid')
         if len(error) != 0:
             return render_to_response('referring/create-patient-ssn.htm',{'error':error},context_instance=RequestContext(request))
         
@@ -95,9 +97,8 @@ def check_ssn(request):
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-def ssn_link(request):
+def ssn_link(request,ssn):
     if request.user.is_authenticated():
-        ssn = request.POST['ssn']
         error = []
         if IsEmpty(ssn) or not ssn.isdigit():
             error.append('SSN is empty or incorrect format')
@@ -135,8 +136,8 @@ def createPatient(request):
         print ssn
         error = []
         print "here1"   
-        if Patient.objects.filter(ssn=ssn).exists():
-            error.append('Patient already exists')
+        #if Patient.objects.filter(ssn=ssn).exists():
+        #   error.append('Patient already exists')
         if IsEmpty(first_name):
             error.append('First name is empty')
         if IsEmpty(last_name):

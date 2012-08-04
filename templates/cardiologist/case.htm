@@ -14,9 +14,22 @@
 <!-- CONTENT BELOW THIS LINE -->
 
 <!-- HEADER REQUIRED -->
-<div class="window-header">accept</div>
-
-<!-- PAGE CONTENT -->
-
+<div class="window-header">cases</div>
 {{error}}
-<a href="#" class="panebutton" load="/cardiologist/acceptAction/"><img src="{{STATIC_URL}}cardiologist/images/delete.png" width="15" height="15" />&nbsp;Accept</a>
+<!-- PAGE CONTENT -->
+##CASE:{{case.id}}</br>
+##Accetp time: {{case.assigned_time}}</br>
+
+##MRI data: </br>
+download dicom file,    View MRI images </br>
+
+
+##Diagnosis:
+<form name="myform" action="/cardiologist/handinReport/{{case.id}}/" method="POST">
+{% csrf_token %}
+<textarea cols="40" rows="5" name="diagnosis">
+Now we are inside the area - which is nice.
+</textarea>
+<input type="submit" name="sumbitbutton" class="button" id="sumbitbutton" value="SUBMIT" style="top: 415px; right: 10px; position:absolute; font-size: 11px;"/>
+</form>
+
