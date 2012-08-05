@@ -31,10 +31,10 @@
 SSN: {{patient.ssn}}<br/>
 Birthday: {{patient.birthday}}<br />
 {% if patient.gender == 1 %}
-			Male
+			Gender:Male
 			{% endif %}
 		{% if patient.gender == 0 %}
-			Female
+			Gender:Female
 			{% endif %}<br />
 Address: {{patient.address}} {{patient.address2}}<br>{{patient.city}},{{patient.state}},{{patient.zip}}<br/>
 Phone: {{patient.phone}}<br/>
@@ -45,21 +45,33 @@ Email: {{patient.email}}<br/>
 <div class="small-title">Case History</div>
 <table id="case-table">
 	<tr>
+		<th width="150px">Case ID</th>
 		<th width="150px">Date Opened</th>
 		<th>Case Summary</th>
 		<th width="150px">Status</td>
 		<th width="100px"></td>
 	</tr>
+	{% for k, v in  dic.iteritems%}
 	<tr>
-		<td align="center">Oct 19, 2009</td>
-		<td>Blah blah blah</td>
+		<td align="center">CASE#{{k.id}}</td>
+		<td align="center">{{k.create_time}}</td>
+		{% if k.status == -1%}
+		<td>Case has been cancelled</td>
+		<td align="center">Cancelled</td>
+		{% endif %}
+		{% if k.status == 0 or k.status == 1%}
+		<td>An appointment in {{v.mri.name}} at {{v.schedule.start_time}} on {{v.schedule.date}}</td>
+		<td align="center">Waiting to SCAN</td>
+		{% endif %}
+		{% if k.status == 2 or k.status == 3 or k.status == 4%}
+		<td>MRI data has been uploaded on {{k.data.create_time}}</td>
+		<td align="center">Waiting Diagnosis</td>
+		{% endif %}
+		{% if k.status == 5 or k.status == 6%}
+		<td>Diagnosis has been uploaded on {{k.report.create_time}}</td>
 		<td align="center">Complete</td>
-		<td align="center"><a href="case-view.htm" class="loadright viewcasebutton">View Case</a></td>
+		{% endif %}
+		<td align="center"><a href="/referring/patientCase/{{k.id}}/" class="loadright viewcasebutton">View Case</a></td>
 	</tr>
-	<tr>
-		<td align="center">Oct 19, 2009</td>
-		<td>Blah blah blah</td>
-		<td align="center">Complete</td>
-		<td align="center"><a href="case-view.htm" class="loadright viewcasebutton">View Case</a></td>
-	</tr>
+	{% endfor %}
 </table>

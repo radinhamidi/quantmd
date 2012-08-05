@@ -75,6 +75,7 @@ Select a MRI center for scan.<br /><br />
 <input type="submit" id="submit-create-case" value="Search" />
 </form>
 <br />
+{% if dic %}
 <div id="mri-centers-result">
 <div class="small-title">Available Timeslots</div>
 	<table id="mri-centers">
@@ -83,18 +84,18 @@ Select a MRI center for scan.<br /><br />
 			<th width="120px">Date</th>
 			<th>Timeslots</th>
 		</tr>
+		{% for center, schedules in dic.items%}
 		<tr>
-			<td class="left">okwaokdaw</td>
-			<td>hello</td>
-			<td><a onClick="confirmBooking();">this is a timeslot</a></td>
+			<td class="left">{{center.name}}</td>
+			<td>{{schedules.0.date}}</td>
+			{% for schedule in schedules %}
+			<td><a onClick="confirmBooking({{patient.id}},{{schedule.id}});">{{schedule.start_time}}</a></td>
+			{% endfor %}
 		</tr>
-		<tr>
-			<td class="left">okwaokdaw</td>
-			<td>hello</td>
-			<td>hello</td>
-		</tr>
+		{% endfor %}
 	</table>
 </div>
+{% endif %}
 <div id="timeslot-confirm" title="Confirm Timeslot">
 			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Confirm booking?<br /></p>
 </div>

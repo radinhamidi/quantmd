@@ -29,15 +29,6 @@ def patientsList(request):
         dic = {}
         for patient in patients:
             appointments = Appointment.objects.filter(patient=patient).filter(is_cancelled=False)
-            for appointment in appointments:
-                messages = Message.objects.filter(case = appointment.case).filter(is_read=False)
-                if len(messages) != 0:
-                    dic[patient] = True
-                    break
-                chats = Chat.objects.filter(case = appointment.case).filter(is_read=False)
-                if len(chats) !=0:
-                    dic[patient] = True
-                    break
             dic[patient] = False
         print dic
         return render_to_response('referring/patient-list.htm',{'dic': dic}, context_instance=RequestContext(request)) 
@@ -51,10 +42,14 @@ def patientInfo(request, patient_id):
     if request.user.is_authenticated():
         if Patient.objects.filter(id = patient_id).exists():
             patient = Patient.objects.get(id = patient_id)
-            print patient.birthday.year
-            age = datetime.now().year - patient.birthday.year
-            print age
-            return render_to_response('referring/patient-info.htm',{'patient': patient, 'age': age}, context_instance=RequestContext(request)) 
+            appointments = Appointment.objects.filter(patient=patient)
+            dic = {}
+            for appointment in appointments:
+                if appointment.is_current:
+                    dic[appointment.case] = appointment
+            
+            print dic
+            return render_to_response('referring/patient-info.htm',{'patient': patient, 'dic':dic}, context_instance=RequestContext(request)) 
         else:
             return HttpResponse('{"code":"0","msg":"No such patient"}')
     else: 
@@ -109,7 +104,6 @@ def ssn_link(request,ssn):
         doctor_and_patient.save()
         
         return HttpResponseRedirect("/referring/patientsInfo/")
-        
            
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -226,15 +220,17 @@ def patient_cases(request, patient_id):
     
       
 def patient_case(request, case_id):
-    print "case"
     if request.user.is_authenticated():
-        case = Case.objects.get(id=case_id)
-        report = case.report
-        appointment = case.appointment
-        patient = appointment.patient
-        mri = appointment.mri                     
-        return render_to_response('referring/individual-diagnosis.htm', {'report':report, 'patient':patient, 'mri':mri},
-                            context_instance=RequestContext(request))
+        if Case.objects.filter(id=case_id):
+            case = Case.objects.get(id=case_id)
+            appointments = Appointment.objects.filter(case=case)
+            appointment = Appointment.objects.filter(case=case).filter(is_current=True)
+            mri = appointment.mri                     
+            return render_to_response('referring/individual-diagnosis.htm', {'report':report, 'patient':patient, 'mri':mri},
+                                      context_instance=RequestContext(request))
+        else:
+            return render_to_response('error.htm', {'error':"No such Case"},
+                                      context_instance=RequestContext(request))
     
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))    

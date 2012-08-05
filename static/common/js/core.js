@@ -37,7 +37,7 @@ function logout(e) {
 		}
 	});
 }
-function confirmBooking() {
+function confirmBooking(id1,id2) {
 
 	$("#timeslot-confirm").dialog({
 		resizable: false,
@@ -48,7 +48,7 @@ function confirmBooking() {
 			"Confirm": function() {
 				//Confirm Logout
 				//Process Booking
-				$("#inner-right").load('case-create-confirm.htm')
+				$("#inner-right").load('/referring/makeAppointment/'+id1+'/'+id2+'/');
 				$(this).dialog("close");
 			},
 			Cancel: function() {

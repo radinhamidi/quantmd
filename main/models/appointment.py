@@ -3,6 +3,7 @@ from account import Profile
 from mri import Schedule, MRICenter
 from patient import Patient
 from case import Case
+from datetime import datetime
 
 class Appointment(models.Model):
     """
@@ -16,7 +17,9 @@ class Appointment(models.Model):
     schedule = models.ForeignKey(Schedule)
     mri = models.ForeignKey(MRICenter)
     case = models.ForeignKey(Case)
+    is_current = models.BooleanField(default=True)
     is_cancelled = models.BooleanField(default=False)
+    create_time = models.DateTimeField(default=datetime.now)
     cancelled_by_doctor = models.BooleanField(default=True) #otherwise, cancelled by mri center
     is_check_in = models.BooleanField(default=False)
     check_in_time = models.DateTimeField(blank=True, null=True)

@@ -2,8 +2,8 @@ from account import *
 from mri import *
 from patient import *
 from data import *
+from case import *
 from appointment import *
 from report import *
-from case import *
 from message import *
 from analysis import *

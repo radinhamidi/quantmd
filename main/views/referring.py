@@ -13,7 +13,8 @@ from main.models.case import *
 from main.models.data import *
 from django.utils.datetime_safe import datetime
 
-def messages_list(request):
+def message_list(request):
+    print "aaaa"
     return render_to_response('referring/messages.htm', {},
                             context_instance=RequestContext(request))
 

@@ -20,6 +20,5 @@ admin.site.register(Schedule)
 admin.site.register(Patient)
 admin.site.register(Report)
 admin.site.register(Analysis)
-admin.site.register(Chat)
 admin.site.register(Image)
 
