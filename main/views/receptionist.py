@@ -148,7 +148,7 @@ def reschedule_view(request, appointment_id):
         request.session['appointment_id'] = appointment_id
         print "success"
         return render_to_response('receptionist/reschedule.htm',{}, context_instance=RequestContext(request))
-    else: 
+    else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
 def reschedule_list_view(request):
@@ -165,7 +165,7 @@ def reschedule_list_view(request):
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-    
+
 def reschedule_action(request, schedule_id):
     if request.user.is_authenticated():
         if not Schedule.objects.filter(id = schedule_id).exists():

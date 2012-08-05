@@ -148,14 +148,7 @@ def createPatient(request):
             error.append('Zip is empty or incorrect format')
         if IsEmpty(city):
             error.append('City is empty')
-<<<<<<< HEAD
-        if not IsEmail:
-            error.append('Email is not valid')
-         
-        print "here0"   
-=======
-           
->>>>>>> 0ff5366a49ceb3d4e1443ee4a051f3da121b40ce
+
         if len(error) != 0:
             return render_to_response('referring/create-patient.htm',{'error':error},context_instance=RequestContext(request))
         else:
@@ -230,10 +223,12 @@ def patient_case(request, case_id):
     if request.user.is_authenticated():
         if Case.objects.filter(id=case_id):
             case = Case.objects.get(id=case_id)
-            appointments = Appointment.objects.filter(case=case)
-            appointment = Appointment.objects.filter(case=case).filter(is_current=True)
-            mri = appointment.mri                     
-            return render_to_response('referring/individual-diagnosis.htm', {'report':report, 'patient':patient, 'mri':mri},
+            appointment = Appointment.objects.filter(case=case).filter(is_current=True)[0]
+            patient = appointment.patient
+            print patient
+            print case
+            print appointment
+            return render_to_response('referring/case-view.htm', {'case':case, 'appointment':appointment, 'patient':patient},
                                       context_instance=RequestContext(request))
         else:
             return render_to_response('error.htm', {'error':"No such Case"},

@@ -57,3 +57,24 @@ function confirmBooking(id1,id2) {
 		}
 	});
 }
+
+function confirmBookingForReschedule(id1,id2,id3) {
+
+	$("#timeslot-confirm").dialog({
+		resizable: false,
+		height: 160,
+		width: 350,
+		modal: true,
+		buttons: {
+			"Confirm": function() {
+				//Confirm Logout
+				//Process Booking
+				$("#inner-right").load('/referring/remakeAppointment/'+id1+'/'+id2+'/'+id3+'/');
+				$(this).dialog("close");
+			},
+			Cancel: function() {
+				$(this).dialog("close");
+			}
+		}
+	});
+}

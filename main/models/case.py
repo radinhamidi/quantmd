@@ -19,7 +19,7 @@ class Case(models.Model):
     create_time = models.DateTimeField(default=datetime.now)
     #the time of the cardiologist assigned to the case
     assigned_time = models.DateTimeField(blank=True, null=True)
-    # -1 for appointment and case cancelled, 0 for appointment created, 1 for MRI scan complete, 
+    # -1 for appointment and case cancelled, 0 for appointment created, 1 for MRI scan complete,
     #2 for broker uploaded, 3 for quantmd analysis finished, 4 for cardiologist assigned, 5 for report uploaded, 6 for doctor have read the report
     status = models.SmallIntegerField(default=0)
     

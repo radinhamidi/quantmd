@@ -1,5 +1,5 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
 
 <script>
 	$(document).ready(function() {
@@ -28,19 +28,54 @@
 });
 </script>
 <div id="patient-info-nav">
-	<span class="orange"><a id="case-back" href="patient-info.htm" class="orange loadright">Back to Patient</a></span>
+	<span class="orange"><a id="case-back" href="/referring/patientInfo/{{patient.id}}/" class="orange loadright">Back to Patient</a></span>
 </div>
-<div class="title-text">Case #1343</div>
-Michael, Shamos<br />
-October 10, 1980<br />
-Male<br />
-<br />
-Attributes here (status, etc)
+<div class="title-text">Case #{{case.id}}</div>
+{{patient.first_name}}, {{patient.middle_name}}, {{patient.last_name}}<br />
+{% if patient.gender == 1 %}
+			Gender:Male
+{% endif %}
+{% if patient.gender == 0 %}
+Gender:Female
+{% endif %}<br />
+Address: {{patient.address}} {{patient.address2}}<br>{{patient.city}},{{patient.state}},{{patient.zip}}<br/>
+Phone: {{patient.phone}}<br/>
+Email: {{patient.email}}<br/>
 <br /><br />
+
+
+{{appointment.mri.name}}<br/>
+{{appointment.mri.phone}}<br/>
+{{appointment.mri.email}}<br/>
+{{appointment.mri.address}} {{appointment.mri.address2}} {{appointment.mri.city}} {{appointment.mri.state}} {{appointment.mri.zip}}<br/><br/>
+
+{{appointment.schedule.date}}<br/>
+{{appointment.schedule.start_time}}<br/><br/>
+
+Logs:<br/>
+Create Time:{{case.create_time}}<br/>
+
+{% if case.status == 1%}
+Check in Time: {{appointment.check_in_time}}
+{% endif %}
+
+{% if case.status >= 2 and case.status < 5%}
+Check in Time: {{appointment.check_in_time}}
+Data Upload Time: {{case.report.create_time}}
+{% endif %}
+
+{% if case.status == 5%}
+Check in Time: {{appointment.check_in_time}}
+Data Upload Time: {{case.data.create_time}}
+Report available Time: {{case.report.create_time}}
+{% endif %}
+
+
+
 All messages...<br />
-<a id="change-schedule" href="schedule-change.htm" class="loadright">Change Appointment</a>
+<a id="change-schedule" href="referring/reschedule/{{appointment.id}}/" class="loadright">Change Appointment</a>
 <span class="orange">
-<a id="case-cancel" href="case-cancel.htm" class="orange loadright">Cancel Case</a>
+<a id="case-cancel" href="/referring/cancelAppointment/{{appointment.id}}/" class="orange loadright">Cancel Case</a>
 </span>
 <br /><br />
 <div class="small-title">Case History</div>
