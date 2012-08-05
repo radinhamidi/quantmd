@@ -12,6 +12,7 @@ from main.utils.form_check import *
 from main.models.case import *
 from main.models.data import *
 from main.models.message import *
+import operator
 
 
 def patients_view(request):
@@ -42,14 +43,13 @@ def patientInfo(request, patient_id):
     if request.user.is_authenticated():
         if Patient.objects.filter(id = patient_id).exists():
             patient = Patient.objects.get(id = patient_id)
-            appointments = Appointment.objects.filter(patient=patient)
-            dic = {}
+            appointments = Appointment.objects.filter(patient=patient).order_by('-case')
+            sort_appointments = []
             for appointment in appointments:
                 if appointment.is_current:
-                    dic[appointment.case] = appointment
+                    sort_appointments.append(appointment)
             
-            print dic
-            return render_to_response('referring/patient-info.htm',{'patient': patient, 'dic':dic}, context_instance=RequestContext(request)) 
+            return render_to_response('referring/patient-info.htm',{'patient': patient, 'appointments':sort_appointments}, context_instance=RequestContext(request)) 
         else:
             return HttpResponse('{"code":"0","msg":"No such patient"}')
     else: 

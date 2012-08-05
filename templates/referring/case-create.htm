@@ -89,7 +89,7 @@ Select a MRI center for scan.<br /><br />
 			<td class="left">{{center.name}}</td>
 			<td>{{schedules.0.date}}</td>
 			{% for schedule in schedules %}
-			<td><a onClick="confirmBooking({{patient.id}},{{schedule.id}});">{{schedule.start_time}}</a></td>
+			<td><a onClick="confirmBooking({{patient.id}},{{schedule.id}});">{{schedule.start_time|time:"TIME_FORMAT"}}</a></td>
 			{% endfor %}
 		</tr>
 		{% endfor %}

@@ -53,9 +53,9 @@
 
 /* Component containers
 ----------------------------------*/
-.orange .ui-widget { font-family: "Helvetica Neue", "Tw Cen MT", sans-serif; font-size: 15px; }
-.orange .ui-widget .ui-widget { font-size: 15px; }
-.orange .ui-widget input, .orange .ui-widget select, .orange .ui-widget textarea, .orange .ui-widget button { font-family: "Helvetica Neue", "Tw Cen MT", sans-serif; font-size: 15px;}
+.orange .ui-widget { font-family: "Helvetica Neue", "Tw Cen MT", sans-serif; font-size: 13px; }
+.orange .ui-widget .ui-widget { font-size: 13px; }
+.orange .ui-widget input, .orange .ui-widget select, .orange .ui-widget textarea, .orange .ui-widget button { font-family: "Helvetica Neue", "Tw Cen MT", sans-serif; font-size: 13px;}
 .orange .ui-widget-content { border: 1px solid #a6c9e2; background: #fcfdfd url(images/ui-bg_inset-hard_100_fcfdfd_1x100.png) 50% bottom repeat-x; color: #222222; }
 .orange .ui-widget-content a { color: #222222; }
 .orange .ui-widget-header { border: 1px solid #4297d7; background: #5c9ccc url(images/ui-bg_gloss-wave_55_5c9ccc_500x100.png) 50% 50% repeat-x; color: #ffffff; font-weight: bold; }
@@ -483,7 +483,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .orange .ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; padding-bottom: 1px; }
 .orange .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .orange .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .orange .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
 .orange .ui-tabs .ui-tabs-nav li a, .orange .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
-.orange .ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 1em 1.4em; background: none; }
+.orange .ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 1em 1.4em; background: none; overflow: hidden; }
 .orange .ui-tabs .ui-tabs-hide { display: none !important; }
 /*!
  * jQuery UI Datepicker 1.8.21

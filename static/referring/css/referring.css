@@ -1,25 +1,31 @@
 #left-bar {
 	width: 30%;
 	min-width: 300px;
-	height: 100%;
+	top: 10px;
+	bottom: 10px;
 	float: left;
 	border-right: 1px solid #000;
-	overflow-y: scroll;
-	overflow-x: hidden;
 	font-family:"Tw Cen MT","Helvetica Neue";
 	font-size: 13px;
+	position: absolute;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 #inner-left {
 	padding: 20px;
-	min-width: 300px;
 }
 #right-bar {
-	width: 70%;
-	margin-left: 30%;
-	height: 100%;
+	left: 31%;
+	top: 10px;
+	bottom: 10px;
+	float: right;
 	font-family:"Tw Cen MT","Helvetica Neue";
 	font-size: 14px;
 	padding-left: 5px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: absolute;
+	right: 10px;
 }
 #inner-right {
 	padding: 20px;
@@ -46,7 +52,7 @@
 	font-family:"Helvetica Neue";
 }
 .small-title {
-	font-size: 16px;
+	font-size: 18px;
 	margin-bottom: 6px;
 	color: #AAD;
 }
@@ -67,13 +73,14 @@
 }
 .message-list-line {
 	height: 65px;
+	overflow: hidden;
 }
 .message-list-line .header {
 	font-size: 14px;
 	font-weight: bold;
 }
 #message-table {
-	margin-top: -10px;
+
 }
 #mri-centers {
 	width: 100%;

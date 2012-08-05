@@ -1,5 +1,5 @@
 *{margin:0}
-body{background-image:url('../images/bg.png'); font-size:15px; height:100%; color:#777; font-family:"Tw Cen MT","Helvetica Neue";}
+body{background-image:url('../images/bg.png'); font-size:13px; height:100%; color:#777; font-family:"Tw Cen MT","Helvetica Neue";}
 html{height:100%; width:100%; overflow:hidden; }
 #wrapper{ width: 100%; height: 100%; overflow:hidden;}
 #container { position: absolute; bottom: 138px; top: 20px; left: 20px; right: 20px; display: none;}
@@ -32,7 +32,7 @@ a:hover, a:active {color:#CCC;}
 	position: relative;
 	height: 100%;
 	border-width: 0px 1px 1px 1px;
-	overflow: auto;
+	overflow: hidden;
 }
 .formtable td {
 	padding: 5px;
