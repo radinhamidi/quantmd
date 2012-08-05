@@ -15,6 +15,18 @@ def appointment_view(request, patient_id):
     if request.user.is_authenticated():
         if Patient.objects.filter(id = patient_id).exists():
             patient = Patient.objects.get(id = patient_id)
+            appointments = Appointment.objects.filter(patient = patient)
+            signal = 1
+            for appointment in appointments:
+                case = appointment.case
+                if case.status >= 0 and case.status < 5:
+                    signal = 0
+                    break
+            
+            if signal == 0:
+                return render_to_response('referring/error.htm', {'error':'You already have an appointment, you cannot make a new one'},
+                                      context_instance=RequestContext(request))
+                
             return render_to_response('referring/case-create.htm', {'patient':patient},
                                       context_instance=RequestContext(request))
         else:
@@ -253,7 +265,7 @@ def appointment_cancel(request, appointment_id):
             message.save()
            
             print "heihei"
-            return redirect('main.views.patients.patientInfo', patient.id, 'False')
+            return redirect('main.views.patients.patientInfo', patient.id)
      else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
@@ -262,7 +274,7 @@ def appointment_reschedule(request, appointment_id):
     if request.user.is_authenticated():
         if Appointment.objects.filter(id=appointment_id).exists():
             appointment = Appointment.objects.get(id=appointment_id)
-            return render_to_response('referring/schedule-change.htm',{'appointment':appointment}, context_instance=RequestContext(request))
+            return render_to_response('referring/schedule-change.htm',{'appointment':appointment, 'patient':appointment.patient}, context_instance=RequestContext(request))
         else:
             return render_to_response('referring/schedule-detail.htm',{'errors':"No such schedule"}, context_instance=RequestContext(request))
     else:

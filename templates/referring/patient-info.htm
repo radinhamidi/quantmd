@@ -42,6 +42,7 @@ Email: {{patient.email}}<br/>
 <br/>
 
 <br /><br />
+
 <div class="small-title">Case History</div>
 <table id="case-table">
 	<tr>
@@ -51,27 +52,30 @@ Email: {{patient.email}}<br/>
 		<th width="150px">Status</td>
 		<th width="100px"></td>
 	</tr>
-	{% for k, v in  dic.iteritems%}
+	{% if not appointments %}
+		<td align="center">No cases</td>
+	{% endif %}
+	{% for appointment in  appointments%}
 	<tr>
-		<td align="center">CASE#{{k.id}}</td>
-		<td align="center">{{k.create_time}}</td>
-		{% if k.status == -1%}
+		<td align="center">CASE#{{appointment.case.id}}</td>
+		<td align="center">{{appointment.case.create_time}}</td>
+		{% if appointment.case.status == -1%}
 		<td>Case has been cancelled</td>
 		<td align="center">Cancelled</td>
 		{% endif %}
-		{% if k.status == 0 or k.status == 1%}
-		<td>An appointment in {{v.mri.name}} at {{v.schedule.start_time}} on {{v.schedule.date}}</td>
+		{% if appointment.case.status == 0 or appointment.case.status == 1%}
+		<td>An appointment in {{appointment.mri.name}} at {{appointment.schedule.start_time}} on {{appointment.schedule.date}}</td>
 		<td align="center">Waiting to SCAN</td>
 		{% endif %}
-		{% if k.status == 2 or k.status == 3 or k.status == 4%}
-		<td>MRI data has been uploaded on {{k.data.create_time}}</td>
+		{% if appointment.case.status == 2 or appointment.case.status == 3 or appointment.case.status == 4%}
+		<td>MRI data has been uploaded on {{appointment.case.data.create_time}}</td>
 		<td align="center">Waiting Diagnosis</td>
 		{% endif %}
-		{% if k.status == 5 or k.status == 6%}
-		<td>Diagnosis has been uploaded on {{k.report.create_time}}</td>
+		{% if appointment.case.status == 5 or appointment.case.status == 6%}
+		<td>Diagnosis has been uploaded on {{appointment.case.report.create_time}}</td>
 		<td align="center">Complete</td>
 		{% endif %}
-		<td align="center"><a href="/referring/patientCase/{{k.id}}/" class="loadright viewcasebutton">View Case</a></td>
+		<td align="center"><a href="/referring/patientCase/{{appointment.case.id}}/" class="loadright viewcasebutton">View Case</a></td>
 	</tr>
 	{% endfor %}
 </table>
