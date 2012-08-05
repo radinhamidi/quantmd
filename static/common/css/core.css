@@ -11,7 +11,14 @@ a:hover, a:active {color:#CCC;}
 .userbox  a:hover, .userbox  a:active {color:#60C2FF;}
 .data-table a:link, .data-table a:visited{color:#000; text-decoration:none; }
 .data-table a:hover, .data-table a:active{color:#20A2DF;}
-
+.format-table {
+	margin-top: 5px;
+	font-family:"Tw Cen MT","Helvetica Neue";
+	font-size: 13px;
+}
+.format-table td, .format-table th {
+	padding: 2px;
+}
 #tabs-nohdr {
 	margin: 5px;
 	position: relative;

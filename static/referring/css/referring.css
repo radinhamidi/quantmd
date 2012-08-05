@@ -58,7 +58,8 @@
 }
 #case-table {
 	width: 100%;
-	font-size: 14px;
+	font-size: 13px;
+	font-family:"Tw Cen MT","Helvetica Neue";
 }
 #case-table td, #case-table th {
 	padding: 7px;
