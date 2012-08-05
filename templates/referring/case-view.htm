@@ -3,8 +3,8 @@
 
 <script>
 	$(document).ready(function() {
-		$("table#case-table tr:even").css("background-color", "#F4F4F8");
-		$("table#case-table tr:odd").css("background-color", "#EFF1F1");
+		$("table#message-table tr:even").css("background-color", "#F4F4F8");
+		$("table#message-table tr:odd").css("background-color", "#EFF1F1");
 	$("#case-back").button({
 		icons: {
 			primary: "ui-icon-arrowthick-1-w"
@@ -31,65 +31,160 @@
 	<span class="orange"><a id="case-back" href="/referring/patientInfo/{{patient.id}}/" class="orange loadright">Back to Patient</a></span>
 </div>
 <div class="title-text">Case #{{case.id}}</div>
-{{patient.first_name}}, {{patient.middle_name}}, {{patient.last_name}}<br />
-{% if patient.gender == 1 %}
-			Gender:Male
-{% endif %}
-{% if patient.gender == 0 %}
-Gender:Female
-{% endif %}<br />
-Address: {{patient.address}} {{patient.address2}}<br>{{patient.city}},{{patient.state}},{{patient.zip}}<br/>
-Phone: {{patient.phone}}<br/>
-Email: {{patient.email}}<br/>
-<br /><br />
-
-
-{{appointment.mri.name}}<br/>
-{{appointment.mri.phone}}<br/>
-{{appointment.mri.email}}<br/>
-{{appointment.mri.address}} {{appointment.mri.address2}} {{appointment.mri.city}} {{appointment.mri.state}} {{appointment.mri.zip}}<br/><br/>
-
-{{appointment.schedule.date}}<br/>
-{{appointment.schedule.start_time}}<br/><br/>
-
-Logs:<br/>
-Create Time:{{case.create_time}}<br/>
-
-{% if case.status == 1%}
-Check in Time: {{appointment.check_in_time}}
-{% endif %}
-
-{% if case.status >= 2 and case.status < 5%}
-Check in Time: {{appointment.check_in_time}}
-Data Upload Time: {{case.report.create_time}}
-{% endif %}
-
-{% if case.status == 5%}
-Check in Time: {{appointment.check_in_time}}
-Data Upload Time: {{case.data.create_time}}
-Report available Time: {{case.report.create_time}}
-{% endif %}
-
-
-
-{% for message in messages%}
-	{% if message.is_sys %}
-		{{message.title}}<br/>
-		{{message.content}}<br/>
-		{{message.create_time}}<br/>
-	is read?	{{message.is_read}}<br/>
-	{% endif %}
-{% endfor %}
+<table class="format-table">
+	<tr>
+		<td width="100px"><b>Patient</b></td>
+		<td>{{patient.first_name}}, {{patient.middle_name}}, {{patient.last_name}}</td>
+	</tr>
+	<tr>
+		<td width="100px"><b>SSN</b></td>
+		<td>{{patient.ssn}}</td>
+	</tr>
+	<tr>
+		<td><b>Birthdate</b></td>
+		<td>{{patient.birthday}}</td>
+	</tr>
+	<tr>
+		<td><b>Gender</b></td>
+		<td>
+		{% if patient.gender == 1 %}
+			Male
+		{% endif %}
+		{% if patient.gender == 0 %}
+			Female
+		{% endif %}
+		</td>
+	</tr>
+	<tr>
+		<td><b>Address</b></td>
+		<td>{{patient.address}}</td>
+	</tr>
+	<tr>
+		<td><b></b></td>
+		<td>{{patient.city}}, {{patient.state}} {{patient.zip}}</td>
+	</tr>
+	<tr>
+		<td><b>Phone</b></td>
+		<td>{{patient.phone}}</td>
+	</tr>
+	<tr>
+		<td><b>Email</b></td>
+		<td><a href="mailto:{{patient.email}}">{{patient.email}}</a></td>
+	</tr>
+</table>
 <br />
+<div class="small-title">Appointment Details</div>
+{% if appointment.is_cancelled %}
+	<table class="format-table">
+		<tr>
+			<td width="100px"><b>Appointment</b></td>
+			<td>Cancelled</td>
+		</tr>
+	</table>
+	<br /><br />
+{% endif %}
+{% if not appointment.is_cancelled %}
+
+	<table class="format-table">
+		<tr>
+			<td width="100px"><b>Appointment</b></td>
+			<td>{{appointment.schedule.date}} at {{appointment.schedule.start_time}}</td>
+		</tr>
+		<tr>
+			<td width="100px"><b>Clinic</b></td>
+			<td>{{appointment.mri.name}}</td>
+		</tr>
+		<tr>
+			<td width="100px"><b>Address</b></td>
+			<td>{{appointment.mri.address}} {{appointment.mri.address2}}</td>
+		</tr>
+		<tr>
+			<td width="100px"></td>
+			<td>{{appointment.mri.city}}, {{appointment.mri.state}} {{appointment.mri.zip}}</td>
+		</tr>
+		<tr>
+			<td width="100px"><b>Phone</b></td>
+			<td>{{appointment.mri.phone}}</td>
+		</tr>
+		<tr>
+			<td width="100px"><b>Email</b></td>
+			<td>{{appointment.mri.email}}</td>
+		</tr>
+	</table>
+	<br /><br />
+{% endif %}
+<div class="small-title">Case History</div>
+	<table class="format-table">
+		<tr>
+			<td width="100px"><b>Case Created</b></td>
+			<td>{{case.create_time}}</td>
+		</tr>
+		{% if case.status == 1%}
+			<tr>
+				<td width="100px"><b>Patient Checked In</b></td>
+				<td>{{appointment.check_in_time}}</td>
+			</tr>
+		{% endif %}
+		{% if case.status >= 2 and case.status < 5 %}
+			<tr>
+				<td width="100px"><b>Patient Checked In</b></td>
+				<td>{{appointment.check_in_time}}</td>
+			</tr>
+			<tr>
+				<td width="100px"><b>Scan Uploaded</b></td>
+				<td>{{case.report.create_time}}</td>
+			</tr>
+		{% endif %}
+		{% if case.status >= 5 %}
+			<tr>
+				<td width="100px"><b>Checked In</b></td>
+				<td>{{appointment.check_in_time}}</td>
+			</tr>
+			<tr>
+				<td width="100px"><b>Scan Uploaded</b></td>
+				<td>{{case.report.create_time}}</td>
+			</tr>
+			<tr>
+				<td width="100px"><b>Report Avail</b></td>
+				<td>{{case.report.create_time}}</td>
+			</tr>
+		{% endif %}
+	</table>
+	<br />
+<div class="small-title">Case Messages</div>
+	{% if messages %}
+	<table id="case-table">
+		<tr>
+			<th width="100px">Time</th>
+			<th width="250px">Title</th>
+			<th>Message</th>
+		</tr>
+		{% for message in messages%}
+			<tr>
+				<td align="center">{{message.create_time}}</td>
+				<td align="center">{{message.title}}</td>
+				<td>{{message.content}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+	{% if not messages %}
+		<table id="case-table">
+			<tr>
+				<td>No Case Messages</td>
+			</tr>
+		</table>
+	{% endif %}
+<br /><br />
 
 {% if case.status == 0%}
 <a id="change-schedule" href="referring/reschedule/{{appointment.id}}/" class="loadright">Change Appointment</a>
-
 <span class="orange">
 <a id="case-cancel" href="/referring/cancelAppointment/{{appointment.id}}/" class="orange loadright">Cancel Appointment</a>
 </span>
-{% endif %}
 <br /><br />
+{% endif %}
+
 <div class="small-title">Case History</div>
 <br />
 <a id="view-diagnosis" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View Diagnosis</a>

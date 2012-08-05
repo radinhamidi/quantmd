@@ -28,19 +28,43 @@
 	<span class="orange"><a id="create-case-button" href="/referring/appointmentsInfo/{{patient.id}}/" class="orange loadright">New Appointment</a></span>
 </div>
 <div class="title-text">{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</div>
-SSN: {{patient.ssn}}<br/>
-Birthday: {{patient.birthday}}<br />
-{% if patient.gender == 1 %}
-			Gender:Male
-			{% endif %}
+<table class="format-table">
+	<tr>
+		<td width="100px"><b>SSN</b></td>
+		<td>{{patient.ssn}}</td>
+	</tr>
+	<tr>
+		<td><b>Birthdate</b></td>
+		<td>{{patient.birthday}}</td>
+	</tr>
+	<tr>
+		<td><b>Gender</b></td>
+		<td>
+		{% if patient.gender == 1 %}
+			Male
+		{% endif %}
 		{% if patient.gender == 0 %}
-			Gender:Female
-			{% endif %}<br />
-Address: {{patient.address}} {{patient.address2}}<br>{{patient.city}},{{patient.state}},{{patient.zip}}<br/>
-Phone: {{patient.phone}}<br/>
-Email: {{patient.email}}<br/>
-<br/>
-
+			Female
+		{% endif %}
+		</td>
+	</tr>
+	<tr>
+		<td><b>Address</b></td>
+		<td>{{patient.address}}</td>
+	</tr>
+	<tr>
+		<td><b></b></td>
+		<td>{{patient.city}}, {{patient.state}} {{patient.zip}}</td>
+	</tr>
+	<tr>
+		<td><b>Phone</b></td>
+		<td>{{patient.phone}}</td>
+	</tr>
+	<tr>
+		<td><b>Email</b></td>
+		<td><a href="mailto:{{patient.email}}">{{patient.email}}</a></td>
+	</tr>
+</table>
 <br /><br />
 
 <div class="small-title">Case History</div>
@@ -51,31 +75,35 @@ Email: {{patient.email}}<br/>
 	{% if appointments %}
 		<table id="case-table">
 		<tr>
-			<th width="150px">Case ID</th>
+			<th width="100px">Case ID</th>
 			<th width="150px">Date Opened</th>
 			<th>Case Summary</th>
-			<th width="150px">Status</td>
-			<th width="100px"></td>
+			<th width="120px">Status</td>
+			<th width="60px"></td>
 		</tr>
 		{% for appointment in  appointments%}
 		<tr>
 			<td align="center">CASE#{{appointment.case.id}}</td>
 			<td align="center">{{appointment.case.create_time}}</td>
 			{% if appointment.case.status == -1%}
-			<td>Case has been cancelled</td>
-			<td align="center">Cancelled</td>
+				<td>Case has been cancelled</td>
+				<td align="center">Cancelled</td>
 			{% endif %}
-			{% if appointment.case.status == 0 or appointment.case.status == 1%}
-			<td>An appointment in {{appointment.mri.name}} at {{appointment.schedule.start_time}} on {{appointment.schedule.date}}</td>
-			<td align="center">Waiting to SCAN</td>
+			{% if appointment.case.status == 0 %}
+				<td>Appointment at {{appointment.mri.name}} at {{appointment.schedule.start_time}} on {{appointment.schedule.date}}</td>
+				<td align="center">Scheduled</td>
 			{% endif %}
-			{% if appointment.case.status == 2 or appointment.case.status == 3 or appointment.case.status == 4%}
-			<td>MRI data has been uploaded on {{appointment.case.data.create_time}}</td>
-			<td align="center">Waiting Diagnosis</td>
+			{% if appointment.case.status == 1 %}
+				<td>Checked in at {{appointment.mri.name}} at {{appointment.schedule.start_time}} on {{appointment.schedule.date}}</td>
+				<td align="center">Awaiting Scan</td>
+			{% endif %}
+			{% if appointment.case.status == 2 or appointment.case.status == 3 or appointment.case.status == 4 %}
+				<td>MRI Data uploaded on {{appointment.case.data.create_time}}</td>
+				<td align="center">Waiting Diagnosis</td>
 			{% endif %}
 			{% if appointment.case.status == 5 or appointment.case.status == 6%}
-			<td>Diagnosis has been uploaded on {{appointment.case.report.create_time}}</td>
-			<td align="center">Complete</td>
+				<td>Diagnosis has been uploaded on {{appointment.case.report.create_time}}</td>
+				<td align="center">Complete</td>
 			{% endif %}
 			<td align="center"><a href="/referring/patientCase/{{appointment.case.id}}/" class="loadright viewcasebutton">View Case</a></td>
 		</tr>
