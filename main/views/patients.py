@@ -156,6 +156,8 @@ def createPatient(request):
             error.append('Zip is empty or incorrect format')
         if IsEmpty(city):
             error.append('City is empty')
+        if not IsEmail:
+            error.append('Email is not valid')
          
         print "here0"   
         if len(error) != 0:
