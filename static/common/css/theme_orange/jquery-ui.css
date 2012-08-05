@@ -494,7 +494,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  *
  * http://docs.jquery.com/UI/Datepicker#theming
  */
-.orange .ui-datepicker { width: 17em; padding: .2em .2em 0; display: none;}
+.orange .ui-datepicker { width: 17em; padding: .2em .2em 0; display: none; }
 .orange .ui-datepicker .ui-datepicker-header { position:relative; padding:.2em 0; }
 .orange .ui-datepicker .ui-datepicker-prev, .orange .ui-datepicker .ui-datepicker-next { position:absolute; top: 2px; width: 1.8em; height: 1.8em; }
 .orange .ui-datepicker .ui-datepicker-prev-hover, .orange .ui-datepicker .ui-datepicker-next-hover { top: 1px; }

@@ -28,6 +28,7 @@ class Schedule(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     is_available = models.BooleanField(default=True)
+    is_cancelled = models.BooleanField(default=False)
     
     class Meta: 
         app_label = 'main'

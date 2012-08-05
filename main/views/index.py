@@ -28,5 +28,3 @@ def index(request):
     elif profile.role == 0:
         return render_to_response('quantmd/index.htm', {'profile':profile},
                                   context_instance=RequestContext(request))
-    
-    

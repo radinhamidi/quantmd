@@ -1,0 +1,59 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+
+<script>
+	$(document).ready(function() {
+	$("#edit-patient-back").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#submit-edit-patient").button({
+		icons: {
+			primary: "ui-icon-plus"
+		}
+	});
+	$("#form-edit-patient").submit(function(event) {
+	
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+		$( "#inner-right" ).hide();
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#form-edit-patient").serialize(),
+		function( data ) {
+			$( "#inner-right" ).empty().append($(data));
+			$( "#inner-right" ).fadeIn('fast');
+		});
+     });
+});
+</script>
+
+<div class="title-text">Edit Patient</div>
+<br />
+<form id="form-edit-patient" name="form-edit-patient" action="patient-edit-confirm.htm">
+	<table class="formtable">
+		<tr>
+			<td width="120px">First Name</td>
+			<td><input type="text" name="firstname" /></td>
+		</tr>
+		<tr>
+			<td>Last Name</td>
+			<td><input type="text" name="firstname" /></td>
+		</tr>
+		<tr>
+			<td>Email</td>
+			<td><input type="text" name="firstname" /></td>
+		</tr>
+	</table>
+
+<br /><br />
+<span class="orange">
+<a id="edit-patient-back" href="patient-info.htm" class="orange loadright">Cancel</a></span>
+<input type="submit" id="submit-edit-patient" value="Update" />
+</form>

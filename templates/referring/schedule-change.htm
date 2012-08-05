@@ -1,0 +1,93 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+
+<script>
+$(document).ready(function() {
+	$("#create-case-back").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#submit-create-case").button({
+		icons: {
+			primary: "ui-icon-plus"
+		}
+	});
+	$("#form-create-case").submit(function(event) {
+
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+		$( "#inner-right" ).hide();
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#form-create-case").serialize(),
+		function( data ) {
+			$( "#inner-right" ).empty().append($(data));
+			$( "#inner-right" ).fadeIn('fast');
+		}
+		);
+     });
+});
+
+</script>
+
+<div class="title-text">Change Appointment</div>
+Michael, Shamos<br />
+Male - October 10, 1980<br />
+<br />
+Original Appointment:<br />
+ABC CENTER<br />
+okowakd<br />
+oakwodkawd
+<br />
+<br />
+Select a MRI center for scan.<br /><br />
+<form id="form-create-case" name="form-create-case" action="case-create.htm">
+	<table class="formtable">
+		<tr>
+			<td width="120px">Preferred Date</td>
+			<td><input type="text" name="preferreddate" /></td>
+		</tr>
+		<tr>
+			<td width="120px">Preferred Time</td>
+			<td><input type="text" name="preferredtime" /></td>
+		</tr>
+		<tr>
+			<td>ZIP Code</td>
+			<td><input type="text" name="zipcode" /></td>
+		</tr>
+	</table>
+<br />
+<span class="orange">
+<a id="create-case-back" href="patient-info.htm" class="orange loadright">Cancel</a></span>
+<input type="submit" id="submit-create-case" value="Search" />
+</form>
+<br />
+<div id="mri-centers-result">
+<div class="small-title">Available Timeslots</div>
+	<table id="mri-centers">
+		<tr>
+			<th width="300px">Center</th>
+			<th width="120px">Date</th>
+			<th>Timeslots</th>
+		</tr>
+		<tr>
+			<td class="left">okwaokdaw</td>
+			<td>hello</td>
+			<td><a onClick="confirmBooking();">this is a timeslot</a></td>
+		</tr>
+		<tr>
+			<td class="left">okwaokdaw</td>
+			<td>hello</td>
+			<td>hello</td>
+		</tr>
+	</table>
+</div>
+<div id="timeslot-confirm" title="Confirm Timeslot">
+			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Confirm booking?<br /></p>
+		</div>

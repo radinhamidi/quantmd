@@ -5,7 +5,6 @@
 	
 	<script src="{{STATIC_URL}}common/js/jquery.js"></script>
 	<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
-	<script src="{{STATIC_URL}}common/js/md5.js"></script>
 	<script src="{{STATIC_URL}}common/js/login.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme/jquery-ui.css" />
@@ -18,14 +17,15 @@
 	<div id="loginbox">
 		<div id="loginbox-header">Login</div>
 		<div id="loginbox-form">
-			<form name="login" id="login" action="/login/" method="POST"> {% csrf_token %}
+			<form name="login" id="login" action="/login/" method="POST">{% csrf_token %}
 				<input type="text" class="defaultTextActive" id="username-clear" value="username" />
 				<input type="text" name="username" id="username-username" /><p />
 				<input id="password-clear" class="defaultTextActive" type="text" value="password" autocomplete="off" />
 				<input id="password-password" type="password" name="password" value="" autocomplete="off" /><br /><p />
-				<input type="button" name="loginbutton" class="button" id="loginbutton" value="Sign In" /><br />
+
+					<input type="button" name="loginbutton" class="button" id="loginbutton" value="Sign In" /><br />
+
 			</form>
-			
 		</div>
 		<a href="forgot.htm">Forgot Password?</a><p /><br />
 		Contact QuantMD Administrator for more information.<p />

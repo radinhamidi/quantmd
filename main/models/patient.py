@@ -1,11 +1,12 @@
 from django.db import models
+from account import Profile
 
 class Patient(models.Model):
     """
     Referring doctor will create patient record;
-    Each patient can have only one record, uniquely identified by SSN 
+    Each patient can have only one record, uniquely identified by ID
     """
-    ssn = models.IntegerField(unique=True)
+    ssn = models.IntegerField()
     first_name = models.CharField(max_length=20)
     middle_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
@@ -18,13 +19,7 @@ class Patient(models.Model):
     city = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
     zip = models.IntegerField()
+    doctor = models.ForeignKey(Profile)
     
-    class Meta: 
-        app_label = 'main'
-
-class PatientAndDoctor(models.Model):
-    patient = models.ForeignKey('Patient')
-    doctor = models.ForeignKey('Profile')
-    
-    class Meta: 
+    class Meta:
         app_label = 'main'

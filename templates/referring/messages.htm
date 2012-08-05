@@ -1,105 +1,41 @@
-<!-- JAVASCRIPT LIBRARY IMPORTS -->
-<!--
 <script src="../common/js/jquery.js"></script>
 <script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<script src="../common/js/common.js"></script>
-<script src="js/referring.js"></script>
--->
-<script src="{{STATIC_URL}}common/js/jquery.js"></script>
-<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
-<script src="{{STATIC_URL}}common/js/datatables.js"></script>
-<script src="{{STATIC_URL}}common/js/subpage.js"></script>
-<script src="{{STATIC_URL}}referring/js/referring.js"></script>
 
-<!-- CONTENT BELOW THIS LINE -->
-
-<!-- HEADER REQUIRED -->
-<div class="window-header">message</div>
-
-<!-- PAGE CONTENT -->
-<div style="float: right; margin-top: -45px; margin-right: 8px;" class="panebutton" load=""><a href="#"><img src="{{STATIC_URL}}referring/images/button-add.png" width="15" height="15"/>&nbsp;NEW MESSAGE</a></div>
-<table id="message-table">
-	<thead>
-		<tr>
-			<th width="50px">Type</th>
-			<th width="300px">Subject</th>
-			<th width="120px">Received</th>
-			<th width="50px"></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
-			<td>John Doe - Rescheduled 8/19</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-		    <td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
-			<td>John Doe - Rescheduled 8/19</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
-			<td>John Doe - Rescheduled 8/19</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
-			<td>John Doe - Rescheduled 8/19</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
-			<td>John Doe - Rescheduled 8/19</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
-			<td>John Doe - Rescheduled 8/19</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
-			<td>John Doe - Rescheduled 8/19</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
-			<td>John Doe - Rescheduled 8/19</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
-			<td>John Doe - Rescheduled 8/19</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-			<td><img src="{{STATIC_URL}}referring/images/flag_yellow.png" height="15" width="15">&nbsp;Reschedule</td>
-			<td>John Doe - Rescheduled 8/19</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-			<td><img src="{{STATIC_URL}}referring/images/flag_green.png" height="15" width="15">&nbsp;Message</td>
-			<td>Merriam Webster [#810787255] - Patient History ...</td>
-			<td>07/01 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-		<tr>
-		    <td><img src="{{STATIC_URL}}referring/images/flag_red.png" height="15" width="15">&nbsp;Cancelled</td>
-			<td>Carol Higgins - Cancelled Appt</td>
-			<td>07/02 17:22</td>
-			<td><a href="#" class="panebutton" load="/referring/message/1/"><img src="{{STATIC_URL}}referring/images/mail.png" height="30" width="30"></a></td>
-		</tr>
-	</tbody>
-</table><input type="button" onClick="reset_dt_view();" value="reset" />
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+$(document).ready(function() {
+	$("#inner-left-messages").load('messages-list.htm');
+	$("#btn-messages-refresh").button({
+		icons: {
+			primary: "ui-icon-refresh"
+		}
+	});
+	$("#btn-messages-refresh").click(function() {
+		$("*").css("cursor", "wait");
+		$("#updating-text").html('<br />Refreshing...');
+		$("#inner-left-messages").fadeOut('fast', function() {
+			$("#inner-left-messages").load('messages-list.htm', function() {
+				$("#inner-left-messages").fadeIn('fast');
+				$("#updating-text").empty();
+				$("*").css("cursor", "");
+			});
+		});
+	});
+});
+</script>
+<div id="left-bar">
+	<div id="messages-inner-left">
+		<button id="btn-messages-refresh">Refresh</button>
+		<br />
+		<div id="updating-text"></div>
+		<div id="inner-left-messages">
+			
+		</div>
+		
+	</div>
+</div>
+<div id="right-bar">
+	<div id="messages-inner-right">
+		Select a patient to proceed.
+	</div>
+</div>

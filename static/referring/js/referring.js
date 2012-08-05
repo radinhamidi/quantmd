@@ -1,229 +1,51 @@
-var patient_dt;
-
 $(document).ready(function() {
-	make_dt();		
-	
-    $("#popup-schedule-date").datepicker({
-		
+	$("#wrapper").fadeIn(500, function() {
+		$("#footer").delay(500).fadeIn(300, function() {
+			$("#user-box").show("slide", { direction: "up" }, 400, function() {
+				$("#container").fadeIn(400);
+			});
+		});
 	});
-    
-	  /* attach a submit handler to the form */
-	$("#select-center").submit(function(event) {
-
-    /* stop form from submitting normally */
-		event.preventDefault(); 
-        
-    /* get some values from elements on the page: */
-		var $form = $( this ),
-			url = $form.attr( 'action' );
-
-    /* Send the data using post and put the results in a div */
-		$.post( url, $("#select-center").serialize(),
-		function( data ) {
-			$( "#schedule-content" ).empty().append($(data));
+	$("#tabs-nohdr").tabs({
+		fx: { 
+            opacity: 'toggle' 
+        },
+		load: function(event, ui) {
+			$(ui.panel).delegate('.innerlink', 'click', function(event) {
+				$(ui.panel).hide();
+				$("*").css("cursor", "wait")
+				$(ui.panel).load(this.href, function() {
+					$(ui.panel).delay(200).fadeIn('fast', function() {
+						$("*").css("cursor", "")
+					});
+				});
+				event.preventDefault();
+			});
+			$(ui.panel).delegate('.loadright', 'click', function(event) {
+				$("#inner-right").hide();
+				$("*").css("cursor", "wait")
+				$("#inner-right").load(this.href, function() {
+					$("#inner-right").delay(200).fadeIn('fast', function() {
+						$("*").css("cursor", "")
+					});
+				});
+				event.preventDefault();
+			});
+			$(ui.panel).delegate('.msgloadright', 'click', function(event) {
+				$("#messages-inner-right").hide();
+				$("*").css("cursor", "wait")
+				$("#messages-inner-right").load(this.href, function() {
+					$("#messages-inner-right").delay(200).fadeIn('fast', function() {
+						$("*").css("cursor", "")
+					});
+				});
+				event.preventDefault();
+			});
+		},
+		ajaxOptions: {
+			error: function( xhr, status, index, anchor ) {
+				$( anchor.hash ).load("error.htm");
+			}
 		}
-		);
-     });
-  	
-	$("#create-patient").submit(function(event) {
-
-    /* stop form from submitting normally */
-		event.preventDefault(); 
-        
-    /* get some values from elements on the page: */
-		var $form = $( this ),
-			url = $form.attr( 'action' );
-
-    /* Send the data using post and put the results in a div */
-		$.post( url, $("#create-patient").serialize(),
-		function( data ) {
-			$( "#patients-content" ).empty().append($(data));
-		}
-		);
-     });
-	 
-	 $("#makeAppointment").submit(function(event) {
-
-    /* stop form from submitting normally */
-		event.preventDefault(); 
-        
-    /* get some values from elements on the page: */
-		var $form = $( this ),
-			url = $form.attr( 'action' );
-
-    /* Send the data using post and put the results in a div */
-		$.post( url, $("#makeAppointment").serialize(),
-		function( data ) {
-			$( "#schedule-content" ).empty().append($(data));
-		}
-		);
-     });
-     
-     $("#ssn-form").submit(function(event) {
-
-    /* stop form from submitting normally */
-		event.preventDefault(); 
-        
-    /* get some values from elements on the page: */
-		var $form = $( this ),
-			url = $form.attr( 'action' );
-
-    /* Send the data using post and put the results in a div */
-		$.post( url, $("#ssn-form").serialize(),
-		function( data ) {
-			$( "#patients-content" ).empty().append($(data));
-		}
-		);
-     });
-     
-     
-     $("#create-link").submit(function(event) {
-
-    /* stop form from submitting normally */
-		event.preventDefault(); 
-        
-    /* get some values from elements on the page: */
-		var $form = $( this ),
-			url = $form.attr( 'action' );
-
-    /* Send the data using post and put the results in a div */
-		$.post( url, $("#create-link").serialize(),
-		function( data ) {
-			$( "#patients-content" ).empty().append($(data));
-		}
-		);
-     });
-
+	});
 });
-
-function patient_reset_dt_view() {
-  localStorage.removeItem('DataTables_PatientTable');
-  patient_dt.fnDestroy();
-  make_dt();
-}
-
-function make_dt() {
-	patient_dt = $('#patient-table').dataTable({
-		"bPaginate": true,
-		"bLengthChange": false,
-		"bFilter": true,
-		"bSort": true,
-		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_PatientTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_PatientTable') );
-		},
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 7,
-		"sPaginationType": "full_numbers"
-	});
-	schedule_dt = $('#schedule-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": false,
-		"bSort": false,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 10,
-		"sPaginationType": "full_numbers",
-	    "sScrollY": "300px"
-	});
-	patient_dt = $('#schedule-timeslot-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": false,
-		"bSort": true,
-		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_PatientTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_PatientTable') );
-		},
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 10,
-		"sPaginationType": "full_numbers"
-	});
-	schedule_dt = $('#patient-info-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": false,
-		"bSort": false,
-		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_PatientTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_PatientTable') );
-		},
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 10,
-		"sPaginationType": "full_numbers",
-		"sScrollY": "330px"
-	});
-	schedule_dt = $('#diagnosis-table').dataTable({
-		"bPaginate": true,
-		"bLengthChange": false,
-		"bFilter": true,
-		"bSort": true,
-		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_PatientTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_PatientTable') );
-		},
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 10,
-		"sPaginationType": "full_numbers"
-	});
-	
-	message_dt = $('#message-table').dataTable({
-		"bPaginate": true,
-		"bLengthChange": false,
-		"bFilter": true,
-		"bSort": true,
-		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_MessageTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_MessageTable') );
-		},
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 7,
-		"sPaginationType": "full_numbers",
-		"aaSorting": [[0, "asc"]]
-	});
-	
-	individual_message_dt = $('#individual-message-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": false,
-		"bSort": false,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": false,
-		"bJQueryUI": false,
-	    "sScrollY": "100px"
-	});
-}

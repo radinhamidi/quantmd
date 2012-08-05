@@ -1,0 +1,33 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+
+
+<script>
+	$(document).ready(function() {
+});
+</script>
+
+<table id="patients-table" class="data-table">
+	<thead>
+		<tr>
+			<th width="50%">Name</th>
+			<th width="25%">Sex</th>
+			<th width="25%">Birthday</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for patient,message in dic.iteritems%}
+		<tr>
+			<td><b><a href="/referring/patientInfo/{{patient.id}}/" class="loadright">{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</a></b></td>
+			{% if patient.gender == 1 %}
+			<td>Male</td>
+			{% endif %}
+			{% if patient.gender == 0 %}
+			<td>Female</td>
+			{% endif %}
+			<td>{{patient.birthday|date:"SHORT_DATE_FORMAT"}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

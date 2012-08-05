@@ -8,7 +8,9 @@ from django.template import loader, Context
 from django.views.decorators.csrf import csrf_exempt
 from main.models.account import *
 from main.utils.misc import generate_random_string
-
+import os
+from subprocess import call
+import sys
 
 
 def upload(request):
@@ -16,12 +18,37 @@ def upload(request):
                                   context_instance=RequestContext(request))
 @csrf_exempt   
 def upload_action(request):
-    file = request.FILES['fileToUpload']
-    
-    f = open(settings.MEDIA_ROOT + 'dicom/' + generate_random_string() + '.dcm', 'w')
-    f.write(file.read())
-    f.close()
-    return HttpResponse('{"code":"0", "msg":"success"}')
+    """
+    Upload file and convert to images
+    """
+    try:
+        uploaded = request.FILES['Filedata']
+        print request.POST['test']
+        f_name = generate_random_string() #server as both dir name and file names
+        
+        #Create a folder holding dicom file and converted images
+        directory = settings.MEDIA_ROOT + 'dicom/' + f_name
+        os.makedirs(directory)
+        
+        #Write the dicom file
+        f_path = directory + '/' + f_name + '.dcm'
+        f = open(f_path, 'wb')
+        f.write(uploaded.read())
+        f.close()
+        
+        #Convert images
+        LINUX = sys.platform.startswith('linux')
+        MAC = sys.platform.startswith('darwin')
+        WINDOWS = sys.platform.startswith('win32')
+        if LINUX or MAC:
+            call(settings.PROJECT_ROOT + 'main/utils/dicom2-unix ' + f_path + ' -w --to=' + directory)
+        else:
+            command = settings.PROJECT_ROOT + 'main/utils/dicom2-windows ' + f_path + ' -w --to=' + directory
+            call(command)
+        
+        return HttpResponse('1')
+    except Exception, e:
+        return HttpResponse(str(e))
 
 
     
