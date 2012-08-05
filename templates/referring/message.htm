@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-	$("#inner-left-messages").load('messages-list.htm');
+	$("#inner-left-messages").load('/message/message_list/');
 	$("#btn-messages-refresh").button({
 		icons: {
 			primary: "ui-icon-refresh"
@@ -14,7 +14,7 @@ $(document).ready(function() {
 		$("*").css("cursor", "wait");
 		$("#updating-text").html('<br />Refreshing...');
 		$("#inner-left-messages").fadeOut('fast', function() {
-			$("#inner-left-messages").load('messages-list.htm', function() {
+			$("#inner-left-messages").load('/message/message_list/', function() {
 				$("#inner-left-messages").fadeIn('fast');
 				$("#updating-text").empty();
 				$("*").css("cursor", "");
@@ -23,6 +23,9 @@ $(document).ready(function() {
 	});
 });
 </script>
+
+
+
 <div id="left-bar">
 	<div id="messages-inner-left">
 		<button id="btn-messages-refresh">Refresh</button>

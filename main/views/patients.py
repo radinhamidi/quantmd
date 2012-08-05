@@ -148,7 +148,14 @@ def createPatient(request):
             error.append('Zip is empty or incorrect format')
         if IsEmpty(city):
             error.append('City is empty')
+<<<<<<< HEAD
+        if not IsEmail:
+            error.append('Email is not valid')
+         
+        print "here0"   
+=======
            
+>>>>>>> 0ff5366a49ceb3d4e1443ee4a051f3da121b40ce
         if len(error) != 0:
             return render_to_response('referring/create-patient.htm',{'error':error},context_instance=RequestContext(request))
         else:

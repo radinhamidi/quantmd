@@ -14,9 +14,12 @@ System Dependencies::
                    build-essential python-dev python-setuptools python-pip
                     python-imaging(1.1.7)
                    
+                   For converting dicom to jpeg: python-gdcm swig numpy  
+                   
 Python module dependencies::
 
-    $ pip install django-debug-toolbar
+    $ sudo pip install django-debug-toolbar
+    $ sudo pip install pydicom
     
     On Mac:
     pip install MySQL-python

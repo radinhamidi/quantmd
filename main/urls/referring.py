@@ -4,7 +4,6 @@ from django.conf.urls.defaults import patterns
 urlpatterns = patterns('main.views',
     #(r'^messagesInfo/$', 'referring.messages_list'),
     #(r'^message/(?P<message_id>\d+)/$', 'referring.message_info'),
-    (r'^message/$', 'referring.message_list'),
     (r'^patientsView/$', 'patients.patients_view'),
     (r'^patientsInfo/$', 'patients.patientsList'),
     (r'^patientInfo/(?P<patient_id>\d+)/$', 'patients.patientInfo'),

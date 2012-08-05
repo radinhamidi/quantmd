@@ -13,9 +13,9 @@ from main.models.case import *
 from main.models.data import *
 from django.utils.datetime_safe import datetime
 
-def message_list(request):
-    print "aaaa"
-    return render_to_response('referring/messages.htm', {},
+
+def messages_list(request):
+    return render_to_response('referring/message.htm', {},
                             context_instance=RequestContext(request))
 
 def message_info(request, message_id):

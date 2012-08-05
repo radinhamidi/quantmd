@@ -11,3 +11,7 @@ print email
 ssn = IsSSN("123456789");
 print "SSN"
 print ssn
+
+phone = IsPhoneNumber("4121234567")
+print "phone"
+print phone

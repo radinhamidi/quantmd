@@ -7,11 +7,6 @@ def IsEmpty(varObj):
     return False
 
 def IsEmail(varObj):
-    #rule = '[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$'
-    #match = re.match( rule , varObj )
-    #if match:
-    #    return True
-    #return False
     if len(varObj) > 7:
         if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", varObj) != None:
             return 1
@@ -23,19 +18,18 @@ def IsSSN(varObj):
     else:
         return False
 
-
-
-
-
-
-
-
-
-
-
 def IsPhoneNumber(varObj):
+    if len(varObj) < 10:
+        return False
+    try:
+        float(varObj)
+        return True
+    except ValueError:
+        return False
     
-    return True
+    
+    
+    
    
 def IsZip(varObj):
     return True
