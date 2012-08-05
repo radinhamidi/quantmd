@@ -1,88 +1,51 @@
-var register_dt;
-
 $(document).ready(function() {
-	make_dt();	
-	
-	$("#rp-schedule-date").datepicker({
-			
+	$("#wrapper").fadeIn(500, function() {
+		$("#footer").delay(500).fadeIn(300, function() {
+			$("#user-box").show("slide", { direction: "up" }, 400, function() {
+				$("#container").fadeIn(400);
+			});
+		});
 	});
-	
-	$("#rp-reschedule-date").datepicker({
-			
+	var $tabs = $("#tabs-nohdr").tabs({
+		fx: { 
+            opacity: 'toggle' 
+        },
+		load: function(event, ui) {
+			$(ui.panel).delegate('.innerlink', 'click', function(event) {
+				$(ui.panel).hide();
+				$("*").css("cursor", "wait")
+				$(ui.panel).load(this.href, function() {
+					$(ui.panel).delay(200).fadeIn('fast', function() {
+						$("*").css("cursor", "")
+					});
+				});
+				event.preventDefault();
+			});
+			$(ui.panel).delegate('.loadright', 'click', function(event) {
+				$("#inner-right").hide();
+				$("*").css("cursor", "wait")
+				$("#inner-right").load(this.href, function() {
+					$("#inner-right").delay(200).fadeIn('fast', function() {
+						$("*").css("cursor", "")
+					});
+				});
+				event.preventDefault();
+			});
+			$(ui.panel).delegate('.msgloadright', 'click', function(event) {
+				$("#messages-inner-right").hide();
+				$("*").css("cursor", "wait")
+				$("#messages-inner-right").load(this.href, function() {
+					$("#messages-inner-right").delay(200).fadeIn('fast', function() {
+						$("*").css("cursor", "")
+					});
+				});
+				event.preventDefault();
+			});
+		},
+		ajaxOptions: {
+			error: function( xhr, status, index, anchor ) {
+				$( anchor.hash ).load("error.htm");
+			}
+		}
 	});
-	
-	$('#reschedule-viewbutton').click(function() {
-		$('#rp-reschedule-timeslot-table').fadeIn('fast');
-	});
-
-	
-	reset_dt_view() ;
-     
 });
-
-function reset_dt_view() {
-  localStorage.removeItem('DataTables_RegisterTable');
-  register_dt.fnDestroy();
-  make_dt();
-}
-
-function make_dt() {
-	register_dt = $('#register-table').dataTable({
-		"bPaginate": true,
-		"bLengthChange": false,
-		"bFilter": true,
-		"bSort": true,
-		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_RegisterTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_RegisterTable') );
-		},
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 6,
-		"sPaginationType": "full_numbers",
-		"aaSorting": [[3, "asc"]]
-	});
-	schedule_timeslot_dt = $('#rp-schedule-timeslot-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": false,
-		"bSort": true,
-		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_ScheduleTimeslotTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_ScheduleTimeslotTable') );
-		},
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 10,
-		"sPaginationType": "full_numbers"
-	});
-	schedule_timeslot_dt = $('#rp-reschedule-timeslot-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": false,
-		"bSort": true,
-		"bInfo": false,
-		"bStateSave": true,
-		"fnStateSave": function (oSettings, oData) {
-			localStorage.setItem( 'DataTables_ScheduleTimeslotTable', JSON.stringify(oData) );
-		},
-		"fnStateLoad": function (oSettings) {
-			return JSON.parse( localStorage.getItem('DataTables_ScheduleTimeslotTable') );
-		},
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 10,
-		"sPaginationType": "full_numbers"
-	});
-}

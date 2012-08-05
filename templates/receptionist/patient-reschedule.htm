@@ -1,0 +1,88 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+	$("table#reschedule-table tr:even").css("background-color", "#F4F4F8");
+	$("table#reschedule-table tr:odd").css("background-color", "#EFF1F1");
+	$("#reschedule-back").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#rebooking-submit").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#checkout-confirm").button({
+		icons: {
+			primary: "ui-icon-check"
+		}
+	});
+	$("#rebooking-form").submit(function(event) {
+
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+			
+		$("#ui-tabs-1").hide();
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#rebooking-form").serialize(),
+		function( data ) {
+			$("#ui-tabs-1").empty().append($(data));
+			$("#ui-tabs-1").fadeIn('fast');
+		}
+		);
+     });
+	$(".timebuttons").button();
+});
+</script>
+
+<div class="title-text">Patient Reschedule</div>
+Michael, Shamos<br />
+October 10, 1950
+<br /><br />
+<b>Current Appointment:</b> JUL 10, 2012
+<br /><br /><br />
+<div class="small-title">Rebooking Slots</div><br />
+<form id="rebooking-form" name="rebooking-form" action="patient-reschedule.htm">
+View 10 Days from <input type="text" id="rebookingdate" name="rebookingdate" />
+<input type="submit" id="rebooking-submit" value="Search" />
+</form>
+<br />
+<table id="reschedule-table">
+	<tr>
+		<th width="120px">Date</th>
+		<th>Timeslots</th>
+	</tr>
+	<tr>
+		<td><b>TUE, JUL 10, 2012<b></td>
+		<td>
+			<a href="patient-reschedule-confirm.htm" class="innerlink timebuttons">1:30</a>
+			<a href="patient-reschedule-confirm.htm" class="innerlink timebuttons">2:30</a>
+			<a href="patient-reschedule-confirm.htm" class="innerlink timebuttons">3:30</a>
+		</td>
+	</tr>
+	<tr>
+		<td><b>TUE, JUL 10, 2012<b></td>
+		<td>
+			<a href="patient-reschedule-confirm.htm" class="innerlink timebuttons">1:30</a>
+			<a href="patient-reschedule-confirm.htm" class="innerlink timebuttons">2:30</a>
+			<a href="patient-reschedule-confirm.htm" class="innerlink timebuttons">3:30</a>
+		</td>
+	</tr>
+	<tr>
+		<td><b>TUE, JUL 10, 2012<b></td>
+		<td>
+			<a href="patient-reschedule-confirm.htm" class="innerlink timebuttons">1:30</a>
+			<a href="patient-reschedule-confirm.htm" class="innerlink timebuttons">2:30</a>
+			<a href="patient-reschedule-confirm.htm" class="innerlink timebuttons">3:30</a>
+		</td>
+	</tr>
+</table>
+<br /><br />
+<span class="orange"><a href="today.htm" id="reschedule-back" class="orange innerlink">Cancel</a></span>

@@ -1,9 +1,77 @@
-/* Initializing Offsets */
-#register { top: 20; left: 20; }
-#schedule { top: 50; left: 50; }
-#timeslot { top: 80; left: 80; }
-#logs { top: 110; left: 110; }
-
-#register-table { width: 710px; }
-#rp-schedule-timeslot-table { width: 710px; display: none; }
-#rp-reschedule-timeslot-table { width: 710px; display: none; }
+#patient-inhouse, #patient-incoming {
+	width: 100%;
+	font-size: 14px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}	
+#patient-inhouse td, #patient-inhouse th {
+	padding: 8px;
+}
+#patient-incoming td, #patient-incoming th {
+	padding: 8px;
+}
+#reschedule-table {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#reschedule-table td, #reschedule-table th {
+	padding: 8px;
+}
+#reschedule-table th {
+	background: #ddd;
+}
+#reschedule-table-2 {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#reschedule-table-2 td, #reschedule-table-2 th {
+	padding: 8px;
+}
+#reschedule-table-2 th {
+	background: #ddd;
+}
+#schedule-table {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#schedule-table td, #schedule-table th {
+	padding: 8px;
+}
+#schedule-table th {
+	background: #ddd;
+}
+#patients-table {
+	width: 100%;
+	font-size: 14px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#patients-table td, #patients-table th {
+	padding: 8px;
+}
+#log-table {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#log-table td, #log-table th {
+	padding: 8px;
+}
+#month-indicator {
+	font-size: 16px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+.title-text {
+	margin-top: 5px;
+	font-size: 24px;
+	margin-bottom: 2px;
+	font-family:"Helvetica Neue";
+}
+.small-title {
+	font-size: 17px;
+	margin-bottom: 6px;
+	color: #88A;
+}

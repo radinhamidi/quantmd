@@ -58,7 +58,7 @@ def patientInfo(request, patient_id):
 #e.g. if length>9....    
 def createView(request):
     if request.user.is_authenticated():
-        return render_to_response('referring/create-patient-ssn.htm', {},
+        return render_to_response('referring/patient-create.htm', {},
                               context_instance=RequestContext(request))
     
     return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -150,21 +150,95 @@ def createPatient(request):
             error.append('City is empty')
 
         if len(error) != 0:
-            return render_to_response('referring/create-patient.htm',{'error':error},context_instance=RequestContext(request))
+            return render_to_response('referring/patient-create.htm',{'errors':error},context_instance=RequestContext(request))
         else:
             format="%m/%d/%Y"
+            doctor = Profile.objects.get(user=request.user)
             birthday_date = datetime.strptime(birthday,format)   
             patient = Patient.objects.create(ssn=ssn,first_name=first_name,middle_name=middle_name,last_name=last_name,gender=gender,address=address,address2=address2,phone=phone,
-                                             state=state,city=city,zip=zip,birthday=birthday_date)  
+                                             email=email,state=state,city=city,zip=zip,birthday=birthday_date,doctor=doctor)  
             patient.save()
-            doctor = Profile.objects.get(user=request.user)
-            patient_and_doctor = PatientAndDoctor.objects.create(patient=patient,doctor=doctor)
-            patient_and_doctor.save()
-            return redirect("/referring/patientsInfo/")
+            return redirect("main.views.patients.patientInfo", patient.id)
             
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+
+def patient_edit_view(request, patient_id):
+    if request.user.is_authenticated():
+        print "patient apps"
+        patient = Patient.objects.get(id=patient_id)
+        
+        return render_to_response('referring/patient-edit.htm', {'patient':patient},
+                        context_instance=RequestContext(request))
     
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+
+def patient_edit_action(request, patient_id):
+    if request.user.is_authenticated():
+        first_name = request.POST['first_name']
+        middle_name = request.POST['middle_name']
+        ssn = request.POST['ssn']
+        last_name = request.POST['last_name']
+        gender = request.POST['sex']
+        email = request.POST['email']
+        birthday = request.POST['birthday']
+        phone = request.POST['phone']
+        address = request.POST['address']
+        address2 = request.POST['address']
+        state = request.POST['state']
+        zip = request.POST['zip']
+        city = request.POST['city']
+        print ssn
+        error = []
+        print "here1"   
+        #if Patient.objects.filter(ssn=ssn).exists():
+        #   error.append('Patient already exists')
+        if IsEmpty(first_name):
+            error.append('First name is empty')
+        if IsEmpty(last_name):
+            error.append('Last name is empty')
+        if IsEmpty(email):
+            error.append('First name is empty or incorrect format')
+        if IsEmpty(ssn) or not ssn.isdigit():
+            error.append('SSN is empty or incorrect format')
+        if IsEmpty(phone) or not phone.isdigit():
+            error.append('Phone is empty or incorrect format')
+        if IsEmpty(address):
+            error.append('Address is empty')
+        if IsEmpty(state):
+            error.append('State is empty')
+        if IsEmpty(zip) or not zip.isdigit():
+            error.append('Zip is empty or incorrect format')
+        if IsEmpty(city):
+            error.append('City is empty')
+        
+        print "here2"
+        if len(error) != 0:
+            return render_to_response('referring/patient-edit.htm',{'errors':error},context_instance=RequestContext(request))
+        else:
+            print "here3"
+            format="%m/%d/%Y"
+            birthday_date = datetime.strptime(birthday,format)
+            patient = Patient.objects.get(id=patient_id)
+            patient.ssn = ssn
+            patient.first_name = first_name
+            patient.middle_name = middle_name
+            patient.last_name = last_name
+            patient.birthday = birthday_date
+            patient.email = email
+            patient.phone = phone
+            patient.address = address
+            patient.address2 = address2
+            patient.city = city
+            patient.state = state
+            patient.zip = zip
+            patient.save()
+            print "here4"
+            return redirect("main.views.patients.patientInfo", patient.id)
+        
+    else: 
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
 
 def patient_appotiments(request, patient_id):
  if request.user.is_authenticated():
@@ -225,10 +299,9 @@ def patient_case(request, case_id):
             case = Case.objects.get(id=case_id)
             appointment = Appointment.objects.filter(case=case).filter(is_current=True)[0]
             patient = appointment.patient
-            print patient
-            print case
-            print appointment
-            return render_to_response('referring/case-view.htm', {'case':case, 'appointment':appointment, 'patient':patient},
+            messages = Message.objects.filter(case=case)
+            
+            return render_to_response('referring/case-view.htm', {'case':case, 'appointment':appointment, 'patient':patient, 'messages':messages},
                                       context_instance=RequestContext(request))
         else:
             return render_to_response('error.htm', {'error':"No such Case"},

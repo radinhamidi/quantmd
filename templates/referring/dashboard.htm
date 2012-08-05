@@ -1,0 +1,52 @@
+<script>
+	$(document).ready(function() {
+		$("table#dash-summary tr:even").css("background-color", "#F4F4F8");
+		$("table#dash-summary tr:odd").css("background-color", "#EFF1F1");
+		$(".patient-goto").button({
+			icons: {
+				primary: "ui-icon-carat-1-e"
+			},
+			text: false
+		});
+	});
+	function goToPatient(id) {
+		
+	}
+</script>
+<div id="dash-header">
+	<div class="title-text">Dr. Rashid Helloman</div>
+</div>
+<div id="dash-overview">
+	<div id="dash-float-1" class="dash-float">
+		<div class="big">10</div>
+		New Messages
+	</div>
+	<div id="dash-float-2" class="dash-float">
+		<div class="big">14</div>
+		New Diagnosis
+	</div>
+	<div id="dash-float-3" class="dash-float">
+		<div class="big">18</div>
+		Patients Scheduled
+	</div>
+	<div id="dash-float-4" class="dash-float">
+		<div class="big">2</div>
+		Reschedule Notices
+	</div>
+</div>
+<div id="dash-main">
+	<table id="dash-summary">
+		<tr>
+			<th width="120px">Event</th>
+			<th>Summary</th>
+			<th width="180px">Date</th>
+			<th width="60px">More</th>
+		</tr>
+		<tr>
+			<td align="center">RESCHEDULE</td>
+			<td>Patient TAN AH BEE, rescheduled 10/8 3:30PM to 10/11 2:30PM</td>
+			<td align="center">abc</td>
+			<td align="center"><a class="patient-goto dashlink" href="patients.htm" patientid="2">d</a></td>
+		</tr>
+	</table>
+</div>

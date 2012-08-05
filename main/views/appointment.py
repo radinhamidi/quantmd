@@ -175,7 +175,7 @@ def make_appointment(request, patient_id, schedule_id):
         
         
         # create message
-        '''
+        
         title = patient.first_name + ' ' + patient.last_name + '-APPOINTMENT CONFIRMATION ' + str(schedule.date)
         title = title.upper()
         print title
@@ -189,9 +189,9 @@ def make_appointment(request, patient_id, schedule_id):
 
         # content = "You have already made an appointment"
         print content
-        message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 0)
+        message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 0, is_sys = True)
         message.save()
-        '''
+        
         
         return render_to_response('referring/case-create-confirm.htm',{'schedule':schedule, 'appointment':appointment}, context_instance=RequestContext(request))
     else:
@@ -204,9 +204,9 @@ def appointment_cancel(request, appointment_id):
         
         errors = []
         
-        if Appointment.objects.filter(id=appointment_id).exist():
+        if not Appointment.objects.filter(id=appointment_id).exists():
             errors.append("No such appointment")
-        
+      
         if len(errors) != 0:
             return render_to_response('referring/appointmentConfirm.htm',{'errors':errors}, context_instance=RequestContext(request))
         
@@ -214,31 +214,46 @@ def appointment_cancel(request, appointment_id):
         appointment = Appointment.objects.get(id=appointment_id)
         schedule = appointment.schedule
         case = appointment.case
+        print case
         
         if case.status != 0:
             errors.append("This appointment cannot be cancel")
             return render_to_response('error.htm',{'errors':errors}, context_instance=RequestContext(request))
         else:
+            print "here"
             case.status = -1
             case.save()
             schedule.is_available = True
             schedule.save()
             appointment.is_cancelled = True 
             appointment.save()
-            
+            patient = appointment.patient
             # create message
-            '''
+            
             patient = appointment.patient
             mri = appointment.mri
             doctor = Profile.objects.get(user = request.user)
             
-            title = patient.first_name + " " + patient.last_name + "-APPOINTMENT  CONCELLATION" + schedule.date
+            # create message
+        
+            title = patient.first_name + ' ' + patient.last_name + '-APPOINTMENT CONCELLATION ' + str(schedule.date)
             title = title.upper()
-            content = "You have already concelled an appointment: </br>" + "Patient: " + patient.first_name + " " +  patient.last_name + " </br> MRI Center: " + mri.name +"</br>" + "Time: " + schedule.date + "   " + schedule.start_time + "--" + schedule.end_time + "</br>" + "Address: " + mri.address1 + " " + mri.address2 + "," + mri.city + "," + mri.state + "," + mri.zip +"</br>" 
-            message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 1)
+            print title
+            content = 'You have already CANCELLATION an appointment: </br>' + 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' </br> MRI Center: ' + mri.name
+       
+            content += '</br> Time: ' + str(schedule.date) + '   ' 
+   
+            content += str(schedule.start_time) + '--' + str(schedule.end_time) + '</br>' 
+        
+            content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) +'</br>' 
+
+            # content = "You have already made an appointment"
+            print content
+            message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 1, is_sys = True)
             message.save()
-            '''    
-            return render_to_response('referring/case-create-confirm.htm',{'schedule':schedule, 'appointment':appointment}, context_instance=RequestContext(request))
+           
+            print "heihei"
+            return redirect('main.views.patients.patientInfo', patient.id, 'False')
      else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
@@ -370,11 +385,11 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
         
         
         # create message
-        '''
-        title = patient.first_name + ' ' + patient.last_name + '-APPOINTMENT CONFIRMATION ' + str(schedule.date)
+        
+        title = patient.first_name + ' ' + patient.last_name + '-Reschedule ' + str(schedule.date)
         title = title.upper()
         print title
-        content = 'You have already made an appointment: </br>' + 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' </br> MRI Center: ' + mri.name
+        content = 'You have reschedule an appointment: </br>' + 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' </br> MRI Center: ' + mri.name
        
         content += '</br> Time: ' + str(schedule.date) + '   ' 
    
@@ -384,9 +399,9 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
 
         # content = "You have already made an appointment"
         print content
-        message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 0)
+        message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 2, is_sys = True)
         message.save()
-        '''
+        
         
         return render_to_response('referring/case-create-confirm.htm',{'schedule':schedule, 'appointment':appointment}, context_instance=RequestContext(request))
     else:

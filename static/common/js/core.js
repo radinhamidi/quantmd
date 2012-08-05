@@ -28,7 +28,7 @@ function logout(e) {
 		buttons: {
 			"Logout": function() {
 				//Confirm Logout
-				window.location="../logout.htm";
+				window.location="/logout/";
 				$(this).dialog("close")
 			},
 			Cancel: function() {

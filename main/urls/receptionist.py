@@ -3,8 +3,9 @@ from django.conf.urls.defaults import patterns
 
 urlpatterns = patterns('main.views.receptionist',
     (r'^registerList/$', 'register_list'),
-    (r'^register/(?P<appointment_id>\d+)/$', 'register'),
+    (r'^checkInCancell/(?P<appointment_id>\d+)/$', 'check_in_cancell'),
     (r'^checkIn/(?P<appointment_id>\d+)/$', 'check_in'),
+    (r'^checkOut/(?P<appointment_id>\d+)/$', 'check_out'),
     (r'^cancel/(?P<appointment_id>\d+)/$', 'cancel'),
     (r'^cancelSchedule/(?P<schedule_id>\d+)/$', 'cancel_schedule'),
     (r'^scheduleList/$', 'schedule_list_view'),

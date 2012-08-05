@@ -18,7 +18,7 @@ def diagnosis_lsit(request):
     if request.user.is_authenticated():
         doctor = request.user
         appointments = Appointment.objects.filter(doctor=doctor)
-        print "here1" 
+        print "here1"
         cases = {}
         for appointment in appointments:
             patient = appointment.patient
@@ -31,16 +31,19 @@ def diagnosis_lsit(request):
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-def diagnosis_view(request, report_id):
+def diagnosis_view(request, case_id):
     print "cc"
     if request.user.is_authenticated():
-        report = Report.objects.get(id=report_id)
-        case = Case.objects.get(report=report)
-        appointment = case.appointment
+        case = Case.objects.get(id=case_id)
+        case.status = 6
+        case.save()
+        report = case.report
+        appointment = Appointment.objects.filter(case=case).filter(is_current=True)[0]
+        print appointment
         patient = appointment.patient
         mri = appointment.mri
         print report                
-        return render_to_response('referring/individual-diagnosis.htm', {'report':report, 'patient':patient, 'mri':mri},
+        return render_to_response('referring/view-diagnosis.htm', {'report':report, 'patient':patient, 'mri':mri, 'case':case},
                             context_instance=RequestContext(request))
     
     else:

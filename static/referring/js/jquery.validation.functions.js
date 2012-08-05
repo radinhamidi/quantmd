@@ -35,13 +35,3 @@ function isChecked(id){
     });
     return ReturnVal;
 }
-function isValidZip(zip) {
-	var zipCodeArray = [12345,23456,34567,45678];
-	
-	for (var i = 0; i < zipCodeArray.length; i++) {
-        if (zipCodeArray[i] == zip) {
-              return true;
-        }
-  }
-  return false;
-}

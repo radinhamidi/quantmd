@@ -1,0 +1,27 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+	$("#checkout-back").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#checkout-confirm").button({
+		icons: {
+			primary: "ui-icon-check"
+		}
+	})
+});
+</script>
+
+<div class="title-text">Patient Check In</div>
+<br />
+You are now checking in for MICHAEL, SHAMOS.
+<br /><br />
+<b>Scheduled For: </b>JUL 15 2012 at 3:30PM<br />
+<b>Checking In: </b>JUL 15 2012 at 3:27PM
+<br /><br />
+<span class="orange"><a href="today.htm" id="checkout-back" class="orange innerlink">Cancel</a></span>
+<a href="today.htm" id="checkout-confirm" class="innerlink">Confirm</a>

@@ -1,54 +1,55 @@
-<!-- JAVASCRIPT LIBRARY IMPORTS -->
-<!--
 <script src="../common/js/jquery.js"></script>
 <script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<script src="../common/js/common.js"></script>
-<script src="js/referring.js"></script>
--->
-<script src="{{STATIC_URL}}common/js/jquery.js"></script>
-<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
-<script src="{{STATIC_URL}}common/js/subpage.js"></script>
-<script src="{{STATIC_URL}}common/js/datatables.js"></script>
-<script src="{{STATIC_URL}}receptionist/js/receptionist.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+		$("table#schedule-table tr:even").css("background-color", "#F4F4F8");
+		$("table#schedule-table tr:odd").css("background-color", "#EFF1F1");
+		$("#modify-button").button({
+			icons: {
+				primary: "ui-icon-clock"
+			}
+		});
+		$("#prev-button").button({
+			icons: {
+				primary: "ui-icon-triangle-1-w"
+			},
+			text: false
+		});
+		$("#next-button").button({
+			icons: {
+				primary: "ui-icon-triangle-1-e"
+			},
+			text: false
+		});
+	});
 
-<!-- CONTENT BELOW THIS LINE -->
-
-<!-- HEADER REQUIRED -->
-<div class="window-header">schedule</div>
-
-<!-- PAGE CONTENT -->
-<div  style="float: left; margin-top:-5px; margin-bottom:15px;">
-            <form name="centerscheduleform" id="centerscheduleform" action="/receptionist/timeslotList/" method="POST">  {% csrf_token %}
-            <b>Date:</b>&nbsp;
-            <input  size="15" type="text" name="rp-schedule-date" id="rp-schedule-date" class="textfield"/>&nbsp;&nbsp;&nbsp;
-            <input type="submit" name="viewbutton" class="button" id="viewbutton" value="VIEW TIMESLOT"/>
-            </form>
-</div>
-            <hr style="clear: both;">
-            
-<table>
-	<thead>
-		<tr>
-			<th>Time</th>
-			<th>Status</th>
-			<th></th>
-
-		</tr>
-	</thead>
-	<tbody>
-		{% for schedule in schedules %}
-		<tr>
-			<td>{{schedule.start_time}}-{{schedule.end_time}}</td>
-			{% if schedule.is_available %}
-			<td>Available</td>
-			{% else %}
-			<td>Occupied</td>
-			{% endif %}
-			{% if schedule.is_available %}
-			<td><a href="#" class="panebutton" load="/receptionist/cancelSchedule/{{schedule.id}}/"><img src="{{STATIC_URL}}receptionist/images/delete.png" width="15" height="15" />&nbsp;CANCEL</a></td>
-			{% endif %}
-		</tr>
-		{% endfor %}
-	</tbody>
+</script>
+<div class="title-text">Schedules</div>
+<br />
+<a href="schedule.htm?m=6" id="prev-button" class="innerlink">p</a> 
+<span id="month-indicator">July 2012</span> 
+<a href="schedule.htm?m=8" id="next-button" class="innerlink">n</a> 
+<span class="orange">
+<a href="schedule-modify.htm" class="innerlink orange" id="modify-button">Amend Timeslots</a><br />
+</span>
+<br />
+<table id="schedule-table">
+	<tr>
+		<th width="150px">Date</th>
+		<th>Time Slots</th>
+	</tr>
+	<tr>
+		<td align="center">Jul 10, 2012 (TUE)</td>
+		<td>1:30, 2:30, 3:30</td>
+	</tr>
+	<tr>
+		<td align="center">Jul 10, 2012 (TUE)</td>
+		<td>1:30, 2:30, 3:30</td>
+	</tr>
+	<tr>
+		<td align="center">Jul 10, 2012 (TUE)</td>
+		<td>1:30, <strike>2:30</strike> , 3:30</td>
+	</tr>
 </table>
+<br />

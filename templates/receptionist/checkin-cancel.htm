@@ -1,0 +1,27 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+	$("#checkout-back").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#checkout-confirm").button({
+		icons: {
+			primary: "ui-icon-check"
+		}
+	})
+});
+</script>
+
+<div class="title-text">Cancel Check In</div>
+<br />
+You are canceling the checkin for MICHAEL, SHAMOS.
+<br /><br />
+<b>Scheduled For: </b>JUL 15 2012 at 3:30PM<br />
+<b>Checked In: </b>JUL 15 2012 at 3:27PM
+<br /><br />
+<span class="orange"><a href="today.htm" id="checkout-back" class="orange innerlink">Back</a></span>
+<a href="checkin-cancel-confirm.htm" id="checkout-confirm" class="innerlink">Cancel Check-In</a>

@@ -6,7 +6,7 @@ $(document).ready(function() {
 			});
 		});
 	});
-	$("#tabs-nohdr").tabs({
+	var $tabs = $("#tabs-nohdr").tabs({
 		fx: { 
             opacity: 'toggle' 
         },
@@ -19,6 +19,17 @@ $(document).ready(function() {
 						$("*").css("cursor", "")
 					});
 				});
+				event.preventDefault();
+			});
+			$(ui.panel).delegate('.dashlink', 'click', function(event) {
+				$(ui.panel).hide();
+				$("*").css("cursor", "wait")
+				$tabs.tabs('select', 1).bind('tabsshow', function() {
+					url = 'patient-info.htm?id=' + this.patientid;
+					$("#inner-right").load(url);
+					$("*").css("cursor", "");
+				});
+
 				event.preventDefault();
 			});
 			$(ui.panel).delegate('.loadright', 'click', function(event) {

@@ -38,6 +38,7 @@ def message_dialog(request, case_id, is_sys):
             if m.sender_id != user_id:
                 sender_id = m.sender_id
                 break
+            
     return render_to_response('referring/message-dialog.htm', {'messages':messages, 
                                   'sender_id':sender_id, 'is_sys':is_sys},
                                   context_instance=RequestContext(request))
@@ -53,6 +54,8 @@ def send(request):
     message.content = content
     message.save()
     return redirect('main.views.message.message_dialog', case_id, 'False')
+
+
 
 
     

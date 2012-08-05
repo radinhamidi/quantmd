@@ -12,25 +12,36 @@ from main.utils.form_check import *
 from main.models.case import *
 from main.models.data import *
 from django.utils.datetime_safe import datetime
+from MySQLdb.constants.FIELD_TYPE import NULL
 
 
 def register_list(request):
     if request.user.is_authenticated():
-        print "here"
         profile = Profile.objects.get(user = request.user)
-        appointments = Appointment.objects.filter(mri=profile.mri_id).filter(is_check_in = False).filter(is_cancelled = False)
-        return render_to_response('receptionist/register.htm',{'appointments':appointments}, context_instance=RequestContext(request))  
+        mri = profile.mri_id
+        appointments = Appointment.objects.filter(mri=profile.mri_id).filter(is_cancelled = False)
+        today_appointments = []
+        today_checkin_appointments = []
+        for appointment in appointments:
+            schedule = appointment.schedule
+            if schedule.date == datetime.now().date():
+                if appointment.is_check_in:
+                    today_checkin_appointments.append(appointment)
+                else:
+                    today_appointments.append(appointment)
+        print "finish"
+        return render_to_response('receptionist/today.htm',{'appointments':today_appointments, 'checkins':  today_checkin_appointments, 'mri':mri}, context_instance=RequestContext(request))  
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-def register(request, appointment_id):
+def check_out(request, appointment_id):
     if request.user.is_authenticated():
         if Appointment.objects.filter(id=appointment_id).exists():
             appointment = Appointment.objects.get(id=appointment_id)
-            patient = appointment.patient
-            age = datetime.now().year - patient.birthday.year
-            print appointment
-            return render_to_response('receptionist/registration-confirmation.htm',{'appointment':appointment, 'age':age}, context_instance=RequestContext(request))
+            appointment.check_out_time = datetime.now()
+            appointment.is_check_out = True
+            appointment.save()
+            return redirect('main.views.receptionist.register_list') 
         else:
             return render_to_response('receptionist/error.htm',{'error':"error"}, context_instance=RequestContext(request))
     else: 
@@ -47,6 +58,26 @@ def check_in(request, appointment_id):
             case = appointment.case
             case.status = 1
             case.save()
+            print "hihihi"
+            return redirect('main.views.receptionist.register_list')    
+        else:
+            return render_to_response('receptionist/error.htm',{'error':"error"}, context_instance=RequestContext(request))
+    else: 
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+def check_in_cancell(request, appointment_id):
+    print "here"
+    if request.user.is_authenticated():
+        if Appointment.objects.filter(id=appointment_id).exists():
+            appointment = Appointment.objects.get(id=appointment_id)
+            print appointment
+            appointment.check_in_time = None
+            appointment.is_check_in = False
+            appointment.save()
+            case = appointment.case
+            case.status = 0
+            case.save()
+            print "hihihi"
             return redirect('main.views.receptionist.register_list')    
         else:
             return render_to_response('receptionist/error.htm',{'error':"error"}, context_instance=RequestContext(request))

@@ -1,0 +1,26 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+	$("#checkout-back").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#checkout-confirm").button({
+		icons: {
+			primary: "ui-icon-check"
+		}
+	})
+});
+</script>
+
+<div class="title-text">Patient Checkout</div>
+<br />
+<b>WARNING! Patient DICOM has not been uploaded</b>
+<br /><br />
+MICHAEL, SHAMOS is now checking out of the clinic. Confirm?
+<br /><br />
+<span class="orange"><a href="today.htm" id="checkout-back" class="orange innerlink">Cancel</a></span>
+<a href="patient-checkout-confirm.htm" id="checkout-confirm" class="innerlink">Confirm</a>

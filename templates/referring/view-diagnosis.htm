@@ -1,5 +1,5 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
 
 <script>
 	$(document).ready(function() {
@@ -11,17 +11,21 @@
 });
 </script>
 <div id="patient-info-nav">
-	<span class="orange"><a id="diagnosis-back" href="case-view.htm" class="orange loadright">Back to Case</a></span>
+	<span class="orange"><a id="diagnosis-back" href="/referring/patientCase/{{case.id}}/" class="orange loadright">Back to Case</a></span>
 </div>
-<div class="title-text">Case #1343 Diagnosis</div>
-Michael, Shamos<br />
-October 10, 1980<br />
-Male<br />
-<br />
-Attributes here (status, etc)
-<br /><br />
-All messages...
-<br /><br />
-<div class="small-title">Case History</div>
-<br />
+<div class="title-text">{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</div>
+SSN: {{patient.ssn}}<br/>
+Birthday: {{patient.birthday}}<br />
+{% if patient.gender == 1 %}
+			Gender:Male
+			{% endif %}
+		{% if patient.gender == 0 %}
+			Gender:Female
+			{% endif %}<br />
+
+Create Time: {{report.create_time}}<br/>	
+{{report.content}}<br/>
+
+
+
 

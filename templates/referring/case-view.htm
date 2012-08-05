@@ -72,12 +72,24 @@ Report available Time: {{case.report.create_time}}
 
 
 
-All messages...<br />
+{% for message in messages%}
+	{% if message.is_sys %}
+		{{message.title}}<br/>
+		{{message.content}}<br/>
+		{{message.create_time}}<br/>
+	is read?	{{message.is_read}}<br/>
+	{% endif %}
+{% endfor %}
+<br />
+
+{% if case.status == 0%}
 <a id="change-schedule" href="referring/reschedule/{{appointment.id}}/" class="loadright">Change Appointment</a>
+
 <span class="orange">
-<a id="case-cancel" href="/referring/cancelAppointment/{{appointment.id}}/" class="orange loadright">Cancel Case</a>
+<a id="case-cancel" href="/referring/cancelAppointment/{{appointment.id}}/" class="orange loadright">Cancel Appointment</a>
 </span>
+{% endif %}
 <br /><br />
 <div class="small-title">Case History</div>
 <br />
-<a id="view-diagnosis" href="view-diagnosis.htm" class="loadright">View Diagnosis</a>
+<a id="view-diagnosis" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View Diagnosis</a>

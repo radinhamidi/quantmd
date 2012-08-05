@@ -1,0 +1,137 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+		$("table#patient-inhouse tr:even").css("background-color", "#F4F4F8");
+		$("table#patient-inhouse tr:odd").css("background-color", "#EFF1F1");
+		$("table#patient-incoming tr:even").css("background-color", "#E4E4E8");
+		$("table#patient-incoming tr:odd").css("background-color", "#DFE1EF");
+		$(".checkout").button({
+			icons: {
+				primary: "ui-icon-arrowstop-1-w"
+			},
+			 text: false
+		});
+		$(".cancel").button({
+			icons: {
+				primary: "ui-icon-closethick"
+			},
+			 text: false
+		});
+		$(".cancel-disable").button({
+			icons: {
+				primary: "ui-icon-closethick"
+			},
+			 disabled: true,
+			 text: false
+		});
+		$(".checkin").button({
+			icons: {
+				primary: "ui-icon-play"
+			},
+			 text: false
+		});
+		$(".reschedule").button({
+			icons: {
+				primary: "ui-icon-clock"
+			},
+			 text: false
+		});
+		startTime();
+	});
+	function startTime()
+	{
+		var today=new Date();
+		
+		var year=today.getYear();
+		if (year < 1000) { year+=1900; }
+		var day=today.getDay();
+		var month=today.getMonth();
+		var daym=today.getDate();
+		var h=today.getHours();
+		var m=today.getMinutes();
+		var s=today.getSeconds();
+		var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+		var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+		
+		// add a zero in front of numbers<10
+		m=checkTime(m);
+		s=checkTime(s);
+		$("#datetime").html(dayarray[day]+", "+montharray[month]+" "+daym+", "+year+" "+h+":"+m+":"+s);
+		t=setTimeout('startTime()',500);
+	}
+
+	function checkTime(i)
+	{
+	if (i<10)
+	  {
+	  i="0" + i;
+	  }
+	return i;
+	}
+</script>
+<div class="title-text">{{mri.name}}</div>
+<div id="datetime">b</div>
+<br />
+<div class="small-title">Patients In Clinic</div>
+<table id="patient-inhouse">
+	<tr>
+		<th width="120px">Time Scheduled</th>
+		<th width="120px">Time Registered</th>
+		<th>Patient Name</th>
+		<th width="70px">Gender</th>
+		<th width="100px">Status</th>
+		<th width="80px"></th>
+	</tr>
+	{% for checkin in checkins%}
+	<tr>
+		<td align="center">{{checkin.schedule.start_time}}</td>
+		<td align="center">{{checkin.check_in_time}}</td>
+		<td align="center">{{checkin.patient.first_name}} {{checkin.patient.middle_name}} {{checkin.patient.first_name}}</td>
+		<td align="center">{% if checkin.patient.gender == 1 %}
+								Male
+							{% endif %}
+					{% if checkin.patient.gender == 0 %}
+							   Female
+						{% endif %} </td>
+		{% if checkin.is_check_out%}
+			<td align="center">Check Out!</td>
+			<td > </td>
+		{% else %}
+		<td align="center">
+			<td align="center">Waiting!</td>
+			<a href="/receptionist/checkOut/{{checkin.id}}/" class="checkout innerlink">c</a>
+			<span class="orange"><a href="/receptionist/checkInCancell/{{checkin.id}}/" class="orange cancel innerlink">c</a></span>
+		</td>
+		{% endif%}
+	</tr>
+	{% endfor %}
+</table>
+<br />
+<div class="small-title">Patients Scheduled Today</div>
+<table id="patient-incoming">
+	<tr>
+		<th width="120px">Time Scheduled</th>
+		<th>Patient Name</th>
+		<th>Gender</th>
+		<th width="80px"></th>
+	</tr>
+	{% for appointment in appointments%}
+	<tr>
+		<td align="center">{{appointment.schedule.start_time}}</td>
+		<td align="center">{{appointment.patient.first_name}} {{appointment.patient.middle_name}} {{appointment.patient.last_name}}</td>
+		<td align="center">{% if appointment.patient.gender == 1 %}
+									Male
+								{% endif %}
+						{% if appointment.patient.gender == 0 %}
+								Female
+							{% endif %} </td>
+		<td align="center">
+			<a href="/receptionist/checkIn/{{appointment.id}}/" class="checkin innerlink">c</a>
+			<span class="orange"><a href="patient-reschedule.htm" class="orange reschedule innerlink">c</a></span>
+		</td>
+	</tr>
+	{%endfor%}
+</table>
+</div>

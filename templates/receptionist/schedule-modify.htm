@@ -1,0 +1,107 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+		$("table#schedule-table tr:even").css("background-color", "#F4F4F8");
+		$("table#schedule-table tr:odd").css("background-color", "#EFF1F1");
+		$("#modify-button").button({
+			icons: {
+				primary: "ui-icon-check"
+			}
+		});
+		$("#prev-button").button({
+			icons: {
+				primary: "ui-icon-triangle-1-w"
+			},
+			text: false
+		});
+		$("#next-button").button({
+			icons: {
+				primary: "ui-icon-triangle-1-e"
+			},
+			text: false
+		});
+		$(".timebuttons").button();
+		$(".timebuttons-disable").button({
+			disabled: true
+		});
+		$(".timeslot-add-submit").button();
+	});
+	$(".timeslot-add-form").submit(function(event) {
+
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+			
+		$("#ui-tabs-3").hide();
+    /* Send the data using post and put the results in a div */
+		$.post( url, $form.serialize(),
+		function( data ) {
+			$("#ui-tabs-3").empty().append($(data));
+			$("#ui-tabs-3").fadeIn('fast');
+		}
+		);
+     });
+</script>
+<div class="title-text">Modify Timeslots</div>
+<br />
+<a href="schedule.htm?m=6" id="prev-button" class="innerlink">p</a> 
+<span id="month-indicator">July 2012</span> 
+<a href="schedule.htm?m=8" id="next-button" class="innerlink">n</a> 
+<span class="orange">
+<a href="schedule.htm" class="innerlink orange" id="modify-button">Done</a><br />
+</span>
+<br />
+<table id="schedule-table">
+	<tr>
+		<th width="150px">Date</th>
+		<th>Time Slots</th>
+		<th width="260px">Add Slots</th>
+	</tr>
+	<tr>
+		<td align="center">Jul 10, 2012 (TUE)</td>
+		<td>
+			<a class="innerlink timebuttons" href="schedule-modify.htm">2:30</a> 
+			<a class="innerlink timebuttons" href="schedule-modify.htm">3:30</a> 
+		</td>
+		<td align="center">
+			<form class="timeslot-add-form" action="schedule-modify.htm">
+				<input type="text" name="newtimeslot" /> 
+				<input type="submit" class="timeslot-add-submit" value="Add" />
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td align="center">Jul 10, 2012 (TUE)</td>
+		<td>
+			<a class="innerlink timebuttons" href="schedule-modify.htm">2:30</a> 
+			<a class="innerlink timebuttons" href="schedule-modify.htm">3:30</a>
+			<span class="orange"><a class="orange innerlink timebuttons-disable" onClick="return false;">4:30</a></span> 
+			<a class="innerlink timebuttons" href="schedule-modify.htm">5:30</a>
+		</td>
+		<td align="center">
+			<form class="timeslot-add-form" action="schedule-modify.htm">
+				<input type="text" name="newtimeslot" /> 
+				<input type="submit" class="timeslot-add-submit" value="Add" />
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td align="center">Jul 10, 2012 (TUE)</td>
+		<td>
+			<a class="innerlink timebuttons" href="schedule-modify.htm">2:30</a> 
+			<a class="innerlink timebuttons" href="schedule-modify.htm">3:30</a> 
+		</td>
+		<td align="center">
+			<form class="timeslot-add-form" action="schedule-modify.htm">
+				<input type="text" name="newtimeslot" /> 
+				<input type="submit" class="timeslot-add-submit" value="Add" />
+			</form>
+		</td>
+	</tr>
+</table>
+<br />
