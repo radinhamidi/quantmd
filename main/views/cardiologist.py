@@ -68,3 +68,7 @@ def submit_report(request):
     messages.info(request, 'Report submited and sent a message to referring doctor')
     return redirect('main.views.cardiologist.case')
 
+def logs(request):
+    return render_to_response('cardiologist/logs.htm', {},
+                                  context_instance=RequestContext(request))
+

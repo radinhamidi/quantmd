@@ -2,7 +2,7 @@
 from django.conf.urls.defaults import patterns
 
 urlpatterns = patterns('main.views',
-    #(r'^messagesInfo/$', 'referring.messages_list'),
+    (r'^dashboard/$', 'referring.dashboard'),
     #(r'^message/(?P<message_id>\d+)/$', 'referring.message_info'),
     (r'^patientsView/$', 'patients.patients_view'),
     (r'^patientsInfo/$', 'patients.patientsList'),

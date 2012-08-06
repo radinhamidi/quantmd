@@ -89,6 +89,12 @@ def upload_action(request):
     except Exception, e:
         return HttpResponse(str(e))
 
+def logs(request):
+    """The logs of uploaded files"""
+    return render_to_response('broker/logs.htm', {},
+                                  context_instance=RequestContext(request))
+
+
 
     
     
