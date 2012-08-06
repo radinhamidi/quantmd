@@ -1,8 +1,8 @@
 @font-face {
   font-family: Helvetica Neue;
-  src: url({{STATIC_URL}}common/fonts/HelveticaNeue.ttf);
+  src: url(../fonts/HelveticaNeue.ttf);
 }
 @font-face {
   font-family: Tw Cen MT;
-  src: url({{STATIC_URL}}common/fonts/tcm.ttf);
+  src: url(../fonts/tcm.ttf);
 }

@@ -1,124 +1,86 @@
 <html>
-	
-	<head>
-		
-		<title>Broker - QuantMD</title>
-		
-		<!-- Import Scripts -->
-		<script src="{{STATIC_URL}}/common/js/jquery.js"></script>
-		<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
-		<script src="{{STATIC_URL}}common/js/datatables.js"></script>
-		<script src="{{STATIC_URL}}common/js/jscrollpane.js"></script>
-		<script src="{{STATIC_URL}}common/js/mousewheel.js"></script>
-		<script src="{{STATIC_URL}}common/js/common.js"></script>
+<head>
 
-		<!-- Import Styles -->
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme/jquery-ui.css" />
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/fonts.css" />
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/common.css" />
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/uploadifive.css">
-		<style type="text/css">
-			body {
-				font: 13px Arial, Helvetica, Sans-serif;
-			}
-			.uploadifive-button {
-				float: left;
-				margin-right: 10px;
-			}
-			#queue {
-				border: 1px solid #E5E5E5;
-				height: 177px;
-				overflow: auto;
-				margin-bottom: 10px;
-				padding: 0 3px 3px;
-				width: 300px;
-			}
-		</style>
-		
-		
-		<!-- Local Scripts & Styles -->
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}broker/css/broker.css" />
-		<script src="{{STATIC_URL}}broker/js/broker.js"></script>
-		
-		
-	</head>
+	<title>Broker - QuantMD</title>
+
+	<!-- Import Styles -->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/fonts.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/jscrollpane.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/datatables.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/core.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/uploadifive.css">
+	<style type="text/css">
+		body {
+			font: 13px Arial, Helvetica, Sans-serif;
+		}
+		.uploadifive-button {
+			float: left;
+			margin-right: 10px;
+		}
+		#queue {
+			border: 1px solid #E5E5E5;
+			height: 177px;
+			overflow: auto;
+			margin-bottom: 10px;
+			padding: 0 3px 3px;
+			width: 300px;
+		}
+	</style>
 	
-	<body>
+	<!-- Import Scripts -->
+	<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+	<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+	<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+	<script src="{{STATIC_URL}}common/js/jscrollpane.js"></script>
+	<script src="{{STATIC_URL}}common/js/mousewheel.js"></script>
+	<script src="{{STATIC_URL}}common/js/core.js"></script>
 	
-		<div id="wrapper">
-		
-			<!-- User Box Section -->
-			<div id="user-box">
-				<div id="user-box-text"><center>WELCOME, <b>USERABC</b>&nbsp; <img src="{{STATIC_URL}}common/images/drop-arrow.png" /></center></div>
-				<div id="user-box-options">
-					<div id="user-box-options-text">
-						&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#">ACCOUNT SETTINGS</a><p />
-						&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#" onClick="logout();">SIGN OUT</a>
-					</div>
+	<!-- Local Scripts & Styles -->
+	<script src="{{STATIC_URL}}broker/js/broker.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}broker/css/broker.css" />
+	
+</head>
+<body>
+	<div id="wrapper">
+	
+		<!-- User Box Section -->
+		<div id="user-box">
+			<div id="user-box-text"><center>WELCOME, <b>USERABC</b>&nbsp; <img src="{{STATIC_URL}}common/images/drop-arrow.png" /></center></div>
+			<div id="user-box-options">
+				<div id="user-box-options-text">
+					&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#">ACCOUNT SETTINGS</a><p />
+					&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#" onClick="logout();">SIGN OUT</a>
 				</div>
 			</div>
-			
-			<!-- Navigation Bar -->
-			<div id="navbar">
-				<img id="nav-patients" class="showbutton" show="patients" load="patients.htm" src="{{STATIC_URL}}broker/images/icon-patients.png" />&nbsp;
-				<img id="nav-upload" class="showbutton" show="upload" load="{%url main.views.broker.upload%}" src="{{STATIC_URL}}broker/images/icon-upload.png" />&nbsp; 
-				<img id="nav-progress" class="showbutton" show="progress" load="progress.htm" src="{{STATIC_URL}}broker/images/icon-progress.png" />&nbsp;
-				<img id="nav-logs" class="showbutton" show="logs" load="logs.htm" src="{{STATIC_URL}}broker/images/icon-logs.png" />
-			</div>
-			
-			<!-- MAIN CONTENT AREA -->
-			
-			<div id="drag-container">
-			
-				<div id="patients" class="windows">
-					<div id="patients-close" class="hidebutton">X</div>
-					<div id="patients-content" class="content">
-						hello world
-					</div>
-				</div>
-				
-				<div id="upload" class="windows">
-					<div id="upload-close" class="hidebutton">X</div>
-					<div id="upload-content" class="content">
-						hello world
-					</div>
-				</div>
-				
-				<div id="progress" class="windows">
-					<div id="progress-close" class="hidebutton">X</div>
-					<div id="progress-content" class="content">
-						hello world
-					</div>
-				</div>
-				
-				<div id="logs" class="windows">
-					<div id="logs-close" class="hidebutton">X</div>
-					<div id="logs-content" class="content">
-						hello world
-					</div>
-				</div>
-			
-			</div>
-		
 		</div>
-
-		<!-- Logout Confirmation Box -->
+			
+		<div id="container">
+			<div id="tabs-nohdr">
+				<ul>
+					<li><a href="/broker/patients/"><span><img src='{{STATIC_URL}}broker/images/upload.png' /> Upload</span></a></li>
+					<li><a href="progress.htm"><span><img src='{{STATIC_URL}}broker/images/progress.png' /> Progress</span></a></li>
+					<li><a href="logs.htm"><span><img src='{{STATIC_URL}}broker/images/logs.png' /> Logs</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- Footer Bar -->
+	<div id="footer">
+		<div id="footer-left">
+			<div id="footer-left-logo"><img src="{{STATIC_URL}}common/images/icon-quantmd-mini-black.png" height="20px" width="20px" /></div>
+			<div>&nbsp; &#0169; 2012 QUANTMD</div>
+		</div>
+		<div id="footer-right">
+			<a href="#">TERMS OF SERVICE</a> | <a href="#">PATIENT PRIVACY NOTICE</a> | <a href="#">CONTACT QUANTMD</a>
+		</div>
+	</div>
+	
+	<!-- Logout Confirmation Box -->
 		<div id="logout-confirm" title="Confirm Sign Out?">
 			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This will sign you out of your current session. Any unsaved work will be lost.<br /></p>
 		</div>
-		
-		<!-- Footer Bar -->
-		<div id="footer">
-			<div id="footer-left">
-				<div id="footer-left-logo"><img src="{{STATIC_URL}}common/images/icon-quantmd-mini-black.png" height="20px" width="20px" /></div>
-				<div>&nbsp; &#0169; 2012 QUANTMD</div>
-			</div>
-			<div id="footer-right">
-				<a href="#">TERMS OF SERVICE</a> | <a href="#">PATIENT PRIVACY NOTICE</a> | <a href="#">CONTACT QUANTMD</a>
-			</div>
-		</div>
-	
-	</body>
-	
+
+</body>
 </html>

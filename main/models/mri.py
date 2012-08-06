@@ -15,6 +15,8 @@ class MRICenter(models.Model):
     
     class Meta: 
         app_label = 'main'
+    def __unicode__(self):
+        return self.name
         
 class Schedule(models.Model):
     """

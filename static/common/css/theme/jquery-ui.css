@@ -53,9 +53,9 @@
 
 /* Component containers
 ----------------------------------*/
-.ui-widget { font-family: "Helvetica Neue", "Tw Cen MT", sans-serif; font-size: 15px; }
-.ui-widget .ui-widget { font-size: 15px; }
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: "Helvetica Neue", "Tw Cen MT", sans-serif; font-size: 15px; }
+.ui-widget { font-family: "Helvetica Neue", "Tw Cen MT", sans-serif; font-size: 13px; }
+.ui-widget .ui-widget { font-size: 13px; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: "Helvetica Neue", "Tw Cen MT", sans-serif; font-size: 13px; }
 .ui-widget-content { border: 1px solid #a6c9e2; background: #fcfdfd url(images/ui-bg_inset-hard_100_fcfdfd_1x100.png) 50% bottom repeat-x; color: #222222; }
 .ui-widget-content a { color: #222222; }
 .ui-widget-header { border: 1px solid #4297d7; background: #156199 url(images/ui-bg_gloss-wave_55_156199_500x100.png) 50% 50% repeat-x; color: #ffffff; font-weight: bold; }
@@ -483,7 +483,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; padding-bottom: 1px; }
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
-.ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 1em 1.4em; background: none; }
+.ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 1em 1.4em; background: none; overflow: hidden; }
 .ui-tabs .ui-tabs-hide { display: none !important; }
 /*!
  * jQuery UI Datepicker 1.8.21

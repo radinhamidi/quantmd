@@ -14,6 +14,7 @@ $(document).ready(function() {
 			primary: "ui-icon-plus"
 		}
 	});
+	$( "#schedule-change-preferreddate" ).datepicker();
 	$("#form-create-case").submit(function(event) {
 
     /* stop form from submitting normally */
@@ -37,27 +38,53 @@ $(document).ready(function() {
 </script>
 
 <div class="title-text">Change Appointment</div>
-{{patient.first_name}}, {{patient.middle_name}}, {{patient.last_name}}<br />
-{% if patient.gender == 1 %}
-			Gender:Male
-{% endif %}
-{% if patient.gender == 0 %}
-Gender:Female
-{% endif %}<br />
+	<table class="format-table">
+		<tr>
+			<td width="100px"><b>Patient</b></td>
+			<td>{{patient.first_name}}, {{patient.middle_name}}, {{patient.last_name}}</td>
+		</tr>
+		<tr>
+			<td width="100px"><b>Birthdate</b></td>
+			<td>{{patient.birthday|date:"SHORT_DATE_FORMAT"}}</td>
+		</tr>
+		<tr>
+			<td width="100px"><b>Gender</b></td>
+			<td>
+				{% if patient.gender == 1 %}
+					Male
+				{% endif %}
+				{% if patient.gender == 0 %}
+					Female
+				{% endif %}
+			</td>
+		</tr>
+	</table><br />
+	<div class="small-title">Original Appointment</div>
+	<table class="format-table">
+		<tr>
+			<td width="100px"><b>Center</b></td>
+			<td>{{appointment.mri.name}}</td>
+		</tr>
+		<tr>
+			<td><b>Address</b></td>
+			<td>{{appointment.mri.address}} {{appointment.mri.address2}}</td>
+		</tr>
+		<tr>
+			<td><b></b></td>
+			<td>{{appointment.mri.city}}, {{appointment.mri.state}} {{appointment.mri.zip}}</td>
+		</tr>
+		<tr>
+			<td><b>Date & Time</b></td>
+			<td>{{appointment.schedule.date}} {{appointment.schedule.start_time}}</td>
+		</tr>
+	</table><br />
 
-Original Appointment:<br />
-{{appointment.mri.name}}<br/>
-{{appointment.mri.address}} {{appointment.mri.address2}} {{appointment.mri.city}} {{appointment.mri.state}} {{appointment.mri.zip}}<br/><br/>
-{{appointment.schedule.date}}<br/>
-{{appointment.schedule.start_time}}<br/>
-<br />
-
-Select a MRI center for scan.<br /><br />
+<div class="small-title">Search For Timeslots</div>
 <form id="form-create-case" name="form-create-case" action="/referring/reappointmentSearch/{{appointment.id}}/">{% csrf_token %}
 	<table class="formtable">
 		<tr>
 			<td width="120px">Preferred Date</td>
-			<td><input type="text" name="preferreddate" /></td>
+			<td><input type="text" name="preferreddate" id="schedule-change-preferreddate" /></td>
 		</tr>
 		<tr>
 			<td width="120px">Preferred Time</td>

@@ -29,7 +29,8 @@
 	$("#btn-patient-refresh").button({
 		icons: {
 			primary: "ui-icon-refresh"
-		}
+		},
+		text: false
 	});
 	$("#btn-patient-refresh").click(function() {
 		$("*").css("cursor", "wait");
@@ -78,6 +79,6 @@
 </div>
 <div id="right-bar">
 	<div id="inner-right">
-		Select a patient to proceed.
+		<center>Select a patient to proceed</center>
 	</div>
 </div>

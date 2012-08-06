@@ -23,3 +23,8 @@ class Patient(models.Model):
     
     class Meta:
         app_label = 'main'
+    def __unicode__(self):
+        if self.middle_name:
+            return self.first_name + ' ' + self.middle_name + ' ' + self.last_name
+        else:
+            return self.first_name + ' ' + self.last_name

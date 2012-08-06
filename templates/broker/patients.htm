@@ -1,20 +1,73 @@
-<!-- JAVASCRIPT LIBRARY IMPORTS -->
-<!--
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<script src="../common/js/common.js"></script>
-<script src="js/referring.js"></script>
--->
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/subpage.js"></script>
-<script src="js/broker.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+		$("table#patient-upload tr:even").css("background-color", "#F4F4F8");
+		$("table#patient-upload tr:odd").css("background-color", "#EFF1F1");
+		$(".upload").button({
+			icons: {
+				primary: "ui-icon-arrowreturnthick-1-n"
+			},
+			text: false
+		});
+		startTime();
+	});
+	function startTime()
+	{
+		var today=new Date();
+		
+		var year=today.getYear();
+		if (year < 1000) { year+=1900; }
+		var day=today.getDay();
+		var month=today.getMonth();
+		var daym=today.getDate();
+		var h=today.getHours();
+		var m=today.getMinutes();
+		var s=today.getSeconds();
+		var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+		var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+		
+		// add a zero in front of numbers<10
+		m=checkTime(m);
+		s=checkTime(s);
+		$("#datetime").html(dayarray[day]+", "+montharray[month]+" "+daym+", "+year+" "+h+":"+m+":"+s);
+		t=setTimeout('startTime()',500);
+	}
 
-<!-- CONTENT BELOW THIS LINE -->
-
-<!-- HEADER REQUIRED -->
-<div class="window-header">patients</div>
-
-<!-- PAGE CONTENT -->
-hello!
+	function checkTime(i)
+	{
+	if (i<10)
+	  {
+	  i="0" + i;
+	  }
+	return i;
+	}
+</script>
+<div class="title-text">{{mri_name}}</div>
+<div id="datetime">b</div>
+<br />
+<div class="small-title">Patients Awaiting Upload</div>
+<table id="patient-upload">
+	<tr>
+		<th width="120px">Time Scheduled</th>
+		<th width="120px">Time Registered</th>
+		<th>Patient Name</th>
+		<th width="80px">Sex</th>
+		<th width="90px">D.O.B</th>
+		<th width="60px"></th>
+	</tr>
+	{% for apt in apts %}
+	<tr>
+		<td align="center">{{apt.schedule.start_time}}</td>
+		<td align="center">{{apt.check_in_time}}</td>
+		<td align="center">{{apt.patient}}</td>
+		<td align="center">{% if apt.patient.gender %}Male{% else %}Female{% endif %}</td>
+		<td align="center">{{apt.patient.birthday}}</td>
+		<td align="center">
+			<span class="orange"><a href="/broker/upload/{{apt.patient_id}}/{{apt.case_id}}/" class="orange upload innerlink">c</a></span>
+		</td>
+	</tr>
+    {% endfor %}
+</table>
+<br />

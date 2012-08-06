@@ -1,7 +1,41 @@
-/* Initializing Offsets */
-#patients { top: 20; left: 20; }
-#upload { top: 50; left: 50; }
-#progress { top: 80; left: 80; }
-#logs { top: 110; left: 110; }
-
-#patient-table { width: 710px; }
+.title-text {
+	margin-top: 5px;
+	font-size: 24px;
+	margin-bottom: 2px;
+	font-family:"Helvetica Neue";
+}
+.small-title {
+	font-size: 17px;
+	margin-bottom: 6px;
+	color: #88A;
+}
+#patient-upload {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#patient-upload td, #patient-upload th {
+	padding: 8px;
+}
+#patient-upload th {
+	background: #ddd;
+}
+#upload-progress {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#upload-progress td, #upload-progress th {
+	padding: 8px;
+}
+#upload-progress th {
+	background: #ddd;
+}
+#log-table {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#log-table td, #log-table th {
+	padding: 8px;
+}

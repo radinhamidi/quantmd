@@ -6,7 +6,8 @@ from datetime import datetime
 
 class Message(models.Model):
     is_sys = models.BooleanField(default=False)
-    #0 for appointment confirm, 1 for appointment cancel, 2 for reschedule, 3 for diagnosis available
+    #0 for appointment confirm, 1 for appointment cancel, 2 for reschedule, 
+    #3, Dicom file uploaded4 for diagnosis available
     type = models.SmallIntegerField(default=-1) #only used by system message
     
     sender = models.ForeignKey(Profile, null=True, blank=True, related_name="msg_sender")
