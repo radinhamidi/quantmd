@@ -230,13 +230,14 @@ def cancel(request, appointment_id):
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-def cancel_schedule(request, schedule_id):
+def cancel_schedule(request, schedule_id, month):
     if request.user.is_authenticated():
         if Schedule.objects.filter(id=schedule_id).exists():
-            schedule.objects.get(id=schedule_id)
+            schedule = Schedule.objects.get(id=schedule_id)
             schedule.is_cancelled=True
             schedule.save()
-            return redirect('main.views.receptionist.schedule_list_view')    
+            print "success"
+            return redirect('main.views.receptionist.amend_timesolt', month)    
         else:
             return render_to_response('receptionist/error.htm',{'error':"error"}, context_instance=RequestContext(request))
     else: 
@@ -400,10 +401,11 @@ def reschedule_action(request, schedule_id, appointment_id):
             errors.append('Schedule is not available')
             return render_to_response('receptionist/patient-reschedule.htm',{'errors':errors}, context_instance=RequestContext(request))
         
-        print "haha"
         # old_appointment cancelled
         old_appointment = Appointment.objects.get(id = appointment_id)
+        print old_appointment
         old_appointment.is_cancelled = True
+       
         # old_schedule available
         old_schedule = old_appointment.schedule
         old_schedule.is_available = True
@@ -419,6 +421,6 @@ def reschedule_action(request, schedule_id, appointment_id):
         new_appointment.save()
         
         print "success"
-        return redirect('main.views.receptionist.patients_view')    
+        return redirect('main.views.receptionist.register_list')    
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))

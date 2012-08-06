@@ -118,7 +118,7 @@
 	</tr>
 	{% for appointment in appointments%}
 	<tr>
-		<td align="center">{{appointment.schedule.start_time}}</td>
+		<td align="center">{{appointment.schedule.start_time|time:"H:i"}}</td>
 		<td align="center">{{appointment.patient.first_name}} {{appointment.patient.middle_name}} {{appointment.patient.last_name}}</td>
 		<td align="center">{% if appointment.patient.gender == 1 %}
 									Male

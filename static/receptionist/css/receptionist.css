@@ -75,3 +75,8 @@
 	margin-bottom: 6px;
 	color: #88A;
 }
+#timeslot-confirm-3 {
+	width: 350px;
+	height: 400px;
+	display: none;
+}

@@ -72,7 +72,7 @@ View 10 Days from <input type="text" id="rebookingdate" name="rebookingdate" />
 		<td align="center">{{k.0}}</td>
 		<td>{% for schedule in k.1 %}
 			{% if schedule.is_available%}
-			<a onClick="confirmBooking({{patient.id}},{{schedule.id}});">{{schedule.start_time|time:"H:i:s"}}</a>
+			<a onClick="confirmBookingForReschedule3({{schedule.id}},{{appointment.patient.id}});">{{schedule.start_time|time:"H:i:s"}}</a>
 			{% else %}
 			<strike>{{schedule.start_time|time:"H:i"}}</strike> 
 			{% endif %}
@@ -84,3 +84,7 @@ View 10 Days from <input type="text" id="rebookingdate" name="rebookingdate" />
 </table>
 <br /><br />
 <span class="orange"><a href="/receptionist/registerList/" id="reschedule-back" class="orange innerlink">Cancel</a></span>
+
+<div id="timeslot-confirm-3" title="Confirm Timeslot">
+			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Confirm booking?<br /></p>
+</div>

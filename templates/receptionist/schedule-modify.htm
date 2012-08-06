@@ -68,7 +68,7 @@
 		<td>
 			{% for schedule in k.1 %}
 				{% if schedule.is_available%}
-					<a class="innerlink timebuttons" href="schedule-modify.htm">{{schedule.start_time|time:"H:i"}}</a>
+					<a class="innerlink timebuttons" href="/receptionist/cancelSchedule/{{schedule.id}}/{{month}}/">{{schedule.start_time|time:"H:i"}}</a>
 				{% else %}
 					<span class="orange"><a class="orange innerlink timebuttons-disable" onClick="return false;">{{schedule.start_time|time:"H:i"}}</a></span>
 				{% endif %}
