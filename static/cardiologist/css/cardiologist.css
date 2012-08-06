@@ -54,6 +54,19 @@
 	padding: 20px;
 	min-width: 300px;
 }
+.message-list-line {
+	height: 65px;
+	overflow: hidden;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+.message-list-line .unread {
+	float: right;
+}
+.message-list-line .header {
+	font-size: 14px;
+	font-weight: bold;
+}
 #right-bar {
 	width: 70%;
 	margin-left: 30%;
