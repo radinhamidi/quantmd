@@ -1,6 +1,6 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 	$(document).ready(function() {
 		$("table#schedule-table tr:even").css("background-color", "#F4F4F8");
@@ -27,11 +27,11 @@
 </script>
 <div class="title-text">Schedules</div>
 <br />
-<a href="schedule.htm?m=6" id="prev-button" class="innerlink">p</a> 
-<span id="month-indicator">July 2012</span> 
-<a href="schedule.htm?m=8" id="next-button" class="innerlink">n</a> 
+<a href="/receptionist/scheduleList/{{month|add:"1"}}/0/" id="prev-button" class="innerlink">p</a> 
+<span id="month-indicator">{{date|date:"M Y"}}</span> 
+<a href="/receptionist/scheduleList/{{month|add:"1"}}/1/" id="next-button" class="innerlink">n</a> 
 <span class="orange">
-<a href="schedule-modify.htm" class="innerlink orange" id="modify-button">Amend Timeslots</a><br />
+<a href="/receptionist/amendTimesolt/0/1/" class="innerlink orange" id="modify-button">Amend Timeslots</a><br />
 </span>
 <br />
 <table id="schedule-table">
@@ -39,17 +39,18 @@
 		<th width="150px">Date</th>
 		<th>Time Slots</th>
 	</tr>
+	{% for k in dic%}
 	<tr>
-		<td align="center">Jul 10, 2012 (TUE)</td>
-		<td>1:30, 2:30, 3:30</td>
+		<td align="center">{{k.0}}</td>
+		<td>{% for schedule in k.1 %}
+			{% if schedule.is_available%}
+			{{schedule.start_time|time:"H:i"}},
+			{% else %}
+			<strike>{{schedule.start_time|time:"H:i"}}</strike>,
+			{% endif %}
+		{% endfor %}
+		</td>
 	</tr>
-	<tr>
-		<td align="center">Jul 10, 2012 (TUE)</td>
-		<td>1:30, 2:30, 3:30</td>
-	</tr>
-	<tr>
-		<td align="center">Jul 10, 2012 (TUE)</td>
-		<td>1:30, <strike>2:30</strike> , 3:30</td>
-	</tr>
+	{% endfor %}
 </table>
 <br />

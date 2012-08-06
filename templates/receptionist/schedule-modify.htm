@@ -1,6 +1,6 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 	$(document).ready(function() {
 		$("table#schedule-table tr:even").css("background-color", "#F4F4F8");
@@ -49,11 +49,11 @@
 </script>
 <div class="title-text">Modify Timeslots</div>
 <br />
-<a href="schedule.htm?m=6" id="prev-button" class="innerlink">p</a> 
-<span id="month-indicator">July 2012</span> 
-<a href="schedule.htm?m=8" id="next-button" class="innerlink">n</a> 
+<a href="/receptionist/amendTimesolt/{{month|add:"1"}}/0/" id="prev-button" class="innerlink">p</a> 
+<span id="month-indicator">{{date|date:"M Y"}}</span> 
+<a href="/receptionist/amendTimesolt/{{month|add:"1"}}/1/" id="next-button" class="innerlink">n</a> 
 <span class="orange">
-<a href="schedule.htm" class="innerlink orange" id="modify-button">Done</a><br />
+<a href="/receptionist/amendTimesolt/{{month}}/1/" class="innerlink orange" id="modify-button">Done</a><br />
 </span>
 <br />
 <table id="schedule-table">
@@ -62,11 +62,18 @@
 		<th>Time Slots</th>
 		<th width="260px">Add Slots</th>
 	</tr>
+	{% for k in dic%}
 	<tr>
-		<td align="center">Jul 10, 2012 (TUE)</td>
+		<td align="center">{{k.0}}</td>
 		<td>
-			<a class="innerlink timebuttons" href="schedule-modify.htm">2:30</a> 
-			<a class="innerlink timebuttons" href="schedule-modify.htm">3:30</a> 
+			{% for schedule in k.1 %}
+				{% if schedule.is_available%}
+					<a class="innerlink timebuttons" href="schedule-modify.htm">{{schedule.start_time|time:"H:i"}}</a>
+				{% else %}
+					<span class="orange"><a class="orange innerlink timebuttons-disable" onClick="return false;">{{schedule.start_time|time:"H:i"}}</a></span>
+				{% endif %}
+				{% endfor %}
+			
 		</td>
 		<td align="center">
 			<form class="timeslot-add-form" action="schedule-modify.htm">
@@ -75,33 +82,6 @@
 			</form>
 		</td>
 	</tr>
-	<tr>
-		<td align="center">Jul 10, 2012 (TUE)</td>
-		<td>
-			<a class="innerlink timebuttons" href="schedule-modify.htm">2:30</a> 
-			<a class="innerlink timebuttons" href="schedule-modify.htm">3:30</a>
-			<span class="orange"><a class="orange innerlink timebuttons-disable" onClick="return false;">4:30</a></span> 
-			<a class="innerlink timebuttons" href="schedule-modify.htm">5:30</a>
-		</td>
-		<td align="center">
-			<form class="timeslot-add-form" action="schedule-modify.htm">
-				<input type="text" name="newtimeslot" /> 
-				<input type="submit" class="timeslot-add-submit" value="Add" />
-			</form>
-		</td>
-	</tr>
-	<tr>
-		<td align="center">Jul 10, 2012 (TUE)</td>
-		<td>
-			<a class="innerlink timebuttons" href="schedule-modify.htm">2:30</a> 
-			<a class="innerlink timebuttons" href="schedule-modify.htm">3:30</a> 
-		</td>
-		<td align="center">
-			<form class="timeslot-add-form" action="schedule-modify.htm">
-				<input type="text" name="newtimeslot" /> 
-				<input type="submit" class="timeslot-add-submit" value="Add" />
-			</form>
-		</td>
-	</tr>
+	{% endfor %}
 </table>
 <br />

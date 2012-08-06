@@ -11,7 +11,8 @@ from main.models.mri import *
 from main.utils.form_check import *
 from main.models.case import *
 from main.models.data import *
-from django.utils.datetime_safe import datetime
+import datetime
+import operator
 from MySQLdb.constants.FIELD_TYPE import NULL
 
 
@@ -84,10 +85,56 @@ def check_in_cancell(request, appointment_id):
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-    
-def schedule_list_view(request):
+
+def schedule_list_view(request, month, negative):
+    print "hehe"
     if request.user.is_authenticated():
-        return render_to_response('receptionist/schedule.htm',{}, context_instance=RequestContext(request))  
+        mri = Profile.objects.get(user = request.user).mri_id
+        today = datetime.datetime.now()
+        days = int(month) * 30
+        if int(month) != 0:
+            if int(negative) == 1:
+                days = int(month) * 30
+                today = today + datetime.timedelta(days = days)
+            else:
+                today = today - datetime.timedelta(days = days)
+        today = today.replace(day=1)    
+        date = today
+        current = today.month
+        dic = {}
+        while today.month == current:
+            schedules = Schedule.objects.filter(mri = mri, date = today.date())
+            dic[today.date()] = schedules
+            today = today + datetime.timedelta(days = 1)
+        
+        sorted_x = sorted(dic.iteritems(), key=operator.itemgetter(0), reverse=False)
+        print sorted_x
+        return render_to_response('receptionist/schedule.htm',{'dic':sorted_x, 'date': date, 'month': month, 'negative':negative}, context_instance=RequestContext(request))  
+    else: 
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+
+def amend_timesolt(request, month, negative):
+    if request.user.is_authenticated():
+        mri = Profile.objects.get(user = request.user).mri_id
+        today = datetime.datetime.now()
+        if int(month) != 0:
+            days = int(month) * 30
+            if int(negative) == 1:
+                today = today + datetime.timedelta(days = days)
+            else:
+                today = today - datetime.timedelta(days = days)
+        today = today.replace(day=1)    
+        print today
+        date = today
+        current = today.month
+        dic = {}
+        while today.month == current:
+            schedules = Schedule.objects.filter(mri = mri, date = today.date())
+            dic[today.date()] = schedules
+            today = today + datetime.timedelta(days = 1)
+        
+        sorted_x = sorted(dic.iteritems(), key=operator.itemgetter(0), reverse=False)
+        return render_to_response('receptionist/schedule-modify.htm',{'dic':sorted_x, 'date': date, 'month': month}, context_instance=RequestContext(request))  
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
