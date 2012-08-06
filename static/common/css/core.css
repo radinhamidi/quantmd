@@ -46,13 +46,13 @@ a:hover, a:active {color:#CCC;}
 }
 /* Footer Components */
 #footer{min-width:900px; position:relative; margin-top:-40px; height:40px; clear:both; background-color:#000; display: none;}
-#footer-left{padding-left:11px; padding-top:11px; font-size:14px; color:#DDD; float:left; width: 200px;}
+#footer-left{padding-left:11px; padding-top:11px; font-size:13px; color:#DDD; float:left; width: 200px;}
 #footer-left-logo{ float: left; }
-#footer-right{padding-right:11px; padding-top:11px; font-size:14px; color:#DDD; float:right}
+#footer-right{padding-right:11px; padding-top:11px; font-size:13px; color:#DDD; float:right}
 /* User Box Components */
 #user-box{position:absolute; margin-top:0px; height:40px; background-color:#000; width:200px; right:30px; z-index:10; cursor:pointer; display: none;}
-#user-box-text{width:180px; font-size:15px; color:#EEE; margin-left:auto; margin-right:auto; padding-top:10px}
+#user-box-text{width:180px; font-size:13px; color:#EEE; margin-left:auto; margin-right:auto; padding-top:10px}
 #user-box-options{width:200px; height:70px; position:relative; margin-top:17px; background-color:#fff; border: 1px solid #000; filter:alpha(opacity=90); opacity:0.9; z-index:15000; display:none}
-#user-box-options-text{width:180px; font-size:15px; color:#000; margin-left:auto; margin-right:auto; padding-top:10px; line-height:24px}
+#user-box-options-text{width:180px; font-size:13px; color:#000; margin-left:auto; margin-right:auto; padding-top:10px; line-height:24px}
 #user-box-options-text a:link, #user-box-options-text a:visited{color:#000; text-decoration:none}
 #user-box-options-text a:hover, #user-box-options-text a:active{color:#39588A}

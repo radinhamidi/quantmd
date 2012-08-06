@@ -52,9 +52,9 @@
 	{% csrf_token %}
 	<input type="hidden" name="receiver_id" value="{{sender_id}}" />
 	<input type="hidden" name="case_id" value="{{messages.0.case_id}}" />
-	Reply:<br />
+	<div class="small-title">Reply</div>
 	<textarea name="content" cols="80" rows="6"></textarea>
-	<br />
+	<br /><br />
 	<input type="submit" id="submit-message-reply" class="replybutton" value="Reply" />
 </form>
 {% endif %}

@@ -37,9 +37,12 @@ def message_list(request):
     return render_to_response(template, {'messages':messages},
                                   context_instance=RequestContext(request))
 
-def message_dialog(request, case_id, is_sys):
+def message_dialog(request, case_id, is_sys, message_id):
     """Display the dialog of message, and also allow user to reply"""
     user_id = request.user.pk
+    message = Message.objects.get(pk=message_id)
+    message.is_read = True
+    message.save()
     is_sys = 1 if is_sys == 'True' else 0
     if is_sys:
         q = Q(case__pk=case_id) & Q(is_sys=True) & Q(receiver__pk=user_id)    

@@ -34,23 +34,14 @@
 		 });
 	});
 </script>
-
-{% for message in messages %}
-<div class="span8 offset2">
-    <div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
-        {{message}}
-    </div>
-</div>
-{% endfor %}
-
-
-{% if has_pending_case %}
 <div class="title-text">Diagnose Case</div>
 <br />
+{% if has_pending_case %}
+
 <div id="case-present">
 	MRI image engine
 	<br /><br />
-	system diagnosis notes
+	<a href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.dcm">Clike here to download dicom file</a>
 	<br /><br />
 	<div class="small-title">Diagnosis</div>
 	<form id="diagnosis" action="/cardiologist/submit_report/">
@@ -62,9 +53,17 @@
 	<br /><br />
 </div>
 {% else %}
-No case assigned, please accept one.
-{% endif %}
-
 <div id="case-absent">
 	<span class="orange"><a href="/cardiologist/accept_case/" id="new-case-btn" class="orange innerlink">Accept New Case</a></span>
-</div>
+</div><br />
+	{% if not messages %}
+		No case assigned, please accept one.
+	{% endif %}
+	{% for message in messages %}
+	<div class="span8 offset2">
+		<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+			{{message}}
+		</div>
+	</div>
+	{% endfor %}
+{% endif %}

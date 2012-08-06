@@ -1,11 +1,21 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 	$(document).ready(function() {
 		$("#upload-back").button({
 			icons: {
 				primary: "ui-icon-triangle-1-w"
+			}
+		});
+		$("#upload-btn").button({
+			icons: {
+				primary: "ui-icon-check"
+			}
+		});
+		$("#file_upload").button({
+			icons: {
+				primary: "ui-icon-check"
 			}
 		});
 	});
@@ -15,6 +25,7 @@
 	$(function() {
 		$('#file_upload').uploadifive({
 			'auto'         : false,
+			'buttonText'  : 'Browse',
 			'formData'     : {'case_id': '{{case_id}}'},
 			'queueID'      : 'queue',
 			'uploadScript' : '/broker/upload_action/',
@@ -29,14 +40,34 @@
 
 
 <div class="title-text">{{patient}}</div>
-{% if patient.gender %}Male{% else %}Female{% endif %} - {{patient.birthday}}<br />
+<table class="format-table">
+	<tr>
+		<td width="100px"><b>SSN</b></td>
+		<td>{{patient.ssn}}</td>
+	</tr>
+	<tr>
+		<td><b>Birthdate</b></td>
+		<td>{{patient.birthday}}</td>
+	</tr>
+	<tr>
+		<td><b>Gender</b></td>
+		<td>
+		{% if patient.gender == 1 %}
+			Male
+		{% endif %}
+		{% if patient.gender == 0 %}
+			Female
+		{% endif %}
+		</td>
+	</tr>
+</table>
 <br />
 
 <form>
 	<div id="queue"></div>
 	<!--<input id="file_upload" name="file_upload" type="file" multiple="true">-->
-	<input id="file_upload" name="file_upload" type="file">
-	<a style="position: relative; top: 8px;" href="javascript:$('#file_upload').uploadifive('upload')">Upload Files</a>
+	<input id="file_upload" name="file_upload" type="file" />
+	<a href="javascript:$('#file_upload').uploadifive('upload')" id="upload-btn">Upload Files</a>
 </form>
 
 <br /><br />

@@ -19,6 +19,7 @@ def case(request):
     else:
         has_pending_case = 1
         case = cases[0]
+        
     return render_to_response('cardiologist/case.htm', {'has_pending_case':has_pending_case,
                                                         'case':case},
                                   context_instance=RequestContext(request))
@@ -66,4 +67,8 @@ def submit_report(request):
     message.save()
     messages.info(request, 'Report submited and sent a message to referring doctor')
     return redirect('main.views.cardiologist.case')
+
+def logs(request):
+    return render_to_response('cardiologist/logs.htm', {},
+                                  context_instance=RequestContext(request))
 
