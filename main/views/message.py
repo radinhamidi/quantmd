@@ -10,7 +10,12 @@ from django.db.models import Q
 
 def message(request):
     """The base layout"""
-    return render_to_response('referring/message.htm', {},
+    profile = Profile.objects.get(pk=request.user.pk)
+    if profile.role == 1:
+        template = 'referring/message.htm'
+    else:
+        template = 'cardiologist/message.htm'
+    return render_to_response(template, {},
                                   context_instance=RequestContext(request))
 
 def message_list(request):
