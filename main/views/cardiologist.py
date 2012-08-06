@@ -69,6 +69,7 @@ def submit_report(request):
     return redirect('main.views.cardiologist.case')
 
 def logs(request):
-    return render_to_response('cardiologist/logs.htm', {},
+    cases = Case.objects.filter(status__gte=5, cardiologist__pk=request.user.pk)
+    return render_to_response('cardiologist/logs.htm', {'cases':cases},
                                   context_instance=RequestContext(request))
 
