@@ -1,6 +1,6 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 	$(document).ready(function() {
 		$("#new-case-btn").button({
@@ -34,6 +34,17 @@
 		 });
 	});
 </script>
+
+{% for message in messages %}
+<div class="span8 offset2">
+    <div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+        {{message}}
+    </div>
+</div>
+{% endfor %}
+
+
+{% if has_pending_case %}
 <div class="title-text">Diagnose Case</div>
 <br />
 <div id="case-present">
@@ -42,14 +53,18 @@
 	system diagnosis notes
 	<br /><br />
 	<div class="small-title">Diagnosis</div>
-	<form id="diagnosis" name="diagnosis" action="case.htm">
-		<textarea name="diagnosis" id="diagnosis"></textarea><br /><br />
-		<div class="small-title">Correspondence</div>
-		<textarea name="diagnosis" id="diagnosis"></textarea><br /><br />
+	<form id="diagnosis" action="/cardiologist/submit_report/">
+		{% csrf_token %}
+		<input type="hidden" name="case_id" value="{{case.pk}}" />
+		<textarea cols="25" rows="10" name="diagnosis" id="diagnosis"></textarea><br /><br />
 		<input type="submit" class="btn" value="Complete" />
 	</form>
 	<br /><br />
 </div>
+{% else %}
+No case assigned, please accept one.
+{% endif %}
+
 <div id="case-absent">
-	<span class="orange"><a href="case.htm" id="new-case-btn" class="orange innerlink">Accept New Case</a></span>
+	<span class="orange"><a href="/cardiologist/accept_case/" id="new-case-btn" class="orange innerlink">Accept New Case</a></span>
 </div>

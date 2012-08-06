@@ -28,15 +28,22 @@
      });
 });
 </script>
-
+{% if messages %}
+	<div class="title-text">Case #{{messages.0.case_id}} Messages</div><br />
+		{{messages.0.case.patient}}
+	<hr><br />
+{% endif %}
 {% for message in messages %}
 	{% if message.is_sys %}
-	    <div class="title-text">{{message.title}}</div>
+	    <div class="small-title">{{message.title}}</div>
 	{% else %}
-	    {% if message.receiver_id == user.pk %}<div class="title-text">From: {{message.sender}}</div>{%endif%}
+	    {% if message.receiver_id == user.pk %}
+			<div class="small-title">From: {{message.sender}}</div>
+		{% endif %}
 	{% endif %}
-	{{ message.content }}<br/>
-	----------------------------------
+	{{message.create_time}}<br /><br />
+	{{ message.content }}<br /><br />
+	<hr>
 	<br/>
 {% endfor %} 
 

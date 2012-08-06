@@ -5,114 +5,65 @@ from django.http import *
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from main.models.account import *
-from main.models.patient import *
-from main.models.appointment import *
-from main.models.mri import *
-from main.utils.form_check import *
 from main.models.case import *
 from main.models.data import *
-from django.utils.datetime_safe import datetime
+from main.models.report import Report
+from main.models.message import Message
+from main.models.appointment import Appointment 
 
+def case(request):
+    cases = Case.objects.filter(status=4, cardiologist__pk=request.user.pk)
+    if len(cases) == 0:
+        has_pending_case = 0
+        case = None #No use
+    else:
+        has_pending_case = 1
+        case = cases[0]
+    return render_to_response('cardiologist/case.htm', {'has_pending_case':has_pending_case,
+                                                        'case':case},
+                                  context_instance=RequestContext(request))
 
-def accept_case_view(request):
-    if request.user.is_authenticated():
-        return render_to_response('cardiologist/accept.htm', {},
-                                context_instance=RequestContext(request))
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+def accept_case(request):
+    """ Need to change query status to 3 in production """
+    cases = Case.objects.filter(status=4, cardiologist__pk=request.user.pk)
+    if len(cases) != 0:
+        messages.error(request, 'You can only accept one case at a time')
+        return redirect('main.views.cardiologist.case')
     
-def accept_case_action(request):
-    if request.user.is_authenticated():
-        profile = Profile.objects.get(user=request.user)
-        if Case.objects.filter(cardiologist = profile).filter(status=3).exists():
-            error  = "You already got one case, please finish that case first"
-            return render_to_response('cardiologist/accept.htm', {'error':error},
-                                context_instance=RequestContext(request))
-            
-        if Case.objects.filter(status = 3).exists():
-            case = Case.objects.filter(status = 3)[0]
-            case.status = 4
-            case.cardiologist = Profile.objects.get(user = request.user)
-            case.assigned_time = datetime.now()
-            case.save()
-            return redirect('main.views.index.index')
-        else:
-            error = "No case available for now"
-            return render_to_response('cardiologist/accept.htm', {'error':error},
-                                context_instance=RequestContext(request))
-        
+    cases = Case.objects.filter(status=2).order_by('id')
+    if len(cases) == 0:
+        messages.error(request, 'No pending cases to review.')
+        return redirect('main.views.cardiologist.case')
     else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-
-def case_view(request):
-    print "case view"
-    if request.user.is_authenticated():
-        profile = Profile.objects.get(user = request.user)
-        print "right"
-        if Case.objects.filter(cardiologist = profile).filter(status=4).exists():
-            case = Case.objects.filter(cardiologist = profile).filter(status=4)[0]
-            return render_to_response('cardiologist/case.htm', {'case':case},
-                                context_instance=RequestContext(request))
-        else:
-            print "error"
-            error = "You need to accept case first"
-            return render_to_response('cardiologist/case.htm', {'error':error},
-                                context_instance=RequestContext(request))
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-  
-    
-def handin_report(request, case_id):
-    
-    if request.user.is_authenticated():
-        diagnosis = request.POST['diagnosis']
-        error = []
-        if len(diagnosis) == 0:
-            error.append("diagnosis cannot be empty")
-                
-        if not Case.objects.filter(id=case_id).exists():
-            error.append("Case is not exist") 
-        
-        if len(error) != 0:    
-            return render_to_response('cardiologist/case.htm', {'error': error},
-                                context_instance=RequestContext(request))
-        
-        case = Case.objects.get(id=case_id)
-        case.status = 5
-        report = Report.objects.create(content = diagnosis)
-        case.report = report
-        report.save()
+        case = cases[0]
+        case.status = 4
+        case.cardiologist_id = request.user.pk
         case.save()
-        return redirect('main.views.cardiologist.case_view')
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+        return redirect('main.views.cardiologist.case')
+
+def submit_report(request):
+    """Need to generate PDF report"""
+    profile = Profile.objects.get(pk=request.user.pk)
+    diagnosis = request.POST['diagnosis']
+        
+    report = Report(content=diagnosis)
+    report.save()
     
+    case_id = request.POST['case_id']
+    case = Case.objects.get(pk=case_id)
+    case.status = 5
+    case.report = report
+    case.save()
     
-def diagnosis_list(request):
-    print "aaa"
-    if request.user.is_authenticated():
-        profile = Profile.objects.get(user=request.user)
-        cases = Case.objects.filter(cardiologist = profile).filter(status = 5)
-        return render_to_response('cardiologist/completed.htm', {'cases': cases},
-                                context_instance=RequestContext(request))
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    apt = Appointment.objects.get(case=case)
     
-    
-def view_report(request, case_id):
-    if request.user.is_authenticated():
-        if Case.objects.filter(id=case_id).exists():
-            case = Case.objects.get(id=case_id)
-            return render_to_response('cardiologist/report.htm', {'case': case},
-                                      context_instance=RequestContext(request))
-        else:
-            error = "case is not exist"
-            return render_to_response('cardiologist/report.htm', {'error': error},
-                                      context_instance=RequestContext(request))
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
-    
-    
-    
-    
+    message = Message(is_sys=False, receiver=apt.doctor, case=case)
+    message.sender_id = request.user.pk
+    message.title = 'Report uploaded for Case #' + case_id
+    message.content = 'Report is uploaded for Case #' + case_id + \
+                      'from cardiologist ' + profile.first_name + ' ' + profile.last_name + ': '\
+                      + diagnosis
+    message.save()
+    messages.info(request, 'Report submited and sent a message to referring doctor')
+    return redirect('main.views.cardiologist.case')
+

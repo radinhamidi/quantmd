@@ -13,19 +13,28 @@ def message(request):
     profile = Profile.objects.get(pk=request.user.pk)
     if profile.role == 1:
         template = 'referring/message.htm'
-    else:
+    else: #role == 3
         template = 'cardiologist/message.htm'
     return render_to_response(template, {},
                                   context_instance=RequestContext(request))
 
 def message_list(request):
-    """Display all messages reverse order of case number"""
+    """
+    Display all messages reverse order of case number
+    Need to resolve the problem that messages are already ranked in backend by not shown
+    in order in frontend
+    """
     user_id = request.user.pk
     q = Q(sender__pk=user_id) | Q(receiver__pk=user_id)    
     messages = Message.objects.filter(q).order_by('-id')
     for m in messages:
         print m.pk
-    return render_to_response('referring/message-list.htm', {'messages':messages},
+    profile = Profile.objects.get(pk=request.user.pk)
+    if profile.role == 1:
+        template = 'referring/message-list.htm'
+    else: #role == 3
+        template = 'cardiologist/message-list.htm'
+    return render_to_response(template, {'messages':messages},
                                   context_instance=RequestContext(request))
 
 def message_dialog(request, case_id, is_sys):
@@ -43,8 +52,13 @@ def message_dialog(request, case_id, is_sys):
             if m.sender_id != user_id:
                 sender_id = m.sender_id
                 break
-            
-    return render_to_response('referring/message-dialog.htm', {'messages':messages, 
+    profile = Profile.objects.get(pk=request.user.pk)
+    if profile.role == 1:
+        template = 'referring/message-dialog.htm'
+    else: #role == 3
+        template = 'cardiologist/message-dialog.htm'
+    
+    return render_to_response(template, {'messages':messages, 
                                   'sender_id':sender_id, 'is_sys':is_sys},
                                   context_instance=RequestContext(request))
 
