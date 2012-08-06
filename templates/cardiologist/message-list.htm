@@ -30,7 +30,7 @@
 	<tbody>
 		{% for message in messages %}
 		<tr><td>
-			<a href="/message/message_dialog/{{message.case_id}}/{{message.is_sys}}/" class="msgloadright">
+			<a href="/message/message_dialog/{{message.case_id}}/{{message.is_sys}}/{{message.pk}}/" class="msgloadright">
 				<div class="message-list-line">
 					<span class="unread">
 						{% if message.is_read %}
