@@ -10,6 +10,7 @@ from main.models.account import *
 from django.utils.datetime_safe import datetime
 from main.models.case import *
 from main.models.message import *
+import operator
 
 def appointment_view(request, patient_id):
     if request.user.is_authenticated():
@@ -24,8 +25,18 @@ def appointment_view(request, patient_id):
                     break
             
             if signal == 0:
-                return render_to_response('referring/error.htm', {'error':'You already have an appointment, you cannot make a new one'},
-                                      context_instance=RequestContext(request))
+                print "aa"
+                errors = []
+                errors.append('You already have an appointment, you cannot make a new one!')
+                patient = Patient.objects.get(id = patient_id)
+                appointments = Appointment.objects.filter(patient=patient).order_by('-case')
+                sort_appointments = []
+                for appointment in appointments:
+                    if appointment.is_current:
+                        sort_appointments.append(appointment)
+                
+                return render_to_response('referring/patient-info.htm',{'patient': patient, 'appointments':sort_appointments, 'errors':errors}, context_instance=RequestContext(request)) 
+               
                 
             return render_to_response('referring/case-create.htm', {'patient':patient},
                                       context_instance=RequestContext(request))
@@ -54,7 +65,7 @@ def appointment_search(request, patient_id):
             errors.append("Zip code and date cannot be empty")
 
         if len(errors) != 0:
-            return render_to_response('referring/case-create.htm',{'errors':errors,'patient':patient}, context_instance=RequestContext(request))
+            return render_to_response('referring/case-create.htm',{'patient': patient, 'errors':errors}, context_instance=RequestContext(request)) 
         
         dic = {}
         if len(schedule_date) == 0 and len(zip_code) != 0:
@@ -300,7 +311,7 @@ def reappointment_search(request, appointment_id):
             errors.append("Zip code and date cannot be empty")
 
         if len(errors) != 0:
-            return render_to_response('referring/schedule-change.htm',{'errors':errors,'patient':patient}, context_instance=RequestContext(request))
+            return render_to_response('referring/schedule-change.htm',{'errors':errors,'patient':patient,'appointment':appointment}, context_instance=RequestContext(request))
         
         dic = {}
         if len(schedule_date) == 0 and len(zip_code) != 0:

@@ -66,7 +66,11 @@
 	</tr>
 </table>
 <br /><br />
-
+{% if errors%}
+	{% for error in errors%}
+		{{error}}
+	{% endfor%}
+{% endif %}
 <div class="small-title">Case History</div>
 	{% if not appointments %}
 		No cases available. Create a new appointment for this patient.
