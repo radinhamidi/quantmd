@@ -1,0 +1,61 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+
+
+<script>
+	$(document).ready(function() {
+		$('.data-table').dataTable({
+		"bPaginate": false,
+		"oLanguage": {
+		  "sSearch": "<img src='{{STATIC_URL}}common/images/find.png' />"
+		},
+		"bLengthChange": false,
+		"bFilter": true,
+		"bSort": true,
+		"bInfo": false,
+		"bAutoWidth": false,
+		"bRetrieve": true,
+		"bJQueryUI": false,
+		"iDisplayLength": 20,
+		"sPaginationType": "full_numbers"
+	});
+});
+</script>
+
+<table name="message-table" id="message-table" class="data-table">
+	<thead>
+		<tr><th></th></tr>
+	</thead>
+	<tbody>
+		{% for message in messages %}
+		<tr><td>
+			<a href="/message/message_dialog/{{message.case_id}}/{{message.is_sys}}/" class="msgloadright">
+				<div class="message-list-line">
+					<span class="unread">
+						{% if message.is_read %}
+						    
+						{% else %}
+						    <img src='{{STATIC_URL}}referring/images/unread.png' />
+						{% endif %}
+					</span>
+					<span class="header">
+						{% if message.is_sys %}
+						    {{message.title}}
+						{% else %}
+						    Case {{message.case_id}} Chat
+						{% endif %}
+					</span><br />
+					{% if message.is_sys %}
+					    <img src='{{STATIC_URL}}referring/images/system.png' /> System Message
+					{% else %}
+					    <img src='{{STATIC_URL}}referring/images/from.png' /> {{message.sender}}
+					{% endif %}
+					<br />
+					{{message.create_time}}
+				</div>
+			</a>
+		</td></tr>
+		{% endfor %}		
+	</tbody>
+</table>

@@ -3,7 +3,7 @@ from account import Profile
 from report import Report
 from datetime import datetime
 from data import MRIData
-
+from patient import Patient
 
 
 class Case(models.Model):
@@ -13,6 +13,7 @@ class Case(models.Model):
     A case is automatically created when an appointment is scheduled;
     If the appointment is cancelled, it's set to null in case;
     """
+    patient = models.ForeignKey(Patient)
     data = models.ForeignKey(MRIData,blank=True, null=True)
     report = models.ForeignKey(Report,blank=True, null=True)
     cardiologist = models.ForeignKey(Profile,blank=True, null=True)

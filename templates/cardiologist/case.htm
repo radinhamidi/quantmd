@@ -1,35 +1,70 @@
-<!-- JAVASCRIPT LIBRARY IMPORTS -->
-<!--
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<script src="../common/js/common.js"></script>
-<script src="js/referring.js"></script>
--->
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
-<script src="{{STATIC_URL}}common/js/subpage.js"></script>
-<script src="{{STATIC_URL}}cardiologist/js/cardiologist.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+		$("#new-case-btn").button({
+			icons: {
+				primary: "ui-icon-plus"
+			}
+		});
+		$(".btn").button({
+			icons: {
+				primary: "ui-icon-plus"
+			},
+			text: false
+		});
+		$("#diagnosis").submit(function(event) {
 
-<!-- CONTENT BELOW THIS LINE -->
+		/* stop form from submitting normally */
+			event.preventDefault(); 
+			
+		/* get some values from elements on the page: */
+			var $form = $( this ),
+				url = $form.attr( 'action' );
+				
+			$("#ui-tabs-1").hide();
+		/* Send the data using post and put the results in a div */
+			$.post( url, $form.serialize(),
+			function( data ) {
+				$("#ui-tabs-1").empty().append($(data));
+				$("#ui-tabs-1").fadeIn('fast');
+			}
+			);
+		 });
+	});
+</script>
 
-<!-- HEADER REQUIRED -->
-<div class="window-header">cases</div>
-{{error}}
-<!-- PAGE CONTENT -->
-##CASE:{{case.id}}</br>
-##Accetp time: {{case.assigned_time}}</br>
-
-##MRI data: </br>
-download dicom file,    View MRI images </br>
+{% for message in messages %}
+<div class="span8 offset2">
+    <div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+        {{message}}
+    </div>
+</div>
+{% endfor %}
 
 
-##Diagnosis:
-<form name="myform" action="/cardiologist/handinReport/{{case.id}}/" method="POST">
-{% csrf_token %}
-<textarea cols="40" rows="5" name="diagnosis">
-Now we are inside the area - which is nice.
-</textarea>
-<input type="submit" name="sumbitbutton" class="button" id="sumbitbutton" value="SUBMIT" style="top: 415px; right: 10px; position:absolute; font-size: 11px;"/>
-</form>
+{% if has_pending_case %}
+<div class="title-text">Diagnose Case</div>
+<br />
+<div id="case-present">
+	MRI image engine
+	<br /><br />
+	system diagnosis notes
+	<br /><br />
+	<div class="small-title">Diagnosis</div>
+	<form id="diagnosis" action="/cardiologist/submit_report/">
+		{% csrf_token %}
+		<input type="hidden" name="case_id" value="{{case.pk}}" />
+		<textarea cols="25" rows="10" name="diagnosis" id="diagnosis"></textarea><br /><br />
+		<input type="submit" class="btn" value="Complete" />
+	</form>
+	<br /><br />
+</div>
+{% else %}
+No case assigned, please accept one.
+{% endif %}
 
+<div id="case-absent">
+	<span class="orange"><a href="/cardiologist/accept_case/" id="new-case-btn" class="orange innerlink">Accept New Case</a></span>
+</div>

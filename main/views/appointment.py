@@ -97,7 +97,7 @@ def appointment_search(request, patient_id):
             format="%m/%d/%Y"
             date = datetime.strptime(schedule_date,format)
             schedules = Schedule.objects.filter(date = date).filter(is_available = True).filter(is_cancelled = False)
-            code = int(zipCode)
+            code = int(zip_code)
             upper = code + 500
             lower = code - 500
             centers = []
@@ -185,17 +185,20 @@ def make_appointment(request, patient_id, schedule_id):
         schedule.is_available = False
         schedule.save()
         
+        print "here4" 
         # create case
         case = Case.objects.create()
+        case.patient = patient
         case.save()
-       
         
-        print "here3"  
+        print "here3"
         # create appointment
         appointment = Appointment.objects.create(doctor=doctor, patient=patient,schedule=schedule,mri=mri,case=case)
         appointment.save()
-        print "here4"
         
+        
+        
+         
         
         # create message
         
