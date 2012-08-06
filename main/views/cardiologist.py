@@ -19,6 +19,7 @@ def case(request):
     else:
         has_pending_case = 1
         case = cases[0]
+        
     return render_to_response('cardiologist/case.htm', {'has_pending_case':has_pending_case,
                                                         'case':case},
                                   context_instance=RequestContext(request))

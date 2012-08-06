@@ -74,8 +74,12 @@ def upload_action(request):
         case.status = 2
         case.save()
         
-        #Send message to referring doctor to notify him that scan is complete and uploaded
+        
         apt = Appointment.objects.get(case=case_id, is_current=True)
+        apt.case_status = case.status
+        apt.save()
+        
+        #Send message to referring doctor to notify him that scan is complete and uploaded
         message = Message(is_sys=True, type=3, receiver=apt.doctor, case=case)
         message.title = 'MRI scan complete for ' + case_id
         message.content = 'The MRI scan is complete for case ' + case_id \
