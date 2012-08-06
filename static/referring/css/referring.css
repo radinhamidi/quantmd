@@ -76,6 +76,9 @@
 	height: 65px;
 	overflow: hidden;
 }
+.message-list-line .unread {
+	float: right;
+}
 .message-list-line .header {
 	font-size: 14px;
 	font-weight: bold;

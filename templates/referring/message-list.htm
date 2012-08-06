@@ -32,23 +32,24 @@
 		<tr><td>
 			<a href="/message/message_dialog/{{message.case_id}}/{{message.is_sys}}/" class="msgloadright">
 				<div class="message-list-line">
-					<span class="header">
+					<span class="unread">
 						{% if message.is_read %}
-						    read
+						    
 						{% else %}
-						    unread
+						    <img src='{{STATIC_URL}}referring/images/unread.png' />
 						{% endif %}
-						
+					</span>
+					<span class="header">
 						{% if message.is_sys %}
-						    {{message.title}} System message
+						    {{message.title}}
 						{% else %}
-						    Case {{message.case_id}} Chat message
+						    Case {{message.case_id}} Chat
 						{% endif %}
 					</span><br />
 					{% if message.is_sys %}
-					    System Message
+					    <img src='{{STATIC_URL}}referring/images/system.png' /> System Message
 					{% else %}
-					    {{message.sender}}
+					    <img src='{{STATIC_URL}}referring/images/from.png' /> {{message.sender}}
 					{% endif %}
 					<br />
 					{{message.create_time}}
