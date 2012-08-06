@@ -73,9 +73,10 @@ def appointment_search(request, patient_id):
             upper = code + 500
             lower = code - 500
             centers = MRICenter.objects.exclude(zip__gte=upper).exclude(zip__lte=lower)
+            today = datetime.now().date()
             print centers
             for center in centers:
-                schedules = Schedule.objects.filter(mri=center).filter(is_available=True).filter(is_cancelled=False)
+                schedules = Schedule.objects.filter(mri=center).filter(is_available=True).filter(is_cancelled=False).filter(date__gte = today)
                 print schedules
                 if len(schedules) != 0:
                      schedules = Schedule.objects.filter(mri=center).filter(is_available=True).filter(is_cancelled=False).filter(date=schedules[0].date).order_by('start_time')

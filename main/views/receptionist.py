@@ -125,7 +125,6 @@ def schedule_list_view(request, month):
             today = today + datetime.timedelta(days = 1)
         
         sorted_x = sorted(dic.iteritems(), key=operator.itemgetter(0), reverse=False)
-        print sorted_x
         return render_to_response('receptionist/schedule.htm',{'dic':sorted_x, 'date': date, 'month': month}, context_instance=RequestContext(request))  
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -153,7 +152,6 @@ def amend_timesolt(request, month):
             today = today + datetime.timedelta(days = 1)
         
         sorted_x = sorted(dic.iteritems(), key=operator.itemgetter(0), reverse=False)
-        print sorted_x
         return render_to_response('receptionist/schedule-modify.htm',{'dic':sorted_x, 'date': date, 'month': month}, context_instance=RequestContext(request))  
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
