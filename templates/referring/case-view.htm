@@ -111,7 +111,7 @@
 			<td>{{appointment.mri.email}}</td>
 		</tr>
 	</table>
-	<br /><br />
+	<br />
 {% endif %}
 <div class="small-title">Case History</div>
 	<table class="format-table">
@@ -175,16 +175,16 @@
 			</tr>
 		</table>
 	{% endif %}
-<br /><br />
+<br />
 
-{% if case.status == 0%}
+{% if case.status == 0 %}
 <a id="change-schedule" href="referring/reschedule/{{appointment.id}}/" class="loadright">Change Appointment</a>
 <span class="orange">
 <a id="case-cancel" href="/referring/cancelAppointment/{{appointment.id}}/" class="orange loadright">Cancel Appointment</a>
 </span>
 <br /><br />
 {% endif %}
-
-<div class="small-title">Case History</div>
-<br />
+{% if case.status >= 5 %}
 <a id="view-diagnosis" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View Diagnosis</a>
+<br /><br />
+{% endif %}

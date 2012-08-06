@@ -14,6 +14,7 @@
 			primary: "ui-icon-plus"
 		}
 	});
+	document.getElementById('edit-state').value ="{{patient.state}}";
 	$("#form-edit-patient").submit(function(event) {
 	
     /* stop form from submitting normally */
@@ -97,8 +98,7 @@
 		</tr>
 		<tr>
 			<td>State:</td>
-			<td><select class="textfield" name="state">
-                    <option value="0" selected="selected">{{patient.state}}</option> 
+			<td><select class="textfield" name="state" id="edit-state">
                     <option value="AL">Alabama</option> 
                     <option value="AK">Alaska</option> 
                     <option value="AZ">Arizona</option> 
