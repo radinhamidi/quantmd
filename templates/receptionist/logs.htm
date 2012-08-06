@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 		$('#log-table').dataTable({
@@ -42,25 +42,24 @@ $(document).ready(function() {
 			<th width="80px">Age</th>
 			<th width="140px">Scheduled</th>
 			<th width="140px">Check In</th>
-			<th width="140px">Check Out</th>
 		</tr>
 	</thead>
 	<tbody>
+		{% for appointment in appointments%}
 		<tr>
-			<td>Patient NAme</td>
-			<td align="center">Male</td>
-			<td align="center">25</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td>{{appointment.patient}}</td>
+			<td align="center">
+			{% if appointment.patient.gender == 1 %}
+				Male
+			{% endif %}
+			{% if appointment.patient.gender == 0 %}
+				Female
+			{% endif %}	
+			</td>
+			<td align="center">{{appointment.patient.birthday}}</td>
+			<td align="center">{{appointment.schedule.date}} {{appointment.schedule.start_time}}</td>
+			<td align="center">{{appointment.check_in_time}}</td>
 		</tr>
-		<tr>
-			<td>Patient NAme 222</td>
-			<td align="center">Male</td>
-			<td align="center">25</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-		</tr>
+		{% endfor %}
 	</tbody>
 </table>

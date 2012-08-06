@@ -27,11 +27,11 @@
 </script>
 <div class="title-text">Schedules</div>
 <br />
-<a href="/receptionist/scheduleList/{{month|add:"1"}}/0/" id="prev-button" class="innerlink">p</a> 
+<a href="/receptionist/scheduleList/{{month|add:"-1"}}/" id="prev-button" class="innerlink">p</a> 
 <span id="month-indicator">{{date|date:"M Y"}}</span> 
-<a href="/receptionist/scheduleList/{{month|add:"1"}}/1/" id="next-button" class="innerlink">n</a> 
+<a href="/receptionist/scheduleList/{{month|add:"1"}}/" id="next-button" class="innerlink">n</a> 
 <span class="orange">
-<a href="/receptionist/amendTimesolt/0/1/" class="innerlink orange" id="modify-button">Amend Timeslots</a><br />
+<a href="/receptionist/amendTimesolt/0/" class="innerlink orange" id="modify-button">Amend Timeslots</a><br />
 </span>
 <br />
 <table id="schedule-table">

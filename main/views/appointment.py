@@ -187,13 +187,13 @@ def make_appointment(request, patient_id, schedule_id):
         
         print "here4" 
         # create case
-        case = Case.objects.create()
-        case.patient = patient
+        case = Case.objects.create(patient = patient)
+        print "here5"
         case.save()
         
         print "here3"
         # create appointment
-        appointment = Appointment.objects.create(doctor=doctor, patient=patient,schedule=schedule,mri=mri,case=case)
+        appointment = Appointment.objects.create(doctor=doctor, patient=patient,schedule=schedule,mri=mri,case=case, case_status = case.status)
         appointment.save()
         
         
@@ -251,7 +251,8 @@ def appointment_cancel(request, appointment_id):
             case.save()
             schedule.is_available = True
             schedule.save()
-            appointment.is_cancelled = True 
+            appointment.is_cancelled = True
+            appointment.case_status = -1
             appointment.save()
             patient = appointment.patient
             # create message
@@ -405,7 +406,7 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
         
         print "here3"  
         # create appointment
-        appointment = Appointment.objects.create(doctor=doctor, patient=patient,schedule=schedule,mri=mri,case=case)
+        appointment = Appointment.objects.create(doctor=doctor, patient=patient,schedule=schedule,mri=mri,case=case,case_status = case.status)
         appointment.save()
         print "here4"
         

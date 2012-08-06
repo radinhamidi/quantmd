@@ -97,13 +97,12 @@
 						{% endif %} </td>
 		{% if checkin.is_check_out%}
 			<td align="center">Check Out!</td>
-			<td > </td>
 		{% else %}
 		<td align="center">
-			<td align="center">Waiting!</td>
-			<a href="/receptionist/checkOut/{{checkin.id}}/" class="checkout innerlink">c</a>
-			<span class="orange"><a href="/receptionist/checkInCancell/{{checkin.id}}/" class="orange cancel innerlink">c</a></span>
+			Waiting!
 		</td>
+		<td align="center"> <span class="orange"><a href="/receptionist/checkInCancell/{{checkin.id}}/" class="orange cancel innerlink">c</a></span></td>
+		
 		{% endif%}
 	</tr>
 	{% endfor %}
@@ -128,8 +127,8 @@
 								Female
 							{% endif %} </td>
 		<td align="center">
-			<a href="/receptionist/checkIn/{{appointment.id}}/" class="checkin innerlink">c</a>
-			<span class="orange"><a href="patient-reschedule.htm" class="orange reschedule innerlink">c</a></span>
+			<a href="/receptionist/checkInConfirm/{{appointment.id}}/" class="checkin innerlink">c</a>
+			<span class="orange"><a href="/receptionist/reschedule/{{appointment.id}}/" class="orange reschedule innerlink">c</a></span>
 		</td>
 	</tr>
 	{%endfor%}

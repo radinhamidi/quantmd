@@ -28,7 +28,7 @@ class Schedule(models.Model):
     mri = models.ForeignKey(MRICenter)
     date = models.DateField()
     start_time = models.TimeField()
-    end_time = models.TimeField()
+    end_time = models.TimeField(blank = True)
     is_available = models.BooleanField(default=True)
     is_cancelled = models.BooleanField(default=False)
     

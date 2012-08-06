@@ -1,6 +1,6 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 	$(document).ready(function() {
 	$("table#reschedule-table-2 tr:even").css("background-color", "#F4F4F8");
@@ -43,13 +43,20 @@
 </script>
 
 <div class="title-text">Patient Reschedule</div>
-Michael, Shamos<br />
-October 10, 1950
+{{appointment.patient}}<br />
+{{appointment.patient.birthday}}
 <br /><br />
-<b>Current Appointment:</b> JUL 10, 2012
+<b>Current Appointment:</b> {{appointment.schedule.date}} {{appointment.schedule.start_time}}
 <br /><br /><br />
+
+{% if errors %}
+	{% for error in errors %}
+		{{error}}</br>
+	{% endfor %}
+{% endif %}
+
 <div class="small-title">Rebooking Slots</div><br />
-<form id="rebooking-form-2" name="rebooking-form-2" action="patient-reschedule-2.htm">
+<form id="rebooking-form-2" name="rebooking-form-2" action="/receptionist/rescheduleList2/{{appointment.id}}/"> {% csrf_token %}
 View 10 Days from <input type="text" id="rebookingdate" name="rebookingdate" />
 <input type="submit" id="rebooking-submit-2" value="Search" />
 </form>
@@ -59,30 +66,25 @@ View 10 Days from <input type="text" id="rebookingdate" name="rebookingdate" />
 		<th width="120px">Date</th>
 		<th>Timeslots</th>
 	</tr>
+	{% if dic %}
+	{% for k in dic%}
 	<tr>
-		<td><b>TUE, JUL 10, 2012<b></td>
-		<td>
-			<a href="patient-reschedule-confirm-2.htm" class="innerlink timebuttons">1:30</a>
-			<a href="patient-reschedule-confirm-2.htm" class="innerlink timebuttons">2:30</a>
-			<a href="patient-reschedule-confirm-2.htm" class="innerlink timebuttons">3:30</a>
+		<td align="center">{{k.0}}</td>
+		<td>{% for schedule in k.1 %}
+			{% if schedule.is_available%}
+			<a onClick="confirmBookingForReschedule2({{schedule.id}},{{appointment.id}});">{{schedule.start_time|time:"H:i"}}</a>
+			{% else %}
+			<strike>{{schedule.start_time|time:"H:i"}}</strike>,
+			{% endif %}
+		{% endfor %}
 		</td>
 	</tr>
-	<tr>
-		<td><b>TUE, JUL 10, 2012<b></td>
-		<td>
-			<a href="patient-reschedule-confirm-2.htm" class="innerlink timebuttons">1:30</a>
-			<a href="patient-reschedule-confirm-2.htm" class="innerlink timebuttons">2:30</a>
-			<a href="patient-reschedule-confirm-2.htm" class="innerlink timebuttons">3:30</a>
-		</td>
-	</tr>
-	<tr>
-		<td><b>TUE, JUL 10, 2012<b></td>
-		<td>
-			<a href="patient-reschedule-confirm-2.htm" class="innerlink timebuttons">1:30</a>
-			<a href="patient-reschedule-confirm-2.htm" class="innerlink timebuttons">2:30</a>
-			<a href="patient-reschedule-confirm-2.htm" class="innerlink timebuttons">3:30</a>
-		</td>
-	</tr>
+	{% endfor %}
+	{% endif %}
 </table>
 <br /><br />
-<span class="orange"><a href="patients.htm" id="reschedule-back-2" class="orange innerlink">Cancel</a></span>
+<span class="orange"><a href="/receptionist/patients/" id="reschedule-back-2" class="orange innerlink">Cancel</a></span>
+
+<div id="timeslot-confirm" title="Confirm Timeslot">
+			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Confirm booking?<br /></p>
+</div>

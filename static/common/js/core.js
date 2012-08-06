@@ -78,3 +78,24 @@ function confirmBookingForReschedule(id1,id2,id3) {
 		}
 	});
 }
+
+function confirmBookingForReschedule2(id1,id2) {
+
+	$("#timeslot-confirm").dialog({
+		resizable: false,
+		height: 160,
+		width: 350,
+		modal: true,
+		buttons: {
+			"Confirm": function() {
+				//Confirm Logout
+				//Process Booking
+				$("#inner-right").load('/receptionist/rescheduleAction2/'+id1+'/'+id2+'/');
+				$(this).dialog("close");
+			},
+			Cancel: function() {
+				$(this).dialog("close");
+			}
+		}
+	});
+}
