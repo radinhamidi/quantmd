@@ -16,5 +16,6 @@ def dashboard(request):
     #Number of diagnosis with report for doctor to review
     diagnosis_count = Appointment.objects.filter(doctor__pk=request.user.pk, case__status=5).count()
     patients_scheduled_count =  Appointment.objects.filter(doctor__pk=request.user.pk, case__status=5).count()
+    
     return render_to_response('referring/dashboard.htm', {},
                                   context_instance=RequestContext(request))

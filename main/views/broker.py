@@ -91,7 +91,10 @@ def upload_action(request):
 
 def logs(request):
     """The logs of uploaded files"""
-    return render_to_response('broker/logs.htm', {},
+    profile = Profile.objects.get(pk=request.user.pk)
+    apts = Appointment.objects.filter(mri=profile.mri_id, case_status__gte=2, 
+                                      is_cancelled=False, is_current=True)
+    return render_to_response('broker/logs.htm', {'apts':apts},
                                   context_instance=RequestContext(request))
 
 
