@@ -17,12 +17,16 @@ def case(request):
     if len(cases) == 0:
         has_pending_case = 0
         case = None #No use
+        data = None
+        image_names = []
     else:
         has_pending_case = 1
         case = cases[0]
+        data = case.data
+        image_names = [str(i+1)+'.dcm.png' for i in xrange(data.image_count)]
         
     return render_to_response('cardiologist/case.htm', {'has_pending_case':has_pending_case,
-                                                        'case':case},
+                                                        'case':case, 'data':data, 'image_names':image_names},
                                   context_instance=RequestContext(request))
 
 def accept_case(request):
@@ -51,6 +55,7 @@ def submit_report(request):
     case_id = request.POST['case_id']
     case = Case.objects.get(pk=case_id)
     
+    #Generate PDF report
     identifier = case.data.name
     image_dir = settings.MEDIA_ROOT + 'dicom/' + identifier
     pdf_path = settings.MEDIA_ROOT + 'dicom/' + identifier + '/' + identifier + '.pdf'

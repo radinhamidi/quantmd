@@ -20,7 +20,7 @@ def message(request):
 
 def message_list(request):
     """
-    Display all messages reverse order of case number
+    Display all messages in reverse order of case number
     Need to resolve the problem that messages are already ranked in backend by not shown
     in order in frontend
     """

@@ -1,0 +1,19 @@
+<html>
+<!-- A popup window, does not share any script or resources -->
+<head>
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}galleria/galleria-1.2.7.min.js"></script>
+<script>
+	Galleria.loadTheme('{{STATIC_URL}}galleria/themes/classic/galleria.classic.min.js');
+	Galleria.run('#galleria');
+</script>
+</head>
+<body>
+<div id="galleria" style="width:256px; height:256px;margin:20px auto">
+	{% for iname in image_names %}
+	<img src="{{MEDIA_URL}}dicom/{{data.name}}/{{iname}}">
+	{% endfor %}
+</div>		
+</body>
+	
+</html>

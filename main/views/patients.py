@@ -287,7 +287,6 @@ def patient_case(request, case_id):
             appointment = Appointment.objects.filter(case=case).filter(is_current=True)[0]
             patient = appointment.patient
             messages = Message.objects.filter(case=case)
-            
             return render_to_response('referring/case-view.htm', {'case':case, 'appointment':appointment, 'patient':patient, 'messages':messages},
                                       context_instance=RequestContext(request))
         else:
@@ -295,7 +294,16 @@ def patient_case(request, case_id):
                                       context_instance=RequestContext(request))
     
     else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))    
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+
+def view_mri_images(request, case_id):
+    case = Case.objects.get(pk=case_id)
+    data = case.data
+    image_names = [str(i+1)+'.dcm.png' for i in xrange(data.image_count)]
+        
+    return render_to_response('referring/view-images.htm', 
+                              {'case':case, 'data':data, 'image_names':image_names},
+                              context_instance=RequestContext(request))
     
 
 
