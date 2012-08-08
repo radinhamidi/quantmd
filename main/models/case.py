@@ -4,6 +4,7 @@ from report import Report
 from datetime import datetime
 from data import MRIData
 from patient import Patient
+from analysis import Analysis
 
 
 class Case(models.Model):
@@ -15,6 +16,7 @@ class Case(models.Model):
     """
     patient = models.ForeignKey(Patient)
     data = models.ForeignKey(MRIData,blank=True, null=True)
+    analysis = models.ForeignKey(Analysis, blank=True, null=True)
     report = models.ForeignKey(Report,blank=True, null=True)
     cardiologist = models.ForeignKey(Profile,blank=True, null=True)
     create_time = models.DateTimeField(default=datetime.now)

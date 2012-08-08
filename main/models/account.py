@@ -26,5 +26,3 @@ class Profile(models.Model):
         app_label = 'main'
     def __unicode__(self):
         return self.first_name + ' ' + self.last_name
-        
-

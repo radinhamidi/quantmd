@@ -1,5 +1,7 @@
 import re
 import types
+import time
+import datetime
 
 def IsEmpty(varObj):
     if len(varObj) == 0:
@@ -27,24 +29,29 @@ def IsPhoneNumber(varObj):
     except ValueError:
         return False
     
-    
-    
-    
-   
-def IsZip(varObj):
-    return True
-    
 def IsDate(varObj):
-    return True
-
-    if len(varObj) == 10:
-        rule = '(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/'
-        match = re.match( rule , varObj )
-        if match:
-            return True
+    try:
+        valid_date = time.strptime(varObj, '%m/%d/%Y')
+        return True
+    except ValueError:
         return False
-    return False
 
+def IsValidDate(varObj):
+    if len(varObj) == 0:
+        return False
+    else:   
+        try:
+            format="%m/%d/%Y"
+            date = datetime.datetime.strptime(varObj,format)
+                
+            if date.date() < datetime.datetime.now().date():
+                return False
+            else:
+                return True
+        except ValueError:
+                return False
+    
+                
 def IsNumber(varObj):
  
     return type(varObj) is types.IntType

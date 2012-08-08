@@ -1,8 +1,7 @@
 import datetime
 import time
-str = '12:30'
-date = datetime.datetime(int(2012),int(11),int(03))
-today = datetime.datetime.now()
-days = date - today
-month = days.days/30
-print month
+schedule_date = '06/08/1988'
+format="%m/%d/%Y"
+date = datetime.datetime.strptime(schedule_date,format)
+
+print date.date() < datetime.datetime.now().date()

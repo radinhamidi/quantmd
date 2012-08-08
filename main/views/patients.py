@@ -13,6 +13,7 @@ from main.models.case import *
 from main.models.data import *
 from main.models.message import *
 import operator
+from django.contrib.localflavor.it.util import ssn_check_digit
 
 
 def patients_view(request):
@@ -36,24 +37,20 @@ def patientsList(request):
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-    
+
 # patient information   
 def patientInfo(request, patient_id):
     print 'i am here'
     if request.user.is_authenticated():
         if Patient.objects.filter(id = patient_id).exists():
             patient = Patient.objects.get(id = patient_id)
-            appointments = Appointment.objects.filter(patient=patient).order_by('-case')
-            sort_appointments = []
-            for appointment in appointments:
-                if appointment.is_current:
-                    sort_appointments.append(appointment)
-            
-            return render_to_response('referring/patient-info.htm',{'patient': patient, 'appointments':sort_appointments}, context_instance=RequestContext(request)) 
+            appointments = Appointment.objects.filter(patient=patient).filter(is_current=True).order_by('-case')
+            print appointments
+            return render_to_response('referring/patient-info.htm',{'patient': patient, 'appointments':appointments}, context_instance=RequestContext(request)) 
         else:
-            return HttpResponse('{"code":"0","msg":"No such patient"}')
+            return render_to_response('referring/error.htm',{'error': 'No such error'}, context_instance=RequestContext(request)) 
     else: 
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))    
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
 #e.g. if length>9....    
 def createView(request):
@@ -62,52 +59,6 @@ def createView(request):
                               context_instance=RequestContext(request))
     
     return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-
-
-def check_ssn(request):
-    if request.user.is_authenticated():
-        ssn = request.POST['ssn']
-        print ssn
-        error = []
-        if IsEmpty(ssn) or not ssn.isdigit():
-            error.append('SSN is empty ')
-        if not IsSSN(ssn):
-            error.append('SSN is not valid')
-        if len(error) != 0:
-            return render_to_response('referring/create-patient-ssn.htm',{'error':error},context_instance=RequestContext(request))
-        
-        if Patient.objects.filter(ssn=ssn).exists():
-            patient = Patient.objects.get(ssn=ssn)
-            doctor = Profile.objects.get(user=request.user)
-            if PatientAndDoctor.objects.filter(patient=patient).filter(doctor=doctor).exists():
-                error.append("This patient already belongs to you")
-                return render_to_response('referring/create-patient-ssn.htm',{'error':error},context_instance=RequestContext(request))
-            else:
-                return render_to_response('referring/create-patient-link.htm', {'patient':patient}, context_instance=RequestContext(request))
-        else:
-            return render_to_response('referring/create-patient.htm', {'ssn':ssn}, context_instance=RequestContext(request))
-           
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
-def ssn_link(request,ssn):
-    if request.user.is_authenticated():
-        error = []
-        if IsEmpty(ssn) or not ssn.isdigit():
-            error.append('SSN is empty or incorrect format')
-        if len(error) != 0:
-            return render_to_response('referring/create-patient-ssn.htm',{'error':error},context_instance=RequestContext(request))
-        
-        patient = Patient.objects.get(ssn=ssn)
-        doctor = Profile.objects.get(user=request.user)
-        doctor_and_patient = PatientAndDoctor.objects.create(patient = patient, doctor = doctor)
-        doctor_and_patient.save()
-        
-        return HttpResponseRedirect("/referring/patientsInfo/")
-           
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-
 
 def createPatient(request):
     print 'wo lai le'
@@ -121,23 +72,23 @@ def createPatient(request):
         birthday = request.POST['birthday']
         phone = request.POST['phone']
         address = request.POST['address']
-        address2 = request.POST['address']
+        address2 = request.POST['address2']
         state = request.POST['state']
         zip = request.POST['zip']
         city = request.POST['city']
-        print ssn
-        error = []
-        print "here1"   
-        #if Patient.objects.filter(ssn=ssn).exists():
-        #   error.append('Patient already exists')
+        error = []  
+        print 'here1'
+        # check form
         if IsEmpty(first_name):
             error.append('First name is empty')
         if IsEmpty(last_name):
             error.append('Last name is empty')
-        if IsEmpty(email):
+        if IsEmpty(email) or not IsEmail(email):
             error.append('First name is empty or incorrect format')
-        if IsEmpty(ssn) or not ssn.isdigit():
-            error.append('SSN is empty or incorrect format')
+        if not IsEmpty(ssn) and not ssn.isdigit():
+            error.append('SSN is incorrect format')
+        if not IsEmpty(ssn) and not IsSSN(ssn):
+            error.append('SSN is incorrect')
         if IsEmpty(phone) or not phone.isdigit():
             error.append('Phone is empty or incorrect format')
         if IsEmpty(address):
@@ -148,20 +99,40 @@ def createPatient(request):
             error.append('Zip is empty or incorrect format')
         if IsEmpty(city):
             error.append('City is empty')
+        if IsEmpty(birthday) or not IsDate(birthday):
+            error.append('Birthday is empty or incorrect format')  
+            
+        if len(first_name) > 20:
+            error.append('First name is too long')
+        if len(last_name) > 20:
+            error.append('Last name is too long')
+        if IsEmpty(email) > 30:
+            error.append('Email address is too long')
+        if len(address) > 20:
+            error.append('Address is too long')
+        if IsEmpty(city) > 20:
+            error.append('City is too long')
+        
 
         if len(error) != 0:
             return render_to_response('referring/patient-create.htm',{'errors':error},context_instance=RequestContext(request))
         else:
             format="%m/%d/%Y"
             doctor = Profile.objects.get(user=request.user)
-            birthday_date = datetime.strptime(birthday,format)   
-            patient = Patient.objects.create(ssn=ssn,first_name=first_name,middle_name=middle_name,last_name=last_name,gender=gender,address=address,address2=address2,phone=phone,
-                                             email=email,state=state,city=city,zip=zip,birthday=birthday_date,doctor=doctor)  
+            birthday_date = datetime.strptime(birthday,format)
+            city = city.upper()
+            patient = Patient.objects.create(first_name=first_name,middle_name=middle_name,last_name=last_name,gender=gender,address=address,phone=phone,
+                                             email=email,state=state,city=city,zip=zip,birthday=birthday_date,doctor=doctor)
+            if len(ssn) != 0:
+                patient.ssn = ssn
+            if len(address2) != 0:
+                patient.address2 =address2
             patient.save()
-            return redirect("main.views.patients.patientInfo", patient.id)
+            return render_to_response('referring/patient-create-confirm.htm',{'patient':patient}, context_instance=RequestContext(request))
             
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+
 
 def patient_edit_view(request, patient_id):
     if request.user.is_authenticated():
@@ -185,23 +156,24 @@ def patient_edit_action(request, patient_id):
         birthday = request.POST['birthday']
         phone = request.POST['phone']
         address = request.POST['address']
-        address2 = request.POST['address']
+        address2 = request.POST['address2']
         state = request.POST['state']
         zip = request.POST['zip']
         city = request.POST['city']
         print ssn
         error = []
         print "here1"   
-        #if Patient.objects.filter(ssn=ssn).exists():
-        #   error.append('Patient already exists')
+         # check form
         if IsEmpty(first_name):
             error.append('First name is empty')
         if IsEmpty(last_name):
             error.append('Last name is empty')
-        if IsEmpty(email):
+        if IsEmpty(email) or not IsEmail(email):
             error.append('First name is empty or incorrect format')
-        if IsEmpty(ssn) or not ssn.isdigit():
-            error.append('SSN is empty or incorrect format')
+        if not IsEmpty(ssn) and not ssn.isdigit():
+            error.append('SSN is incorrect format')
+        if not IsEmpty(ssn) and not IsSSN(ssn):
+            error.append('SSN is incorrect')
         if IsEmpty(phone) or not phone.isdigit():
             error.append('Phone is empty or incorrect format')
         if IsEmpty(address):
@@ -212,6 +184,19 @@ def patient_edit_action(request, patient_id):
             error.append('Zip is empty or incorrect format')
         if IsEmpty(city):
             error.append('City is empty')
+        if IsEmpty(birthday) or not IsDate(birthday):
+            error.append('Birthday is empty or incorrect format')  
+            
+        if len(first_name) > 20:
+            error.append('First name is too long')
+        if len(last_name) > 20:
+            error.append('Last name is too long')
+        if IsEmpty(email) > 30:
+            error.append('Email address is too long')
+        if len(address) > 20:
+            error.append('Address is too long')
+        if IsEmpty(city) > 20:
+            error.append('City is too long')
         
         print "here2"
         if len(error) != 0:
@@ -221,7 +206,6 @@ def patient_edit_action(request, patient_id):
             format="%m/%d/%Y"
             birthday_date = datetime.strptime(birthday,format)
             patient = Patient.objects.get(id=patient_id)
-            patient.ssn = ssn
             patient.first_name = first_name
             patient.middle_name = middle_name
             patient.last_name = last_name
@@ -229,13 +213,16 @@ def patient_edit_action(request, patient_id):
             patient.email = email
             patient.phone = phone
             patient.address = address
-            patient.address2 = address2
             patient.city = city
             patient.state = state
             patient.zip = zip
+            if len(ssn) != 0:
+                patient.ssn = ssn
+            if len(address2) != 0:
+                patient.address2 =address2
             patient.save()
             print "here4"
-            return redirect("main.views.patients.patientInfo", patient.id)
+            return render_to_response('referring/patient-edit-confirm.htm',{'patient':patient}, context_instance=RequestContext(request))
         
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
