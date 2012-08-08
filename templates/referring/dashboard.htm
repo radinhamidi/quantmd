@@ -14,24 +14,36 @@
 	}
 </script>
 <div id="dash-header">
-	<div class="title-text">Dr. Rashid Helloman</div>
+	<div class="title-text">Dr. {{doctor}}</div>
 </div>
 <div id="dash-overview">
 	<div id="dash-float-1" class="dash-float">
-		<div class="big">10</div>
+		<div class="big">{{msg}}</div>
 		New Messages
 	</div>
 	<div id="dash-float-2" class="dash-float">
-		<div class="big">14</div>
-		New Diagnosis
+		<div class="big">{{schedule}}</div>
+		Patients Scheduled
 	</div>
 	<div id="dash-float-3" class="dash-float">
-		<div class="big">18</div>
+		<div class="big">{{cancelled}}</div>
 		Patients Scheduled
 	</div>
 	<div id="dash-float-4" class="dash-float">
-		<div class="big">2</div>
+		<div class="big">{{reschedule}}</div>
 		Reschedule Notices
+	</div>
+	<div id="dash-float-5" class="dash-float">
+		<div class="big">{{analysis}}</div>
+		New Analysis
+	</div>
+	<div id="dash-float-6" class="dash-float">
+		<div class="big">{{dicom}}</div>
+		New Dicoms
+	</div>
+	<div id="dash-float-7" class="dash-float">
+		<div class="big">{{diagnosis}}</div>
+		New Diagnosis
 	</div>
 </div>
 <div id="dash-main">
@@ -42,11 +54,33 @@
 			<th width="180px">Date</th>
 			<th width="60px">More</th>
 		</tr>
+		{% for message in messages %}
 		<tr>
+			{% if message.type == -1%}
+			<td align="center">Chat</td>
+			{% endif %}
+			{% if message.type == 0 %}
+			<td align="center">SCHEDULED</td>
+			{% endif %}
+			{% if message.type == 1 %}
+			<td align="center">CONCELLED</td>
+			{% endif %}
+			{% if message.type == 2 %}
 			<td align="center">RESCHEDULE</td>
-			<td>Patient TAN AH BEE, rescheduled 10/8 3:30PM to 10/11 2:30PM</td>
-			<td align="center">abc</td>
+			{% endif %}
+			{% if message.type == 3 %}
+			<td align="center">DICOM FILE</td>
+			{% endif %}
+			{% if message.type == 4 %}
+			<td align="center">DIAGNOSIS</td>
+			{% endif %}
+			{% if message.type == 5 %}
+			<td align="center">ANALYSIS</td>
+			{% endif %}
+			<td>{{message.content}}</td>
+			<td align="center">{{message.create_time}}</td>
 			<td align="center"><a class="patient-goto dashlink" href="patients.htm" patientid="2">d</a></td>
 		</tr>
+		{% endfor %}
 	</table>
 </div>
