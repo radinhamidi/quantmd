@@ -26,16 +26,49 @@
 		$('#file_upload').uploadifive({
 			'auto'         : false,
 			'buttonText'  : 'Browse',
-			'formData'     : {'case_id': '{{case_id}}'},
+			'formData'     : {'case_id': '{{case_id}}',
+			                  'identifier': '{{identifier}}'},
 			'queueID'      : 'queue',
 			'uploadScript' : '/broker/upload_action/',
 			'onUploadComplete' : function(file, data) {
 				if (data != '0'){
 					alert(data);
+				}else{
+					$('#upload-btn').hide();
+					$('#complete-btn').show();
 				}
 			}
 		});
 	});
+	
+	function complete(){
+		$.ajax({
+            url: "/broker/upload_complete/",
+            type: "POST",
+            timeout: 2000,
+            data: {
+                identifier: '{{identifier}}',
+				case_id: '{{case_id}}' 
+            },
+            beforeSend: function(XMLHttpRequest){
+                //XMLHttpRequest.setRequestHeader("X-CSRFToken", $.cookie("csrftoken"));
+            },
+            dataType: 'json',
+            success: function(data, textStatus){
+                if (typeof(data.code) != 'undefined' && data.code == '0') {
+                    alert(data.msg);
+                }
+                else {
+                    alert(data.msg);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown){
+            },
+            failure: function(data, statusText){
+            },
+        });
+	}
+	
 </script>
 
 
@@ -68,6 +101,8 @@
 	<!--<input id="file_upload" name="file_upload" type="file" multiple="true">-->
 	<input id="file_upload" name="file_upload" type="file" />
 	<a href="javascript:$('#file_upload').uploadifive('upload')" id="upload-btn">Upload Files</a>
+	<a href="javascript:;" onclick="complete()" id="complete-btn" style="display:none;">Complete</a>
+	
 </form>
 
 <br /><br />
