@@ -17,7 +17,6 @@ class Appointment(models.Model):
     schedule = models.ForeignKey(Schedule)
     mri = models.ForeignKey(MRICenter)
     case = models.ForeignKey(Case)
-    case_status = models.SmallIntegerField(default=0) #replicated from Case model
     is_current = models.BooleanField(default=True) #Is the appointment for current case 
     is_cancelled = models.BooleanField(default=False)
     create_time = models.DateTimeField(default=datetime.now)
