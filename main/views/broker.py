@@ -21,7 +21,7 @@ import sys
 def patients(request):
     """Show lists of patients awaiting uploading of dicom file"""
     profile = Profile.objects.get(pk=request.user.pk)
-    apts = Appointment.objects.filter(mri=profile.mri_id, case_status=1, 
+    apts = Appointment.objects.filter(mri=profile.mri_id, case__status=1, 
                                       is_cancelled=False, is_current=True)
     
     mri_name = profile.mri_id.name
@@ -76,7 +76,6 @@ def upload_action(request):
         
         
         apt = Appointment.objects.get(case=case_id, is_current=True)
-        apt.case_status = case.status
         apt.save()
         
         #Send message to referring doctor to notify him that scan is complete and uploaded
