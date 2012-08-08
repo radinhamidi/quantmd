@@ -16,6 +16,7 @@ from main.utils.misc import generate_random_string
 from os import listdir, makedirs, rename
 from os.path import isfile, join
 from subprocess import call
+from zipfile import ZipFile
 import sys
 
 
@@ -67,6 +68,7 @@ def upload_action(request):
     
 @csrf_exempt 
 def upload_complete(request):
+    """Temporarily set case status to 3 before integration with post processing private algorithm"""
     try:
         identifier = request.POST['identifier']
         case_id = request.POST['case_id']
@@ -74,6 +76,15 @@ def upload_complete(request):
         directory = settings.MEDIA_ROOT + 'dicom/' + identifier
         file_names = [ f for f in listdir(directory) if isfile(join(directory,f)) ]
         file_names.sort()
+        
+        #Generate zip file
+        with ZipFile(directory + '/' + identifier + '.zip', 'w') as myzip:
+            for fn in file_names:
+                f_path = join(directory,fn)
+                myzip.write(f_path)
+            myzip.close()
+        
+        #Generate images
         image_count = 0
         for fn in file_names:
             f_path = join(directory,fn)
@@ -100,7 +111,7 @@ def upload_complete(request):
         case_id = request.POST['case_id']
         case = Case.objects.get(pk=case_id)
         case.data = data
-        case.status = 2
+        case.status = 3 #Should be changed to 2 after integration!!!
         case.save()
            
         apt = Appointment.objects.get(case=case_id, is_current=True)

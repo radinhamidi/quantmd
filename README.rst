@@ -14,7 +14,8 @@ System Dependencies::
                    build-essential python-dev python-setuptools python-pip
                     python-imaging(1.1.7)
                    
-                   For converting dicom to jpeg: python-gdcm swig numpy  
+    For converting dicom to jpeg: python-gdcm swig numpy
+    Install reportlab from installer: http://www.reportlab.com/software/opensource/rl-toolkit/download/  
                    
 Python module dependencies::
 
