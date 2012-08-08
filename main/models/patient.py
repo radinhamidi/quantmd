@@ -6,7 +6,7 @@ class Patient(models.Model):
     Referring doctor will create patient record;
     Each patient can have only one record, uniquely identified by ID
     """
-    ssn = models.IntegerField()
+    ssn = models.IntegerField(blank=True, null=True)
     first_name = models.CharField(max_length=20)
     middle_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)

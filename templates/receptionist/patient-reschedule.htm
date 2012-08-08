@@ -72,7 +72,7 @@ View 10 Days from <input type="text" id="rebookingdate" name="rebookingdate" />
 		<td align="center">{{k.0}}</td>
 		<td>{% for schedule in k.1 %}
 			{% if schedule.is_available%}
-			<a onClick="confirmBookingForReschedule3({{schedule.id}},{{appointment.patient.id}});">{{schedule.start_time|time:"H:i:s"}}</a>
+			<a onClick="confirmBookingForReschedule3({{schedule.id}},{{appointment.id}});">{{schedule.start_time|time:"H:i:s"}}</a>
 			{% else %}
 			<strike>{{schedule.start_time|time:"H:i"}}</strike> 
 			{% endif %}

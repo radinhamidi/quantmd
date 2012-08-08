@@ -42,52 +42,6 @@
 			});
 		});
      }); 
-	jQuery(function (){
-		  jQuery("#validdate").validate({
-			  expression: "if (!isValidDate(parseInt(VAL.split('/')[2], 10), parseInt(VAL.split('/')[0], 10), parseInt(VAL.split('/')[1], 10))) return false; else return true;",
-	          message: "Please enter a valid Date"
-		       });
-		  jQuery("#validfield1").validate({
-	          expression: "if (VAL) return true; else return false;",
-	          message: "Please enter the Required field"
-	      });
-		  jQuery("#validfield2").validate({
-	          expression: "if (VAL) return true; else return false;",
-	          message: "Please enter the Required field"
-	      });
-		  jQuery("#validfield3").validate({
-	          expression: "if (VAL) return true; else return false;",
-	          message: "Please enter the Required field"
-	      });
-		  jQuery("#validfield4").validate({
-	          expression: "if (VAL) return true; else return false;",
-	          message: "Please enter the Required field"
-	      });
-		  jQuery("#validfield5").validate({
-	          expression: "if (VAL) return true; else return false;",
-	          message: "Please enter the Required field"
-	      });
-		  jQuery("#validfield6").validate({
-	          expression: "if (VAL) return true; else return false;",
-	          message: "Please enter the Required field"
-	      });
-		  jQuery("#validzip").validate({
-	          expression: "if (VAL.match(/^[0-9]{5}$/)) return true; else return false;",
-	          message: "Please enter a valid Zip"
-	      });
-		  jQuery("#validemail").validate({
-	          expression: "if (VAL.match(/^[^\\W][a-zA-Z0-9\\_\\-\\.]+([a-zA-Z0-9\\_\\-\\.]+)*\\@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*\\.[a-zA-Z]{2,4}$/)) return true; else return false;",
-	          message: "Please enter a valid Email"
-	      });
-		  jQuery("#validselection").validate({
-	          expression: "if (VAL != '0') return true; else return false;",
-	          message: "Please make a selection"
-	      });
-		  jQuery("#validphone").validate({
-	          expression: "if (VAL.match(/^[0-9]{10}$/)) return true; else return false;",
-	          message: "Please enter a valid Phone Number"
-	      });
-	  });
 });
 </script>
 
@@ -107,19 +61,19 @@
 		</tr>
 		<tr>
 			<td width="120px">First Name</td>
-			<td><input type="text" name="first_name"  id="validfield1"/></td>
+			<td><input type="text" name="first_name" /></td>
 		</tr>
 		<tr>
 			<td>Last Name</td>
-			<td><input type="text" name="last_name" id="validfield2"/></td>
+			<td><input type="text" name="last_name" /></td>
 		</tr>
 		<tr>
 			<td>Middle name:</td>
-			<td><input type="text" name="middle_name" id="validfield3"></td>
+			<td><input type="text" name="middle_name" /></td>
 		</tr>
 		<tr>
 			<td>Email</td>
-			<td><input type="text" name="email" id="validemail"/></td>
+			<td><input type="text" name="email" /></td>
 		</tr>
 	
 		<tr>
@@ -129,23 +83,23 @@
 		</tr>
 		<tr>
 			<td>Birthday:</td>
-			<td><input type="text" placeholder="mm-dd-yyyy" name="birthday" id="validdate"></td>
+			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday" /></td>
 		</tr>
 		<tr>
 			<td>Phone:</td>
-			<td><input type="text" name="phone" id="validphone"></td>
+			<td><input type="text" name="phone" /></td>
 		</tr>
 		<tr>
 			<td>Address:</td>
-			<td><input type="text" name="address" id="validfield4"></td>
+			<td><input type="text" name="address"/></td>
 		</tr>
 		<tr>
 			<td>Address2:</td>
-			<td><input type="text" name="address2" id="validfield6"></td>
+			<td><input type="text" name="address2"/></td>
 		</tr>
 		<tr>
 			<td>City:</td>
-			<td><input type="text" name="city" id="validfield5"></td>
+			<td><input type="text" name="city"/></td>
 		</tr>
 		<tr>
 			<td>State:</td>
@@ -205,7 +159,7 @@
             </tr>
             <tr>
 				<td>Zip:</td>
-				<td><input type="text" name="zip" id="validzip"></td>
+				<td><input type="text" name="zip" /></td>
 			</tr>
 	</table>
 

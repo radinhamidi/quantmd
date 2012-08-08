@@ -116,37 +116,73 @@
 <div class="small-title">Case History</div>
 	<table class="format-table">
 		<tr>
-			<td width="100px"><b>Case Created</b></td>
+			<td width="200px"><b>Case Created</b></td>
 			<td>{{case.create_time}}</td>
+			{% if case.status == 0 %}
+				<td>
+					<a id="change-schedule" href="referring/reschedule/{{appointment.id}}/" class="loadright">Change Appointment</a>
+				</td>
+				<td>
+					<a id="case-cancel" href="/referring/cancelAppointment/{{appointment.id}}/" class="orange loadright">Cancel Appointment</a>
+				</td>
+			{% endif %}
 		</tr>
 		{% if case.status == 1%}
 			<tr>
-				<td width="100px"><b>Patient Checked In</b></td>
+				<td width="200px"><b>Patient Checked In</b></td>
 				<td>{{appointment.check_in_time}}</td>
 			</tr>
 		{% endif %}
-		{% if case.status >= 2 and case.status < 5 %}
+		{% if case.status == 2 %}
 			<tr>
-				<td width="100px"><b>Patient Checked In</b></td>
+				<td width="200px"><b>Patient Checked In</b></td>
+				<td>{{appointment.check_in_time}}</td>
+			</tr>
+				<tr>
+				<td width="200px"><b>Scan Uploaded</b></td>
+				<td>{{appointment.case.data.create_time}}</td>
+				<td><a id="view-MRI" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View MRI data</a></td>
+				<td><a id="view-MRI" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">Download MRI data</a></td>
+			</tr>
+		{% endif %}
+		{% if case.status == 3 or case.status == 4 %}
+			<tr>
+				<td width="200px"><b>Patient Checked In</b></td>
 				<td>{{appointment.check_in_time}}</td>
 			</tr>
 			<tr>
-				<td width="100px"><b>Scan Uploaded</b></td>
-				<td>{{case.report.create_time}}</td>
+				<td width="200px"><b>Scan Uploaded</b></td>
+				<td>{{appointment.case.data.create_time}}</td>
+				<td><a id="view-MRI" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View MRI data</a></td>
+				<td><a id="view-MRI" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">Download MRI data</a></td>
+			</tr>
+			<tr>
+				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
+				<td>{{appointment.case.analysis.create_time}}</td>
+				<td><a id="view-analysis" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View Quantmd Analysis</a></td>
 			</tr>
 		{% endif %}
 		{% if case.status >= 5 %}
 			<tr>
-				<td width="100px"><b>Checked In</b></td>
+				<td width="200px"><b>Patient Checked In</b></td>
 				<td>{{appointment.check_in_time}}</td>
 			</tr>
 			<tr>
-				<td width="100px"><b>Scan Uploaded</b></td>
-				<td>{{case.report.create_time}}</td>
+				<td width="200px"><b>Scan Uploaded</b></td>
+				<td>{{appointment.case.data.create_time}}</td>
+				<td><a id="view-MRI" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View MRI data</a></td>
+				<td><a id="view-MRI" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">Download MRI data</a></td>
 			</tr>
 			<tr>
-				<td width="100px"><b>Report Avail</b></td>
-				<td>{{case.report.create_time}}</td>
+				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
+				<td>{{appointment.case.analysis.create_time}}</td>
+				<td><a id="view-analysis" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View Quantmd Analysis</a></td>
+			</tr>
+			<tr>
+				<td width="200px"><b>Diagnosis Uploaded</b></td>
+				<td>{{appointment.case.report.create_time}}</td>
+				<td><a id="view-diagnosis" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View Diagnosis</a></td>
+				<td><a id="view-MRI" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">Download Diagnosis</a></td>
 			</tr>
 		{% endif %}
 	</table>
@@ -176,15 +212,3 @@
 		</table>
 	{% endif %}
 <br />
-
-{% if case.status == 0 %}
-<a id="change-schedule" href="referring/reschedule/{{appointment.id}}/" class="loadright">Change Appointment</a>
-<span class="orange">
-<a id="case-cancel" href="/referring/cancelAppointment/{{appointment.id}}/" class="orange loadright">Cancel Appointment</a>
-</span>
-<br /><br />
-{% endif %}
-{% if case.status >= 5 %}
-<a id="view-diagnosis" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View Diagnosis</a>
-<br /><br />
-{% endif %}

@@ -19,7 +19,7 @@
 	<tbody>
 		{% for patient,message in dic.iteritems%}
 		<tr>
-			<td><b><a href="/referring/patientInfo/{{patient.id}}/" class="loadright">{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</a></b></td>
+			<td><b><a href="/referring/patientInfo/{{patient.id}}/" class="loadright">{{patient}}</a></b></td>
 			{% if patient.gender == 1 %}
 			<td>Male</td>
 			{% endif %}

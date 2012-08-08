@@ -11,6 +11,7 @@ from main.models.mri import *
 from main.utils.form_check import *
 from main.models.case import *
 from main.models.data import *
+from main.models.message import *
 import datetime
 import operator
 import time
@@ -18,7 +19,7 @@ from MySQLdb.constants.FIELD_TYPE import NULL
 
 
 def register_list(request):
-    print "heihei"
+    
     if request.user.is_authenticated():
         profile = Profile.objects.get(user = request.user)
         mri = profile.mri_id
@@ -32,10 +33,10 @@ def register_list(request):
                     today_checkin_appointments.append(appointment)
                 else:
                     today_appointments.append(appointment)
-        print "finish"
+    
         return render_to_response('receptionist/today.htm',{'appointments':today_appointments, 'checkins':  today_checkin_appointments, 'mri':mri}, context_instance=RequestContext(request))  
     else: 
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+        return redirect('main.views.index.index')
     
 def check_out(request, appointment_id):
     if request.user.is_authenticated():
@@ -120,7 +121,7 @@ def schedule_list_view(request, month):
         current = today.month
         dic = {}
         while today.month == current:
-            schedules = Schedule.objects.filter(mri = mri, date = today.date(), is_cancelled = False)
+            schedules = Schedule.objects.filter(mri = mri, date = today.date(), is_cancelled = False).order_by('start_time')
             dic[today.date()] = schedules
             today = today + datetime.timedelta(days = 1)
         
@@ -147,7 +148,7 @@ def amend_timesolt(request, month):
         current = today.month
         dic = {}
         while today.month == current:
-            schedules = Schedule.objects.filter(mri = mri, date = today.date(), is_cancelled = False)
+            schedules = Schedule.objects.filter(mri = mri, date = today.date(), is_cancelled = False).order_by('start_time')
             dic[today.date()] = schedules
             today = today + datetime.timedelta(days = 1)
         
@@ -161,29 +162,33 @@ def add_timesolt(request, year, month, day):
         timeslots = request.POST['newtimeslot']
         date = datetime.datetime(int(year),int(month),int(day))
         mri = Profile.objects.get(user = request.user).mri_id
-        
-        error = []
-        if len(timeslots) == 0:
-            error.append("Please enter new timeslots")
-        
-        print "zheli"
-        print timeslots
-        times = timeslots.split(';')
-        print times
-        print "zheli2"
-        for str in times:
-            str_now = time.strptime(str, "%H:%M")
-            str_now = datetime.datetime(* str_now[:6]).time()
-            print str_now
-            if not Schedule.objects.filter(is_cancelled = False).filter(start_time = str_now).exists():
-                "zheli3"
-                schedule = Schedule.objects.create(mri = mri, date = date, start_time = str_now, end_time = str_now)
-                schedule.save()
-                print "heihei"
-        print "success"
         today = datetime.datetime.now().month
         month = int(month) - today
-        print month
+        errors = []
+        if len(timeslots) == 0:
+            errors.append("Please enter new timeslots")
+        if date.date() < datetime.datetime.now().date():
+            errors.append("You do not need to amend the schedule before today")
+            
+        if len(errors) != 0:
+            return redirect('main.views.receptionist.amend_timesolt', month)
+            
+        times = timeslots.split(';')
+      
+        for str in times:
+            try:
+                str_now = time.strptime(str, "%H:%M")
+            except ValueError:
+                return redirect('main.views.receptionist.amend_timesolt', month)  
+                
+            
+            str_now = datetime.datetime(* str_now[:6]).time()
+            
+            if not Schedule.objects.filter(date=date).filter(is_cancelled = False).filter(start_time = str_now).exists():
+                schedule = Schedule.objects.create(mri = mri, date = date, start_time = str_now, end_time = str_now)
+                schedule.save()
+                
+       
         return redirect('main.views.receptionist.amend_timesolt', month)    
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -248,7 +253,6 @@ def logs(request):
     if request.user.is_authenticated():
         profile = Profile.objects.get(user = request.user)
         appointments = Appointment.objects.filter(mri=profile.mri_id).filter(is_check_in = True).filter(is_cancelled=False).filter(is_current=True).order_by('-id')
-        print appointments
         return render_to_response('receptionist/logs.htm',{'appointments':appointments}, context_instance=RequestContext(request))
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -278,7 +282,7 @@ def cancel_register(request, appointment_id):
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-    
+   
 def reschedule_view2(request, appointment_id):
     if request.user.is_authenticated():
         if not Appointment.objects.filter(id = appointment_id).exists():
@@ -288,23 +292,35 @@ def reschedule_view2(request, appointment_id):
         return render_to_response('receptionist/patient-reschedule-2.htm',{'appointment':appointment}, context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
+
+
 def reschedule_list_view2(request, appointment_id):
-    print "aaaaaaa"
+
     if request.user.is_authenticated():
         schedule_date = request.POST['rebookingdate']
         appointment = Appointment.objects.get(id = appointment_id)
-        print schedule_date
+        
         errors = []
         if len(schedule_date) == 0:
-            errors.append('date cannot be empty')
+            errors.append('Date cannot be empty')
+        else:   
+            try:
+                format="%m/%d/%Y"
+                date = datetime.datetime.strptime(schedule_date,format)
+                
+                if date.date() < datetime.datetime.now().date():
+                    errors.append('Please choose another day, you cannot make an new appointment before today')
+            except ValueError:
+                errors.append('Incorrect date format')
+                         
+        if len(errors) != 0:
             return render_to_response('receptionist/patient-reschedule-2.htm',{'errors':errors, 'appointment':appointment}, context_instance=RequestContext(request))
         
         mri = appointment.mri
         
         format="%m/%d/%Y"
         date = datetime.datetime.strptime(schedule_date,format)
-        print date
+        
         count = 0;
         dic = {}
         while count < 10:
@@ -313,8 +329,7 @@ def reschedule_list_view2(request, appointment_id):
             date = date + datetime.timedelta(days = 1)
             count += 1
         sorted_x = sorted(dic.iteritems(), key=operator.itemgetter(0), reverse=False)
-        print sorted_x
-        print "success"
+        
         return render_to_response('receptionist/patient-reschedule-2.htm',{'dic':sorted_x, 'appointment':appointment}, context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -325,31 +340,64 @@ def reschedule_action2(request, schedule_id, appointment_id):
         errors = []
         if not Schedule.objects.filter(id = schedule_id).exists():
             errors.append('Schedule is not available')
+            
+        new_schedule = Schedule.objects.get(id = schedule_id)
+        
+        if new_schedule.date < datetime.datetime.now().date() or (new_schedule.date == datetime.datetime.now().date() and new_schedule.start_time < datetime.datetime.now().time()):
+            errors.append('Please choose another day, you cannot make an appointment before today')
+        
+        if len(errors) != 0: 
             return render_to_response('receptionist/patient-reschedule-2.htm',{'errors':errors}, context_instance=RequestContext(request))
         
-        print "haha"
+        
         # old_appointment cancelled
         old_appointment = Appointment.objects.get(id = appointment_id)
         old_appointment.is_cancelled = True
+        old_appointment.is_current = False
         # old_schedule available
         old_schedule = old_appointment.schedule
         old_schedule.is_available = True
         
-        new_schedule = Schedule.objects.get(id = schedule_id)
         new_schedule.is_available = False
         
         new_appointment = Appointment.objects.create(doctor = old_appointment.doctor, patient = old_appointment.patient, schedule = new_schedule, case = old_appointment.case, mri = old_appointment.mri)
+        
+        doctor = old_appointment.doctor
+        mri = old_appointment.mri
+          # create message
+        
+        title = 'Reschedule for CASE #' + str(old_appointment.case.id) 
+        title = title.upper()
+    
+        content = 'MRI center have reschedule an appointment for your patient: <br/>'
+        
+        content += 'Patient: ' + old_appointment.patient.first_name + ' ' +  old_appointment.patient.last_name + '<br/>'
+        
+        content = 'You orginal appointment is: <br/>' + 'MRI Center: ' + old_appointment.mri.name +'<br/> + Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
+        
+        content += 'New appointment is: <br/>  MRI Center: ' + mri.name
+       
+        content += '<br/> Time: ' + str(new_schedule.date) + '   ' 
+   
+        content += str(new_schedule.start_time) + '<br/>' 
+  
+        content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) +'<br/>' 
+
+        # content = "You have already made an appointment"
+        print content
+        message = Message.objects.create(receiver = doctor, case = old_appointment.case, title = title, content = content, type = 2, is_sys = True)
+        message.save()
+        
         
         old_appointment.save()
         old_schedule.save()
         new_schedule.save()
         new_appointment.save()
         
-        print "success"
+       
         return redirect('main.views.receptionist.patients_view')    
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
     
     
     
@@ -370,8 +418,20 @@ def reschedule_list_view(request, appointment_id):
         appointment = Appointment.objects.get(id = appointment_id)
         print schedule_date
         errors = []
+        
         if len(schedule_date) == 0:
-            errors.append('date cannot be empty')
+            errors.append('Date cannot be empty')
+        else:   
+            try:
+                format="%m/%d/%Y"
+                date = datetime.datetime.strptime(schedule_date,format)
+                
+                if date.date() < datetime.datetime.now().date():
+                    errors.append('Please choose another day, you cannot make an new appointment before today')
+            except ValueError:
+                errors.append('Incorrect date format')
+                         
+        if len(errors) != 0:
             return render_to_response('receptionist/patient-reschedule.htm',{'errors':errors, 'appointment':appointment}, context_instance=RequestContext(request))
         
         mri = appointment.mri
@@ -395,32 +455,65 @@ def reschedule_list_view(request, appointment_id):
     
 
 def reschedule_action(request, schedule_id, appointment_id):
+
     if request.user.is_authenticated():
         errors = []
         if not Schedule.objects.filter(id = schedule_id).exists():
             errors.append('Schedule is not available')
+        
+        new_schedule = Schedule.objects.get(id = schedule_id)
+           
+        if new_schedule.date < datetime.datetime.now().date() or (new_schedule.date == datetime.datetime.now().date() and new_schedule.start_time < datetime.datetime.now().time()):
+            errors.append('Please choose another day, you cannot make an appointment before today')
+        
+        print "ccc"
+        if len(errors) != 0:
             return render_to_response('receptionist/patient-reschedule.htm',{'errors':errors}, context_instance=RequestContext(request))
         
         # old_appointment cancelled
+        
         old_appointment = Appointment.objects.get(id = appointment_id)
         print old_appointment
         old_appointment.is_cancelled = True
-       
+        old_appointment.is_current = False
+        
         # old_schedule available
         old_schedule = old_appointment.schedule
         old_schedule.is_available = True
+        print "hahahahah"
         
-        new_schedule = Schedule.objects.get(id = schedule_id)
         new_schedule.is_available = False
         
         new_appointment = Appointment.objects.create(doctor = old_appointment.doctor, patient = old_appointment.patient, schedule = new_schedule, case = old_appointment.case, mri = old_appointment.mri)
         
+        mri = old_appointment.mri
+        doctor = old_appointment.doctor
+        # create message
+        print "heihei"
+        
+        title = 'Reschedule for CASE #' + str(old_appointment.case.id) 
+        title = title.upper()
+        print title
+        content = 'MRI center have reschedule an appointment for your patient: <br/>'
+        print content
+        content += 'Patient: ' + old_appointment.patient.first_name + " " + old_appointment.patient.last_name + '<br/>'
+        print content
+        content = 'The orginal appointment is: <br/>' + 'MRI Center: ' + old_appointment.mri.name +'<br/> + Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
+        print content
+        content += 'New appointment is: <br/>  MRI Center: ' + mri.name
+        print content
+        content += '<br/> Time: ' + str(new_schedule.date) + ' at ' +  str(new_schedule.start_time)
+        print "zhe li"
+
+        # content = "You have already made an appointment"
+        message = Message.objects.create(receiver = doctor, case = old_appointment.case, title = title, content = content, type = 2, is_sys = True)
+        message.save()
+       
         old_appointment.save()
         old_schedule.save()
         new_schedule.save()
         new_appointment.save()
-        
-        print "success"
-        return redirect('main.views.receptionist.register_list')    
+       
+        return redirect('main.views.receptionist.register_list')  
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))

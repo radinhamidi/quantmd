@@ -12,6 +12,6 @@ ssn = IsSSN("123456789");
 print "SSN"
 print ssn
 
-phone = IsPhoneNumber("4121234567")
+phone = IsDate("06/08/2022")
 print "phone"
 print phone
