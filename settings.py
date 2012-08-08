@@ -17,10 +17,9 @@ MANAGERS = ADMINS
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'noreply@quantmd.com'
-EMAIL_HOST_PASSWORD = '' 
+EMAIL_HOST_USER = 'support@xifenfen.com'
+EMAIL_HOST_PASSWORD = 'Eg4> aZGy' 
 EMAIL_PORT = 587
-
 
 
 if PRODUCTION:

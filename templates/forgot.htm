@@ -1,15 +1,15 @@
 <html>
 <head>
 
-	<title>Login - QuantMD</title>
+	<title>Forgot Password - QuantMD</title>
 	
-	<script src="common/js/jquery.js"></script>
-	<script src="common/js/jquery-ui.js"></script>
-	<script src="common/js/forgot.js"></script>
+	<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+	<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+	<script src="{{STATIC_URL}}common/js/forgot.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="common/css/theme_orange/jquery-ui.css" />
-	<link rel="stylesheet" type="text/css" href="common/css/theme/jquery-ui.css" />
-	<link rel="stylesheet" type="text/css" href="common/css/login.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/login.css" />
 	
 </head>
 <body>
@@ -17,20 +17,32 @@
 	<div id="forgotbox">
 		<div id="forgotbox-header">Forgot</div>
 		<div id="forgotbox-form">
-			To retrieve your password, please enter your username and email. Your email must match the address we have on file. We will send you a new password shortly.<p /><br />
-			<form name="forgot" id="forgot" action="forgot.htm" method="POST">
+			{% if not messages %}
+			    To retrieve your password, please enter your username and email. Your email must match the address we have on file. We will send you a new password shortly.<p />
+			{% else %}
+				{% for message in messages %}
+				<div class="span8 offset2">
+					<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+						{{message}}
+					</div>
+				</div>
+				{% endfor %}
+			{% endif %}
+			<br />
+			<form id="forgot" action="/forgot_password_action/" method="POST">
+				{% csrf_token %}
 				<input type="text" class="defaultTextActive" id="username-clear" value="username" />
 				<input type="text" name="username" id="username-username" /><p />
 				<input id="email-clear" class="defaultTextActive" type="text" value="registered email" autocomplete="off" />
 				<input id="email-email" type="text" name="email" value="" autocomplete="off" /><br /><p />
-				<input type="button" class="button" name="forgotbutton" id="forgotbutton" value="Retrieve" /><br />
+				<input type="submit" class="button" name="forgotbutton" id="forgotbutton" value="Retrieve" /><br />
 				<span class="orange">
 					<input type="button" class="button" name="backbutton" id="backbutton" value="Back" /><br />
 				</span>
 			</form>
 		</div>
 		Contact QuantMD Administrator for more information.<p /><p />
-		&#0169; 2012 QuantMD <img id="icon-base" src="common/images/icon-quantmd-mini-white.png" /> 
+		&#0169; 2012 QuantMD <img id="icon-base" src="{{STATIC_URL}}common/images/icon-quantmd-mini-white.png" /> 
 	</div>
 
 </body>
