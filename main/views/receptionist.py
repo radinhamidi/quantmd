@@ -369,19 +369,19 @@ def reschedule_action2(request, schedule_id, appointment_id):
         title = 'Reschedule for CASE #' + str(old_appointment.case.id) 
         title = title.upper()
     
-        content = 'MRI center have reschedule an appointment for your patient: <br/>'
+        content = 'MRI center have reschedule an appointment for your patient: '
         
-        content += 'Patient: ' + old_appointment.patient.first_name + ' ' +  old_appointment.patient.last_name + '<br/>'
+        content += 'Patient: ' + old_appointment.patient.first_name + ' ' +  old_appointment.patient.last_name 
         
-        content = 'You orginal appointment is: <br/>' + 'MRI Center: ' + old_appointment.mri.name +'<br/> + Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
+        content = 'You orginal appointment is: ' + 'MRI Center: ' + old_appointment.mri.name +' Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
         
-        content += 'New appointment is: <br/>  MRI Center: ' + mri.name
+        content += 'New appointment is:  MRI Center: ' + mri.name
        
-        content += '<br/> Time: ' + str(new_schedule.date) + '   ' 
+        content += ' Time: ' + str(new_schedule.date) + '   ' 
    
-        content += str(new_schedule.start_time) + '<br/>' 
+        content += str(new_schedule.start_time)
   
-        content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) +'<br/>' 
+        content += ' Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip)
 
         # content = "You have already made an appointment"
         print content
@@ -494,16 +494,16 @@ def reschedule_action(request, schedule_id, appointment_id):
         title = 'Reschedule for CASE #' + str(old_appointment.case.id) 
         title = title.upper()
         print title
-        content = 'MRI center have reschedule an appointment for your patient: <br/>'
+        content = 'MRI center have reschedule an appointment for your patient: '
         print content
-        content += 'Patient: ' + old_appointment.patient.first_name + " " + old_appointment.patient.last_name + '<br/>'
+        content += 'Patient: ' + old_appointment.patient.first_name + " " + old_appointment.patient.last_name
         print content
-        content = 'The orginal appointment is: <br/>' + 'MRI Center: ' + old_appointment.mri.name +'<br/> + Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
+        content = 'The orginal appointment is: ' + 'MRI Center: ' + old_appointment.mri.name +' Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
         print content
-        content += 'New appointment is: <br/>  MRI Center: ' + mri.name
+        content += 'New appointment is:   MRI Center: ' + mri.name
         print content
-        content += '<br/> Time: ' + str(new_schedule.date) + ' at ' +  str(new_schedule.start_time)
-        print "zhe li"
+        content += ' Time: ' + str(new_schedule.date) + ' at ' +  str(new_schedule.start_time)
+       
 
         # content = "You have already made an appointment"
         message = Message.objects.create(receiver = doctor, case = old_appointment.case, title = title, content = content, type = 2, is_sys = True)

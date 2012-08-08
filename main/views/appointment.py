@@ -137,19 +137,6 @@ def mri_info(request, mri_id):
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
 
-def mri_schedule(request, mri_id):
-    print "mri schedule"
-    if request.user.is_authenticated():
-        if MRICenter.objects.filter(id=mri_id).exists():
-            mri = MRICenter.objects.get(id=mri_id)
-            schedules = Schedule.objects.filter(mri=mri).filter(date__gte=datetime.datetime.today()).filter(is_available=True).filter(is_cancelled = False).order_by('-date','start_time')
-            return render_to_response('referring/center-timeslot.htm',{'schedules':schedules}, context_instance=RequestContext(request))
-        else:
-            return render_to_response('referring/center-timeslot.htm',{'errors':"No such MRI center"}, context_instance=RequestContext(request))
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-     
-
 def make_appointment(request, patient_id, schedule_id):
     if request.user.is_authenticated():
         error = []
@@ -191,21 +178,18 @@ def make_appointment(request, patient_id, schedule_id):
         appointment.save()
         
         
-        
-         
-        
         # create message
         
         title =  'APPOINTMENT CONFIRMATION for CASE #' +  str(case.id)
         title = title.upper()
         print title
-        content = 'You have already made an appointment: <br/>' + 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' <br/> MRI Center: ' + mri.name
+        content ='Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have made an appointment: MRI Center: ' + mri.name
        
-        content += '<br/> Time: ' + str(schedule.date) + '   ' 
+        content += 'Time: ' + str(schedule.date) + '   ' 
    
-        content += str(schedule.start_time) + '<br/>' 
+        content += str(schedule.start_time) 
   
-        content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) +'<br/>' 
+        content += ' Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) 
 
         # content = "You have already made an appointment"
         print content
@@ -240,7 +224,6 @@ def appointment_cancel(request, appointment_id):
             errors.append("This appointment cannot be cancel")
             return render_to_response('error.htm',{'errors':errors}, context_instance=RequestContext(request))
         else:
-            print "here"
             case.status = -1
             case.save()
             schedule.is_available = True
@@ -258,20 +241,19 @@ def appointment_cancel(request, appointment_id):
         
             title = 'APPOINTMENT CONCELLATION for CASE #' + str(case.id)
             title = title.upper()
-            content = 'You have cancelled an appointment: <br/>' + 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' <br/> MRI Center: ' + mri.name
+            content = 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have cancelled an appointment: MRI Center: ' + mri.name
        
-            content += '<br/> Time: ' + str(schedule.date) + '   ' 
+            content += 'Time: ' + str(schedule.date) + '   '
    
-            content += str(schedule.start_time) + '<br/>' 
+            content += str(schedule.start_time) 
         
-            content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) +'<br/>'
+            content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip)
 
             # content = "You have already made an appointment"
             print content
             message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 1, is_sys = True)
             message.save()
-           
-            print "heihei"
+            print "success"
             return redirect('main.views.patients.patientInfo', patient.id)
      else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -417,19 +399,17 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
         title = 'Reschedule for CASE #' + str(case.id) 
         title = title.upper()
         
-        content = 'You have reschedule an appointment: <br/>'
+        content += 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have reschedule an appointment:'
         
-        content += 'Patient: ' + patient.first_name + ' ' +  patient.last_name + '<br/>'
+        content += 'The original appointment is: ' + 'MRI Center: ' + old_appointment.mri.name +'  Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
         
-        content = 'You orginal appointment is: <br/>' + 'MRI Center: ' + old_appointment.mri.name +'<br/> + Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
-        
-        content += 'New appointment is: <br/>  MRI Center: ' + mri.name
+        content += 'New appointment is:  MRI Center: ' + mri.name
        
-        content += '<br/> Time: ' + str(schedule.date) + '   ' 
+        content += ' Time: ' + str(schedule.date) + '   ' 
    
-        content += str(schedule.start_time)+'<br/>' 
+        content += str(schedule.start_time)
   
-        content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) +'<br/>' 
+        content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) 
         
         # content = "You have already made an appointment"
         print content

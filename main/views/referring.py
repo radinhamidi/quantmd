@@ -12,10 +12,19 @@ from main.models.message import Message
 from django.utils.datetime_safe import datetime
 
 def dashboard(request):
-    msg_unread_count = Message.objects.filter(receiver__pk=request.user.pk).count()
-    #Number of diagnosis with report for doctor to review
-    diagnosis_count = Appointment.objects.filter(doctor__pk=request.user.pk, case__status=5).count()
-    patients_scheduled_count =  Appointment.objects.filter(doctor__pk=request.user.pk, case__status=5).count()
+    msg_unread_count = Message.objects.filter(receiver__pk=request.user.pk, is_read = False, is_sys = False).count()
+    diagnosis_unread_count = Message.objects.filter(receiver__pk=request.user.pk, is_read = False, is_sys = True, type = 4).count()
+    reschedule_unread_count = Message.objects.filter(receiver__pk=request.user.pk, is_read = False, is_sys = True, type = 2).count()
+    schedule_unread_count = Message.objects.filter(receiver__pk=request.user.pk, is_read = False, is_sys = True, type = 0).count()
+    cancell_schedule_unread_count = Message.objects.filter(receiver__pk=request.user.pk, is_read = False, is_sys = True, type = 1).count()
+    dicom_unread_count = Message.objects.filter(receiver__pk=request.user.pk, is_read = False, is_sys = True, type = 3).count()
+    analysis_unread_count = Message.objects.filter(receiver__pk=request.user.pk, is_read = False, is_sys = True, type = 5).count()
     
-    return render_to_response('referring/dashboard.htm', {},
+    messages = Message.objects.filter(receiver__pk=request.user.pk, is_read = False).order_by('-create_time')
+    
+    doctor = Profile.objects.get(user = request.user)
+    #Number of diagnosis with report for doctor to review
+    return render_to_response('referring/dashboard.htm', {'messages': messages, 'msg':msg_unread_count, 'diagnosis':diagnosis_unread_count, 
+                                                          'reschedule':reschedule_unread_count, 'schedule':schedule_unread_count, 
+                                                          'cancelled':cancell_schedule_unread_count, 'dicom':dicom_unread_count, 'analysis': analysis_unread_count, 'doctor':doctor},
                                   context_instance=RequestContext(request))

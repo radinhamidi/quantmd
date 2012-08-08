@@ -45,7 +45,6 @@ def patientInfo(request, patient_id):
         if Patient.objects.filter(id = patient_id).exists():
             patient = Patient.objects.get(id = patient_id)
             appointments = Appointment.objects.filter(patient=patient).filter(is_current=True).order_by('-case')
-            print appointments
             return render_to_response('referring/patient-info.htm',{'patient': patient, 'appointments':appointments}, context_instance=RequestContext(request)) 
         else:
             return render_to_response('referring/error.htm',{'error': 'No such error'}, context_instance=RequestContext(request)) 
@@ -225,58 +224,6 @@ def patient_edit_action(request, patient_id):
             return render_to_response('referring/patient-edit-confirm.htm',{'patient':patient}, context_instance=RequestContext(request))
         
     else: 
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-
-def patient_appotiments(request, patient_id):
- if request.user.is_authenticated():
-    print "patient apps"
-    patient = Patient.objects.get(id=patient_id)
-    appointments = Appointment.objects.filter(patient=patient)
-    dic = {}
-    for appointment in appointments:
-        case = Case.objects.get(appointment=appointment)
-        dic[appointment] = case
-    print dic
-    return render_to_response('referring/Individual-schedule-list.htm', {'dic': dic, 'patient':patient},
-                            context_instance=RequestContext(request))
-    
- else:
-    return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-
-
-def patient_appotiment(request, schedule_id, patient_ssn):
-    print "appointment"
-    if request.user.is_authenticated():
-        schedule = Schedule.objects.get(id=schedule_id)
-        patient = Patient.objects.get(ssn=patient_ssn)
-        appointment = Appointment.objects.get(schedule=schedule)
-        mri = schedule.mri                        
-        return render_to_response('referring/individual-schedule.htm', {'schedule':schedule, 'patient':patient, 'mri':mri, 'appointment':appointment},
-                            context_instance=RequestContext(request))
-    
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
-    
-def patient_cases(request, patient_id):
-    print "cases"
-    if request.user.is_authenticated():
-        errors = []
-        if Patient.objects.filter(id=patient_id):
-            errors.append('Patient is not exist')
-            return render_to_response('referring/Individual-diagnosis-list.htm', {'errors': errors},
-                            context_instance=RequestContext(request))
-        patient = Patient.objects.get(id=patient_id)
-        appointments = Appointment.objects.filter(patient=patient).filter(is_cancelled=False)
-        cases = {}
-        for appointment in appointments:
-            case = Case.objects.get(appointment=appointment)
-            if case.report is not None:
-                cases[case] = case.report 
-        print cases                    
-        return render_to_response('referring/Individual-diagnosis-list.htm', {'cases':cases, 'patient':patient},
-                            context_instance=RequestContext(request))
-    else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
       
