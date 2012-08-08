@@ -13,8 +13,10 @@ from main.models.patient import Patient
 from main.models.data import MRIData
 from main.models.message import Message
 from main.utils.misc import generate_random_string
-import os
+from os import listdir, makedirs, rename
+from os.path import isfile, join
 from subprocess import call
+from zipfile import ZipFile
 import sys
 
 
@@ -25,13 +27,16 @@ def patients(request):
                                       is_cancelled=False, is_current=True)
     
     mri_name = profile.mri_id.name
+    
     return render_to_response('broker/patients.htm', {'apts':apts, 'mri_name':mri_name},
                                   context_instance=RequestContext(request))
 
 def upload(request, patient_id, case_id):
     """The upload interface"""
     patient = Patient.objects.get(pk=patient_id)
-    return render_to_response('broker/upload.htm', {'patient':patient, 'case_id':case_id},
+    identifier = generate_random_string(10)
+    return render_to_response('broker/upload.htm', {'patient':patient, 'case_id':case_id,
+                                                    'identifier':identifier},
                                   context_instance=RequestContext(request))
 
 
@@ -42,39 +47,73 @@ def upload_action(request):
     """
     try:
         uploaded = request.FILES['Filedata']
-        f_name = generate_random_string(10) #serve as both dir name and file names
+        identifier = request.POST['identifier']
         
         #Create a folder holding dicom file and converted images
-        directory = settings.MEDIA_ROOT + 'dicom/' + f_name
-        os.makedirs(directory)
+        directory = settings.MEDIA_ROOT + 'dicom/' + identifier
+        try:
+            makedirs(directory) #makes all intermediary dir if necessary
+        except: #dir exist, just store
+            pass
         
         #Write the dicom file
-        f_path = directory + '/' + f_name + '.dcm'
+        f_path = directory + '/' + uploaded.name
         f = open(f_path, 'wb')
         f.write(uploaded.read())
         f.close()
         
-        #Convert images
-        LINUX = sys.platform.startswith('linux')
-        MAC = sys.platform.startswith('darwin')
-        WINDOWS = sys.platform.startswith('win32')
-        if LINUX or MAC:
-            call(settings.PROJECT_ROOT + 'main/utils/dicom2-unix ' + f_path + ' -w --to=' + directory)
-        else:
-            command = settings.PROJECT_ROOT + 'main/utils/dicom2-windows ' + f_path + ' -w --to=' + directory
-            call(command)
+        return HttpResponse('0')
+    except Exception, e:
+        return HttpResponse(str(e))
+    
+@csrf_exempt 
+def upload_complete(request):
+    """Temporarily set case status to 3 before integration with post processing private algorithm"""
+    try:
+        identifier = request.POST['identifier']
+        case_id = request.POST['case_id']
+        
+        directory = settings.MEDIA_ROOT + 'dicom/' + identifier
+        file_names = [ f for f in listdir(directory) if isfile(join(directory,f)) ]
+        file_names.sort()
+        
+        #Generate zip file
+        with ZipFile(directory + '/' + identifier + '.zip', 'w') as myzip:
+            for fn in file_names:
+                f_path = join(directory,fn)
+                myzip.write(f_path)
+            myzip.close()
+        
+        #Generate images
+        image_count = 0
+        for fn in file_names:
+            f_path = join(directory,fn)
+            new_path = join(directory,str(image_count+1)+'.dcm')
+            rename(f_path, new_path)
+            #Convert images
+            LINUX = sys.platform.startswith('linux')
+            MAC = sys.platform.startswith('darwin')
+            WINDOWS = sys.platform.startswith('win32')
+            if LINUX or MAC:
+                call(settings.PROJECT_ROOT + 'main/utils/dicom2-unix ' + new_path + 
+                     ' -p --to=' + directory + ' --rename=cur_nm')
+            else:
+                call(settings.PROJECT_ROOT + 'main/utils/dicom2-windows ' + new_path +
+                         ' -p --to=' + directory + ' --rename=cur_nm')
+            image_count += 1
         
         #Update database
-        data = MRIData(name=f_name)
+        data = MRIData(name=identifier)
+        data.image_count = image_count 
         data.broker_id = request.user.pk
         data.save()
+        
         case_id = request.POST['case_id']
         case = Case.objects.get(pk=case_id)
         case.data = data
-        case.status = 2
+        case.status = 3 #Should be changed to 2 after integration!!!
         case.save()
-        
-        
+           
         apt = Appointment.objects.get(case=case_id, is_current=True)
         apt.save()
         
@@ -84,14 +123,16 @@ def upload_action(request):
         message.content = 'The MRI scan is complete for case ' + case_id \
                           + '. Please wait for cardiologist to upload report' 
         message.save()
-        return HttpResponse('0')
-    except Exception, e:
-        return HttpResponse(str(e))
+        return HttpResponse('{"code":"0", "msg":"Completed!"}')
+    except:
+        return HttpResponse('{"code":"1", "msg":"Error while processing dicom files."}')
+    
+
 
 def logs(request):
     """The logs of uploaded files"""
     profile = Profile.objects.get(pk=request.user.pk)
-    apts = Appointment.objects.filter(mri=profile.mri_id, case_status__gte=2, 
+    apts = Appointment.objects.filter(mri=profile.mri_id, case__status__gte=2, 
                                       is_cancelled=False, is_current=True)
     return render_to_response('broker/logs.htm', {'apts':apts},
                                   context_instance=RequestContext(request))

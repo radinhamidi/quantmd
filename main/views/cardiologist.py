@@ -10,18 +10,23 @@ from main.models.data import *
 from main.models.report import Report
 from main.models.message import Message
 from main.models.appointment import Appointment 
+from main.utils.pdf_generator import Report2PDF
 
 def case(request):
     cases = Case.objects.filter(status=4, cardiologist__pk=request.user.pk)
     if len(cases) == 0:
         has_pending_case = 0
         case = None #No use
+        data = None
+        image_names = []
     else:
         has_pending_case = 1
         case = cases[0]
+        data = case.data
+        image_names = [str(i+1)+'.dcm.png' for i in xrange(data.image_count)]
         
     return render_to_response('cardiologist/case.htm', {'has_pending_case':has_pending_case,
-                                                        'case':case},
+                                                        'case':case, 'data':data, 'image_names':image_names},
                                   context_instance=RequestContext(request))
 
 def accept_case(request):
@@ -31,7 +36,7 @@ def accept_case(request):
         messages.error(request, 'You can only accept one case at a time')
         return redirect('main.views.cardiologist.case')
     
-    cases = Case.objects.filter(status=2).order_by('id')
+    cases = Case.objects.filter(status=3).order_by('id')
     if len(cases) == 0:
         messages.error(request, 'No pending cases to review.')
         return redirect('main.views.cardiologist.case')
@@ -46,12 +51,22 @@ def submit_report(request):
     """Need to generate PDF report"""
     profile = Profile.objects.get(pk=request.user.pk)
     diagnosis = request.POST['diagnosis']
-        
-    report = Report(content=diagnosis)
-    report.save()
     
     case_id = request.POST['case_id']
     case = Case.objects.get(pk=case_id)
+    
+    #Generate PDF report
+    identifier = case.data.name
+    image_dir = settings.MEDIA_ROOT + 'dicom/' + identifier
+    pdf_path = settings.MEDIA_ROOT + 'dicom/' + identifier + '/' + identifier + '.pdf'
+    patient_dob_str = case.patient.birthday.strftime("%m/%d/%Y")
+    patient_gender = 'Male' if case.patient.gender else 'Female'
+    Report2PDF(profile.first_name, profile.last_name, case.patient.first_name, case.patient.last_name,
+               patient_gender, patient_dob_str, image_dir, pdf_path, diagnosis)
+    report = Report(content=diagnosis)
+    report.file = 'dicom/' + identifier + '/' + identifier + '.pdf'  
+    report.save()
+    
     case.status = 5
     case.report = report
     case.save()
@@ -66,6 +81,7 @@ def submit_report(request):
                       + diagnosis
     message.save()
     messages.info(request, 'Report submited and sent a message to referring doctor')
+    
     return redirect('main.views.cardiologist.case')
 
 def logs(request):

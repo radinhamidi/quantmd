@@ -3,7 +3,6 @@ from django.conf.urls.defaults import patterns
 
 urlpatterns = patterns('main.views',
     (r'^dashboard/$', 'referring.dashboard'),
-    #(r'^message/(?P<message_id>\d+)/$', 'referring.message_info'),
     (r'^patientsView/$', 'patients.patients_view'), #
     (r'^patientsInfo/$', 'patients.patientsList'), #
     (r'^patientInfo/(?P<patient_id>\d+)/$', 'patients.patientInfo'), #
@@ -14,6 +13,7 @@ urlpatterns = patterns('main.views',
     (r'^mriInfo/(?P<mri_id>\d+)/$', 'appointment.mri_info'),
     (r'^makeAppointment/(?P<patient_id>\d+)/(?P<schedule_id>\d+)/$', 'appointment.make_appointment'),
     (r'^patientCase/(?P<case_id>\d+)/$', 'patients.patient_case'),
+    (r'^view_mri_images/(?P<case_id>\d+)/$', 'patients.view_mri_images'),
     (r'^cancelAppointment/(?P<appointment_id>\d+)/$', 'appointment.appointment_cancel'),
     (r'^reschedule/(?P<appointment_id>\d+)/$', 'appointment.appointment_reschedule'),
     (r'^reappointmentSearch/(?P<appointment_id>\d+)/$', 'appointment.reappointment_search'),

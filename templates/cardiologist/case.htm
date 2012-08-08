@@ -1,5 +1,6 @@
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}galleria/galleria-1.2.7.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 	$(document).ready(function() {
@@ -36,12 +37,20 @@
 </script>
 <div class="title-text">Diagnose Case</div>
 <br />
-{% if has_pending_case %}
 
+{% if has_pending_case %}
 <div id="case-present">
-	MRI image engine
+	<div id="galleria" style="width:256px; height:256px;margin:20px auto">
+		{% for iname in image_names %}
+        <img src="{{MEDIA_URL}}dicom/{{data.name}}/{{iname}}">
+		{% endfor %}
+    </div>
+    <script>
+        Galleria.loadTheme('{{STATIC_URL}}galleria/themes/classic/galleria.classic.min.js');
+        Galleria.run('#galleria');
+    </script>
 	<br /><br />
-	<a href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.dcm">Clike here to download dicom file</a>
+	<a href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Clike here to download dicom file</a>
 	<br /><br />
 	<div class="small-title">Diagnosis</div>
 	<form id="diagnosis" action="/cardiologist/submit_report/">

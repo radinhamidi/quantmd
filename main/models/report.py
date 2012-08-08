@@ -3,7 +3,7 @@ from datetime import datetime
 
 class Report(models.Model):
     content = models.TextField()
-    report_file = models.CharField(max_length=200, null=True) #PDF file
+    pdf_file = models.CharField(max_length=200, null=True) #PDF file path starts with dicom/
     create_time = models.DateTimeField(default=datetime.now)
     
     class Meta:
