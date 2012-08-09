@@ -12,6 +12,7 @@ class MRICenter(models.Model):
     zip = models.IntegerField(default=0)
     longitude = models.FloatField(default=0)
     latitude = models.FloatField(default=0)
+    create_time = models.DateTimeField(default=datetime.now)
     
     class Meta: 
         app_label = 'main'

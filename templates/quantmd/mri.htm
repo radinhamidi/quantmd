@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 		$('#mri-table').dataTable({
@@ -40,44 +40,30 @@ $(document).ready(function() {
 </script>
 <div class="title-text">MRI Centers</div><br />
 <span class="orange">
-	<a href="mri-create.htm" class="innerlink createnew orange">Create New Center</a>
+	<a href="/quantmd/createMRIView/" class="innerlink createnew orange">Create New Center</a>
 </span><br />
 <table id="mri-table">
 	<thead>
 		<tr>
-			<th width="30px">ID</th>
 			<th>MRI Name</th>
 			<th width="100px">City</th>
 			<th width="100px">Member Since</th>
 			<th width="80px">Cases Scheduled</th>
-			<th width="150px">Last Activity</th>
 			<th width="80px">More</th>
 		</tr>
 	</thead>
 	<tbody>
+		{% for k,v in  mri.iteritems %}
 		<tr>
-			<td align="center">051</td>
-			<td>mri ABC</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">Jul 10, 2012</td>
-			<td align="center">22</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td>{{k.name}}</td>
+			<td align="center">{{k.city}},{{k.state}}</td>
+			<td align="center">{{k.create_time}}</td>
+			<td align="center">{{v}}</td>
 			<td align="center">
 				<a href="mri-edit.htm" class="editbutton innerlink">Edit</a>
 				<a href="mri-view.htm" class="viewcasebutton innerlink">View</a>
 			</td>
 		</tr>
-		<tr>
-			<td align="center">051</td>
-			<td>mri 2C</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">Jul 10, 2012</td>
-			<td align="center">Allegheny General</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">
-				<a href="mri-edit.htm" class="editbutton innerlink">Edit</a>
-				<a href="mri-view.htm" class="viewcasebutton innerlink">View</a>
-			</td>
-		</tr>
+		{% endfor %}
 	</tbody>
 </table>
