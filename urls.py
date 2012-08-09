@@ -25,5 +25,6 @@ urlpatterns += patterns('main.views',
     (r'^receptionist/', include('main.urls.receptionist')),
     (r'^broker/', include('main.urls.broker')),
     (r'^cardiologist/', include('main.urls.cardiologist')),
+    (r'^quantmd/', include('main.urls.quantmd')),
     (r'^message/', include('main.urls.message')),
 )

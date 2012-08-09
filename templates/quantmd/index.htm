@@ -4,24 +4,24 @@
 	<title>Login - QuantMD</title>
 
 	<!-- Import Styles -->
-	<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
-	<link rel="stylesheet" type="text/css" href="../common/css/theme/jquery-ui.css" />
-	<link rel="stylesheet" type="text/css" href="../common/css/fonts.css" />
-	<link rel="stylesheet" type="text/css" href="../common/css/jscrollpane.css" />
-	<link rel="stylesheet" type="text/css" href="../common/css/datatables.css" />
-	<link rel="stylesheet" type="text/css" href="../common/css/core.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/fonts.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/jscrollpane.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/datatables.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/core.css" />
 	
 	<!-- Import Scripts -->
-	<script src="../common/js/jquery.js"></script>
-	<script src="../common/js/jquery-ui.js"></script>
-	<script src="../common/js/datatables.js"></script>
-	<script src="../common/js/jscrollpane.js"></script>
-	<script src="../common/js/mousewheel.js"></script>
-	<script src="../common/js/core.js"></script>
+	<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+	<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+	<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+	<script src="{{STATIC_URL}}common/js/jscrollpane.js"></script>
+	<script src="{{STATIC_URL}}common/js/mousewheel.js"></script>
+	<script src="{{STATIC_URL}}common/js/core.js"></script>
 	
 	<!-- Local Scripts & Styles -->
-	<script src="js/admin.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/admin.css" />
+	<script src="{{STATIC_URL}}quantmd/js/admin.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}quantmd/css/admin.css" />
 	
 </head>
 <body>
@@ -29,11 +29,11 @@
 	
 		<!-- User Box Section -->
 		<div id="user-box">
-			<div id="user-box-text"><center>WELCOME, <b>USERABC</b>&nbsp; <img src="../common/images/drop-arrow.png" /></center></div>
+			<div id="user-box-text"><center>WELCOME, <b>USERABC</b>&nbsp; <img src="{{STATIC_URL}}common/images/drop-arrow.png" /></center></div>
 			<div id="user-box-options">
 				<div id="user-box-options-text">
-					&nbsp;<img src="../common/images/square.png" /> &nbsp; <a href="#">ACCOUNT SETTINGS</a><p />
-					&nbsp;<img src="../common/images/square.png" /> &nbsp; <a href="#" onClick="logout();">SIGN OUT</a>
+					&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#">ACCOUNT SETTINGS</a><p />
+					&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#" onClick="logout();">SIGN OUT</a>
 				</div>
 			</div>
 		</div>
@@ -41,11 +41,11 @@
 		<div id="container">
 			<div id="tabs-nohdr">
 				<ul>
-					<li><a href="dashboard.htm"><span><img src='images/upload.png' /> Dashboard</span></a></li>
-					<li><a href="cases.htm"><span><img src='images/progress.png' /> Cases</span></a></li>
-					<li><a href="doctors.htm"><span><img src='images/progress.png' /> Doctors</span></a></li>
-					<li><a href="mri.htm"><span><img src='images/logs.png' /> MRI Centers</span></a></li>
-					<li><a href="cardiologist.htm"><span><img src='images/logs.png' /> Cardiologists</span></a></li>
+					<li><a href="dashboard.htm"><span><img src='{{STATIC_URL}}quantmd/images/upload.png' /> Dashboard</span></a></li>
+					<li><a href="cases.htm"><span><img src='{{STATIC_URL}}quantmd/images/progress.png' /> Cases</span></a></li>
+					<li><a href="doctors.htm"><span><img src='{{STATIC_URL}}quantmd/images/progress.png' /> Doctors</span></a></li>
+					<li><a href="mri.htm"><span><img src='{{STATIC_URL}}quantmd/images/logs.png' /> MRI Centers</span></a></li>
+					<li><a href="cardiologist.htm"><span><img src='{{STATIC_URL}}quantmd/images/logs.png' /> Cardiologists</span></a></li>
 					
 				</ul>
 			</div>
@@ -54,7 +54,7 @@
 	<!-- Footer Bar -->
 	<div id="footer">
 		<div id="footer-left">
-			<div id="footer-left-logo"><img src="../common/images/icon-quantmd-mini-black.png" height="20px" width="20px" /></div>
+			<div id="footer-left-logo"><img src="{{STATIC_URL}}common/images/icon-quantmd-mini-black.png" height="20px" width="20px" /></div>
 			<div>&nbsp; &#0169; 2012 QUANTMD</div>
 		</div>
 		<div id="footer-right">
