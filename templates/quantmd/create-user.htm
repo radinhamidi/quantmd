@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 	$(".checkin").button({
@@ -35,9 +35,101 @@ $(document).ready(function() {
      });
 });
 </script>
-<div class="title-text">Create New Cardiologist</div>
+<div class="title-text">Create New User</div>
 <br /><br />
-<form id="cardiologist-create-form" name="cardiologist-create-form" action="cardiologist-create-confirm.htm">
-//form fields<br /><br />
-<input type="submit" value="Submit" id="cardiologist-create-submit" />
+{% for message in messages %}
+<div class="span8 offset2">
+	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+		{{message}}
+	</div>
+</div>
+{% endfor %}
+<form id="create-user-form" method="POST" action="/quantmd/create_user_action/">
+	{% csrf_token %}
+    <table>
+    	<tr>
+    		<td>Username:</td>
+			<td><input type="text" name="username" /></td>
+    	</tr>
+		<tr>
+    		<td>Password:</td>
+			<td><input type="password" name="password" /></td>
+    	</tr>
+		<tr>
+    		<td>Confirm Password:</td>
+			<td><input type="password" name="password_confirm" /></td>
+    	</tr>
+		<tr>
+    		<td>First Name:</td>
+			<td><input type="text" name="first_name" /></td>
+    	</tr>
+		<tr>
+    		<td>Middle Name:</td>
+			<td><input type="text" name="middle_name" /></td>
+    	</tr>
+		<tr>
+    		<td>Last Name:</td>
+			<td><input type="text" name="last_name" /></td>
+    	</tr>
+		<tr>
+    		<td>Gender</td>
+			<td>
+				<select name="gender">
+				  <option value="1">Male</option>
+				  <option value="0">Female</option>
+				</select>
+			</td>
+    	</tr>
+        <tr>
+    		<td>Email:</td>
+			<td><input type="text" name="email" /></td>
+    	</tr>
+		<tr>
+    		<td>Phone:</td>
+			<td><input type="text" name="phone" /></td>
+    	</tr>
+		<tr>
+    		<td>Address:</td>
+			<td><input type="text" name="address" /></td>
+    	</tr>
+		<tr>
+    		<td>Address Line 2:</td>
+			<td><input type="text" name="address_2" /></td>
+    	</tr>
+		<tr>
+    		<td>City:</td>
+			<td><input type="text" name="city" /></td>
+    	</tr>
+		<tr>
+    		<td>State:</td>
+			<td><input type="text" name="state" /></td>
+    	</tr>
+		<tr>
+    		<td>Zipcode:</td>
+			<td><input type="text" name="zipcode" /></td>
+    	</tr>
+		<tr>
+    		<td>Role</td>
+			<td>
+				<select name="role">
+				  <option value="0">Admin</option>
+				  <option value="1">Doctor</option>
+				  <option value="2">Receptionist</option>
+				  <option value="3">Broker</option>
+				  <option value="4">Cardiologist</option>
+				</select>
+			</td>
+    	</tr>
+		<tr>
+    		<td>MRI Center</td>
+			<td>
+				<select name="mri">
+				  {% for mri in mris %}
+				  <option value="{{mri.pk}}">{{mri}}</option>
+				  {% endfor %}
+				</select>
+			</td>
+    	</tr>
+    </table>
+	<input type="submit" value="Submit" id="create-submit" />
 </form>

@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#doctor-table').dataTable({
+		$('#cardiologist-table').dataTable({
 		"bPaginate": false,
 		"bLengthChange": false,
 		"bFilter": true,
@@ -38,15 +38,15 @@ $(document).ready(function() {
 		});
 });
 </script>
-<div class="title-text">Referring Doctors</div><br />
+<div class="title-text">Cardiologists</div><br />
 <span class="orange">
-	<a href="/quantmd/create_user/" class="innerlink createnew orange">Create New Doctor</a>
+	<a href="/quantmd/create_user/" class="innerlink createnew orange">Create New Cardiologist</a>
 </span><br />
-<table id="doctor-table">
+<table id="cardiologist-table">
 	<thead>
 		<tr>
 			<th width="30px">ID</th>
-			<th>Doctor Name</th>
+			<th>Cardiologist Name</th>
 			<th width="100px">City</th>
 			<th width="100px">Member Since</th>
 			<th width="150px">Last Activity</th>
@@ -69,4 +69,3 @@ $(document).ready(function() {
 		{% endfor %}
 	</tbody>
 </table>
-<br /><br />

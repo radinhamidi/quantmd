@@ -38,46 +38,36 @@ $(document).ready(function() {
 		});
 });
 </script>
-<div class="title-text">Cardiologists</div><br />
+<div class="title-text">Brokers</div><br />
 <span class="orange">
-	<a href="cardiologist-create.htm" class="innerlink createnew orange">Create New Cardiologist</a>
+	<a href="/quantmd/create_user/" class="innerlink createnew orange">Create New Broker</a>
 </span><br />
-<table id="cardiologist-table">
+<table id="doctor-table">
 	<thead>
 		<tr>
 			<th width="30px">ID</th>
 			<th>Cardiologist Name</th>
 			<th width="100px">City</th>
+			<th width="100px">Institution</th>
 			<th width="100px">Member Since</th>
-			<th>Institute</th>
 			<th width="150px">Last Activity</th>
 			<th width="80px">More</th>
 		</tr>
 	</thead>
 	<tbody>
+		{% for p in profiles %}
 		<tr>
-			<td align="center">051</td>
-			<td>mri ABC</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">Jul 10, 2012</td>
-			<td align="center">22</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td align="center">{{p.pk}}</td>
+			<td>{{p}}</td>
+			<td align="center">{{p.city}}</td>
+			<td align="center">{{p.mri_id}}</td>
+			<td align="center">{{p.user.date_joined}}</td>
+			<td align="center">{{p.user.last_login}}</td>
 			<td align="center">
-				<a href="cardiologist-edit.htm" class="editbutton innerlink">Edit</a>
-				<a href="cardiologist-view.htm" class="viewcasebutton innerlink">View</a>
+				<a href="/quantmd/edit_user/{{p.pk}}/" class="editbutton innerlink">Edit</a>
+				<a href="/quantmd/view_user/{{p.pk}}/" class="viewcasebutton innerlink">View</a>
 			</td>
 		</tr>
-		<tr>
-			<td align="center">051</td>
-			<td>mri 2C</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">Jul 10, 2012</td>
-			<td align="center">Allegheny General</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">
-				<a href="cardiologist-edit.htm" class="editbutton innerlink">Edit</a>
-				<a href="cardiologist-view.htm" class="viewcasebutton innerlink">View</a>
-			</td>
-		</tr>
+		{% endfor %}
 	</tbody>
 </table>
