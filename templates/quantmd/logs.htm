@@ -48,6 +48,30 @@ $(document).ready(function() {
 		<tr>
 			<td>CASE# {{case.id}}</td>
 			<td align="center">{{case.create_time}}</td>
+			{% if appointment.case.status == -1%}
+				<td>Case has been cancelled</td>
+				<td align="center">Cancelled</td>
+			{% endif %}
+			{% if appointment.case.status == 0 %}
+				<td>Appointment at {{appointment.mri.name}} at {{appointment.schedule.start_time}} on {{appointment.schedule.date}}</td>
+				<td align="center">Scheduled</td>
+			{% endif %}
+			{% if appointment.case.status == 1 %}
+				<td>Checked in at {{appointment.mri.name}} at {{appointment.schedule.start_time}} on {{appointment.schedule.date}}</td>
+				<td align="center">Awaiting Scan</td>
+			{% endif %}
+			{% if appointment.case.status == 2 %}
+				<td>MRI Data is available on {{appointment.case.data.create_time}}</td>
+				<td align="center">Waiting Quantmd analysis</td>
+			{% endif %}
+			{% if appointment.case.status == 3 or appointment.case.status == 4 %}
+				<td>Quantmd analysis is available on {{appointment.case.analysis.create_time}}</td>
+				<td align="center">Waiting Diagnosis</td>
+			{% endif %}
+			{% if appointment.case.status == 5 or appointment.case.status == 6%}
+				<td>Diagnosis is available on {{appointment.case.report.create_time}}</td>
+				<td align="center">Complete</td>
+			{% endif %}
 		</tr>
 	</tbody>
 </table>
