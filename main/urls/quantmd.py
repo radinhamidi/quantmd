@@ -10,7 +10,9 @@ urlpatterns = patterns('main.views.quantmd',
     (r'^receptionists/$', 'receptionists'),
     (r'^brokers/$', 'brokers'),
     (r'^cardiologists/$', 'cardiologists'),
-    
+    (r'^process_cases/$', 'process_cases'),
+    (r'^process_case/(?P<case_id>\d+)/$', 'process_case'),
+    (r'^process_case_action/$', 'process_case_action'),
     
     
     #Yang Xie's url below this line

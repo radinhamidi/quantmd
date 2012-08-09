@@ -1,0 +1,64 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+<script>
+$(document).ready(function() {
+		$('#doctor-table').dataTable({
+		"bPaginate": false,
+		"bLengthChange": false,
+		"bFilter": true,
+		"oLanguage": {
+		  "sSearch": "<img src='images/find.png' />"
+		},
+		"bSort": true,
+		"bInfo": false,
+		"bAutoWidth": false,
+		"bRetrieve": true,
+		"bJQueryUI": false,
+		"iDisplayLength": 20,
+		"sPaginationType": "full_numbers"
+	});
+	$(".editbutton").button({
+			icons: {
+				primary: "ui-icon-pencil"
+			},
+			 text: false
+		});
+		$(".viewcasebutton").button({
+			icons: {
+				primary: "ui-icon-search"
+			},
+			 text: false
+		});
+		$(".createnew").button({
+			icons: {
+				primary: "ui-icon-plus"
+			}
+		});
+});
+</script>
+<div class="title-text">Process Cases</div><br />
+<table id="doctor-table">
+	<thead>
+		<tr>
+			<th width="30px">ID</th>
+			<th width="100px">Case Created At</th>
+			<th width="150px">MRI Uploaded At</th>
+			<th width="80px">More</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for c in cases %}
+		<tr>
+			<td align="center">{{c.pk}}</td>
+			<td align="center">{{c.create_time}}</td>
+			<td align="center">{{c.data.create_time}}</td>
+			<td align="center">
+				<a href="/quantmd/process_case/{{c.pk}}/" class="editbutton innerlink">Process</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<br /><br />

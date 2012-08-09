@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 	$(".checkin").button({
@@ -35,10 +35,13 @@ $(document).ready(function() {
      });
 });
 </script>
-<div class="title-text">Case #044 View</div>
+<div class="title-text">Process one case</div>
 <br />
-//Show Diagnosis<br /><br />
-<form id="diagnose-form" name="diagnose-form" action="cases.htm">
-<textarea name="diagnosis"></textarea><br /><br />
-<input type="submit" value="Submit" id="diagnose-form-submit" />
+<a href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download Compressed Dicom Files</a>
+<br/>
+<form action="/quantmd/process_case_action/" method="POST">
+	{% csrf_token %}
+	<input type="hidden" name="case_id" value="{{case.pk}}" />
+	<textarea cols="25" rows="10" name="diagnosis"></textarea><br /><br />
+	<input type="submit" value="Submit" id="diagnose-form-submit" />
 </form>
