@@ -1,0 +1,84 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<script src="../common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+$(document).ready(function() {
+		$('#doctor-table').dataTable({
+		"bPaginate": false,
+		"bLengthChange": false,
+		"bFilter": true,
+		"oLanguage": {
+		  "sSearch": "<img src='images/find.png' />"
+		},
+		"bSort": true,
+		"bInfo": false,
+		"bAutoWidth": false,
+		"bRetrieve": true,
+		"bJQueryUI": false,
+		"iDisplayLength": 20,
+		"sPaginationType": "full_numbers"
+	});
+	$(".editbutton").button({
+			icons: {
+				primary: "ui-icon-pencil"
+			},
+			 text: false
+		});
+		$(".viewcasebutton").button({
+			icons: {
+				primary: "ui-icon-search"
+			},
+			 text: false
+		});
+		$(".createnew").button({
+			icons: {
+				primary: "ui-icon-plus"
+			}
+		});
+});
+</script>
+<div class="title-text">Referring Doctors</div><br />
+<span class="orange">
+	<a href="doctor-create.htm" class="innerlink createnew orange">Create New Doctor</a>
+</span><br />
+<table id="doctor-table">
+	<thead>
+		<tr>
+			<th width="30px">ID</th>
+			<th>Doctor Name</th>
+			<th width="100px">City</th>
+			<th width="100px">Member Since</th>
+			<th>Institute</th>
+			<th width="150px">Last Activity</th>
+			<th width="80px">More</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td align="center">051</td>
+			<td>Doctor ABC</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">Jul 10, 2012</td>
+			<td align="center">Allegheny General</td>
+			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td align="center">
+				<a href="doctor-edit.htm" class="editbutton innerlink">Edit</a>
+				<a href="doctor-view.htm" class="viewcasebutton innerlink">View Cases</a>
+			</td>
+		</tr>
+		<tr>
+			<td align="center">051</td>
+			<td>Doctor 2C</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">Jul 10, 2012</td>
+			<td align="center">Allegheny General</td>
+			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td align="center">
+				<a href="doctor-edit.htm" class="editbutton innerlink">Edit</a>
+				<a href="doctor-view.htm" class="viewcasebutton innerlink">View Cases</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<br /><br />

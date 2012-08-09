@@ -1,0 +1,102 @@
+.title-text {
+	margin-top: 5px;
+	font-size: 24px;
+	margin-bottom: 2px;
+	font-family:"Helvetica Neue";
+}
+.small-title {
+	font-size: 17px;
+	margin-bottom: 6px;
+	color: #88A;
+}
+#patient-upload {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#patient-upload td, #patient-upload th {
+	padding: 8px;
+}
+#patient-upload th {
+	background: #ddd;
+}
+#upload-progress {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#upload-progress td, #upload-progress th {
+	padding: 8px;
+}
+#upload-progress th {
+	background: #ddd;
+}
+#log-table {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#log-table td, #log-table th {
+	padding: 8px;
+}
+#doctor-table {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#doctor-table td, #doctor-table th {
+	padding: 8px;
+}
+#mri-table {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#mri-table td, #mri-table th {
+	padding: 8px;
+}
+#cardiologist-table {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#cardiologist-table td, #cardiologist-table th {
+	padding: 8px;
+}
+#dash-header {
+	width: 400px;
+	height: 50px;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+#dash-overview {
+	float: left;
+	width: 100px;
+	height: 450px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+#dash-main {
+	margin-left: 140px;
+}
+#dash-summary {
+	width: 100%;
+	font-size: 14px;
+	font-family: "Tw Cen MT",san-serif;
+}
+#dash-summary td, #dash-summary th {
+	padding: 5px;
+}
+.dash-float{
+	font-size: 14px;
+	padding: 10px;
+	width: 80px;
+	height: 80px;
+	text-align: center;
+	background: #e0e0ef;
+	margin-bottom: 10px;
+}
+.dash-float .big {
+	font-size: 28px;
+	font-weight: bold;
+}

@@ -1,0 +1,43 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<script src="../common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+$(document).ready(function() {
+	$(".checkin").button({
+			icons: {
+				primary: "ui-icon-play"
+			},
+			 text: false
+		});
+		$("#cardiologist-create-submit").button({
+			icons: {
+				primary: "ui-icon-clock"
+			},
+			 text: false
+		});
+		$("#cardiologist-create-form").submit(function(event) {
+	
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+		$( "#ui-tabs-5" ).hide();
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#cardiologist-create-form").serialize(),
+		function( data ) {
+			$( "#ui-tabs-5" ).empty().append($(data));
+			$( "#ui-tabs-5" ).fadeIn('fast');
+		});
+     });
+});
+</script>
+<div class="title-text">Create New Cardiologist</div>
+<br /><br />
+<form id="cardiologist-create-form" name="cardiologist-create-form" action="cardiologist-create-confirm.htm">
+//form fields<br /><br />
+<input type="submit" value="Submit" id="cardiologist-create-submit" />
+</form>

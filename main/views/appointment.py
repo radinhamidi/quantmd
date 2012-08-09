@@ -365,7 +365,7 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
         
         if len(errors) != 0:
             appointment = Appointment.objects.get(id=appointment_id)
-            return render_to_response('referring/schedule-change.htm',{'appointment':appointment, 'patient':appointment.patient, 'errors':error}, context_instance=RequestContext(request))
+            return render_to_response('referring/schedule-change.htm',{'appointment':appointment, 'patient':appointment.patient, 'errors':errors}, context_instance=RequestContext(request))
         
         
         old_appointment = Appointment.objects.get(id=appointment_id)

@@ -1,0 +1,43 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<script src="../common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+$(document).ready(function() {
+	$(".checkin").button({
+			icons: {
+				primary: "ui-icon-play"
+			},
+			 text: false
+		});
+		$("#doctor-edit-submit").button({
+			icons: {
+				primary: "ui-icon-clock"
+			},
+			 text: false
+		});
+		$("#doctor-edit-form").submit(function(event) {
+	
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+		$( "#ui-tabs-3" ).hide();
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#doctor-edit-form").serialize(),
+		function( data ) {
+			$( "#ui-tabs-3" ).empty().append($(data));
+			$( "#ui-tabs-3" ).fadeIn('fast');
+		});
+     });
+});
+</script>
+<div class="title-text">Editing Dr. Rashid Alrad (#055)</div>
+<br /><br />
+<form id="doctor-edit-form" name="doctor-edit-form" action="doctor-edit-confirm.htm">
+//form fields<br /><br />
+<input type="submit" value="Submit" id="doctor-edit-submit" />
+</form>

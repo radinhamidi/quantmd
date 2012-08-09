@@ -1,0 +1,44 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<script src="../common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+$(document).ready(function() {
+	$(".checkin").button({
+			icons: {
+				primary: "ui-icon-play"
+			},
+			 text: false
+		});
+		$("#diagnose-form-submit").button({
+			icons: {
+				primary: "ui-icon-clock"
+			},
+			 text: false
+		});
+		$("#diagnose-form").submit(function(event) {
+	
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+		$( "#ui-tabs-2" ).hide();
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#diagnose-form").serialize(),
+		function( data ) {
+			$( "#ui-tabs-2" ).empty().append($(data));
+			$( "#ui-tabs-2" ).fadeIn('fast');
+		});
+     });
+});
+</script>
+<div class="title-text">Case #044 View</div>
+<br />
+//Show Diagnosis<br /><br />
+<form id="diagnose-form" name="diagnose-form" action="cases.htm">
+<textarea name="diagnosis"></textarea><br /><br />
+<input type="submit" value="Submit" id="diagnose-form-submit" />
+</form>

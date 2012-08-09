@@ -1,0 +1,116 @@
+<script>
+	$(document).ready(function() {
+		$("table#dash-summary tr:even").css("background-color", "#F4F4F8");
+		$("table#dash-summary tr:odd").css("background-color", "#EFF1F1");
+		$(".patient-goto").button({
+			icons: {
+				primary: "ui-icon-carat-1-e"
+			},
+			text: false
+		});
+	});
+	function goToPatient(id) {
+		
+	}
+</script>
+<div id="dash-header">
+	<div class="title-text">Administrator Dashboard</div>
+</div>
+<div id="dash-overview">
+	<div id="dash-float-1" class="dash-float">
+		<div class="big">15</div>
+		Unprocessed Cases
+	</div>
+	<div id="dash-float-2" class="dash-float">
+		<div class="big">81</div>
+		Completed<br />This Week
+	</div>
+	<div id="dash-float-3" class="dash-float">
+		<div class="big">9</div>
+		Awaiting Diagnosis
+	</div>
+	<div id="dash-float-4" class="dash-float">
+		<div class="big">24</div>
+		Scheduled<br /> This Week
+	</div>
+</div>
+<div id="dash-main">
+	<div class="small-title">Top 5 Referring Doctors</div>
+	Past 7 Days<br /><br />
+	<table id="dash-summary">
+		<tr>
+			<th>Doctor</th>
+			<th width="150px">City</th>
+			<th width="180px">Member Since</th>
+			<th width="80px">This Week</th>
+		</tr>
+		<tr>
+			<td>Dr. Rashid Alrad</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">January 10, 2012</td>
+			<td align="center">11</td>
+		</tr>
+		<tr>
+			<td>Dr. Rashid Alrad</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">January 10, 2012</td>
+			<td align="center">11</td>
+		</tr>
+		<tr>
+			<td>Dr. Rashid Alrad</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">January 10, 2012</td>
+			<td align="center">11</td>
+		</tr>
+		<tr>
+			<td>Dr. Rashid Alrad</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">January 10, 2012</td>
+			<td align="center">11</td>
+		</tr>
+		<tr>
+			<td>Dr. Rashid Alrad</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">January 10, 2012</td>
+			<td align="center">11</td>
+		</tr>
+	</table>
+	<br /><br />
+	<div class="small-title">Top 5 MRI Centers</div>
+	Past 7 Days<br /><br />
+	<table id="dash-summary">
+		<tr>
+			<th>Center</th>
+			<th width="150px">City</th>
+			<th width="180px">Member Since</th>
+			<th width="80px">Cases Seen</th>
+		</tr>
+		<tr>
+			<td>Imaging Center at Allegheny General</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">January 10, 2012</td>
+			<td align="center">11</td>
+		</tr>
+		<tr>
+			<td>Imaging Center at Allegheny General</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">January 10, 2012</td>
+			<td align="center">11</td>
+		</tr><tr>
+			<td>Imaging Center at Allegheny General</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">January 10, 2012</td>
+			<td align="center">11</td>
+		</tr><tr>
+			<td>Imaging Center at Allegheny General</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">January 10, 2012</td>
+			<td align="center">11</td>
+		</tr><tr>
+			<td>Imaging Center at Allegheny General</td>
+			<td align="center">Pittsburgh, PA</td>
+			<td align="center">January 10, 2012</td>
+			<td align="center">11</td>
+		</tr>
+	</table>
+</div>

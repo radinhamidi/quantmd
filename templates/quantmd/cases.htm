@@ -1,0 +1,87 @@
+<script src="../common/js/jquery.js"></script>
+<script src="../common/js/jquery-ui.js"></script>
+<script src="../common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script>
+$(document).ready(function() {
+	$("table#log-table tr:even").css("background-color", "#F4F4F8");
+	$("table#log-table tr:odd").css("background-color", "#EFF1F1");
+	$(".casebutton").button({
+			icons: {
+				primary: "ui-icon-carat-1-e"
+			},
+			text: false
+		});
+
+});
+</script>
+<div class="title-text">Cases</div><br />
+<table id="log-table">
+	<thead>
+		<tr>
+			<th>Referring Doctor</th>
+			<th>MRI Center</th>
+			<th width="60px">Sex</th>
+			<th width="60px">Age</th>
+			<th width="130px">Upload Time</th>
+			<th width="100px">Status</th>
+			<th width="50px">More</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Dr. Rashid Alrad (#055)</td>
+			<td>Imaging Center at Allegheny (#022)</td>
+			<td align="center">Male</td>
+			<td align="center">25</td>
+			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td align="center">4 UNPROCESSED</td>
+			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
+		</tr>
+		<tr>
+			<td>Dr. Rashid Alrad (#055)</td>
+			<td>Imaging Center at Allegheny (#022)</td>
+			<td align="center">Male</td>
+			<td align="center">25</td>
+			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td align="center">4 UNPROCESSED</td>
+			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
+		</tr>
+		<tr>
+			<td>Dr. Rashid Alrad (#055)</td>
+			<td>Imaging Center at Allegheny (#022)</td>
+			<td align="center">Male</td>
+			<td align="center">25</td>
+			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td align="center">4 UNPROCESSED</td>
+			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
+		</tr>
+		<tr>
+			<td>Dr. Rashid Alrad (#055)</td>
+			<td>Imaging Center at Allegheny (#022)</td>
+			<td align="center">Male</td>
+			<td align="center">25</td>
+			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td align="center">4 UNPROCESSED</td>
+			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
+		</tr>
+		<tr>
+			<td>Dr. Rashid Alrad (#055)</td>
+			<td>Imaging Center at Allegheny (#022)</td>
+			<td align="center">Male</td>
+			<td align="center">25</td>
+			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td align="center">4 UNPROCESSED</td>
+			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
+		</tr>
+		<tr>
+			<td>Dr. Rashid Alrad (#055)</td>
+			<td>Imaging Center at Allegheny (#022)</td>
+			<td align="center">Male</td>
+			<td align="center">25</td>
+			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td align="center">4 UNPROCESSED</td>
+			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
+		</tr>
+	</tbody>
+</table>
