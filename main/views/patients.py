@@ -146,6 +146,7 @@ def patient_edit_view(request, patient_id):
 
 def patient_edit_action(request, patient_id):
     if request.user.is_authenticated():
+        patient = Patient.objects.get(id=patient_id)
         first_name = request.POST['first_name']
         middle_name = request.POST['middle_name']
         ssn = request.POST['ssn']
@@ -199,7 +200,7 @@ def patient_edit_action(request, patient_id):
         
         print "here2"
         if len(error) != 0:
-            return render_to_response('referring/patient-edit.htm',{'errors':error},context_instance=RequestContext(request))
+            return render_to_response('referring/patient-edit.htm',{'errors':error, 'patient':patient},context_instance=RequestContext(request))
         else:
             print "here3"
             format="%m/%d/%Y"
@@ -220,8 +221,9 @@ def patient_edit_action(request, patient_id):
             if len(address2) != 0:
                 patient.address2 =address2
             patient.save()
+            date = datetime.now()
             print "here4"
-            return render_to_response('referring/patient-edit-confirm.htm',{'patient':patient}, context_instance=RequestContext(request))
+            return render_to_response('referring/patient-edit-confirm.htm',{'patient':patient, 'date':date}, context_instance=RequestContext(request))
         
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))

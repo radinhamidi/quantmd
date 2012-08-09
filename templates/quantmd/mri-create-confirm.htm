@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 	$(".backbutton").button({
@@ -17,9 +17,15 @@ $(document).ready(function() {
 		
 });
 </script>
-<div class="title-text">Created MRI Center (#068)</div>
+<div class="title-text">Created MRI Center</div>
 <br />
-MRI Center 2232 (#068) Created!<br /><br />
+MRI Center {{mri.name}} Created!<br /><br />
+email: {{mri.email}}<br />
+phone: {{mri.phone}}<br />
+address: {{mri.address}} {{mri.address2}}<br />
+city:{{mri.city}}<br />
+state:{{mri.state}}<br />
+zip:{{mri.zip}}<br />
 <span class="orange">
 	<a href="mri.htm" class="innerlink backbutton orange">Back To List</a>
 </span>
