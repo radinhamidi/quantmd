@@ -12,6 +12,7 @@ from django.template import loader, Context
 from django.core.mail import send_mail
 from main.models.account import *
 from main.utils.form_check import *
+from main.utils.misc import generate_random_string
 
 
 
@@ -28,6 +29,32 @@ def login_action(request):
 def logout_view(request):
     logout(request)
     return redirect('main.views.index.index')
+
+def forgot_password(request):
+    return render_to_response('forgot.htm',{}, context_instance=RequestContext(request)) 
+
+def forgot_password_action(request):
+    username = request.POST['username']
+    email = request.POST['email']
+    try:
+        user = User.objects.get(username=username)
+    except:
+        messages.error(request, 'This username does not exist')
+        return redirect('main.views.account.forgot_password')
+    if user.email != email:
+        messages.error(request, 'Email does match.')
+        return redirect('main.views.account.forgot_password')
+    new_password = generate_random_string(10)
+    user.set_password(new_password)
+    t = loader.get_template('forgot_password.txt')
+    c = Context({
+        'url': settings.APP_URL,
+        'new_password': new_password 
+    })
+    send_mail('Your new password at QuantMD', t.render(c), 'support@xifenfen.com', (email,), fail_silently=False)
+    
+    messages.info(request, 'Your new password has been sent to your email')
+    return redirect('main.views.account.forgot_password')
 
 def change_password_view(request):
     if request.user.is_authenticated():
@@ -70,6 +97,7 @@ def change_password(request):
         return redirect('main.views.index.index')
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
 
 
     
