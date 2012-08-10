@@ -1,5 +1,6 @@
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}receptionist/js/jquery.validate.js"></script>
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 	$(document).ready(function() {
@@ -27,25 +28,28 @@
 			disabled: true
 		});
 		$(".timeslot-add-submit").button();
-	});
-	$(".timeslot-add-form").submit(function(event) {
+		$(".timeslot-add-form").submit(function(event) {
 
-    /* stop form from submitting normally */
-		event.preventDefault(); 
-        
-    /* get some values from elements on the page: */
-		var $form = $( this ),
-			url = $form.attr( 'action' );
-			
-		$("#ui-tabs-3").hide();
-    /* Send the data using post and put the results in a div */
-		$.post( url, $form.serialize(),
-		function( data ) {
-			$("#ui-tabs-3").empty().append($(data));
-			$("#ui-tabs-3").fadeIn('fast');
-		}
-		);
-     });
+			if ($(this).valid()) {
+			    /* stop form from submitting normally */
+				event.preventDefault(); 
+		        
+		    /* get some values from elements on the page: */
+				var $form = $( this ),
+					url = $form.attr( 'action' );
+
+				$("#ui-tabs-3").hide();
+		    /* Send the data using post and put the results in a div */
+				$.post( url, $form.serialize(),
+				function( data ) {
+					$("#ui-tabs-3").empty().append($(data));
+					$("#ui-tabs-3").fadeIn('fast');
+				});		
+			} else {
+				event.preventDefault();
+			}
+		});
+	});	
 </script>
 <div class="title-text">Modify Timeslots</div>
 <br />
@@ -77,9 +81,9 @@
 			
 		</td>
 		<td align="center">
-			<form class="timeslot-add-form" action="/receptionist/addTimesolts/{{k.0|date:"Y/m/d"}}/">{% csrf_token %}
-				<input type="text" name="newtimeslot" /> 
-				<input type="submit" class="timeslot-add-submit" value="Add" />
+			<form class="timeslot-add-form" id="form-{{k.0}}" action="/receptionist/addTimesolts/{{k.0|date:'Y/m/d'}}/">{% csrf_token %}
+				<input type="text" name="newtimeslot" class="required time" id="slot-{{k.0}}" placeholder="ex. 12:30;15:30"/> 
+				<input type="submit" class="timeslot-add-submit" value="Add" id="submit-{{k.0}}"/>
 			</form>
 		</td>
 	</tr>

@@ -1,5 +1,6 @@
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}referring/js/jquery.validate.js"></script>
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 
 <script>
@@ -16,21 +17,26 @@
 	});
 	document.getElementById('edit-state').value ="{{patient.state}}";
 	$("#form-edit-patient").submit(function(event) {
-	
-    /* stop form from submitting normally */
-		event.preventDefault(); 
-		$( "#inner-right" ).hide();
-        
-    /* get some values from elements on the page: */
-		var $form = $( this ),
-			url = $form.attr( 'action' );
+		if($("#form-edit-patient").valid()) {
+			/* stop form from submitting normally */
+			event.preventDefault(); 
+			$( "#inner-right" ).hide();
+	        
+	    /* get some values from elements on the page: */
+			var $form = $( this ),
+				url = $form.attr( 'action' );
 
-    /* Send the data using post and put the results in a div */
-		$.post( url, $("#form-edit-patient").serialize(),
-		function( data ) {
-			$( "#inner-right" ).empty().append($(data));
-			$( "#inner-right" ).fadeIn('fast');
-		});
+	    /* Send the data using post and put the results in a div */
+			$.post( url, $("#form-edit-patient").serialize(),
+			function( data ) {
+				$( "#inner-right" ).empty().append($(data));
+				$( "#inner-right" ).fadeIn('fast');
+			});
+		} else {
+			event.preventDefault();
+		}
+	
+   
      });
 });
 </script>
@@ -46,23 +52,23 @@
 	<table class="formtable">
 		<tr>
 			<td width="120px">SSN:</td>
-			<td><input type="text" name="ssn" value={{patient.ssn}} ></td>
+			<td><input type="text" name="ssn" value={{patient.ssn}} class="required ssn"></td>
 		</tr>
 		<tr>
 			<td width="120px">First Name</td>
-			<td><input type="text" name="first_name"  value={{patient.first_name}}></td>
+			<td><input type="text" name="first_name"  value={{patient.first_name}} class="required"></td>
 		</tr>
 		<tr>
 			<td>Last Name</td>
-			<td><input type="text" name="last_name" value={{patient.last_name}}></td>
+			<td><input type="text" name="last_name" value={{patient.last_name}} class="required"></td>
 		</tr>
 		<tr>
 			<td>Middle name:</td>
-			<td><input type="text" name="middle_name" value={{patient.middle_name}}></td>
+			<td><input type="text" name="middle_name" value={{patient.middle_name}} class="required"></td>
 		</tr>
 		<tr>
 			<td>Email</td>
-			<td><input type="text" name="email" value={{patient.email}}></td>
+			<td><input type="text" name="email" value={{patient.email}} class="required email"></td>
 		</tr>
 	
 		<tr>
@@ -78,15 +84,15 @@
 		</tr>
 		<tr>
 			<td>Birthday:</td>
-			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday" value={{patient.birthday|date:"SHORT_DATE_FORMAT"}}></td>
+			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday" value={{patient.birthday|date:"SHORT_DATE_FORMAT"}} class="required birthday"></td>
 		</tr>
 		<tr>
 			<td>Phone:</td>
-			<td><input type="text" name="phone" value={{patient.phone}}></td>
+			<td><input type="text" name="phone" value={{patient.phone}} class="required phoneUS"></td>
 		</tr>
 		<tr>
 			<td>Address:</td>
-			<td><input type="text" name="address" value={{patient.address}}></td>
+			<td><input type="text" name="address" value={{patient.address}} class="required"></td>
 		</tr>
 		<tr>
 			<td>Address2:</td>
@@ -94,11 +100,11 @@
 		</tr>
 		<tr>
 			<td>City:</td>
-			<td><input type="text" name="city" value={{patient.city}}></td>
+			<td><input type="text" name="city" value={{patient.city}} class="required"></td>
 		</tr>
 		<tr>
 			<td>State:</td>
-			<td><select class="textfield" name="state" id="edit-state">
+			<td><select name="state" id="edit-state">
                     <option value="AL">Alabama</option> 
                     <option value="AK">Alaska</option> 
                     <option value="AZ">Arizona</option> 
@@ -153,7 +159,7 @@
             </tr>
             <tr>
 				<td>Zip:</td>
-				<td><input type="text" name="zip" value={{patient.zip}}></td>
+				<td><input type="text" name="zip" value={{patient.zip}} class="required zip"></td>
 			</tr>
 	</table>
 
