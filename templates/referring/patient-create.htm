@@ -1,8 +1,8 @@
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script src="{{STATIC_URL}}referring/js/jquery.validate.js"></script>
-<script src="{{STATIC_URL}}referring/js/jquery.validation.functions.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+
 
 <script>
 	$(document).ready(function() {
@@ -17,31 +17,34 @@
 		}
 	});
 	$("#form-create-patient").submit(function(event) {
-	
-    /* stop form from submitting normally */
-		event.preventDefault(); 
-		$( "#inner-right" ).hide();
-        
-    /* get some values from elements on the page: */
-		var $form = $( this ),
+		if($("#form-create-patient").valid()) {
+		    /* stop form from submitting normally */
+			event.preventDefault(); 
+			$( "#inner-right" ).hide();
+		        
+		    /* get some values from elements on the page: */
+			var $form = $( this ),
 			url = $form.attr( 'action' );
 
-    /* Send the data using post and put the results in a div */
-		$.post( url, $("#form-create-patient").serialize(),
-		function( data ) {
-			$( "#inner-right" ).empty().append($(data));
-			$( "#inner-right" ).fadeIn('fast');
-			$("*").css("cursor", "wait");
-			$("#updating-text").html('<br />Refreshing...');
-			$("#inner-left-patient").fadeOut('fast', function() {
-			$("#inner-left-patient").load('patient-list.htm', function() {
-				$("#inner-left-patient").fadeIn('fast');
-				$("#updating-text").empty();
-				$("*").css("cursor", "");
+		    /* Send the data using post and put the results in a div */
+			$.post( url, $("#form-create-patient").serialize(),
+			function( data ) {
+				$( "#inner-right" ).empty().append($(data));
+				$( "#inner-right" ).fadeIn('fast');
+				$("*").css("cursor", "wait");
+				$("#updating-text").html('<br />Refreshing...');
+				$("#inner-left-patient").fadeOut('fast', function() {
+				$("#inner-left-patient").load('patient-list.htm', function() {
+					$("#inner-left-patient").fadeIn('fast');
+					$("#updating-text").empty();
+					$("*").css("cursor", "");
+					});
 				});
 			});
-		});
-     }); 
+		} else {
+			event.preventDefault();
+		}
+	}); 
 });
 </script>
 
@@ -57,23 +60,23 @@
 	<table class="formtable">
 		<tr>
 			<td width="120px">SSN:</td>
-			<td><input type="text" name="ssn" /></td>
+			<td><input type="text" name="ssn" class="required ssn"/></td>
 		</tr>
 		<tr>
 			<td width="120px">First Name</td>
-			<td><input type="text" name="first_name" /></td>
+			<td><input type="text" name="first_name" class="required"/></td>
 		</tr>
 		<tr>
 			<td>Last Name</td>
-			<td><input type="text" name="last_name" /></td>
+			<td><input type="text" name="last_name" class="required"/></td>
 		</tr>
 		<tr>
 			<td>Middle name:</td>
-			<td><input type="text" name="middle_name" /></td>
+			<td><input type="text" name="middle_name" class="required"/></td>
 		</tr>
 		<tr>
 			<td>Email</td>
-			<td><input type="text" name="email" /></td>
+			<td><input type="text" name="email" class="required email"/></td>
 		</tr>
 	
 		<tr>
@@ -83,15 +86,15 @@
 		</tr>
 		<tr>
 			<td>Birthday:</td>
-			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday" /></td>
+			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday"  class="required birthday"/></td>
 		</tr>
 		<tr>
 			<td>Phone:</td>
-			<td><input type="text" name="phone" /></td>
+			<td><input type="text" name="phone" class="required phoneUS"/></td>
 		</tr>
 		<tr>
 			<td>Address:</td>
-			<td><input type="text" name="address"/></td>
+			<td><input type="text" name="address" class="required"/></td>
 		</tr>
 		<tr>
 			<td>Address2:</td>
@@ -99,12 +102,12 @@
 		</tr>
 		<tr>
 			<td>City:</td>
-			<td><input type="text" name="city"/></td>
+			<td><input type="text" name="city" class="required"/></td>
 		</tr>
 		<tr>
 			<td>State:</td>
-			<td><select class="textfield" name="state" id="validselection">
-                    <option value="0" selected="selected">Select a State</option> 
+			<td><select name="state" id="select" class="required">
+                    <option value="" selected="selected">Select a State</option> 
                     <option value="AL">Alabama</option> 
                     <option value="AK">Alaska</option> 
                     <option value="AZ">Arizona</option> 
@@ -159,7 +162,7 @@
             </tr>
             <tr>
 				<td>Zip:</td>
-				<td><input type="text" name="zip" /></td>
+				<td><input type="text" name="zip" class="required zip"/></td>
 			</tr>
 	</table>
 
