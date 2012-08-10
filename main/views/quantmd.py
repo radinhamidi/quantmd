@@ -14,6 +14,7 @@ from main.models.case import Case
 from main.utils.misc import generate_random_string
 from main.utils.form_check import *
 from main.models.appointment import Appointment
+from main.models.analysis import Analysis
 
 def create_user(request):
     mris = MRICenter.objects.all()
@@ -105,6 +106,36 @@ def cardiologists(request):
     profiles = Profile.objects.filter(role=4)
     return render_to_response('quantmd/cardiologists.htm', {'profiles':profiles},
                                   context_instance=RequestContext(request))
+
+def process_cases(request):
+    """Show a list of cases that need private algorithm to process"""
+    cases = Case.objects.filter(status=2)
+    return render_to_response('quantmd/process-cases.htm', {'cases':cases},
+                                  context_instance=RequestContext(request))
+
+
+def process_case(request, case_id):
+    case = Case.objects.get(pk=case_id)
+    return render_to_response('quantmd/process-case.htm', {'case':case},
+                                  context_instance=RequestContext(request))
+
+
+def process_case_action(request):
+    content = request.POST['diagnosis']
+    analysis = Analysis(content=content)
+    analysis.admin_id = request.user.pk
+    analysis.save()
+    
+    case_id = request.POST['case_id']
+    case = Case.objects.get(pk=case_id)
+    case.analysis = analysis
+    case.status = 3
+    case.save()
+    
+    messages.info(request, 'Successfully submited diagnosis of case.')
+    return redirect('main.views.quantmd.process_cases')
+    
+
 
 #Yang xie's code below this line:
 

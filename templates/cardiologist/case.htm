@@ -40,6 +40,10 @@
 
 {% if has_pending_case %}
 <div id="case-present">
+    <div>
+    	Analysis from QuantMD software:<br />
+		{{case.analysis.content}}
+    </div>
 	<div id="galleria" style="width:256px; height:256px;margin:20px auto">
 		{% for iname in image_names %}
         <img src="{{MEDIA_URL}}dicom/{{data.name}}/{{iname}}">

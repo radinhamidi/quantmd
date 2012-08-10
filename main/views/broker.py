@@ -68,7 +68,6 @@ def upload_action(request):
     
 @csrf_exempt 
 def upload_complete(request):
-    """Temporarily set case status to 3 before integration with post processing private algorithm"""
     try:
         identifier = request.POST['identifier']
         case_id = request.POST['case_id']
@@ -111,7 +110,7 @@ def upload_complete(request):
         case_id = request.POST['case_id']
         case = Case.objects.get(pk=case_id)
         case.data = data
-        case.status = 3 #Should be changed to 2 after integration!!!
+        case.status = 2
         case.save()
            
         apt = Appointment.objects.get(case=case_id, is_current=True)
