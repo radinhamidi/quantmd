@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 		$('#doctor-table').dataTable({
@@ -40,7 +40,7 @@ $(document).ready(function() {
 </script>
 <div class="title-text">Referring Doctors</div><br />
 <span class="orange">
-	<a href="doctor-create.htm" class="innerlink createnew orange">Create New Doctor</a>
+	<a href="/quantmd/create_user/" class="innerlink createnew orange">Create New Doctor</a>
 </span><br />
 <table id="doctor-table">
 	<thead>
@@ -49,36 +49,24 @@ $(document).ready(function() {
 			<th>Doctor Name</th>
 			<th width="100px">City</th>
 			<th width="100px">Member Since</th>
-			<th>Institute</th>
 			<th width="150px">Last Activity</th>
 			<th width="80px">More</th>
 		</tr>
 	</thead>
 	<tbody>
+		{% for p in profiles %}
 		<tr>
-			<td align="center">051</td>
-			<td>Doctor ABC</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">Jul 10, 2012</td>
-			<td align="center">Allegheny General</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
+			<td align="center">{{p.pk}}</td>
+			<td>{{p}}</td>
+			<td align="center">{{p.city}}</td>
+			<td align="center">{{p.user.date_joined}}</td>
+			<td align="center">{{p.user.last_login}}</td>
 			<td align="center">
-				<a href="doctor-edit.htm" class="editbutton innerlink">Edit</a>
-				<a href="doctor-view.htm" class="viewcasebutton innerlink">View Cases</a>
+				<a href="/quantmd/edit_user/{{p.pk}}/" class="editbutton innerlink">Edit</a>
+				<a href="/quantmd/view_user/{{p.pk}}/" class="viewcasebutton innerlink">View</a>
 			</td>
 		</tr>
-		<tr>
-			<td align="center">051</td>
-			<td>Doctor 2C</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">Jul 10, 2012</td>
-			<td align="center">Allegheny General</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">
-				<a href="doctor-edit.htm" class="editbutton innerlink">Edit</a>
-				<a href="doctor-view.htm" class="viewcasebutton innerlink">View Cases</a>
-			</td>
-		</tr>
+		{% endfor %}
 	</tbody>
 </table>
 <br /><br />

@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#mri-table').dataTable({
+		$('#doctor-table').dataTable({
 		"bPaginate": false,
 		"bLengthChange": false,
 		"bFilter": true,
@@ -38,32 +38,27 @@ $(document).ready(function() {
 		});
 });
 </script>
-<div class="title-text">MRI Centers</div><br />
-<span class="orange">
-	<a href="/quantmd/createMRIView/" class="innerlink createnew orange">Create New Center</a>
-</span><br />
-<table id="mri-table">
+<div class="title-text">Process Cases</div><br />
+<table id="doctor-table">
 	<thead>
 		<tr>
-			<th>MRI Name</th>
-			<th width="100px">City</th>
-			<th width="100px">Member Since</th>
-			<th width="80px">Cases Scheduled</th>
+			<th width="30px">ID</th>
+			<th width="100px">Case Created At</th>
+			<th width="150px">MRI Uploaded At</th>
 			<th width="80px">More</th>
 		</tr>
 	</thead>
 	<tbody>
-		{% for k,v in  mri.iteritems %}
+		{% for c in cases %}
 		<tr>
-			<td>{{k.name}}</td>
-			<td align="center">{{k.city}},{{k.state}}</td>
-			<td align="center">{{k.create_time}}</td>
-			<td align="center">{{v}}</td>
+			<td align="center">{{c.pk}}</td>
+			<td align="center">{{c.create_time}}</td>
+			<td align="center">{{c.data.create_time}}</td>
 			<td align="center">
-				<a href="mri-edit.htm" class="editbutton innerlink">Edit</a>
-				<a href="mri-view.htm" class="viewcasebutton innerlink">View</a>
+				<a href="/quantmd/process_case/{{c.pk}}/" class="editbutton innerlink">Process</a>
 			</td>
 		</tr>
 		{% endfor %}
 	</tbody>
 </table>
+<br /><br />

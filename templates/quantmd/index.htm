@@ -1,7 +1,7 @@
 <html>
 <head>
 
-	<title>Login - QuantMD</title>
+	<title>Company Management - QuantMD</title>
 
 	<!-- Import Styles -->
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
@@ -37,16 +37,19 @@
 				</div>
 			</div>
 		</div>
-			
+		
 		<div id="container">
 			<div id="tabs-nohdr">
 				<ul>
 					<li><a href="dashboard.htm"><span><img src='{{STATIC_URL}}quantmd/images/upload.png' /> Dashboard</span></a></li>
-					<li><a href="cases.htm"><span><img src='{{STATIC_URL}}quantmd/images/progress.png' /> Cases</span></a></li>
-					<li><a href="doctors.htm"><span><img src='{{STATIC_URL}}quantmd/images/progress.png' /> Doctors</span></a></li>
-					<li><a href="mri.htm"><span><img src='{{STATIC_URL}}quantmd/images/logs.png' /> MRI Centers</span></a></li>
-					<li><a href="cardiologist.htm"><span><img src='{{STATIC_URL}}quantmd/images/logs.png' /> Cardiologists</span></a></li>
-					
+					<li><a href="/quantmd/process_cases/"><span><img src='{{STATIC_URL}}quantmd/images/progress.png' /> Process Cases</span></a></li>
+					<li><a href="/quantmd/logsView/"><span><img src='{{STATIC_URL}}quantmd/images/progress.png' /> Cases</span></a></li>
+					<li><a href="/quantmd/mri/"><span><img src='{{STATIC_URL}}quantmd/images/logs.png' /> MRI Centers</span></a></li>
+					<li><a href="/quantmd/doctors/"><span><img src='{{STATIC_URL}}quantmd/images/logs.png' /> Doctors</span></a></li>
+					<li><a href="/quantmd/receptionists/"><span><img src='{{STATIC_URL}}quantmd/images/logs.png' />Receptionists</span></a></li>
+					<li><a href="/quantmd/brokers/"><span><img src='{{STATIC_URL}}quantmd/images/logs.png' />Brokers</span></a></li>
+					<li><a href="/quantmd/cardiologists/"><span><img src='{{STATIC_URL}}quantmd/images/logs.png' />Cardiologists</span></a></li>
+					<li><a href="/quantmd/create_user/"><span><img src='{{STATIC_URL}}quantmd/images/logs.png' />Create Users</span></a></li>
 				</ul>
 			</div>
 		</div>
