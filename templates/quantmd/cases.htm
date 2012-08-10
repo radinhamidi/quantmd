@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 	$("table#log-table tr:even").css("background-color", "#F4F4F8");
@@ -19,69 +19,44 @@ $(document).ready(function() {
 <table id="log-table">
 	<thead>
 		<tr>
-			<th>Referring Doctor</th>
-			<th>MRI Center</th>
-			<th width="60px">Sex</th>
-			<th width="60px">Age</th>
-			<th width="130px">Upload Time</th>
-			<th width="100px">Status</th>
-			<th width="50px">More</th>
+			<th width="50px">Case Number</th>
+			<th width="50px">Create Time</th>
+			<th width="130px">Summary</th>
+			<th width="50px">Status</th>
+			<th width="130px">More</th>
 		</tr>
 	</thead>
 	<tbody>
+		{% for appointment in appointments%}
 		<tr>
-			<td>Dr. Rashid Alrad (#055)</td>
-			<td>Imaging Center at Allegheny (#022)</td>
-			<td align="center">Male</td>
-			<td align="center">25</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">4 UNPROCESSED</td>
-			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
+			<td>CASE# {{appointment.case.id}}</td>
+			<td align="center">{{appointment.case.create_time}}</td>
+			{% if appointment.case.status == -1%}
+				<td>Case has been cancelled</td>
+				<td align="center">Cancelled</td>
+			{% endif %}
+			{% if appointment.case.status == 0 %}
+				<td>Appointment at {{appointment.mri.name}} at {{appointment.schedule.start_time}} on {{appointment.schedule.date}}</td>
+				<td align="center">Scheduled</td>
+			{% endif %}
+			{% if appointment.case.status == 1 %}
+				<td>Checked in at {{appointment.mri.name}} at {{appointment.schedule.start_time}} on {{appointment.schedule.date}}</td>
+				<td align="center">Awaiting Scan</td>
+			{% endif %}
+			{% if appointment.case.status == 2 %}
+				<td>MRI Data is available on {{appointment.case.data.create_time}}</td>
+				<td align="center">Waiting Quantmd analysis</td>
+			{% endif %}
+			{% if appointment.case.status == 3 or appointment.case.status == 4 %}
+				<td>Quantmd analysis is available on {{appointment.case.analysis.create_time}}</td>
+				<td align="center">Waiting Diagnosis</td>
+			{% endif %}
+			{% if appointment.case.status == 5 or appointment.case.status == 6%}
+				<td>Diagnosis is available on {{appointment.case.report.create_time}}</td>
+				<td align="center">Complete</td>
+			{% endif %}
+			<td align="center"><a href="/quantmd/logView/{{appointment.case.id}}/" class="editbutton innerlink">View Case</a></td>
 		</tr>
-		<tr>
-			<td>Dr. Rashid Alrad (#055)</td>
-			<td>Imaging Center at Allegheny (#022)</td>
-			<td align="center">Male</td>
-			<td align="center">25</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">4 UNPROCESSED</td>
-			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
-		</tr>
-		<tr>
-			<td>Dr. Rashid Alrad (#055)</td>
-			<td>Imaging Center at Allegheny (#022)</td>
-			<td align="center">Male</td>
-			<td align="center">25</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">4 UNPROCESSED</td>
-			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
-		</tr>
-		<tr>
-			<td>Dr. Rashid Alrad (#055)</td>
-			<td>Imaging Center at Allegheny (#022)</td>
-			<td align="center">Male</td>
-			<td align="center">25</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">4 UNPROCESSED</td>
-			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
-		</tr>
-		<tr>
-			<td>Dr. Rashid Alrad (#055)</td>
-			<td>Imaging Center at Allegheny (#022)</td>
-			<td align="center">Male</td>
-			<td align="center">25</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">4 UNPROCESSED</td>
-			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
-		</tr>
-		<tr>
-			<td>Dr. Rashid Alrad (#055)</td>
-			<td>Imaging Center at Allegheny (#022)</td>
-			<td align="center">Male</td>
-			<td align="center">25</td>
-			<td align="center">Jul 10, 2012 3:30 PM</td>
-			<td align="center">4 UNPROCESSED</td>
-			<td align="center"><a href="case-info.htm" class="innerlink casebutton">b</a></td>
-		</tr>
+		{% endfor %}
 	</tbody>
 </table>

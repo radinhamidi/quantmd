@@ -73,7 +73,7 @@ $(document).ready(function() {
 				<td>Diagnosis is available on {{appointment.case.report.create_time}}</td>
 				<td align="center">Complete</td>
 			{% endif %}
-			<td align="center"><a href="/quantmd/logView/{{appointment.case.id}}/">View Case</a></td>
+			<td align="center"><a href="/quantmd/logView/{{appointment.case.id}}/"  class="editbutton innerlink">View Case</a></td>
 		</tr>
 		{% endfor %}
 	</tbody>

@@ -1,0 +1,31 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+
+<script>
+	$(document).ready(function() {
+	$("#diagnosis-back").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+});
+</script>
+<div id="patient-info-nav">
+	<span class="orange"><a id="diagnosis-back" href="/referring/patientCase/{{case.id}}/" class="orange loadright">Back to Case</a></span>
+</div>
+<div class="title-text">{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</div>
+Birthday: {{patient.birthday}}<br />
+{% if patient.gender == 1 %}
+			Gender:Male
+			{% endif %}
+		{% if patient.gender == 0 %}
+			Gender:Female
+			{% endif %}<br />
+
+Create Time: {{analysis.create_time}}<br/>	
+Analysis: <br/>	
+{{analysis.content}}<br/>
+
+
+
+

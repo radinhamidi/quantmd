@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 		$('#log-table').dataTable({
@@ -60,7 +60,8 @@ $(document).ready(function() {
 			<td align="center">{{case.data.create_time}}</td>
 			<td align="center">{{case.report.create_time}}</td>
 			<td align="center">
-				<span class="orange"><a href="diagnosis-view.htm" class="orange view innerlink">c</a></span>
+			<td>
+				<span class="orange"><a target="_blank" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.pdf" class="orange view innerlink">c</a></span>
 			</td>
 		</tr>
 		{% endfor %}

@@ -39,7 +39,7 @@ $(document).ready(function() {
 <br />
 <a href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download Compressed Dicom Files</a>
 <br/>
-<form action="/quantmd/process_case_action/" method="POST">
+<form id="diagnose-form" action="/quantmd/process_case_action/" method="POST">
 	{% csrf_token %}
 	<input type="hidden" name="case_id" value="{{case.pk}}" />
 	<textarea cols="25" rows="10" name="diagnosis"></textarea><br /><br />

@@ -75,13 +75,13 @@ def send(request):
     message.case_id = case_id
     message.content = content
     message.save()
-    return redirect('main.views.message.message_dialog', case_id, 'False')
+    return redirect('main.views.message.message_dialog', case_id, 'False', message.id)
 
 
 
 
     
-    
+
     
     
     

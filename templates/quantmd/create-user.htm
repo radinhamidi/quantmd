@@ -16,7 +16,7 @@ $(document).ready(function() {
 			},
 			 text: false
 		});
-		$("#cardiologist-create-form").submit(function(event) {
+		$("#create-user-form").submit(function(event) {
 	
     /* stop form from submitting normally */
 		event.preventDefault(); 
@@ -27,7 +27,7 @@ $(document).ready(function() {
 			url = $form.attr( 'action' );
 
     /* Send the data using post and put the results in a div */
-		$.post( url, $("#cardiologist-create-form").serialize(),
+		$.post( url, $("#create-user-form").serialize(),
 		function( data ) {
 			$( "#ui-tabs-5" ).empty().append($(data));
 			$( "#ui-tabs-5" ).fadeIn('fast');

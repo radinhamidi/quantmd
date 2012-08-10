@@ -39,3 +39,7 @@
 #log-table td, #log-table th {
 	padding: 8px;
 }
+#queue {
+	width: 100%;
+	min-height: 200px;
+}

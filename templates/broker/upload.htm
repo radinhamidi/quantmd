@@ -1,5 +1,6 @@
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.uploadifive.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 	$(document).ready(function() {
@@ -13,34 +14,42 @@
 				primary: "ui-icon-check"
 			}
 		});
+		$("#complete-btn").button({
+			icons: {
+				primary: "ui-icon-check"
+			}
+		});
 		$("#file_upload").button({
 			icons: {
 				primary: "ui-icon-check"
 			}
 		});
-	});
-</script>
-<script type="text/javascript" src="{{STATIC_URL}}common/js/jquery.uploadifive.min.js"></script>
-<script type="text/javascript">
-	$(function() {
-		$('#file_upload').uploadifive({
-			'auto'         : false,
-			'buttonText'  : 'Browse',
-			'formData'     : {'case_id': '{{case_id}}',
-			                  'identifier': '{{identifier}}'},
-			'queueID'      : 'queue',
-			'uploadScript' : '/broker/upload_action/',
-			'onUploadComplete' : function(file, data) {
-				if (data != '0'){
-					alert(data);
-				}else{
-					$('#upload-btn').hide();
-					$('#complete-btn').show();
+		
+		$(function() {
+			setTimeout(function() {
+			$('#file_upload').uploadifive({
+				'auto'         : false,
+				'buttonText'  : 'Browse',
+				'formData'     : {'case_id': '{{case_id}}',
+				                  'identifier': '{{identifier}}'},
+				'queueID'      : 'queue',
+				'uploadScript' : '/broker/upload_action/',
+				'onUploadComplete' : function(file, data) {
+					if (data != '0'){
+						alert(data);
+					}else{
+						$('#upload-btn').hide();
+						$('#complete-btn').show();
+					}
 				}
-			}
+			});
+			},800);
 		});
 	});
-	
+</script>
+
+<script type="text/javascript">
+
 	function complete(){
 		$.ajax({
             url: "/broker/upload_complete/",
@@ -102,10 +111,7 @@
 	<input id="file_upload" name="file_upload" type="file" />
 	<a href="javascript:$('#file_upload').uploadifive('upload')" id="upload-btn">Upload Files</a>
 	<a href="javascript:;" onclick="complete()" id="complete-btn" style="display:none;">Complete</a>
-	
 </form>
 
 <br /><br />
 <span class="orange"><a href="/broker/patients/" id="upload-back" class="orange innerlink">Back</a></span>
-
-

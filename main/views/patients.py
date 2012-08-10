@@ -254,5 +254,13 @@ def view_mri_images(request, case_id):
                               {'case':case, 'data':data, 'image_names':image_names},
                               context_instance=RequestContext(request))
     
+def view_analysis(request, case_id):
+    case = Case.objects.get(pk=case_id)
+    analysis = case.analysis
+    patient = case.patient
+    return render_to_response('referring/view-analysis.htm', 
+                              {'case':case, 'analysis':analysis, 'patient':patient},
+                              context_instance=RequestContext(request))
+    
 
 

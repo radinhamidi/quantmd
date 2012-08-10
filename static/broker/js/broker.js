@@ -13,7 +13,7 @@ $(document).ready(function() {
 		load: function(event, ui) {
 			$(ui.panel).delegate('.innerlink', 'click', function(event) {
 				$(ui.panel).hide();
-				$("*").css("cursor", "wait")
+				$("*").css("cursor", "wait");
 				$(ui.panel).load(this.href, function() {
 					$(ui.panel).delay(200).fadeIn('fast', function() {
 						$("*").css("cursor", "")
