@@ -1,0 +1,117 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+
+function image_popup(url) {
+	newwindow=window.open(url,'View MRI Images','height=300,width=300');
+	if (window.focus) newwindow.focus();
+	return false;
+}
+
+<div class="title-text">Case #{{case.id}}</div>
+
+<div class="small-title">Appointment Details</div>
+{% if appointment.is_cancelled %}
+	<table class="format-table">
+		<tr>
+			<td width="100px"><b>Appointment</b></td>
+			<td>Cancelled</td>
+		</tr>
+	</table>
+	<br /><br />
+{% endif %}
+
+{% if not appointment.is_cancelled %}
+
+	<table class="format-table">
+		<tr>
+			<td width="100px"><b>Appointment</b></td>
+			<td>{{appointment.schedule.date}} at {{appointment.schedule.start_time}}</td>
+		</tr>
+		<tr>
+			<td width="100px"><b>Clinic</b></td>
+			<td>{{appointment.mri.name}}</td>
+		</tr>
+		<tr>
+			<td width="100px"><b>Address</b></td>
+			<td>{{appointment.mri.address}} {{appointment.mri.address2}}</td>
+		</tr>
+		<tr>
+			<td width="100px"></td>
+			<td>{{appointment.mri.city}}, {{appointment.mri.state}} {{appointment.mri.zip}}</td>
+		</tr>
+		<tr>
+			<td width="100px"><b>Phone</b></td>
+			<td>{{appointment.mri.phone}}</td>
+		</tr>
+		<tr>
+			<td width="100px"><b>Email</b></td>
+			<td>{{appointment.mri.email}}</td>
+		</tr>
+	</table>
+	<br />
+{% endif %}
+
+<div class="small-title">Case History</div>
+	<table class="format-table">
+		<tr>
+			<td width="200px"><b>Case Created</b></td>
+			<td>{{case.create_time}}</td>
+		</tr>
+		{% if case.status == 1%}
+			<tr>
+				<td width="200px"><b>Patient Checked In</b></td>
+				<td>{{appointment.check_in_time}}</td>
+			</tr>
+		{% endif %}
+		{% if case.status == 2 %}
+			<tr>
+				<td width="200px"><b>Patient Checked In</b></td>
+				<td>{{appointment.check_in_time}}</td>
+			</tr>
+			<tr>
+				<td width="200px"><b>Scan Uploaded</b></td>
+				<td>{{appointment.case.data.create_time}}</td>
+				<td><a id="view-MRI" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">View MRI data</a></td>
+				<td><a id="view-MRI" href="/referring/viewDiagnosis/{{case.id}}/" class="loadright">Download MRI data</a></td>
+			</tr>
+		{% endif %}
+		{% if case.status == 3 or case.status == 4 %}
+			<tr>
+				<td width="200px"><b>Patient Checked In</b></td>
+				<td>{{appointment.check_in_time}}</td>
+			</tr>
+			<tr>
+				<td width="200px"><b>Scan Uploaded</b></td>
+				<td>{{appointment.case.data.create_time}}</td>
+				<td><a id="view-MRI" onclick="image_popup('/referring/view_mri_images/{{case.id}}/')" href="javascript:;" class="loadright">View MRI images</a></td>
+				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
+			</tr>
+			<tr>
+				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
+				<td>{{appointment.case.analysis.create_time}}</td>
+				<td><a id="view-analysis" href="" >View Quantmd Analysis</a></td>
+			</tr>
+		{% endif %}
+		{% if case.status >= 5 %}
+			<tr>
+				<td width="200px"><b>Patient Checked In</b></td>
+				<td>{{appointment.check_in_time}}</td>
+			</tr>
+			<tr>
+				<td width="200px"><b>Scan Uploaded</b></td>
+				<td>{{appointment.case.data.create_time}}</td>
+				<td><a id="view-MRI" onclick="image_popup('/referring/view_mri_images/{{case.id}}/')" href="javascript:;" class="loadright">View MRI images</a></td>
+				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
+			</tr>
+			<tr>
+				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
+				<td>{{appointment.case.analysis.create_time}}</td>
+				<td><a id="view-analysis" href="" class="loadright">View Quantmd Analysis</a></td>
+			</tr>
+			<tr>
+				<td width="200px"><b>Diagnosis Uploaded</b></td>
+				<td>{{appointment.case.report.create_time}}</td>
+			</tr>
+		{% endif %}
+	</table>
+	<br />

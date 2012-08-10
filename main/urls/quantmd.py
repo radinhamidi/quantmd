@@ -17,4 +17,6 @@ urlpatterns = patterns('main.views.quantmd',
     (r'^mri/$', 'mri'),
     (r'^createMRI/$', 'create_mri_action'),
     (r'^createMRIView/$', 'create_mri_view'),
+    (r'^logsView/$', 'logs_view'),
+    (r'^logView/(?P<case_id>\d+)/$', 'log_view'),
 )

@@ -182,10 +182,19 @@ def create_mri_action(request):
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
 def logs_view(request):
-    """Create logs list view"""
+    """logs list view"""
     if request.user.is_authenticated():
-        cases = Case.objects.all()
-        return render_to_response('quantmd/logs.htm',{'cases':cases}, context_instance=RequestContext(request))     
+        appointments = Appointment.objects.filter(is_current = True).order_by('-create_time')
+        return render_to_response('quantmd/logs.htm',{'appointments':appointments}, context_instance=RequestContext(request))     
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
 
+def log_view(request, case_id):
+    """logs view"""
+    if request.user.is_authenticated():
+        case = Case.objects.get(id=case_id)
+        appointments = Appointment.objects.filter(case = case, is_current = True)
+        return render_to_response('quantmd/log-view.htm',{'appointment':appointments[0], 'case':case}, context_instance=RequestContext(request))     
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))

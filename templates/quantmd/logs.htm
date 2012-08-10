@@ -37,17 +37,18 @@ $(document).ready(function() {
 <table id="log-table">
 	<thead>
 		<tr>
-			<th>Case Number</th>
+			<th width="50px">Case Number</th>
 			<th width="50px">Create Time</th>
-			<th width="130px">Status</th>
+			<th width="130px">Summary</th>
+			<th width="50px">Status</th>
 			<th width="130px">More</th>
 		</tr>
 	</thead>
 	<tbody>
-		{% for case in cases%}
+		{% for appointment in appointments%}
 		<tr>
-			<td>CASE# {{case.id}}</td>
-			<td align="center">{{case.create_time}}</td>
+			<td>CASE# {{appointment.case.id}}</td>
+			<td align="center">{{appointment.case.create_time}}</td>
 			{% if appointment.case.status == -1%}
 				<td>Case has been cancelled</td>
 				<td align="center">Cancelled</td>
@@ -72,6 +73,8 @@ $(document).ready(function() {
 				<td>Diagnosis is available on {{appointment.case.report.create_time}}</td>
 				<td align="center">Complete</td>
 			{% endif %}
+			<td align="center"><a href="/quantmd/logView/{{appointment.case.id}}/">View Case</a></td>
 		</tr>
+		{% endfor %}
 	</tbody>
 </table>
