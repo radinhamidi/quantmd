@@ -1,5 +1,6 @@
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.uploadifive.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 	$(document).ready(function() {
@@ -18,14 +19,10 @@
 				primary: "ui-icon-check"
 			}
 		});
-	});
-</script>
-<script type="text/javascript" src="{{STATIC_URL}}common/js/jquery.uploadifive.min.js"></script>
-<script type="text/javascript">
-	$(function() {
+		
 		$('#file_upload').uploadifive({
 			'auto'         : false,
-			'buttonText'  : 'Browse',
+			'buttonText'  : 'BROWSE',
 			'formData'     : {'case_id': '{{case_id}}',
 			                  'identifier': '{{identifier}}'},
 			'queueID'      : 'queue',
@@ -40,7 +37,10 @@
 			}
 		});
 	});
-	
+</script>
+
+<script type="text/javascript">
+
 	function complete(){
 		$.ajax({
             url: "/broker/upload_complete/",
