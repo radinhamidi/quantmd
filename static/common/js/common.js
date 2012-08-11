@@ -13,7 +13,7 @@ $(document).ready(function() {
 		
 		//Perform CSS Focus z-Index
 		var largestZ = 1;
-		$(".windows").each(function(i) { 
+		$(".windows").each(function(i) {
 			var currentZ = parseFloat($(this).css("zIndex")); 
 			largestZ = currentZ > largestZ ? currentZ : largestZ; 
 		}); 

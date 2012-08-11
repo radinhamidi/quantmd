@@ -20,7 +20,10 @@ Appointment for {{appointment.patient.first_name}} {{appointment.patient.middle_
 {{appointment.mri.address}} {{appointment.mri.address2}}<br />
 {{appointment.mri.city}}, {{appointment.mri.state}}, {{appointment.mri.zip}}<br />
 <br />
-{{schedule.date}} AT {{schedule.start_time}}
+{{schedule.date}} AT {{schedule.start_time}} to do the scans:
+{% for service in services%}
+	{{service.name}}<br/>
+{% endfor %}
 
 <br /><br />
 <span class="orange">

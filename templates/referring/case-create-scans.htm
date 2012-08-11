@@ -1,0 +1,62 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+
+<script>
+	$(document).ready(function() {
+	$("#create-case-back").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#submit-select-scan").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	
+	$("#case-select-scans").submit(function(event) {
+
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+		$( "#inner-right" ).hide();
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#case-select-scans").serialize(),
+		function( data ) {
+			$( "#inner-right" ).empty().append($(data));
+			$( "#inner-right" ).fadeIn('fast');
+		}
+		);
+     });
+	
+});
+</script>
+
+<div class="title-text">Select Scans to Perform</div>
+<br />
+Appointment for {{patient}} at:<br />
+<br />
+{{schedule.mri.name}}<br />
+{{schedule.mri.address}} {{schedule.mri.address2}}<br />
+{{schedule.mri.city}}, {{schedule.mri.state}} {{schedule.mri.zip}}<br />
+<br />
+{{schedule.date}} AT {{schedule.start_time}}
+
+<br /><br />
+<div class="small-title">Select Scans</div>
+<form id="case-select-scans" action="/referring/makeAppointment/" method="post"> {% csrf_token %}
+	<input type="hidden" name= "patientId" value="{{patient.id}}" /> 
+	<input type="hidden" name= "scheduleId" value="{{schedule.id}}" />
+	{% for service in services%}
+	{{service.name}} &nbsp;<input type="checkbox" name="services" value={{service.id}} /> <br />
+	{% endfor %}
+<br /><br />
+<span class="orange">
+<a id="create-case-back" href="/referring/appointmentsInfo/{{patient.id}}/" class="orange loadright">Change Appointment</a></span>
+<input type="submit" id="submit-select-scan" value="Confirm" />
+</form>

@@ -48,7 +48,7 @@ function confirmBooking(id1,id2) {
 			"Confirm": function() {
 				//Confirm Logout
 				//Process Booking
-				$("#inner-right").load('/referring/makeAppointment/'+id1+'/'+id2+'/');
+				$("#inner-right").load('/referring/serviceSelect/'+id1+'/'+id2+'/');
 				$(this).dialog("close");
 			},
 			Cancel: function() {

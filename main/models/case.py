@@ -6,7 +6,17 @@ from data import MRIData
 from patient import Patient
 from analysis import Analysis
 
-
+class Service(models.Model):
+    """
+    The services list the MRI center provide
+    """
+    name = models.CharField(max_length=20)
+    is_active = models.BooleanField(default=True)
+    
+    class Meta: 
+        app_label = 'main'
+        
+        
 class Case(models.Model):
     """
     A case encapsulates the whole process from doctor to 
@@ -26,16 +36,19 @@ class Case(models.Model):
     #2 for broker uploaded, 3 for quantmd analysis finished, 4 for cardiologist assigned, 
     #5 for report uploaded, 6 for doctor have read the report
     status = models.SmallIntegerField(default=0) #should be replicated to Appointment model
-    service_type = models.PositiveIntegerField(blank=True, null=True)
+    services = models.ManyToManyField(Service, through='ServiceAndCase')
     
     class Meta: 
         app_label = 'main'
         
 
-class Service(models.Model):
-    """
-    The services list the MRI center provide
-    """
-    name = models.CharField(max_length=20)
+        
+class ServiceAndCase(models.Model):
     
+    service = models.ForeignKey(Service)
+    case = models.ForeignKey(Case)
+    image_count = models.IntegerField(default=0)
+    
+    class Meta: 
+        app_label = 'main'
 

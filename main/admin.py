@@ -12,6 +12,7 @@ from models.analysis import *
 
 admin.site.register(Profile)
 admin.site.register(Appointment)
+admin.site.register(Service)
 admin.site.register(Case)
 admin.site.register(MRIData)
 admin.site.register(Message)

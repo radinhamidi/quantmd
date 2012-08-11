@@ -136,12 +136,29 @@ def mri_info(request, mri_id):
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
+def service_view(request,patient_id, schedule_id):
+    if request.user.is_authenticated():
+        patient = Patient.objects.get(id = patient_id)
+        schedule = Schedule.objects.get(id = schedule_id)
+        print patient
+        print schedule
+        services = Service.objects.all()
+        print services
+        return render_to_response('referring/case-create-scans.htm',{'patient':patient, 'schedule':schedule, 'services':services}, context_instance=RequestContext(request))
+        
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
 
-def make_appointment(request, patient_id, schedule_id):
+def make_appointment(request):
+    print "hahahahaha"
     if request.user.is_authenticated():
         error = []
+        patient_id = request.POST['patientId']
+        schedule_id = request.POST['scheduleId']
+        services = request.POST.getlist('services')
+        patient = Patient.objects.get(id=patient_id)
         
-    
         if not Patient.objects.filter(id=patient_id).exists():
             error.append("Patient is not exist")
             
@@ -150,12 +167,11 @@ def make_appointment(request, patient_id, schedule_id):
         
         schedule = Schedule.objects.get(id=schedule_id)
         if schedule.date < datetime.datetime.now().date() or (schedule.date == datetime.datetime.now().date() and schedule.start_time < datetime.datetime.now().time()):
-            errors.append('Please choose another day, you cannot make an appointment before today')
+            error.append('Please choose another day, you cannot make an appointment before today')
             
         if len(error) != 0:
-            return render_to_response('error.htm',{'errors':"No such patient or no such schedule"}, context_instance=RequestContext(request))
+            return render_to_response('referring/case-create.htm',{'errors':error, 'patient':patient}, context_instance=RequestContext(request))
         
-        patient = Patient.objects.get(id=patient_id)
         
         doctor = Profile.objects.get(user=request.user)
         mri = schedule.mri
@@ -171,6 +187,13 @@ def make_appointment(request, patient_id, schedule_id):
         case = Case.objects.create(patient = patient)
         print "here5"
         case.save()
+        
+        for service_id in services:
+            service = Service.objects.get(id = service_id)
+            service_and_case = ServiceAndCase.objects.create(service = service, case = case)
+            service_and_case.save()
+        
+            
         
         print "here3"
         # create appointment
@@ -197,10 +220,10 @@ def make_appointment(request, patient_id, schedule_id):
         message.save()
         
         
-        return render_to_response('referring/case-create-confirm.htm',{'schedule':schedule, 'appointment':appointment}, context_instance=RequestContext(request))
+        return render_to_response('referring/case-create-confirm.htm',{'schedule':schedule, 'appointment':appointment, 'services': case.services.all()}, context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
+
 
 def appointment_cancel(request, appointment_id):
      if request.user.is_authenticated():
