@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 	$(".checkin").button({
@@ -10,13 +10,13 @@ $(document).ready(function() {
 			},
 			 text: false
 		});
-		$("#cardiologist-edit-submit").button({
+		$("#cardiologist-create-submit").button({
 			icons: {
 				primary: "ui-icon-clock"
 			},
 			 text: false
 		});
-		$("#cardiologist-edit-form").submit(function(event) {
+		$("#create-user-form").submit(function(event) {
 	
     /* stop form from submitting normally */
 		event.preventDefault(); 
@@ -27,17 +27,107 @@ $(document).ready(function() {
 			url = $form.attr( 'action' );
 
     /* Send the data using post and put the results in a div */
-		$.post( url, $("#cardiologist-edit-form").serialize(),
+		$.post( url, $("#create-user-form").serialize(),
 		function( data ) {
 			$( "#ui-tabs-5" ).empty().append($(data));
 			$( "#ui-tabs-5" ).fadeIn('fast');
 		});
      });
 });
+
+function role_change(){
+	var e = document.getElementById("role");
+	var role_val = e.options[e.selectedIndex].value;
+	if (role_val == "2" || role_val == "3"){
+		$("#mri").show();
+	}else{
+		$("#mri").hide();
+	}
+}
+
 </script>
-<div class="title-text">Editing Dr. John Doe (#007)</div>
+<div class="title-text">Edit User</div>
 <br /><br />
-<form id="cardiologist-edit-form" name="cardiologist-edit-form" action="cardiologist-edit-confirm.htm">
-//form fields<br /><br />
-<input type="submit" value="Submit" id="cardiologist-edit-submit" />
+{% for message in messages %}
+<div class="span8 offset2">
+	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+		{{message}}
+	</div>
+</div>
+{% endfor %}
+<form id="edit-user-form" method="POST" action="/quantmd/edit_user_action/">
+	{% csrf_token %}
+	<input type="hidden" name="user_id" value="{{profile.pk}}" />
+    <table>
+		<tr>
+			<td>Role</td>
+			<td>
+			    {%if profile.role == 0%}Admin{%endif%}
+				{%if profile.role == 1%}Doctor{%endif%}
+				{%if profile.role == 2%}Receptionist{%endif%}
+				{%if profile.role == 3%}Broker{%endif%}
+				{%if profile.role == 4%}Cardiologist{%endif%}  
+			</td>
+    	</tr>
+		<tr>
+    		<td>First Name:</td>
+			<td><input type="text" name="first_name" value="{{profile.first_name}}"/></td>
+    	</tr>
+		<tr>
+    		<td>Middle Name:</td>
+			<td><input type="text" name="middle_name" value="{{profile.middle_name}}"/></td>
+    	</tr>
+		<tr>
+    		<td>Last Name:</td>
+			<td><input type="text" name="last_name" value="{{profile.last_name}}" /></td>
+    	</tr>
+		<tr>
+    		<td>Gender</td>
+			<td>
+				<select name="gender">
+				  <option value="1" {%if profile.gender == 1%}selected="selected"{%endif%}>Male</option>
+				  <option value="0" {%if profile.gender == 0%}selected="selected"{%endif%}>Female</option>
+				</select>
+			</td>
+    	</tr>
+        <tr>
+    		<td>Email:</td>
+			<td><input type="text" name="email" value="{{profile.email}}" /></td>
+    	</tr>
+		<tr>
+    		<td>Phone:</td>
+			<td><input type="text" name="phone" value="{{profile.phone}}"/></td>
+    	</tr>
+		<tr>
+    		<td>Address:</td>
+			<td><input type="text" name="address" value="{{profile.address}}" /></td>
+    	</tr>
+		<tr>
+    		<td>Address Line 2:</td>
+			<td><input type="text" name="address_2" value="{{profile.address2}}" /></td>
+    	</tr>
+		<tr>
+    		<td>City:</td>
+			<td><input type="text" name="city" value="{{profile.city}}" /></td>
+    	</tr>
+		<tr>
+    		<td>State:</td>
+			<td><input type="text" name="state" value="{{profile.state}}" /></td>
+    	</tr>
+		<tr>
+    		<td>Zipcode:</td>
+			<td><input type="text" name="zipcode" value="{{profile.zip}}" /></td>
+    	</tr>
+		<tr id="mri" {%if profile.role != 2 and profile.role != 3%}style="display:none;"{% endif %}>
+    		<td>MRI Center</td>
+			<td>
+				<select name="mri">
+				  {% for mri in mris %}
+				  <option value="{{mri.pk}}" {%if profile.mri_id_id == mri.pk%}selected="selected"{%endif%}>{{mri}}</option>
+				  {% endfor %}
+				</select>
+			</td>
+    	</tr>
+    </table>
+	<input type="submit" value="Save Changes" id="edit-submit" />
 </form>

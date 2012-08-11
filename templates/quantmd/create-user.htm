@@ -34,6 +34,17 @@ $(document).ready(function() {
 		});
      });
 });
+
+function role_change(){
+	var e = document.getElementById("role");
+	var role_val = e.options[e.selectedIndex].value;
+	if (role_val == "2" || role_val == "3"){
+		$("#mri").show();
+	}else{
+		$("#mri").hide();
+	}
+}
+
 </script>
 <div class="title-text">Create New User</div>
 <br /><br />
@@ -47,6 +58,18 @@ $(document).ready(function() {
 <form id="create-user-form" method="POST" action="/quantmd/create_user_action/">
 	{% csrf_token %}
     <table>
+		<tr>
+			<td>Role</td>
+			<td>
+				<select name="role" id="role" onchange="role_change()">
+				  <option value="0" {%if role == "0"%}selected="selected"{%endif%}>Admin</option>
+				  <option value="1" {%if role == "1"%}selected="selected"{%endif%}>Doctor</option>
+				  <option value="2" {%if role == "2"%}selected="selected"{%endif%}>Receptionist</option>
+				  <option value="3" {%if role == "3"%}selected="selected"{%endif%}>Broker</option>
+				  <option value="4" {%if role == "4"%}selected="selected"{%endif%}>Cardiologist</option>
+				</select>
+			</td>
+    	</tr>
     	<tr>
     		<td>Username:</td>
 			<td><input type="text" name="username" /></td>
@@ -108,19 +131,7 @@ $(document).ready(function() {
     		<td>Zipcode:</td>
 			<td><input type="text" name="zipcode" /></td>
     	</tr>
-		<tr>
-    		<td>Role</td>
-			<td>
-				<select name="role">
-				  <option value="0">Admin</option>
-				  <option value="1">Doctor</option>
-				  <option value="2">Receptionist</option>
-				  <option value="3">Broker</option>
-				  <option value="4">Cardiologist</option>
-				</select>
-			</td>
-    	</tr>
-		<tr>
+		<tr id="mri" {%if role != "2" and role != "3"%}style="display:none;"{% endif %}>
     		<td>MRI Center</td>
 			<td>
 				<select name="mri">

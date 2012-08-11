@@ -10,7 +10,7 @@ APP_URL = 'http://23.20.201.4/'
 PROJECT_ROOT = os.path.dirname(__file__).replace('\\','/') + '/'  #used in webpage tagging
 
 ADMINS = (
-    ('Yifu Diao', 'alexdiaochina@gmail.com'),
+    #('Yifu Diao', 'alexdiaochina@gmail.com'),
 )
 
 MANAGERS = ADMINS

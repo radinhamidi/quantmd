@@ -16,9 +16,9 @@ from main.utils.form_check import *
 from main.models.appointment import Appointment
 from main.models.analysis import Analysis
 
-def create_user(request):
+def create_user(request, role):
     mris = MRICenter.objects.all()
-    return render_to_response('quantmd/create-user.htm', {'mris':mris},
+    return render_to_response('quantmd/create-user.htm', {'mris':mris, 'role':role},
                                   context_instance=RequestContext(request))
 
 def create_user_action(request):
@@ -35,7 +35,7 @@ def create_user_action(request):
     city = request.POST['city']
     state = request.POST['state']
     role = int(request.POST['role'])
-    mri_id = int(request.POST['mri'])
+    mri_id = int(request.POST['mri']) if 'mri' in request.POST else None
     try:
         phone = long(request.POST['phone'])
         zip = int(request.POST['zipcode'])    
@@ -69,17 +69,71 @@ def create_user_action(request):
                       last_name=last_name, gender=int(gender), email=email, phone=phone,
                       address=address, address2=address_2, city=city, state=state,
                       zip=zip, role=role)
-    profile.mri_id_id = mri_id
+    if mri_id:
+        profile.mri_id_id = mri_id
     profile.save()
     
     messages.info(request, 'Successfully created the user')
     return redirect('main.views.quantmd.create_user')
         
 def edit_user(request, user_id):
-    pass
+    profile = Profile.objects.get(pk=user_id)
+    mris = MRICenter.objects.all()
+    return render_to_response('quantmd/edit-user.htm', {'profile':profile, 'mris':mris},
+                                  context_instance=RequestContext(request))
+
+def edit_user_action(request):
+    user_id = request.POST['user_id']
+    p = Profile.objects.get(pk=user_id) 
+    
+    first_name = request.POST['first_name']
+    middle_name = request.POST['middle_name']
+    last_name = request.POST['last_name']
+    gender = int(request.POST['gender'])
+    email = request.POST['email']
+    address = request.POST['address']
+    address_2 = request.POST['address_2']
+    city = request.POST['city']
+    state = request.POST['state']
+    mri_id = int(request.POST['mri']) if 'mri' in request.POST else None
+    try:
+        phone = long(request.POST['phone'])
+        zip = int(request.POST['zipcode'])    
+    except:
+        messages.error(request, 'Phone and zipcode must be numbers')
+        return redirect('main.views.quantmd.create_user') 
+        
+    if (not first_name.strip() or not last_name.strip() or not email.strip() 
+        or not address.strip() or not city.strip() or not state.strip()): 
+        messages.error(request, 'Only middle name and address line 2 can be empty.')
+        return redirect('main.views.quantmd.create_user')
+    if not email_re.match(email):
+        messages.error(request, 'Email format not correct.')
+        return redirect('main.views.quantmd.create_user')
+    
+    p.first_name = first_name
+    p.middle_name = middle_name
+    p.last_name = last_name
+    p.gender = gender
+    p.email = email
+    p.address = address
+    p.address2 = address_2
+    p.phone = phone
+    p.zip = zip
+    p.city = city
+    p.state = state
+    if mri_id:
+        p.mri_id_id = mri_id
+    p.save()
+    
+    messages.info(request, 'Saved changes to user information.')
+    return redirect('main.views.quantmd.edit_user', str(p.pk))
 
 def view_user(request, user_id):
-    pass
+    user = User.objects.get(pk=user_id)
+    profile = Profile.objects.get(pk=user_id)
+    return render_to_response('quantmd/view-user.htm', {'user':user, 'profile':profile},
+                                  context_instance=RequestContext(request))
 
 
 def doctors(request):
