@@ -12,7 +12,7 @@ class Case(models.Model):
     A case encapsulates the whole process from doctor to 
     mri center to cardiologist
     A case is automatically created when an appointment is scheduled;
-    If the appointment is cancelled, it's set to null in case;
+    If the appointment is cancelled, it's status set to -1 in case;
     """
     patient = models.ForeignKey(Patient)
     data = models.ForeignKey(MRIData,blank=True, null=True)
@@ -26,7 +26,16 @@ class Case(models.Model):
     #2 for broker uploaded, 3 for quantmd analysis finished, 4 for cardiologist assigned, 
     #5 for report uploaded, 6 for doctor have read the report
     status = models.SmallIntegerField(default=0) #should be replicated to Appointment model
+    service_type = models.PositiveIntegerField(blank=True, null=True)
     
     class Meta: 
         app_label = 'main'
         
+
+class Service(models.Model):
+    """
+    The services list the MRI center provide
+    """
+    name = models.CharField(max_length=20)
+    
+
