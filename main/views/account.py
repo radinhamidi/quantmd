@@ -41,7 +41,8 @@ def forgot_password_action(request):
     except:
         messages.error(request, 'This username does not exist')
         return redirect('main.views.account.forgot_password')
-    if user.email != email:
+    profile = Profile.objects.get(user=user)
+    if profile.email != email:
         messages.error(request, 'Email does match.')
         return redirect('main.views.account.forgot_password')
     new_password = generate_random_string(10)

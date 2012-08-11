@@ -1,0 +1,107 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+<script>
+$(document).ready(function() {
+	$(".checkin").button({
+			icons: {
+				primary: "ui-icon-play"
+			},
+			 text: false
+		});
+		$("#cardiologist-create-submit").button({
+			icons: {
+				primary: "ui-icon-clock"
+			},
+			 text: false
+		});
+		$("#create-user-form").submit(function(event) {
+	
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+		$( "#ui-tabs-5" ).hide();
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#create-user-form").serialize(),
+		function( data ) {
+			$( "#ui-tabs-5" ).empty().append($(data));
+			$( "#ui-tabs-5" ).fadeIn('fast');
+		});
+     });
+});
+
+</script>
+<div class="title-text">Edit User</div>
+<br /><br />
+<table>
+	<tr>
+		<td>Role</td>
+		<td>
+		    {%if profile.role == 0%}Admin{%endif%}
+			{%if profile.role == 1%}Doctor{%endif%}
+			{%if profile.role == 2%}Receptionist{%endif%}
+			{%if profile.role == 3%}Broker{%endif%}
+			{%if profile.role == 4%}Cardiologist{%endif%}  
+		</td>
+	</tr>
+	<tr>
+		<td>Username:</td>
+		<td>{{user.username}}</td>
+	</tr>
+	<tr>
+		<td>First Name:</td>
+		<td>{{profile.first_name}}</td>
+	</tr>
+	<tr>
+		<td>Middle Name:</td>
+		<td>{{profile.middle_name}}</td>
+	</tr>
+	<tr>
+		<td>Last Name:</td>
+		<td>{{profile.last_name}}</td>
+	</tr>
+	<tr>
+		<td>Gender</td>
+		<td>
+			{%if profile.gender == 1%}Male{%endif%}
+			{%if profile.gender == 0%}Female{%endif%}
+		</td>
+	</tr>
+    <tr>
+		<td>Email:</td>
+		<td>{{profile.email}}</td>
+	</tr>
+	<tr>
+		<td>Phone:</td>
+		<td>{{profile.phone}}</td>
+	</tr>
+	<tr>
+		<td>Address:</td>
+		<td>{{profile.address}}</td>
+	</tr>
+	<tr>
+		<td>Address Line 2:</td>
+		<td>{{profile.address2}}</td>
+	</tr>
+	<tr>
+		<td>City:</td>
+		<td>{{profile.city}}</td>
+	</tr>
+	<tr>
+		<td>State:</td>
+		<td>{{profile.state}}</td>
+	</tr>
+	<tr>
+		<td>Zipcode:</td>
+		<td>{{profile.zip}}</td>
+	</tr>
+	<tr {%if profile.role != 2 and profile.role != 3%}style="display:none;"{% endif %}>
+		<td>MRI Center</td>
+		<td>{{profile.mri_id}}</td>
+	</tr>
+</table>
