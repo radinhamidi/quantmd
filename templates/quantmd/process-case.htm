@@ -2,6 +2,7 @@
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
 <script src="{{STATIC_URL}}common/js/datatables.js"></script>
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.uploadifive.min.js"></script>
 <script>
 $(document).ready(function() {
 	$(".checkin").button({
@@ -34,14 +35,35 @@ $(document).ready(function() {
 		});
      });
 });
+
+$('#file_upload').uploadifive({
+	'auto'         : false,
+	'buttonText'  : 'Browse',
+	'formData'     : {'case_id': '{{case.pk}}'},
+	'queueID'      : 'queue',
+	'uploadScript' : '/quantmd/upload_action/',
+	'onUploadComplete' : function(file, data) {
+		if (data != '0'){ //failed
+			alert(data);
+		}
+	}
+});
 </script>
 <div class="title-text">Process one case</div>
 <br />
 <a href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download Compressed Dicom Files</a>
-<br/>
-<form id="diagnose-form" action="/quantmd/process_case_action/" method="POST">
+<br /><br />
+
+<form>
+	<div id="queue"></div>
+	<input id="file_upload" name="file_upload" type="file" multiple="true">
+	<a href="javascript:$('#file_upload').uploadifive('upload')" id="upload-btn">Upload Files</a>
+</form>
+
+<br />
+<form method="post", action="/quantmd/process_case_action/">
 	{% csrf_token %}
 	<input type="hidden" name="case_id" value="{{case.pk}}" />
-	<textarea cols="25" rows="10" name="diagnosis"></textarea><br /><br />
-	<input type="submit" value="Submit" id="diagnose-form-submit" />
+	<textarea id="diagnosis" cols="25" rows="10" name="diagnosis"></textarea><br /><br />
+	<input type="submit" value="Submit" />
 </form>

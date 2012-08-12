@@ -114,7 +114,6 @@ def upload_complete(request):
         case.save()
            
         apt = Appointment.objects.get(case=case_id, is_current=True)
-        apt.save()
         
         #Send message to referring doctor to notify him that scan is complete and uploaded
         message = Message(is_sys=True, type=3, receiver=apt.doctor, case=case)
