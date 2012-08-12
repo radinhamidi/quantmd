@@ -1,0 +1,120 @@
+<link rel="stylesheet" type="text/css" href="css/referring.css" />
+<script>
+	$(document).ready(function() {
+		$("table#case-table tr:even").css("background-color", "#F4F4F8");
+		$("table#case-table tr:odd").css("background-color", "#EFF1F1");
+		$("#case-back").button({
+			icons: {
+				primary: "ui-icon-arrowthick-1-w"
+			}
+		});
+		$('#mri-image-1').fadeIn(100);
+	});
+	function prevImage(curr) {
+		if(curr == 1) {
+			alert('min!');
+		} else {
+			var toPos = curr - 1;
+			$('#mri-image-'+curr).fadeOut(100,function() {
+				$('#mri-image-'+toPos).fadeIn(100);
+			});
+		}
+	}
+	function nextImage(curr) {
+		if(curr == 6) {
+			alert('max!');
+		} else {
+			var toPos = curr + 1;
+			$('#mri-image-'+curr).fadeOut(100,function() {
+				$('#mri-image-'+toPos).fadeIn(100);
+			});
+		}
+	}
+	
+</script>
+<div class="title-text">MRI Viewer</div>
+<br />
+<div id="mri-image-1" class="mri-image">
+	<div class="image-placeholder">
+		<img src="images/1.png" width="550px" height="550px" />
+		<div class="com_header">Sequence Name</div>
+		
+		<div class="btn_right" onClick="nextImage(1)">NEXT</div>
+		<div class="position">1 / 6</div>
+	</div>
+	<br />
+	Comments come here
+	<br />
+</div>
+<div id="mri-image-1" class="mri-image">
+	<div class="image-placeholder">
+		<img src="images/1.png" width="550px" height="550px" />
+		<div class="com_header">Sequence Name</div>
+		<div class="btn_left" onClick="prevImage(1)">PREV</div>
+		<div class="btn_right" onClick="nextImage(1)">NEXT</div>
+		<div class="position">1 / 6</div>
+	</div>
+	<br />
+	Comments come here
+	<br />
+</div>
+<div id="mri-image-2" class="mri-image">
+	<div class="image-placeholder">
+		<img src="images/2.png" width="550px" height="550px" />
+		<div class="com_header">Sequence Name</div>
+		<div class="btn_left" onClick="prevImage(2)">PREV</div>
+		<div class="btn_right" onClick="nextImage(2)">NEXT</div>
+		<div class="position">2 / 6</div>
+	</div>
+	<br />
+	Comments come here
+	<br />
+</div>
+<div id="mri-image-3" class="mri-image">
+	<div class="image-placeholder">
+		<img src="images/3.png" width="550px" height="550px" />
+		<div class="com_header">Sequence Name</div>
+		<div class="btn_left" onClick="prevImage(3)">PREV</div>
+		<div class="btn_right" onClick="nextImage(3)">NEXT</div>
+		<div class="position">3 / 6</div>
+	</div>
+	<br />
+	Comments come here
+	<br />
+</div>
+<div id="mri-image-4" class="mri-image">
+	<div class="image-placeholder">
+		<img src="images/4.png" width="550px" height="550px" />
+		<div class="com_header">Sequence Name</div>
+		<div class="btn_left" onClick="prevImage(4)">PREV</div>
+		<div class="btn_right" onClick="nextImage(4)">NEXT</div>
+		<div class="position">4 / 6</div>
+	</div>
+	<br />
+	Comments come here
+	<br />
+</div>
+<div id="mri-image-5" class="mri-image">
+	<div class="image-placeholder">
+		<img src="images/5.png" width="550px" height="550px" />
+		<div class="com_header">Sequence Name</div>
+		<div class="btn_left" onClick="prevImage(5)">PREV</div>
+		<div class="btn_right" onClick="nextImage(5)">NEXT</div>
+		<div class="position">5 / 6</div>
+	</div>
+	<br />
+	Comments come here
+	<br />
+</div>
+<div id="mri-image-6" class="mri-image">
+	<div class="image-placeholder">
+		<img src="images/6.png" width="550px" height="550px" />
+		<div class="com_header">Sequence Name</div>
+		<div class="btn_left" onClick="prevImage(6)">PREV</div>
+		
+		<div class="position">6 / 6</div>
+	</div>
+	<br />
+	Comments come here
+	<br />
+</div>

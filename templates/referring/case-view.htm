@@ -25,12 +25,22 @@ $(document).ready(function() {
 			primary: "ui-icon-closethick"
 		}
 	});
+
+	 $('#referring-modal').click(function() {
+		$('#view-box').fadeOut(200);
+		$('#referring-modal').fadeOut(200);
+	 });
 });
 
-function image_popup(url) {
-	newwindow=window.open(url,'View MRI Images','height=300,width=300');
-	if (window.focus) newwindow.focus();
-	return false;
+function mriViewer(id) {
+	$('#view-box').fadeIn(100);
+	$('#referring-modal').fadeIn(100);
+	$('#view-box').load('view-mri.htm?id='+id);
+}
+function quantViewer(id) {
+	$('#view-box').fadeIn(100);
+	$('#referring-modal').fadeIn(100);
+	$('#view-box').load('view-quant.htm?id='+id);
 }
 </script>
 <div id="patient-info-nav">
@@ -147,7 +157,7 @@ function image_popup(url) {
 				<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><a id="view-MRI" onclick="image_popup('/referring/view_mri_images/{{case.id}}/')" href="javascript:;" class="loadright">View MRI images</a></td>
+				<td><a id="view-diagnosis" href="" onClick="mriViewer(223);return false;">View MRI images</a></td>
 				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 		{% endif %}
@@ -159,13 +169,13 @@ function image_popup(url) {
 			<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><a id="view-MRI" onclick="image_popup('/referring/view_mri_images/{{case.id}}/')" href="javascript:;" class="loadright">View MRI images</a></td>
+				<td><td><a id="view-diagnosis" href="" onClick="mriViewer(223);return false;">View MRI images</a></td>
 				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 			<tr>
 				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
 				<td>{{appointment.case.analysis.create_time}}</td>
-				<td><a id="view-analysis" href="/referring/viewAnalysis/{{case.id}}/" class="loadright">View Quantmd Analysis</a></td>
+				<td><a id="view-quant" href="" onClick="quantViewer(223);return false;">View Quant Diagnosis</a></td>
 			</tr>
 		{% endif %}
 		{% if case.status >= 5 %}
@@ -176,13 +186,13 @@ function image_popup(url) {
 			<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><a id="view-MRI" onclick="image_popup('/referring/view_mri_images/{{case.id}}/')" href="javascript:;" class="loadright">View MRI images</a></td>
+				<td><td><a id="view-diagnosis" href="" onClick="mriViewer(223);return false;">View MRI images</a></td>
 				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 			<tr>
 				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
 				<td>{{appointment.case.analysis.create_time}}</td>
-				<td><a id="view-analysis" href="/referring/viewAnalysis/{{case.id}}/" class="loadright">View Quantmd Analysis</a></td>
+				<td><a id="view-quant" href="" onClick="quantViewer(223);return false;">View Quant Diagnosis</a></td>
 			</tr>
 			<tr>
 				<td width="200px"><b>Diagnosis Uploaded</b></td>

@@ -66,7 +66,6 @@ def change_password_view(request):
 
 
 def change_password(request):
-    print "haha"
     if request.user.is_authenticated():
         password = request.POST['password']
         new_password = request.POST['new-password']

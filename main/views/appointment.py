@@ -125,13 +125,19 @@ def appointment_search(request, patient_id):
     
 def mri_info(request, mri_id):
     if request.user.is_authenticated():
+        mri = MRICenter.objects.get(id = mri_id)
+        today = datetime.datetime.now()
+        current = today.day
+        i = 0
+        dic = {}
+        while i < 7:
+            schedules = Schedule.objects.filter(mri = mri, date = today.date(), is_cancelled = False).order_by('start_time')
+            dic[today.date()] = schedules
+            today = today + datetime.timedelta(days = 1)
+            i += 1
         
-        if not MRICenter.objects.filter(id = mri_id).exists():
-            return render_to_response('referring/error.htm',{'error': "MRI center do not exist"}, context_instance=RequestContext(request))
-        
-        mri = MRICenter.objects.get(id=mri_id)
-        
-        return render_to_response('referring/mri-info.htm',{'mri':mri}, context_instance=RequestContext(request))
+        sorted_x = sorted(dic.iteritems(), key=operator.itemgetter(0), reverse=False)
+        return render_to_response('referring/view-mri-details.htm',{'dic':sorted_x}, context_instance=RequestContext(request))   
         
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))

@@ -18,19 +18,19 @@
 </div>
 <div id="dash-overview">
 	<div id="dash-float-1" class="dash-float">
-		<div class="big">15</div>
+		<div class="big">{{unprocess}}</div>
 		Unprocessed Cases
 	</div>
 	<div id="dash-float-2" class="dash-float">
-		<div class="big">81</div>
+		<div class="big">{{complete}}</div>
 		Completed<br />This Week
 	</div>
 	<div id="dash-float-3" class="dash-float">
-		<div class="big">9</div>
+		<div class="big">{{awiting}}</div>
 		Awaiting Diagnosis
 	</div>
 	<div id="dash-float-4" class="dash-float">
-		<div class="big">24</div>
+		<div class="big">{{schedule}}</div>
 		Scheduled<br /> This Week
 	</div>
 </div>
@@ -39,41 +39,19 @@
 	Past 7 Days<br /><br />
 	<table id="dash-summary">
 		<tr>
-			<th>Doctor</th>
+			<th>Center</th>
 			<th width="150px">City</th>
 			<th width="180px">Member Since</th>
+			<th width="80px">Cases Seen</th>
+		</tr>
+		{%for doctor in doctors%}
+		<tr>
+			<th>{{doctor}}</th>
+			<th width="150px">{{doctor.city}} {{doctor.state}}</th>
+			<th width="180px">{{doctor.user.date_joined|date:"M Y d"}}</th>
 			<th width="80px">This Week</th>
 		</tr>
-		<tr>
-			<td>Dr. Rashid Alrad</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">January 10, 2012</td>
-			<td align="center">11</td>
-		</tr>
-		<tr>
-			<td>Dr. Rashid Alrad</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">January 10, 2012</td>
-			<td align="center">11</td>
-		</tr>
-		<tr>
-			<td>Dr. Rashid Alrad</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">January 10, 2012</td>
-			<td align="center">11</td>
-		</tr>
-		<tr>
-			<td>Dr. Rashid Alrad</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">January 10, 2012</td>
-			<td align="center">11</td>
-		</tr>
-		<tr>
-			<td>Dr. Rashid Alrad</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">January 10, 2012</td>
-			<td align="center">11</td>
-		</tr>
+		{%endfor%}
 	</table>
 	<br /><br />
 	<div class="small-title">Top 5 MRI Centers</div>

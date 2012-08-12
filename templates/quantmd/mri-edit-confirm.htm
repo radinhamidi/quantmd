@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 	$(".backbutton").button({
@@ -19,8 +19,13 @@ $(document).ready(function() {
 </script>
 <div class="title-text">Edited Imaging Center (#022)</div>
 <br />
-You have edited the information for Center #022 at 1500 Center Avenue, Pittsburgh, PA 15213 on Aug 10, 2012 3:15 AM<br /><br />
+You have edited the information for Center {{mri.name}}:</br>
+Phone: {{mri.phone}}</br>
+Email: {{mri.email}}</br>
+Address: {{mri.address}} {{mri.address2}}, {{mri.city}}, {{mri.state}} {{mri.zip}}</br>
+ 
+ <br /><br />
 <span class="orange">
-	<a href="mri.htm" class="innerlink backbutton orange">Back To List</a>
+	<a href="/quantmd/mri/" class="innerlink backbutton orange">Back To List</a>
 </span>
-<a href="mri-view.htm" class="innerlink viewbutton">View Doctor</a>
+<a href="mri-view.htm" class="innerlink viewbutton">View MRI Center</a>

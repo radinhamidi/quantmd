@@ -60,8 +60,8 @@ $(document).ready(function() {
 			<td align="center">{{k.create_time}}</td>
 			<td align="center">{{v}}</td>
 			<td align="center">
-				<a href="mri-edit.htm" class="editbutton innerlink">Edit</a>
-				<a href="mri-view.htm" class="viewcasebutton innerlink">View</a>
+				<a href="/quantmd/editMRIView/{{k.id}}/" class="editbutton innerlink">Edit</a>
+				<a href="/quantmd/MRIView/{{k.id}}/" class="viewcasebutton innerlink">View</a>
 			</td>
 		</tr>
 		{% endfor %}

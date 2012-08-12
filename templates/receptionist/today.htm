@@ -81,9 +81,13 @@
 		<th width="120px">Time Registered</th>
 		<th>Patient Name</th>
 		<th width="70px">Gender</th>
+		<th width="80px">Services</th>
 		<th width="100px">Status</th>
 		<th width="80px"></th>
 	</tr>
+	{% if not checkins%}
+		<td rowspan= 7>NO PATIENT CHECKIN</td>
+	{% endif %}
 	{% for checkin in checkins%}
 	<tr>
 		<td align="center">{{checkin.schedule.start_time}}</td>
@@ -95,8 +99,14 @@
 					{% if checkin.patient.gender == 0 %}
 							   Female
 						{% endif %} </td>
-		{% if checkin.is_check_out%}
-			<td align="center">Check Out!</td>
+						
+		<td align="center">
+			{% for service in checkin.case.services.all%}
+				{{service.name}}&nbsp
+			{% endfor%}
+		</td>
+		{% if checkin.case.status == 2%}
+			<td align="center">DICOM UPLOAD</td>
 		{% else %}
 		<td align="center">
 			Waiting!
@@ -114,8 +124,12 @@
 		<th width="120px">Time Scheduled</th>
 		<th>Patient Name</th>
 		<th>Gender</th>
+		<th width="80px">Services</th>
 		<th width="80px"></th>
 	</tr>
+	{% if not appointments %}
+		<td>NO APPOINTMENT </td>
+	{% endif %}
 	{% for appointment in appointments%}
 	<tr>
 		<td align="center">{{appointment.schedule.start_time|time:"H:i"}}</td>
@@ -126,6 +140,11 @@
 						{% if appointment.patient.gender == 0 %}
 								Female
 							{% endif %} </td>
+		<td align="center">
+			{% for service in appointment.case.services.all%}
+				{{service.name}}&nbsp
+			{% endfor%}
+		</td>
 		<td align="center">
 			<a href="/receptionist/checkInConfirm/{{appointment.id}}/" class="checkin innerlink">c</a>
 			<span class="orange"><a href="/receptionist/reschedule/{{appointment.id}}/" class="orange reschedule innerlink">c</a></span>

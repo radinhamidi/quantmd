@@ -1,0 +1,76 @@
+<link rel="stylesheet" type="text/css" href="css/referring.css" />
+<script>
+	$(document).ready(function() {
+		$("table#case-table tr:even").css("background-color", "#F4F4F8");
+		$("table#case-table tr:odd").css("background-color", "#EFF1F1");
+		$("#case-back").button({
+			icons: {
+				primary: "ui-icon-arrowthick-1-w"
+			}
+		});
+		$('#mri-image-1').fadeIn(100);
+	});
+	function prevImage(curr) {
+		if(curr == 1) {
+			alert('min!');
+		} else {
+			var toPos = curr - 1;
+			$('#mri-image-'+curr).fadeOut(100,function() {
+				$('#mri-image-'+toPos).fadeIn(100);
+			});
+		}
+	}
+	function nextImage(curr) {
+		if(curr == 6) {
+			alert('max!');
+		} else {
+			var toPos = curr + 1;
+			$('#mri-image-'+curr).fadeOut(100,function() {
+				$('#mri-image-'+toPos).fadeIn(100);
+			});
+		}
+	}
+	
+</script>
+<div class="title-text">QuantMD Diagnosis</div>
+<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
+	THIS IS QUANT MD DIAGNOSIS OUTPUT.
+	<br /><br />
+	<b>Other Resources</b><br /><br />
+		<ul>
+			<li><img src="images/msg.png" /> <a href="">Special_Report.pdf (Text/PDF)</a></li>
+			<li><img src="images/msg.png" /> <a href="">Special_Report.pdf (Text/PDF)</a></li>
+			<li><img src="images/msg.png" /> <a href="">Special_Report.pdf (Text/PDF)</a></li>
+		</ul>
+	<br /><br />

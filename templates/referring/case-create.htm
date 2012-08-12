@@ -35,6 +35,12 @@ $(document).ready(function() {
      });
 });
 
+function centerView(id) {
+	$('#view-box').fadeIn(100);
+	$('#referring-modal').fadeIn(100);
+	$('#view-box').load('/referring/mriInfo/'+id+'/');
+}
+
 </script>
 
 <div class="title-text">New Appointment</div>
@@ -95,7 +101,7 @@ $(document).ready(function() {
 		</tr>
 		{% for center, schedules in dic.items%}
 		<tr>
-			<td class="left">{{center.name}}</td>
+			<td class="left"><a href="" onClick="centerView({{center.id}});return false">{{center.name}}</a></td>
 			<td>{{schedules.0.date}}</td>
 			{% for schedule in schedules %}
 			<td><a onClick="confirmBooking({{patient.id}},{{schedule.id}});">{{schedule.start_time|time:"H:i:s"}}</a></td>

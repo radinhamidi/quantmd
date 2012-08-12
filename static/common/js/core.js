@@ -22,13 +22,13 @@ $(document).ready(function() {
 function logout(e) {
 	$("#logout-confirm").dialog({
 		resizable: false,
-		height: 160,
-		width: 350,
+		height: 145,
+		width: 250,
 		modal: true,
 		buttons: {
 			"Logout": function() {
 				//Confirm Logout
-				window.location="/logout/";
+				window.location="../logout.htm";
 				$(this).dialog("close")
 			},
 			Cancel: function() {
@@ -37,7 +37,16 @@ function logout(e) {
 		}
 	});
 }
-function confirmBooking(id1,id2) {
+function changepass() {
+	$("#change-password").fadeIn(100);
+	$("#change-password").load('/changePasswordView/');
+	$("#change-password-modal").fadeIn(100);
+}
+function closeChangepass() {
+	$("#change-password-modal").fadeOut(100);
+	$("#change-password").fadeOut(100);
+}
+function confirmBooking() {
 
 	$("#timeslot-confirm").dialog({
 		resizable: false,
@@ -48,74 +57,11 @@ function confirmBooking(id1,id2) {
 			"Confirm": function() {
 				//Confirm Logout
 				//Process Booking
-				$("#inner-right").load('/referring/serviceSelect/'+id1+'/'+id2+'/');
+				$("#inner-right").load('case-create-scans.htm')
 				$(this).dialog("close");
 			},
 			Cancel: function() {
 				$(this).dialog("close");
-			}
-		}
-	});
-}
-
-function confirmBookingForReschedule(id1,id2,id3) {
-
-	$("#timeslot-confirm").dialog({
-		resizable: false,
-		height: 160,
-		width: 350,
-		modal: true,
-		buttons: {
-			"Confirm": function() {
-				//Confirm Logout
-				//Process Booking
-				$("#inner-right").load('/referring/remakeAppointment/'+id1+'/'+id2+'/'+id3+'/');
-				$(this).dialog("close");
-			},
-			Cancel: function() {
-				$(this).dialog("close");
-			}
-		}
-	});
-}
-
-function confirmBookingForReschedule2(id1,id2) {
-	$("#timeslot-confirm-2").dialog({
-		resizable: false,
-		height: 160,
-		width: 350,
-		modal: true,
-		buttons: {
-			"Confirm": function() {
-				//Confirm Logout
-				//Process Booking
-				$("#ui-tabs-2").load('/receptionist/rescheduleAction2/'+id1+'/'+id2+'/');
-				$(this).dialog("close");
-			},
-			Cancel: function() {
-				$(this).dialog("close");
-				alert('cde');
-			}
-		}
-	});
-}
-
-function confirmBookingForReschedule3(id1,id2) {
-	$("#timeslot-confirm-3").dialog({
-		resizable: false,
-		height: 160,
-		width: 350,
-		modal: true,
-		buttons: {
-			"Confirm": function() {
-				//Confirm Logout
-				//Process Booking
-				$("#ui-tabs-1").load('/receptionist/rescheduleAction/'+id1+'/'+id2+'/');
-				$(this).dialog("close");
-			},
-			Cancel: function() {
-				$(this).dialog("close");
-				alert('cde');
 			}
 		}
 	});
