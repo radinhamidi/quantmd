@@ -1,7 +1,10 @@
 import datetime
 import time
-schedule_date = '06/08/1988'
-format="%m/%d/%Y"
-date = datetime.datetime.strptime(schedule_date,format)
+today = datetime.datetime.now()
+today = datetime.datetime.now()
+w = today.weekday()
+sunday = today - datetime.timedelta(days=w)
+tmp = sunday.strftime('%Y%m%d')
+sunday = datetime.datetime(int(tmp[:4]), int(tmp[4:6]), int(tmp[6:]))
 
-print date.date() < datetime.datetime.now().date()
+print sunday

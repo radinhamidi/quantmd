@@ -20,7 +20,12 @@ urlpatterns = patterns('main.views.quantmd',
     #Yang Xie's url below this line
     (r'^mri/$', 'mri'),
     (r'^createMRI/$', 'create_mri_action'),
+    (r'^editMRIView/(?P<mri_id>\d+)/$', 'edit_mri_view'),
+    (r'^MRIView/(?P<mri_id>\d+)/$', 'mri_view'),
+    (r'^scheduleList/(?P<mri_id>\d+)/(?P<month>\d+)/$', 'mri_schedule'),
+    (r'^editMRIAction/$', 'edit_mri_action'),
     (r'^createMRIView/$', 'create_mri_view'),
     (r'^logsView/$', 'logs_view'),
     (r'^logView/(?P<case_id>\d+)/$', 'log_view'),
+    (r'^dashboard/$', 'dashborad'),
 )

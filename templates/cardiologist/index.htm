@@ -32,7 +32,7 @@
 			<div id="user-box-text"><center>WELCOME, <b>USERABC</b>&nbsp; <img src="{{STATIC_URL}}common/images/drop-arrow.png" /></center></div>
 			<div id="user-box-options">
 				<div id="user-box-options-text">
-					&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#">ACCOUNT SETTINGS</a><p />
+					&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#" onClick="changepass()">CHANGE PASSWORD</a><p />
 					&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#" onClick="logout();">SIGN OUT</a>
 				</div>
 			</div>
@@ -58,8 +58,10 @@
 			<a href="#">TERMS OF SERVICE</a> | <a href="#">PATIENT PRIVACY NOTICE</a> | <a href="#">CONTACT QUANTMD</a>
 		</div>
 	</div>
-	<div id="case-large"></div>
-	<div id="case-modal"></div>
+	
+	<div id="change-password">	</div>
+	<div id="change-password-modal"></div>
+	
 	<!-- Logout Confirmation Box -->
 		<div id="logout-confirm" title="Confirm Sign Out?">
 			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This will sign you out of your current session. Any unsaved work will be lost.<br /></p>

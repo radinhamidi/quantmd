@@ -83,7 +83,7 @@ def createPatient(request):
         if IsEmpty(last_name):
             error.append('Last name is empty')
         if IsEmpty(email) or not IsEmail(email):
-            error.append('First name is empty or incorrect format')
+            error.append('Email is empty or incorrect format')
         if not IsEmpty(ssn) and not ssn.isdigit():
             error.append('SSN is incorrect format')
         if not IsEmpty(ssn) and not IsSSN(ssn):

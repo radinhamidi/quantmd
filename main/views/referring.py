@@ -9,7 +9,9 @@ from main.models.patient import *
 from main.models.appointment import *
 from main.models.case import *
 from main.models.message import Message
-from django.utils.datetime_safe import datetime
+import datetime
+import operator
+import time
 
 def dashboard(request):
     msg_unread_count = Message.objects.filter(receiver__pk=request.user.pk, is_read = False, is_sys = False).count()

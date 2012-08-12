@@ -92,9 +92,10 @@
 </script>
 <div class="title-text">Diagnose Case</div>
 <br />
+
+{% if has_pending_case %}
 <div id="case-present">
 	<div id="image-comments-container">
-		<form id="image-comments" method="GET" action="case.htm">
 			<div id="sequence-1">
 				<div id="image-comments-1" class="image-comments-inner">
 					<div class="image-comments-placeholder">
@@ -135,66 +136,25 @@
 					Comments: <input type="text" width="80" name="image-comments-3-text" />
 					<br />
 				</div>
-				<div id="image-comments-4" class="image-comments-inner">
-					<div class="image-comments-placeholder">
-						<img src="images/4.png" width="350px" height="350px" onClick="openLarge(4)" />
-						<div class="com_header">Sequence Name</div>
-						<div class="btn_left" onClick="prevImage(4)">PREV</div>
-						<div class="btn_right" onClick="nextImage(4)">NEXT</div>
-						<div class="position">4 / 6</div>
-					</div>
-					<br />
-					Include in Diagnosis? <input type="checkbox" name="image-comments-4-check" /><br /><br />
-					Comments: <input type="text" width="80" name="image-comments-4-text" />
-					<br />
-				</div>
-				<div id="image-comments-5" class="image-comments-inner">
-					<div class="image-comments-placeholder">
-						<img src="images/5.png" width="350px" height="350px" onClick="openLarge(5)" />
-						<div class="com_header">Sequence Name</div>
-						<div class="btn_left" onClick="prevImage(5)">PREV</div>
-						<div class="btn_right" onClick="nextImage(5)">NEXT</div>
-						<div class="position">5 / 6</div>
-					</div>
-					<br />
-					Include in Diagnosis? <input type="checkbox" name="image-comments-5-check" /><br /><br />
-					Comments: <input type="text" width="80" name="image-comments-5-text" />
-					<br />
-				</div>
-				<div id="image-comments-6" class="image-comments-inner">
-					<div class="image-comments-placeholder">
-						<img src="images/6.png" width="350px" height="350px" onClick="openLarge(6)" />
-						<div class="com_header">Sequence Name</div>
-						<div class="btn_left" onClick="prevImage(6)">PREV</div>
-						
-						<div class="position">6 / 6</div>
-					</div>
-					<br />
-					Include in Diagnosis? <input type="checkbox" name="image-comments-6-check" /><br /><br />
-					Comments: <input type="text" width="80" name="image-comments-6-text" />
-					<br />
-				</div>
 			<br />
-			</div>
+			</div> <!-- end of sequence 1 -->
 			<div id="image-comments-right">
 				<div class="small-title">Final Diagnosis</div>
 				<textarea name="diagnosis" id="diagnosis"></textarea>
 				<br /><br />
+				<!--
 				<div class="small-title">Supporting Uploads</div>
 				<div id="diagnosis-queue"></div>
 				<br />
 				<input type="file" id="diagnosis-upload" /><br />
 				<span class="orange"><a href="javascript:$('#diagnosis-upload').uploadifive('upload')" class="orange" id="diagnosis-upload-btn">Upload Files</a></span>
 				<br /><br />
+				-->
 				<input type="submit" class="btn" value="Save Diagnosis">
 			</div>
-		</form>
 	</div><br />
 	<div class="small-title">QuantMD Computational Diagnostics</div>
-	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
-	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
-	THIS IS QUANT MD DIAGNOSIS OUTPUT.<br />
-	THIS IS QUANT MD DIAGNOSIS OUTPUT.
+	{{case.analysis.content}}
 	<br /><br />
 	<b>Other Resources</b><br /><br />
 		<ul>
@@ -204,7 +164,18 @@
 		</ul>
 	<br /><br />
 </div>
-
+{% else %}
 <div id="case-absent">
-	<span class="orange"><a href="case.htm" id="new-case-btn" class="orange innerlink">Accept New Case</a></span>
+	<span class="orange"><a href="/cardiologist/accept_case/" id="new-case-btn" class="orange innerlink">Accept New Case</a></span>
+	{% if not messages %}
+		No case assigned, please accept one.
+	{% endif %}
+	{% for message in messages %}
+	<div class="span8 offset2">
+		<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+			{{message}}
+		</div>
+	</div>
+	{% endfor %}
 </div>
+{% endif %}

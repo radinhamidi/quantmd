@@ -1,0 +1,56 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+<script>
+	$(document).ready(function() {
+		$("table#schedule-table tr:even").css("background-color", "#F4F4F8");
+		$("table#schedule-table tr:odd").css("background-color", "#EFF1F1");
+		$("#modify-button").button({
+			icons: {
+				primary: "ui-icon-clock"
+			}
+		});
+		$("#prev-button").button({
+			icons: {
+				primary: "ui-icon-triangle-1-w"
+			},
+			text: false
+		});
+		$("#next-button").button({
+			icons: {
+				primary: "ui-icon-triangle-1-e"
+			},
+			text: false
+		});
+	});
+
+</script>
+<div class="title-text">Schedules</div>
+<br />
+<a href="/quantmd/scheduleList/{{mri.id}}/{{month|add:"-1"}}/" id="prev-button" class="innerlink">p</a> 
+<span id="month-indicator">{{date|date:"M Y"}}</span> 
+<a href="/quantmd/scheduleList/{{mri.id}}/{{month|add:"1"}}/" id="next-button" class="innerlink">n</a> 
+
+<br />
+<table id="schedule-table">
+	<tr>
+		<th width="150px">Date</th>
+		<th>Time Slots</th>
+	</tr>
+	{% for k in dic%}
+	<tr>
+		<td align="center">{{k.0}}</td>
+		<td>{% for schedule in k.1 %}
+			{% if schedule.is_available%}
+			{{schedule.start_time|time:"H:i"}},
+			{% else %}
+			<strike>{{schedule.start_time|time:"H:i"}}</strike>,
+			{% endif %}
+		{% endfor %}
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+
+<a href="/quantmd/MRIView/{{mri.id}}/" class="innerlink backbutton">Back</a>
+<br />

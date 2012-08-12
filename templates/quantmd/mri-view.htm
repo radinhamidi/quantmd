@@ -1,7 +1,7 @@
-<script src="../common/js/jquery.js"></script>
-<script src="../common/js/jquery-ui.js"></script>
-<script src="../common/js/datatables.js"></script>
-<link rel="stylesheet" type="text/css" href="../common/css/theme_orange/jquery-ui.css" />
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
 	$(".backbutton").button({
@@ -17,10 +17,46 @@ $(document).ready(function() {
 	
 });
 </script>
-<div class="title-text">Imaging Center (#022)</div>
+<div class="title-text">{{mri.name}}</div>
 <br />
-//Show Information<br /><br />
-<a href="cardiologist.htm" class="innerlink backbutton">Back</a>
+Phone: {{mri.phone}}</br>
+Email: {{mri.email}}</br>
+Address: {{mri.address}} {{mri.address2}}, {{mri.city}}, {{mri.state}} {{mri.zip}}</br>
+<br /><br />
+
 <span class="orange">
-	<a href="mri-edit.htm" class="innerlink editbutton orange">Edit Information</a>
+	<a href="/quantmd/editMRIView/{{k.id}}/" class="innerlink editbutton orange">Edit Information</a>
 </span>
+</br></br>
+
+<table id="dash-summary">
+		<tr>
+			<th>Name</th>
+			<th width="150px">Gender</th>
+			<th width="180px">Role</th>
+		</tr>
+		{%for profile in profiles%}
+		<tr>
+			<td>{{profile}}</td>
+			<td>{% if profile.gender == 1 %}
+								Male
+							{% endif %}
+					{% if profile.gender == 0 %}
+							   Female
+						{% endif %}</tdh>
+						
+			<td>
+				{% if profile.role == 2 %}
+							Receptionist
+							{% endif %}
+					{% if profile.role == 3 %}
+							   Broker
+						{% endif %}
+			</td>
+			<td><a href="/quantmd/edit_user/{{profile.id}}/" class="innerlink editbutton">Edit</a>
+				<a href="/quantmd/view_user/{{profile.id}}/" class="innerlink viewcasebutton">View</a></td>
+		</tr>
+		{%endfor%}
+</table>
+<a href="/quantmd/scheduleList/{{mri.id}}/0/" class="innerlink editbutton">View Schedule</a>
+<a href="/quantmd/mri/" class="innerlink backbutton">Back</a>

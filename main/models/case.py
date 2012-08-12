@@ -44,7 +44,6 @@ class Case(models.Model):
 
         
 class ServiceAndCase(models.Model):
-    
     service = models.ForeignKey(Service)
     case = models.ForeignKey(Case)
     image_count = models.IntegerField(default=0) #The number of images of each type
