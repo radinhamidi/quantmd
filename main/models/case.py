@@ -47,7 +47,7 @@ class ServiceAndCase(models.Model):
     
     service = models.ForeignKey(Service)
     case = models.ForeignKey(Case)
-    image_count = models.IntegerField(default=0)
+    image_count = models.IntegerField(default=0) #The number of images of each type
     
     class Meta: 
         app_label = 'main'

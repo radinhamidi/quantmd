@@ -15,6 +15,11 @@ from main.utils.misc import generate_random_string
 from main.utils.form_check import *
 from main.models.appointment import Appointment
 from main.models.analysis import Analysis
+from os import listdir, makedirs, rename
+from os.path import isfile, join
+from subprocess import call
+from zipfile import ZipFile
+import sys
 
 def create_user(request, role):
     mris = MRICenter.objects.all()
@@ -169,12 +174,49 @@ def process_cases(request):
 
 
 def process_case(request, case_id):
+    """Show interfae of process one case"""
     case = Case.objects.get(pk=case_id)
     return render_to_response('quantmd/process-case.htm', {'case':case},
                                   context_instance=RequestContext(request))
 
 
+@csrf_exempt   
+def upload_action(request):
+    """
+    Upload files, only mp4 and images are allowed
+    """
+    try:
+        uploaded = request.FILES['Filedata']
+        case_id = request.POST['case_id']
+        case = Case.objects.get(pk=case_id)
+        
+        extentions = ['.mp4', '.jpg', '.jpeg', '.png', '.gif']
+        extentions2 = [s.upper() for s in extentions]
+        extentions.extend(extentions2)
+        dot_index = uploaded.name.rfind('.')
+        if uploaded.name[dot_index:] not in extentions:
+            return HttpResponse('Only mp4 and image files can be uploaded.')
+        
+        #Create a folder holding analysis files
+        directory = settings.MEDIA_ROOT + 'dicom/' + case.data.name + '/analysis'
+        try:
+            makedirs(directory) #makes all intermediary dir if necessary
+        except: #dir exist, just store
+            pass
+        
+        #Write the file
+        f_path = directory + '/' + uploaded.name
+        f = open(f_path, 'wb')
+        f.write(uploaded.read())
+        f.close()
+        
+        return HttpResponse('0')
+    except Exception, e:
+        return HttpResponse(str(e))
+
+@csrf_exempt
 def process_case_action(request):
+    """Store the files in 'analysis' folder and save analysis"""
     content = request.POST['diagnosis']
     analysis = Analysis(content=content)
     analysis.admin_id = request.user.pk

@@ -13,6 +13,7 @@ urlpatterns = patterns('main.views.quantmd',
     (r'^cardiologists/$', 'cardiologists'),
     (r'^process_cases/$', 'process_cases'),
     (r'^process_case/(?P<case_id>\d+)/$', 'process_case'),
+    (r'^upload_action/$', 'upload_action'),
     (r'^process_case_action/$', 'process_case_action'),
     
     
