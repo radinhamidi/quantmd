@@ -87,7 +87,7 @@ def upload_complete(request):
         image_count = 0
         for fn in file_names:
             f_path = join(directory,fn)
-            new_path = join(directory,str(image_count+1)+'.dcm')
+            new_path = join(directory,str(image_count)+'.dcm')
             rename(f_path, new_path)
             #Convert images
             LINUX = sys.platform.startswith('linux')

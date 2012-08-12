@@ -18,15 +18,21 @@ def case(request):
         has_pending_case = 0
         case = None #No use
         data = None
-        image_names = []
+        image_objs = []
     else:
         has_pending_case = 1
         case = cases[0]
         data = case.data
-        image_names = [str(i+1)+'.dcm.png' for i in xrange(data.image_count)]
-        
+        image_objs = []
+        s_and_cs = ServiceAndCase.objects.filter(case=case)
+        for i in xrange(data.image_count):
+            for s in s_and_cs:
+                if i >= s.image_start and i <= s.image_end:
+                    image_objs.append(i, (str(i)+'.dcm.png', s.service.name))
+                    break #found service name, continue to next image
+                
     return render_to_response('cardiologist/case.htm', {'has_pending_case':has_pending_case,
-                                                        'case':case, 'data':data, 'image_names':image_names},
+                                                        'case':case, 'data':data, 'image_objs':image_objs},
                                   context_instance=RequestContext(request))
 
 def accept_case(request):

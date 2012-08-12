@@ -45,18 +45,6 @@
 			$('#case-large').fadeOut(200);
 			$('#case-modal').fadeOut(200);
 		 });
-		 $(function() {
-			setTimeout(function() {
-				$('#diagnosis-upload').uploadifive({
-					'auto'         : false,
-					'buttonText'  : 'Browse',
-				'formData'     : {'case_id': '{{case_id}}',
-				                  'identifier': '{{identifier}}'},
-				'queueID'      : 'diagnosis-queue',
-				'uploadScript' : '/broker/upload_action/'
-				});
-			},800);
-		});
 		$("#diagnosis-upload").button();
 		$("#diagnosis-upload-btn").button({
 			icons: {
@@ -65,7 +53,7 @@
 		});
 	});
 	function prevImage(curr) {
-		if(curr == 1) {
+		if(curr == 0) {
 			alert('min!');
 		} else {
 			var toPos = curr - 1;
@@ -75,7 +63,7 @@
 		}
 	}
 	function nextImage(curr) {
-		if(curr == 6) {
+		if(curr == {{data.image_count-1}}) {
 			alert('max!');
 		} else {
 			var toPos = curr + 1;
@@ -84,10 +72,10 @@
 			});
 		}
 	}
-	function openLarge(id) {
+	function openLarge(name) {
 		$('#case-large').fadeIn(200);
 		$('#case-modal').fadeIn(200);
-		$('#case-large').html("<img src='images/"+id+".png' width='600px' height='600px' />");
+		$('#case-large').html("<img src='{{MEDIA_URL}}dicom/{{data.name}}/" + name + "' width='600px' height='600px' />");
 	}
 </script>
 <div class="title-text">Diagnose Case</div>
@@ -96,48 +84,22 @@
 {% if has_pending_case %}
 <div id="case-present">
 	<div id="image-comments-container">
-			<div id="sequence-1">
-				<div id="image-comments-1" class="image-comments-inner">
-					<div class="image-comments-placeholder">
-						<img src="images/1.png" width="350px" height="350px" onClick="openLarge(1)" />
-						<div class="com_header">Sequence Name</div>
-						
-						<div class="btn_right" onClick="nextImage(1)">NEXT</div>
-						<div class="position">1 / 6</div>
-					</div>
-					<br />
-					Include in Diagnosis? <input type="checkbox" name="image-comments-1-check" /><br /><br />
-					Comments: <input type="text" width="80" name="image-comments-1-text" />
-					<br />
+		    {% for obj in image_objs %}
+			<div id="image-comments-{{obj.0}}" class="image-comments-inner">
+				<div class="image-comments-placeholder">
+					<img src="{{MEDIA_URL}}dicom/{{data.name}}/{{obj.1}}" width="350px" height="350px" onClick="openLarge('{{obj.1}}')" />
+					<div class="com_header">{{obj.2}}</div>
+					{% if obj.0 != 0 %}<div class="btn_left" onClick="prevImage(2)">PREV</div>{% endif %}
+					{% if obj.0 != data.image_count - 1 %}<div class="btn_right" onClick="nextImage({{obj.0}})">NEXT</div>{% endif %}
+					<div class="position">{{obj.0 + 1}} / {{data.image_count}}</div>
 				</div>
-				<div id="image-comments-2" class="image-comments-inner">
-					<div class="image-comments-placeholder">
-						<img src="images/2.png" width="350px" height="350px" onClick="openLarge(2)"/>
-						<div class="com_header">Sequence Name</div>
-						<div class="btn_left" onClick="prevImage(2)">PREV</div>
-						<div class="btn_right" onClick="nextImage(2)">NEXT</div>
-						<div class="position">2 / 6</div>
-					</div>
-					<br />
-					Include in Diagnosis? <input type="checkbox" name="image-comments-2-check" /><br /><br />
-					Comments: <input type="text" width="80" name="image-comments-2-text" />
-					<br />
-				</div>
-				<div id="image-comments-3" class="image-comments-inner">
-					<div class="image-comments-placeholder">
-						<img src="images/3.png" width="350px" height="350px" onClick="openLarge(3)" />
-						<div class="com_header">Sequence Name</div>
-						<div class="btn_left" onClick="prevImage(3)">PREV</div>
-						<div class="btn_right" onClick="nextImage(3)">NEXT</div>
-						<div class="position">3 / 6</div>
-					</div>
-					<br />
-					Include in Diagnosis? <input type="checkbox" name="image-comments-3-check" /><br /><br />
-					Comments: <input type="text" width="80" name="image-comments-3-text" />
-					<br />
-				</div>
+				<br />
+				Include in Diagnosis? <input type="checkbox" name="image-comments-{{obj.0}}-check" /><br /><br />
+				Comments: <input type="text" width="80" name="image-comments-{{obj.0}}-text" />
+				<br />
+			</div>
+			{% endfor %}
 			<br />
-			</div> <!-- end of sequence 1 -->
 			<div id="image-comments-right">
 				<div class="small-title">Final Diagnosis</div>
 				<textarea name="diagnosis" id="diagnosis"></textarea>
@@ -164,7 +126,7 @@
 		</ul>
 	<br /><br />
 </div>
-{% else %}
+{% else %} <!-- No pending case, accept one -->
 <div id="case-absent">
 	<span class="orange"><a href="/cardiologist/accept_case/" id="new-case-btn" class="orange innerlink">Accept New Case</a></span>
 	{% if not messages %}

@@ -44,9 +44,13 @@ class Case(models.Model):
 
         
 class ServiceAndCase(models.Model):
+    """The service that a case needs"""
     service = models.ForeignKey(Service)
     case = models.ForeignKey(Case)
-    image_count = models.IntegerField(default=0) #The number of images of each type
+    uploaded = models.BooleanField(default=False) #whether data is uploaded by broker
+    image_start = models.IntegerField(default=0) 
+    image_end = models.IntegerField(default=0)
+    
     
     class Meta: 
         app_label = 'main'
