@@ -78,15 +78,16 @@
 		$('#case-large').html("<img src='{{MEDIA_URL}}dicom/{{data.name}}/" + name + "' width='600px' height='600px' />");
 	}
 	
-	function submit(){
-		a = Array();
-	    for (i=1; i<= {{data.image_count}}, i++) {
+	function saveDiagnosis(){
+		var a = Array();
+	    for (var i=1; i<={{data.image_count}}; i++) {
 			var ele = $("#image-comments-" + i + "-text");
-			if (ele.val().length != 0 ){
+			var checked = $("image-comments-" + i + "-check").attr("checked");
+			if (ele.val().length != 0 || checked ){
 				a.push(i + ":" + ele.val());
 			}
 		}
-		comments = a.join("!#!");
+		var comments = a.join("!#!");
 		$.ajax({
             url: "/cardiologist/submit_report/",
             type: "POST",
@@ -94,7 +95,7 @@
             data: {
                 diagnosis: $("#diagnosis").val(),
 				case_id: '{{case.pk}}',
-				comments: comments 
+				comments: comments
             },
             beforeSend: function(XMLHttpRequest){
                 //XMLHttpRequest.setRequestHeader("X-CSRFToken", $.cookie("csrftoken"));
@@ -102,7 +103,7 @@
             dataType: 'json',
             success: function(data, textStatus){
                 if (typeof(data.code) != 'undefined' && data.code == '0') {
-                    alert(data.msg);
+                    window.location = '/cardiologist/case/';
                 }
                 else {
                     alert(data.msg);
@@ -131,8 +132,8 @@
 					<div class="position">{{obj.0}} / {{data.image_count}}</div>
 				</div>
 				<br />
-				Include in Diagnosis? <input type="checkbox" name="image-comments-{{obj.0}}-check" /><br /><br />
-				Comments: <input type="text" width="80" name="image-comments-{{obj.0}}-text" />
+				Include in Diagnosis? <input type="checkbox" id="image-comments-{{obj.0}}-check" /><br /><br />
+				Comments: <input type="text" width="80" id="image-comments-{{obj.0}}-text" />
 				<br />
 			</div>
 			{% endfor %}
@@ -149,7 +150,7 @@
 				<span class="orange"><a href="javascript:$('#diagnosis-upload').uploadifive('upload')" class="orange" id="diagnosis-upload-btn">Upload Files</a></span>
 				<br /><br />
 				-->
-				<input onclick="submit()" type="submit" class="btn" value="Save Diagnosis" />
+				<input onclick="saveDiagnosis()" type="button" class="btn" value="Save Diagnosis" />
 			</div>
 	</div><br />
 	<div class="small-title">QuantMD Computational Diagnostics</div>

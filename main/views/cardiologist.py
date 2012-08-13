@@ -84,8 +84,8 @@ def submit_report(request):
     comments_list = [] #list of string
     for c in comments:
         split_index = c.find(':')
-        image_index = int(c[:split_index])
-        content = c[split_index+1:]
+        image_index = int(c[:split_index])        
+        content = c[split_index+1:] if split_index != len(c) - 1 else ''
         cinstance = Comment(data=data, image_index=image_index, content=content)
         cinstance.save()
         comments_list.append(content)
@@ -117,9 +117,7 @@ def submit_report(request):
                       'from cardiologist ' + profile.first_name + ' ' + profile.last_name + ': '\
                       + diagnosis
     message.save()
-    messages.info(request, 'Report submited and sent a message to referring doctor')
-    
-    return redirect('main.views.cardiologist.case')
+    return HttpResponse('{"code":"0", "msg":"Success"}')
 
 def logs(request):
     cases = Case.objects.filter(status__gte=5, cardiologist__pk=request.user.pk)
