@@ -1,31 +1,19 @@
-<script src="{{STATIC_URL}}common/js/jquery.js"></script>
-<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
-
-<script>
-	$(document).ready(function() {
-	$("#diagnosis-back").button({
-		icons: {
-			primary: "ui-icon-arrowthick-1-w"
-		}
-	});
-});
-</script>
-<div id="patient-info-nav">
-	<span class="orange"><a id="diagnosis-back" href="/referring/patientCase/{{case.id}}/" class="orange loadright">Back to Case</a></span>
-</div>
-<div class="title-text">{{patient.first_name}} {{patient.middle_name}} {{patient.last_name}}</div>
-Birthday: {{patient.birthday}}<br />
-{% if patient.gender == 1 %}
-			Gender:Male
-			{% endif %}
-		{% if patient.gender == 0 %}
-			Gender:Female
-			{% endif %}<br />
-
-Create Time: {{analysis.create_time}}<br/>	
-Analysis: <br/>	
-{{analysis.content}}<br/>
-
-
-
-
+<!DOCTYPE html>
+<html>
+<body>
+{{analysis.content}}
+<ul>
+	{% for v in anal_videos %}
+	<video width="320" height="240" controls="controls">
+	  <!--<source src="http://www.w3schools.com/html5/movie.mp4" type="video/mp4" />-->
+	  <source src="{{MEDIA_URL}}dicom/{{data.name}}/analysis/{{v}}" type="video/mp4" />
+	</video>
+	{% endfor %}
+</ul>
+<ul>
+	{% for i in anal_images %}
+	<li><img height="256" src="{{MEDIA_URL}}dicom/{{data.name}}/analysis/{{i}}" /></li>
+	{% endfor %}
+</ul>
+</body>
+</html>

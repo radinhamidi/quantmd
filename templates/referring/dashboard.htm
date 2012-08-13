@@ -79,7 +79,7 @@
 			{% endif %}
 			<td>{{message.content}}</td>
 			<td align="center">{{message.create_time}}</td>
-			<td align="center"><a class="patient-goto dashlink" href="patients.htm" patientid="2">d</a></td>
+			<td align="center"><a class="patient-goto dashlink" href="/referring/patientCase/" patientid="{{message.case.id}}">d</a></td>
 		</tr>
 		{% endfor %}
 	</table>

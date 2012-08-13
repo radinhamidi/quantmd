@@ -34,13 +34,11 @@
 				                  'identifier': '{{identifier}}'},
 				'queueID'      : 'queue',
 				'uploadScript' : '/broker/upload_action/',
-				'onUploadComplete' : function(file, data) {
-					if (data != '0'){
-						alert(data);
-					}else{
-						$('#upload-btn').hide();
-						$('#complete-btn').show();
-					}
+				'onUploadStart' : function() {
+					$('#change-password-modal').fadeIn(100);
+				},
+				'onQueueComplete' : function() {
+					$('#change-password-modal').fadeOut(100);
 				}
 			});
 			},800);

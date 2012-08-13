@@ -222,8 +222,6 @@ def upload_action(request):
 @csrf_exempt
 def process_case_action(request):
     """Store the files in 'analysis' folder and save analysis"""
-    content = request.POST['diagnosis']
-    analysis = Analysis(content=content)
     analysis.admin_id = request.user.pk
     analysis.save()
     
@@ -232,6 +230,18 @@ def process_case_action(request):
     case.analysis = analysis
     case.status = 3
     case.save()
+    
+    appointment = Appointment.objects.filter(case = case, is_current = True, is_cancelled = False)[0]
+    
+    title = 'Analysis is available for CASE #' + str(case.id) 
+    title = title.upper()
+     
+    content = 'Analysis is available for CASE #: ' + str(case.id)
+        # content = "You have already made an appointment"
+        
+    message = Message.objects.create(receiver = appointment.doctor, case = case, title = title, content = content, type = 2, is_sys = True)
+    message.save()
+        
     
     messages.info(request, 'Successfully submited diagnosis of case.')
     return redirect('main.views.quantmd.process_cases')

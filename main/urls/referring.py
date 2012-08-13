@@ -20,6 +20,6 @@ urlpatterns = patterns('main.views',
     (r'^remakeAppointment/(?P<patient_id>\d+)/(?P<schedule_id>\d+)/(?P<appointment_id>\d+)/$', 'appointment.remake_appointment'),
     (r'^editPatientView/(?P<patient_id>\d+)/$', 'patients.patient_edit_view'),
     (r'^editPatientAction/(?P<patient_id>\d+)/$', 'patients.patient_edit_action'),
-    (r'^viewAnalysis/(?P<case_id>\d+)/$', 'patients.view_analysis'),
+    (r'^view_analysis/(?P<case_id>\d+)/$', 'patients.view_analysis'),
     (r'^serviceSelect/(?P<patient_id>\d+)/(?P<schedule_id>\d+)/$', 'appointment.service_view'),
 )

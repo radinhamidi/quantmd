@@ -35,12 +35,12 @@ $(document).ready(function() {
 function mriViewer(id) {
 	$('#view-box').fadeIn(100);
 	$('#referring-modal').fadeIn(100);
-	$('#view-box').load('view-mri.htm?id='+id);
+	$('#view-box').load('/referring/view_mri_images/' + id + '/');
 }
 function quantViewer(id) {
 	$('#view-box').fadeIn(100);
 	$('#referring-modal').fadeIn(100);
-	$('#view-box').load('view-quant.htm?id='+id);
+	$('#view-box').load('/referring/view_analysis/' + id + '/');
 }
 </script>
 <div id="patient-info-nav">
@@ -157,7 +157,7 @@ function quantViewer(id) {
 				<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><a id="view-diagnosis" href="" onClick="mriViewer(223);return false;">View MRI images</a></td>
+				<td><a id="view-diagnosis" href="" onClick="mriViewer('{{case.pk}}');return false;">View MRI images</a></td>
 				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 		{% endif %}
@@ -169,13 +169,13 @@ function quantViewer(id) {
 			<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><td><a id="view-diagnosis" href="" onClick="mriViewer(223);return false;">View MRI images</a></td>
+				<td><td><a id="view-diagnosis" href="" onClick="mriViewer('{{case.pk}}');return false;">View MRI images</a></td>
 				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 			<tr>
 				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
 				<td>{{appointment.case.analysis.create_time}}</td>
-				<td><a id="view-quant" href="" onClick="quantViewer(223);return false;">View Quant Diagnosis</a></td>
+				<td><a id="view-quant" href="" onClick="quantViewer('{{case.pk}}');return false;">View Quant Diagnosis</a></td>
 			</tr>
 		{% endif %}
 		{% if case.status >= 5 %}
@@ -186,13 +186,13 @@ function quantViewer(id) {
 			<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><td><a id="view-diagnosis" href="" onClick="mriViewer(223);return false;">View MRI images</a></td>
+				<td><td><a id="view-diagnosis" href="" onClick="mriViewer('{{case.pk}}');return false;">View MRI images</a></td>
 				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 			<tr>
 				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
 				<td>{{appointment.case.analysis.create_time}}</td>
-				<td><a id="view-quant" href="" onClick="quantViewer(223);return false;">View Quant Diagnosis</a></td>
+				<td><a id="view-quant" href="" onClick="quantViewer('{{case.pk}}');return false;">View Quant Diagnosis</a></td>
 			</tr>
 			<tr>
 				<td width="200px"><b>Diagnosis Uploaded</b></td>

@@ -4,7 +4,7 @@ from datetime import datetime
 
 class Analysis(models.Model):
     admin = models.ForeignKey(Profile)
-    content = models.TextField()
+    content = models.TextField(blank = True)
     create_time = models.DateTimeField(default=datetime.now)
     
     class Meta: 

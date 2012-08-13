@@ -374,15 +374,15 @@ def reschedule_action2(request, schedule_id, appointment_id):
         
         content += 'Patient: ' + old_appointment.patient.first_name + ' ' +  old_appointment.patient.last_name 
         
-        content = 'You orginal appointment is: ' + 'MRI Center: ' + old_appointment.mri.name +' Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
+        content = 'You orginal appointment is: ' + 'at ' + old_appointment.mri.name +' on ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
         
-        content += 'New appointment is:  MRI Center: ' + mri.name
+        content += 'New appointment is:  at ' + mri.name
        
-        content += ' Time: ' + str(new_schedule.date) + '   ' 
+        content += ' on ' + str(new_schedule.date) + '   ' 
    
         content += str(new_schedule.start_time)
   
-        content += ' Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip)
+        content += ' Address is: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip)
 
         # content = "You have already made an appointment"
         print content
@@ -508,7 +508,6 @@ def reschedule_action(request, schedule_id, appointment_id):
         mri = old_appointment.mri
         doctor = old_appointment.doctor
         # create message
-        print "heihei"
         
         title = 'Reschedule for CASE #' + str(old_appointment.case.id) 
         title = title.upper()

@@ -8,7 +8,7 @@ from django.template import loader, Context
 from django.views.decorators.csrf import csrf_exempt
 from main.models.account import *
 from main.models.appointment import Appointment 
-from main.models.case import Case
+from main.models.case import Case, ServiceAndCase
 from main.models.patient import Patient
 from main.models.data import MRIData
 from main.models.message import Message
@@ -68,6 +68,7 @@ def upload_action(request):
     
 @csrf_exempt 
 def upload_complete(request):
+    """Need to map Service to the unique part in file name"""
     try:
         identifier = request.POST['identifier']
         case_id = request.POST['case_id']
@@ -112,6 +113,31 @@ def upload_complete(request):
         case.data = data
         case.status = 2
         case.save()
+        
+        #Save start and end image index
+        count = 1
+        sequences = {} #key:different part, key:(start, end)
+        for fn in file_names:
+            parts = fn.split('.')
+            if parts[8] in sequences:
+                start, end = sequences[parts[8]]
+                if count < start:
+                    start = count
+                if count > end:
+                    end = count
+                sequences[parts[8]] = (start, end)
+            else:
+                sequences[parts[8]] = (start, end)
+        s_and_cs = ServiceAndCase.objects.filter(case=case)
+        count = 0
+        for key in sequences:
+            if count < len(s_and_cs):
+                s_and_cs[count].image_start = sequences[key][0]
+                s_and_cs[count].image_end = sequences[key][1]
+                s_and_cs[count].uploaded = True
+                s_and_cs[count].save()
+        
+        
            
         apt = Appointment.objects.get(case=case_id, is_current=True)
         

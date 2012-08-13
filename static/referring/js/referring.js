@@ -23,9 +23,10 @@ $(document).ready(function() {
 			});
 			$(ui.panel).delegate('.dashlink', 'click', function(event) {
 				$(ui.panel).hide();
+				var pat_id = $(this).attr('patientid');
 				$("*").css("cursor", "wait")
 				$tabs.tabs('select', 1).bind('tabsshow', function() {
-					url = 'patient-info.htm?id=' + this.patientid;
+					url = '/referring/patientCase/' + pat_id + '/';
 					$("#inner-right").load(url);
 					$("*").css("cursor", "");
 				});

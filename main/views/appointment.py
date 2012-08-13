@@ -220,13 +220,13 @@ def make_appointment(request):
         title =  'APPOINTMENT CONFIRMATION for CASE #' +  str(case.id)
         title = title.upper()
         print title
-        content ='Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have made an appointment: MRI Center: ' + mri.name
+        content ='Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have made an appointment: at ' + mri.name
        
-        content += 'Time: ' + str(schedule.date) + '   ' 
+        content += 'on ' + str(schedule.date) + '   ' 
    
         content += str(schedule.start_time) 
   
-        content += ' Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) 
+        content += ' Address is : ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) 
 
         # content = "You have already made an appointment"
         print content
@@ -460,19 +460,19 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
         print title
         content = 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have reschedule an appointment:'
         print content
-        content += 'The original appointment is: ' + 'MRI Center: ' + old_appointment.mri.name +'  Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
+        content += 'The original appointment is: ' + 'at ' + old_appointment.mri.name +'  on ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
         
-        content += 'New appointment is:  MRI Center: ' + mri.name
+        content += 'New appointment is:  at ' + mri.name
        
-        content += ' Time: ' + str(schedule.date) + ' ' 
+        content += ' on ' + str(schedule.date) + ' ' 
         
         content += str(schedule.start_time)
   
-        content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) 
+        content += 'Address is: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) 
         
         # content = "You have already made an appointment"
         print content
-        message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 2, is_sys = True)
+        message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 4, is_sys = True)
         message.save()
         
         '''

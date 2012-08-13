@@ -35,8 +35,8 @@ def myLaterPages(canvas, doc):
     canvas.drawString(inch, 0.75 * inch, "Page %d / %s" % (doc.page, pageinfo))
     canvas.restoreState()
     
-def go(CardiologistName, PatientFirstName, PatientLastName,
-       PatientGender, PatientDOB, image_path, date, styles, dirlist, pdf_path, diagnosis):
+def go(CardiologistName, PatientFirstName, PatientLastName, PatientGender,
+       PatientDOB, data_dir, image_list, comments_list, date, styles, pdf_path, diagnosis):
     doc = SimpleDocTemplate(pdf_path)
     Story = [Spacer(1, 2 * inch)]
     styles['h1'].fontSize = 12  
@@ -106,11 +106,13 @@ def go(CardiologistName, PatientFirstName, PatientLastName,
     Story.append(p)
     Story.append(Spacer(1, 0.2 * inch))
     
-    for imagefile in dirlist:
-        if imghdr.what(image_path + "/" + imagefile) == "png":
-            Story.append(Image(image_path + "/" + imagefile, width=8 * cm, height=8 * cm))
-            p = Paragraph(imagefile + "<br\><br\>", styleImageTitle)
+    for i in xrange(len(comments_list)):
+        if imghdr.what(data_dir + "/" + image_list[i]) == "png":
+            Story.append(Image(data_dir + "/" + image_list[i], width=8 * cm, height=8 * cm))
+            p = Paragraph(image_list[i] + "<br\><br\>", styleImageTitle)
             Story.append(p)
+            p = Paragraph(comments_list[i], styleParagraph);
+            Story.append(p);
     doc.build(Story, onFirstPage=myFirstPage, onLaterPages=myLaterPages)
     
 def Report2PDF(CardiologistFirstName, CardiologistLastName, PatientFirstName, PatientLastName,
