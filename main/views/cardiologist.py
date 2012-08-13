@@ -14,6 +14,7 @@ from main.models.appointment import Appointment
 from main.utils.pdf_generator import Report2PDF
 from os import listdir, makedirs, rename
 from os.path import isfile, join
+from datetime import datetime
 
 def case(request):
     cases = Case.objects.filter(status=4, cardiologist__pk=request.user.pk)
@@ -69,6 +70,7 @@ def accept_case(request):
         case = cases[0]
         case.status = 4
         case.cardiologist_id = request.user.pk
+        case.assigned_time = datetime.now()
         case.save()
         return redirect('main.views.cardiologist.case')
 
