@@ -421,17 +421,36 @@ def dashborad(request):
         awiting_dia_count = Case.objects.filter(status=3).count() + Case.objects.filter(status=4).count()
         schedule_count = Appointment.objects.filter(create_time__gte= monday, is_current=True, is_cancelled=False).count()
         
-        doctors = Profile.objects.raw('select p.* from main_profile as p, main_appointment as apt \
+        doctors = Profile.objects.raw("select p.* from main_profile as p, main_appointment as apt \
                         where apt.is_current = 1 and apt.is_cancelled = 0 and apt.doctor_id = p.user_id\
-                        apt.create_time > %s group by apt.doctor_id \
-                        order by count(apt.doctor_id) desc limit 0,5' % monday)
+                        and apt.create_time > '%s' group by apt.doctor_id \
+                        order by count(apt.doctor_id) desc limit 0,5" % monday)
+        doctors = list(doctors)
+
+        for i in xrange(len(doctors)):
+            doctors[i].count = Appointment.objects.filter(doctor=doctors[i],create_time__gte= monday, is_current=True, is_cancelled=False).count()
         
-        doctors_count = []
-        for doctor in doctors:
-            doctors_count.append( Appointment.objects.filter(doctor=doctor,create_time__gte= monday, is_current=True, is_cancelled=False).count())
+        cases = Case.objects.filter(assigned_time__gte= monday)
+        print monday
+        print cases
+        cardi_counts = {}
+        for c in cases:
+            if c.cardiologist_id:
+                if c.cardiologist_id in cardi_counts:
+                    cardi_counts[c.cardiologist_id] += 1
+                else:
+                    cardi_counts[c.cardiologist_id] = 1
+        sorted_d = sorted(cardi_counts.iteritems(), key=operator.itemgetter(1), reverse=True)
+        cardi_ids = [i[0] for i in sorted_d[:5]]
+        
+        cardiologists = Profile.objects.filter(pk__in=cardi_ids)
+        for i in xrange(len(cardiologists)):
+            cardiologists[i].count = cardi_counts[cardiologists[i].pk]
         
         return render_to_response('quantmd/dashboard.htm',{"unprocess":unprocess_count, 'complete':complete_count, 'awiting':awiting_dia_count, 
-                                                           'schedule':schedule_count, "doctors":doctors, "count1":doctors_count}, context_instance=RequestContext(request))     
+                                                           'schedule':schedule_count, "doctors":doctors,
+                                                           'cardiologists':cardiologists, }, 
+                                   context_instance=RequestContext(request))     
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
