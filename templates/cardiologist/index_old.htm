@@ -1,7 +1,7 @@
 <html>
 <head>
 
-	<title>Broker - QuantMD</title>
+	<title>Cardiologist - QuantMD</title>
 
 	<!-- Import Styles -->
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
@@ -10,21 +10,6 @@
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/jscrollpane.css" />
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/datatables.css" />
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/core.css" />
-	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/uploadifive.css">
-	<style type="text/css">
-		.uploadifive-button {
-			float: left;
-			margin-right: 10px;
-		}
-		#queue {
-			border: 1px solid #E5E5E5;
-			height: 177px;
-			overflow: auto;
-			margin-bottom: 10px;
-			padding: 0 3px 3px;
-			width: 300px;
-		}
-	</style>
 	
 	<!-- Import Scripts -->
 	<script src="{{STATIC_URL}}common/js/jquery.js"></script>
@@ -35,9 +20,8 @@
 	<script src="{{STATIC_URL}}common/js/core.js"></script>
 	
 	<!-- Local Scripts & Styles -->
-	<script src="{{STATIC_URL}}broker/js/broker.js"></script>
-	<script type="text/javascript" src="{{STATIC_URL}}common/js/jquery.uploadifive.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}broker/css/broker.css" />
+	<script src="{{STATIC_URL}}cardiologist/js/cardiologist.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}cardiologist/css/cardiologist.css" />
 	
 </head>
 <body>
@@ -48,7 +32,7 @@
 			<div id="user-box-text"><center>WELCOME, <b>{{profile.first_name}}</b>&nbsp; <img src="{{STATIC_URL}}common/images/drop-arrow.png" /></center></div>
 			<div id="user-box-options">
 				<div id="user-box-options-text">
-					&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#" onClick="changepass()">CHANGE PASSWORD</a><p />
+					&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#">ACCOUNT SETTINGS</a><p />
 					&nbsp;<img src="{{STATIC_URL}}common/images/square.png" /> &nbsp; <a href="#" onClick="logout();">SIGN OUT</a>
 				</div>
 			</div>
@@ -57,9 +41,9 @@
 		<div id="container">
 			<div id="tabs-nohdr">
 				<ul>
-					<li><a href="/broker/patients/"><span><img src='{{STATIC_URL}}broker/images/upload.png' /> Upload</span></a></li>
-					<!--<li><a href="progress.htm"><span><img src='{{STATIC_URL}}broker/images/progress.png' /> Progress</span></a></li>-->
-					<li><a href="/broker/logs/"><span><img src='{{STATIC_URL}}broker/images/logs.png' /> Logs</span></a></li>
+					<li><a href="/cardiologist/case/"><span><img src='{{STATIC_URL}}cardiologist/images/logs.png' /> Case</span></a></li>
+					<li><a href="/message/"><span><img src='{{STATIC_URL}}cardiologist/images/logs.png' /> Messages</span></a></li>
+					<li><a href="/cardiologist/logs/"><span><img src='{{STATIC_URL}}cardiologist/images/logs.png' /> Logs</span></a></li>
 				</ul>
 			</div>
 		</div>
@@ -75,15 +59,10 @@
 		</div>
 	</div>
 	
-	<div id="change-password">
-		
-	</div>
-	<div id="change-password-modal"></div>
-	
 	<!-- Logout Confirmation Box -->
-		<div id="logout-confirm" title="Confirm Sign Out?">
-			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This will sign you out of your current session. Any unsaved work will be lost.<br /></p>
-		</div>
+	<div id="logout-confirm" title="Confirm Sign Out?">
+		<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This will sign you out of your current session. Any unsaved work will be lost.<br /></p>
+	</div>
 
 </body>
 </html>

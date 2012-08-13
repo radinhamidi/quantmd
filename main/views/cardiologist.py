@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import *
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from main.models.account import *
 from main.models.case import *
 from main.models.data import *
@@ -11,6 +12,8 @@ from main.models.report import Report
 from main.models.message import Message
 from main.models.appointment import Appointment 
 from main.utils.pdf_generator import Report2PDF
+from os import listdir, makedirs, rename
+from os.path import isfile, join
 
 def case(request):
     cases = Case.objects.filter(status=4, cardiologist__pk=request.user.pk)
@@ -18,15 +21,35 @@ def case(request):
         has_pending_case = 0
         case = None #No use
         data = None
-        image_names = []
+        image_objs = []
     else:
         has_pending_case = 1
         case = cases[0]
         data = case.data
-        image_names = [str(i+1)+'.dcm.png' for i in xrange(data.image_count)]
+        image_objs = []
+        s_and_cs = ServiceAndCase.objects.filter(case=case)
+        for i in xrange(data.image_count):
+            index = i + 1
+            for s in s_and_cs:
+                if index >= s.image_start and index <= s.image_end:
+                    image_objs.append((index, str(index)+'.dcm.png', s.service.name))
+                    break #found service name, continue to next image
         
+        #Get analysis media
+        directory = settings.MEDIA_ROOT + 'dicom/' + data.name + '/analysis'
+        file_names = [ f for f in listdir(directory) if isfile(join(directory,f)) ]
+        anal_videos = []
+        anal_images = []
+        for fn in file_names:
+            if fn.lower().endswith('.mp4'):
+                anal_videos.append(fn)
+            else:
+                anal_images.append(fn)
+        
+          
     return render_to_response('cardiologist/case.htm', {'has_pending_case':has_pending_case,
-                                                        'case':case, 'data':data, 'image_names':image_names},
+                                                        'case':case, 'data':data, 'image_objs':image_objs,
+                                                        'anal_videos':anal_videos, 'anal_images':anal_images},
                                   context_instance=RequestContext(request))
 
 def accept_case(request):
@@ -47,22 +70,36 @@ def accept_case(request):
         case.save()
         return redirect('main.views.cardiologist.case')
 
+@csrf_exempt
 def submit_report(request):
-    """Need to generate PDF report"""
     profile = Profile.objects.get(pk=request.user.pk)
     diagnosis = request.POST['diagnosis']
+    comments = (request.POST['comments']).split('!#!')
     
     case_id = request.POST['case_id']
     case = Case.objects.get(pk=case_id)
+    data = case.data
+    
+    image_list = []
+    comments_list = [] #list of string
+    for c in comments:
+        split_index = c.find(':')
+        image_index = int(c[:split_index])
+        content = c[split_index+1:]
+        cinstance = Comment(data=data, image_index=image_index, content=content)
+        cinstance.save()
+        comments_list.append(content)
+        image_list.append(str(image_index)+'.dcm.png')
+    
     
     #Generate PDF report
-    identifier = case.data.name
-    image_dir = settings.MEDIA_ROOT + 'dicom/' + identifier
+    identifier = data.name
+    directory = settings.MEDIA_ROOT + 'dicom/' + identifier
     pdf_path = settings.MEDIA_ROOT + 'dicom/' + identifier + '/' + identifier + '.pdf'
     patient_dob_str = case.patient.birthday.strftime("%m/%d/%Y")
     patient_gender = 'Male' if case.patient.gender else 'Female'
     Report2PDF(profile.first_name, profile.last_name, case.patient.first_name, case.patient.last_name,
-               patient_gender, patient_dob_str, image_dir, pdf_path, diagnosis)
+               patient_gender, patient_dob_str, directory, pdf_path, diagnosis)
     report = Report(content=diagnosis)
     report.file = 'dicom/' + identifier + '/' + identifier + '.pdf'  
     report.save()

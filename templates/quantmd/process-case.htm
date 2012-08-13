@@ -36,17 +36,21 @@ $(document).ready(function() {
      });
 });
 
-$('#file_upload').uploadifive({
-	'auto'         : false,
-	'buttonText'  : 'Browse',
-	'formData'     : {'case_id': '{{case.pk}}'},
-	'queueID'      : 'queue',
-	'uploadScript' : '/quantmd/upload_action/',
-	'onUploadComplete' : function(file, data) {
-		if (data != '0'){ //failed
-			alert(data);
-		}
-	}
+$(function() {
+	setTimeout(function() {			
+		$('#file_upload').uploadifive({
+			'auto'         : false,
+			'buttonText'  : 'Browse',
+			'formData'     : {'case_id': '{{case.pk}}'},
+			'queueID'      : 'queue',
+			'uploadScript' : '/quantmd/upload_action/',
+			'onUploadComplete' : function(file, data) {
+				if (data != '0'){ //failed
+					alert(data);
+				}
+			}
+		});
+	},800);
 });
 </script>
 <div class="title-text">Process one case</div>
