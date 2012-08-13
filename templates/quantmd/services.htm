@@ -1,0 +1,71 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
+<script>
+$(document).ready(function() {
+	$("table#scan-table tr:even").css("background-color", "#F4F4F8");
+	$("table#scan-table tr:odd").css("background-color", "#EFF1F1");
+	$(".checkin").button({
+			icons: {
+				primary: "ui-icon-play"
+			},
+			 text: false
+		});
+		$(".disablebtn").button({
+			icons: {
+				primary: "ui-icon-cancel"
+			}
+		});
+		$("#add-scan-form").submit(function(event) {
+	
+    /* stop form from submitting normally */
+		event.preventDefault(); 
+		$( "#ui-tabs-6" ).hide();
+        
+    /* get some values from elements on the page: */
+		var $form = $( this ),
+			url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+		$.post( url, $("#add-scan-form").serialize(),
+		function( data ) {
+			$( "#ui-tabs-6" ).empty().append($(data));
+			$( "#ui-tabs-6" ).fadeIn('fast');
+		});
+     });
+});
+</script>
+<div class="title-text">Scan Options</div>
+Add or remove scan options for MRI post-processing.
+<br /><br />
+<table id="scan-table" class="formtable">
+		<tr>
+			<th width="250px">Scan Name</th>
+			<th width="100px">Available</th>
+			<th width="50px">More</th>
+		</tr>
+		{% for service in services%}
+		<tr>
+			<td>{{service.name}}</td>
+			{% if service.is_active%}
+			<td align="center">Available</td>
+			<td align="center"><a href="/quantmd/stopService/{{service.id}}/" class="disablebtn">Stop</a></td>
+			{% endif %}
+			{% if not service.is_active%}
+			<td align="center">Unavailable</td>
+			<td align="center"><a href="/quantmd/activeService/{{service.id}}" class="disablebtn">Active</a></td>
+			{% endif %}
+		</tr>
+		{% endfor%}
+</table>
+<br />
+<div class="small-title">Add New Scan Option</div>
+<form id="add-scan-form" action="/quantmd/addService/"> {% csrf_token %}
+<table class="formtable">
+	<tr>
+		<td><input type="text" name="add-scan-name" /></td>
+		<td><input type="submit" value="Add Scan" /></td>
+	</tr>
+</table>
+</form>

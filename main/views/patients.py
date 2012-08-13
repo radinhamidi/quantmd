@@ -12,6 +12,7 @@ from main.utils.form_check import *
 from main.models.case import *
 from main.models.data import *
 from main.models.message import *
+from django.core.validators import email_re
 import operator
 
 

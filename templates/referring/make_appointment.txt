@@ -1,0 +1,9 @@
+Hi {{patient}}:
+
+Your doctor {{doctor}} have make an appointment for you for {{services}} at:
+						{{mri.name}}
+Address: {{mri.address}} {{mri.address2}}
+         {{mri.city}}, {{mri.state}},{{mri.state}}
+on {{schedule.date}} at {{schedule.start_time}}         
+
+QuantMD Team

@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from main.models.account import *
 from django.core.validators import email_re
 from main.models.mri import *
-from main.models.case import Case
+from main.models.case import Case,Service
 from main.utils.misc import generate_random_string
 from main.utils.form_check import *
 from main.models.appointment import Appointment
@@ -239,7 +239,6 @@ def process_case_action(request):
 
 
 #Yang xie's code below this line:
-
 def mri(request):
     """Show lists of mri center"""
     if request.user.is_authenticated():
@@ -391,10 +390,7 @@ def edit_mri_action(request):
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
-    
-    
-    
-    
+        
 def logs_view(request):
     """logs list view"""
     if request.user.is_authenticated():
@@ -432,6 +428,44 @@ def dashborad(request):
         
         return render_to_response('quantmd/dashboard.htm',{"unprocess":unprocess_count, 'complete':complete_count, 'awiting':awiting_dia_count, 
                                                            'schedule':schedule_count, "doctors":doctors, "count1":doctors_count}, context_instance=RequestContext(request))     
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+def services_view(request):
+    if request.user.is_authenticated():
+        services = Service.objects.all()
+        return render_to_response('quantmd/services.htm',{'services':services}, context_instance=RequestContext(request))     
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+def services_stop(request, service_id):
+    if request.user.is_authenticated():
+        service = Service.objects.get(id=service_id)
+        service.is_active = False
+        service.save()
+        return redirect('main.views.quantmd.services_view')    
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+def services_active(request,service_id):
+    if request.user.is_authenticated():
+        service = Service.objects.get(id=service_id)
+        service.is_active = True
+        service.save()
+        return redirect('main.views.quantmd.services_view')    
+    else:
+        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    
+def services_add(request):
+    if request.user.is_authenticated():
+        name = request.POST['add-scan-name']
+        if not name.strip():
+            messages.error(request, 'Service name cannot be empty')
+            return redirect('main.views.quantmd.services_view') 
+        
+        service = Service.objects.create(name=name)
+        service.save()
+        return redirect('main.views.quantmd.services_view')    
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     

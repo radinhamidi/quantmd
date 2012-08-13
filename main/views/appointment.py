@@ -10,6 +10,8 @@ from main.models.account import *
 from main.utils.form_check import *
 from main.models.case import *
 from main.models.message import *
+from django.template import loader, Context
+from django.core.mail import send_mail
 import operator
 import datetime
 
@@ -48,7 +50,6 @@ def appointment_view(request, patient_id):
     
    
 def appointment_search(request, patient_id):
-    print "aaaaa"
     if request.user.is_authenticated():
         schedule_date = request.POST['preferreddate']
         zip_code = request.POST['zipcode']
@@ -58,11 +59,16 @@ def appointment_search(request, patient_id):
         else:
             return render_to_response('error.htm', {"error": "No such patient"},
                                       context_instance=RequestContext(request))
-    
+        
         errors = []
-        if len(zip_code) == 0 and len(schedule_date) == 0 and len(schedule_time) == 0 :
+        if len(zip_code) == 0 and len(schedule_date) == 0:
             errors.append("Zip code or date cannot be empty")
-            
+        if zip_code.strip():
+            try:
+                zip_code = int(zip_code)    
+            except:
+                errors.append(request, 'zipcode must be numbers')
+        
         if len(schedule_date) != 0 and not IsValidDate(schedule_date):
             errors.append('Please enter correct date format and choose a date before today')
             
@@ -194,8 +200,10 @@ def make_appointment(request):
         print "here5"
         case.save()
         
+        service_name = []
         for service_id in services:
             service = Service.objects.get(id = service_id)
+            service_name.append(service.name)
             service_and_case = ServiceAndCase.objects.create(service = service, case = case)
             service_and_case.save()
         
@@ -225,6 +233,23 @@ def make_appointment(request):
         message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 0, is_sys = True)
         message.save()
         
+        '''
+        send message
+        '''
+        service = ''
+        
+        for name in service_name:
+            service += name + ' '
+
+        t = loader.get_template('referring/make_appointment.txt')
+        c = Context({
+                     'patient': patient,
+                     'doctor': doctor,
+                     'mri': mri,
+                     'schedule':schedule,
+                     'services':service,
+                     })
+        send_mail('Your appointment at QuantMD', t.render(c), 'support@xifenfen.com', (patient.email,), fail_silently=False)
         
         return render_to_response('referring/case-create-confirm.htm',{'schedule':schedule, 'appointment':appointment, 'services': case.services.all()}, context_instance=RequestContext(request))
     else:
@@ -311,9 +336,14 @@ def reappointment_search(request, appointment_id):
             return render_to_response('referring/error.htm',{'errors':"No such schedule"}, context_instance=RequestContext(request))
         
         errors = []
-        if len(zip_code) == 0 and len(schedule_date) == 0 and len(schedule_time) == 0 :
+        if len(zip_code) == 0 and len(schedule_date) == 0:
             errors.append("Zip code and date cannot be empty")
-            
+        if zip_code.strip():
+            try:
+                zip_code = int(zip_code)    
+            except:
+                errors.append(request, 'zipcode must be numbers')
+        
         if len(schedule_date) != 0 and not IsValidDate(schedule_date):
             errors.append('Please enter correct date format and choose a date before today')
             
@@ -376,6 +406,7 @@ def reappointment_search(request, appointment_id):
     
     
 def remake_appointment(request, patient_id, schedule_id, appointment_id):
+    print "here"
     if request.user.is_authenticated():
         errors = []
             
@@ -404,7 +435,7 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
         mri = schedule.mri
         case = old_appointment.case
         
-      
+        
         # update schedule
         old_appointment.schedule.is_available = True
         old_appointment.is_current = False
@@ -416,26 +447,25 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
         schedule.is_available = False
         schedule.save()
         # create case
-       
+        
        
         # create appointment
         appointment = Appointment.objects.create(doctor=doctor, patient=patient,schedule=schedule,mri=mri,case=case)
         appointment.save()
         
-        
         # create message
         
         title = 'Reschedule for CASE #' + str(case.id) 
         title = title.upper()
-        
-        content += 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have reschedule an appointment:'
-        
+        print title
+        content = 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have reschedule an appointment:'
+        print content
         content += 'The original appointment is: ' + 'MRI Center: ' + old_appointment.mri.name +'  Time: ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
         
         content += 'New appointment is:  MRI Center: ' + mri.name
        
-        content += ' Time: ' + str(schedule.date) + '   ' 
-   
+        content += ' Time: ' + str(schedule.date) + ' ' 
+        
         content += str(schedule.start_time)
   
         content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) 
@@ -445,7 +475,31 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
         message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 2, is_sys = True)
         message.save()
         
+        '''
+        send message
+        '''
+        services = case.services.all()
+        service = ''
         
+        for s in services:
+            service += s.name + ' '
+
+        t = loader.get_template('referring/remake_appointment.txt')
+        c = Context({
+                     'patient': patient,
+                     'doctor': doctor,
+                     'mri': mri,
+                     'schedule':schedule,
+                     'services':service,
+                     'old_schedule': old_appointment.schedule,
+                     'old_mri': old_appointment.mri,
+                     })
+        send_mail('Your appointment have been rescheduled at QuantMD', t.render(c), 'support@xifenfen.com', (patient.email,), fail_silently=False)
+        
+        
+        
+        
+    
         return render_to_response('referring/case-create-confirm.htm',{'schedule':schedule, 'appointment':appointment}, context_instance=RequestContext(request))
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))

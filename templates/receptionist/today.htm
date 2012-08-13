@@ -86,7 +86,7 @@
 		<th width="80px"></th>
 	</tr>
 	{% if not checkins%}
-		<td rowspan= 7>NO PATIENT CHECKIN</td>
+		<td Colspan= 7 align="center">NO PATIENT CHECKIN</td>
 	{% endif %}
 	{% for checkin in checkins%}
 	<tr>
@@ -128,7 +128,7 @@
 		<th width="80px"></th>
 	</tr>
 	{% if not appointments %}
-		<td>NO APPOINTMENT </td>
+		<td Colspan=7 align="center" >NO APPOINTMENT </td>
 	{% endif %}
 	{% for appointment in appointments%}
 	<tr>

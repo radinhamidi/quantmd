@@ -16,6 +16,8 @@ import datetime
 import operator
 import time
 from MySQLdb.constants.FIELD_TYPE import NULL
+from django.template import loader, Context
+from django.core.mail import send_mail
 
 
 def register_list(request):
@@ -94,8 +96,8 @@ def check_in_cancell(request, appointment_id):
             case = appointment.case
             case.status = 0
             case.save()
-            print "hihihi"
-            return redirect('main.views.receptionist.register_list')    
+            date = datetime.datetime.now()
+            return render_to_response('receptionist/checkin-cancel-confirm.htm',{'patient':appointment.patient, 'date':date}, context_instance=RequestContext(request))
         else:
             return render_to_response('receptionist/error.htm',{'error':"error"}, context_instance=RequestContext(request))
     else: 
@@ -205,7 +207,6 @@ def patients_view(request):
 
 
 def timeslot_list(request):
-    print "here"
     if request.user.is_authenticated():
         schedule_date = request.POST['rp-schedule-date']
         if len(schedule_date) == 0:
@@ -394,6 +395,24 @@ def reschedule_action2(request, schedule_id, appointment_id):
         new_schedule.save()
         new_appointment.save()
         
+        '''
+        send message
+        '''
+        services = old_appointment.case.services.all()
+        service = ''
+        
+        for s in services:
+            service += s.name + ' '
+
+        t = loader.get_template('receptionist/remake_appointment.txt')
+        c = Context({
+                     'patient': old_appointment.patient,
+                     'mri': mri,
+                     'schedule':new_schedule,
+                     'services':service,
+                     'old_schedule': old_appointment.schedule,
+                     })
+        send_mail('Your appointment have been rescheduled at QuantMD', t.render(c), 'support@xifenfen.com', (old_appointment.patient.email,), fail_silently=False)
        
         return redirect('main.views.receptionist.patients_view')    
     else:
@@ -513,6 +532,27 @@ def reschedule_action(request, schedule_id, appointment_id):
         old_schedule.save()
         new_schedule.save()
         new_appointment.save()
+        
+        '''
+        send message
+        '''
+        services = old_appointment.case.services.all()
+        service = ''
+        
+        for s in services:
+            service += s.name + ' '
+
+        t = loader.get_template('receptionist/remake_appointment.txt')
+        c = Context({
+                     'patient': old_appointment.patient,
+                     'mri': mri,
+                     'schedule':new_schedule,
+                     'services':service,
+                     'old_schedule': old_appointment.schedule,
+                     })
+        send_mail('Your appointment have been rescheduled at QuantMD', t.render(c), 'support@xifenfen.com', (old_appointment.patient.email,), fail_silently=False)
+        
+        
        
         return redirect('main.views.receptionist.register_list')  
     else:

@@ -81,34 +81,47 @@ def change_password_view(request):
 
 def change_password(request):
     if request.user.is_authenticated():
-        password = request.POST['password']
-        new_password = request.POST['new-password']
-        confirm_password = request.POST['confirm-password']
+        password = request.POST['old']
+        new_password = request.POST['new']
+        confirm_password = request.POST['confirm']
         
-        error = []
+        if not password.strip():
+            messages.error(request, 'Password is empty or does not match')
+            return redirect('main.views.account.change_password_view')
         
-        if IsEmpty(password):
-            error.append("Please enter current password")
-        if IsEmpty(new_password):
-            error.append("Please enter new password")
-        if new_password != confirm_password:
-            error.append("new password is inconsistent")
+        if not new_password.strip() or new_password != confirm_password:
+            messages.error(request, 'New password is empty or does not match')
+            return redirect('main.views.account.change_password_view')
             
-        user = authenticate(username=request.user.user_name, password=password)
-         
+        user = authenticate(username=request.user.username, password=password)
+        
         if user is None:
-            error.append("Current password is incorrect")
+            messages.error(request, 'Current password is incorrect')
+            return redirect('main.views.account.change_password_view')
         
-        
-        if len(error) != 0:
-             return render_to_response('changePassword.htm', {},
-                              context_instance=RequestContext(request))
         
         user = request.user
         user.set_password(new_password)
         user.save()
-        print "success"
-        return redirect('main.views.index.index')
+        
+        profile = Profile.objects.get(pk=request.user.pk)
+        if profile.role == 1:
+            return render_to_response('referring/change-password-confirm.htm', {},
+                                  context_instance=RequestContext(request))
+        elif profile.role == 2:
+            return render_to_response('receptionist/change-password-confirm.htm', {},
+                                  context_instance=RequestContext(request))
+        elif profile.role == 3:
+            return render_to_response('broker/change-password-confirm.htm', {},
+                                  context_instance=RequestContext(request))
+        elif profile.role == 4:
+            return render_to_response('cardiologist/change-password-confirm.htm', {},
+                                  context_instance=RequestContext(request))
+        elif profile.role == 0:
+            return render_to_response('quantmd/change-password-confirm.htm', {},
+                                  context_instance=RequestContext(request))
+        
+        
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     

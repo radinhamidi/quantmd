@@ -28,4 +28,8 @@ urlpatterns = patterns('main.views.quantmd',
     (r'^logsView/$', 'logs_view'),
     (r'^logView/(?P<case_id>\d+)/$', 'log_view'),
     (r'^dashboard/$', 'dashborad'),
+    (r'^servicesView/$', 'services_view'),
+    (r'^stopService/(?P<service_id>\d+)/$', 'services_stop'),
+    (r'^activeService/(?P<service_id>\d+)/$', 'services_active'),
+    (r'^addService/$', 'services_add'),
 )
