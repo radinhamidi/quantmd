@@ -39,56 +39,37 @@
 	Past 7 Days<br /><br />
 	<table id="dash-summary">
 		<tr>
-			<th>Center</th>
+			<th>Name</th>
 			<th width="150px">City</th>
 			<th width="180px">Member Since</th>
 			<th width="80px">Cases Seen</th>
 		</tr>
 		{%for doctor in doctors%}
 		<tr>
-			<th>{{doctor}}</th>
-			<th width="150px">{{doctor.city}} {{doctor.state}}</th>
-			<th width="180px">{{doctor.user.date_joined|date:"M Y d"}}</th>
-			<th width="80px">This Week</th>
+			<td>{{doctor}}</td>
+			<td width="150px">{{doctor.city}}, {{doctor.state}}</td>
+			<td width="180px">{{doctor.user.date_joined|date:"M Y d"}}</td>
+			<td width="80px">{{doctor.count}}</td>
 		</tr>
 		{%endfor%}
 	</table>
 	<br /><br />
-	<div class="small-title">Top 5 MRI Centers</div>
+	<div class="small-title">Top 5 Cardiologists</div>
 	Past 7 Days<br /><br />
 	<table id="dash-summary">
 		<tr>
-			<th>Center</th>
+			<th>Name</th>
 			<th width="150px">City</th>
 			<th width="180px">Member Since</th>
 			<th width="80px">Cases Seen</th>
 		</tr>
+		{% for cardi in cardiologists %}
 		<tr>
-			<td>Imaging Center at Allegheny General</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">January 10, 2012</td>
-			<td align="center">11</td>
+			<td>{{cardi}}</td>
+			<td align="center">{{cardi.city}}, {{cardi.state}}</td>
+			<td align="center">{{cardi.user.date_joined|date:"M Y d"}}</td>
+			<td align="center">{{cardi.count}}</td>
 		</tr>
-		<tr>
-			<td>Imaging Center at Allegheny General</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">January 10, 2012</td>
-			<td align="center">11</td>
-		</tr><tr>
-			<td>Imaging Center at Allegheny General</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">January 10, 2012</td>
-			<td align="center">11</td>
-		</tr><tr>
-			<td>Imaging Center at Allegheny General</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">January 10, 2012</td>
-			<td align="center">11</td>
-		</tr><tr>
-			<td>Imaging Center at Allegheny General</td>
-			<td align="center">Pittsburgh, PA</td>
-			<td align="center">January 10, 2012</td>
-			<td align="center">11</td>
-		</tr>
+		{% endfor %}
 	</table>
 </div>

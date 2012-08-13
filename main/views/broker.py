@@ -127,7 +127,7 @@ def upload_complete(request):
                     end = count
                 sequences[parts[8]] = (start, end)
             else:
-                sequences[parts[8]] = (start, end)
+                sequences[parts[8]] = (count, count)
         s_and_cs = ServiceAndCase.objects.filter(case=case)
         count = 0
         for key in sequences:
