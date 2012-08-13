@@ -38,13 +38,12 @@ $(document).ready(function() {
 <div class="title-text">Create New MRI Center</div>
 <br /><br />
 
-
-{% if errors %}
-	{% for error in errors %}
-		{{error}}</br>
-	{% endfor %}	
-{% endif %}
-
+{% for message in messages %}
+<div class="span8 offset2">
+	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+		{{message}}
+	</div>
+</div>
 
 <form id="mri-create-form" name="mri-create-form" action="/quantmd/createMRI/"> {% csrf_token %}
 	<table class="formtable">

@@ -42,11 +42,13 @@ function changepass() {
 	$("#change-password").load('/changePasswordView/');
 	$("#change-password-modal").fadeIn(100);
 }
+
 function closeChangepass() {
 	$("#change-password-modal").fadeOut(100);
 	$("#change-password").fadeOut(100);
 }
-function confirmBooking() {
+
+function confirmBooking(id1,id2) {
 
 	$("#timeslot-confirm").dialog({
 		resizable: false,
@@ -57,7 +59,28 @@ function confirmBooking() {
 			"Confirm": function() {
 				//Confirm Logout
 				//Process Booking
-				$("#inner-right").load('case-create-scans.htm')
+				$("#inner-right").load('/referring/serviceSelect/' + id1 + '/' + id2+'/')
+				$(this).dialog("close");
+			},
+			Cancel: function() {
+				$(this).dialog("close");
+			}
+		}
+	});
+}
+
+function confirmBookingForReschedule(id1,id2,id3) {
+
+	$("#timeslot-confirm").dialog({
+		resizable: false,
+		height: 160,
+		width: 350,
+		modal: true,
+		buttons: {
+			"Confirm": function() {
+				//Confirm Logout
+				//Process Booking
+				$("#inner-right").load('/referring/remakeAppointment/' + id1 + '/' + id2+'/' + id3 +'')
 				$(this).dialog("close");
 			},
 			Cancel: function() {

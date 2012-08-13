@@ -148,7 +148,7 @@ def service_view(request,patient_id, schedule_id):
         schedule = Schedule.objects.get(id = schedule_id)
         print patient
         print schedule
-        services = Service.objects.all()
+        services = Service.objects.filter(is_active = True)
         print services
         return render_to_response('referring/case-create-scans.htm',{'patient':patient, 'schedule':schedule, 'services':services}, context_instance=RequestContext(request))
         

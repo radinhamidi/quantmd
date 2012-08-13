@@ -13,7 +13,6 @@ from main.models.case import *
 from main.models.data import *
 from main.models.message import *
 import operator
-from django.contrib.localflavor.it.util import ssn_check_digit
 
 
 def patients_view(request):
@@ -75,59 +74,42 @@ def createPatient(request):
         state = request.POST['state']
         zip = request.POST['zip']
         city = request.POST['city']
-        error = []  
-        print 'here1'
         # check form
-        if IsEmpty(first_name):
-            error.append('First name is empty')
-        if IsEmpty(last_name):
-            error.append('Last name is empty')
-        if IsEmpty(email) or not IsEmail(email):
-            error.append('Email is empty or incorrect format')
-        if not IsEmpty(ssn) and not ssn.isdigit():
-            error.append('SSN is incorrect format')
-        if not IsEmpty(ssn) and not IsSSN(ssn):
-            error.append('SSN is incorrect')
-        if IsEmpty(phone) or not phone.isdigit():
-            error.append('Phone is empty or incorrect format')
-        if IsEmpty(address):
-            error.append('Address is empty')
-        if IsEmpty(state):
-            error.append('State is empty')
-        if IsEmpty(zip) or not zip.isdigit():
-            error.append('Zip is empty or incorrect format')
-        if IsEmpty(city):
-            error.append('City is empty')
-        if IsEmpty(birthday) or not IsDate(birthday):
-            error.append('Birthday is empty or incorrect format')  
-            
-        if len(first_name) > 20:
-            error.append('First name is too long')
-        if len(last_name) > 20:
-            error.append('Last name is too long')
-        if IsEmpty(email) > 30:
-            error.append('Email address is too long')
-        if len(address) > 20:
-            error.append('Address is too long')
-        if IsEmpty(city) > 20:
-            error.append('City is too long')
+        try:
+            phone = long(request.POST['phone'])
+            zip = int(request.POST['zip'])    
+        except:
+            messages.error(request, 'Phone and zipcode must be numbers')
+            return redirect('main.views.patients.createView') 
         
-
-        if len(error) != 0:
-            return render_to_response('referring/patient-create.htm',{'errors':error},context_instance=RequestContext(request))
-        else:
-            format="%m/%d/%Y"
-            doctor = Profile.objects.get(user=request.user)
-            birthday_date = datetime.strptime(birthday,format)
-            city = city.upper()
-            patient = Patient.objects.create(first_name=first_name,middle_name=middle_name,last_name=last_name,gender=gender,address=address,phone=phone,
+        if (not first_name.strip() or not last_name.strip() or not email.strip() 
+            or not address.strip() or not city.strip() or not state.strip()):
+            messages.error(request, 'Only middle name and address line 2 can be empty.')
+            return redirect('main.views.patients.createView') 
+        if not email_re.match(email):
+            messages.error(request, 'Email format not correct.')
+            return redirect('main.views.patients.createView') 
+        
+        if ssn.strip() and not IsSSN(ssn):
+            messages.error(request, 'SSN not correct.')
+            return redirect('main.views.patients.createView')
+        
+        if not IsDate(birthday):
+            messages.error(request, 'Birthday format not correct.')
+            return redirect('main.views.patients.createView')
+       
+        format="%m/%d/%Y"
+        doctor = Profile.objects.get(user=request.user)
+        birthday_date = datetime.strptime(birthday,format)
+        city = city.upper()
+        patient = Patient.objects.create(first_name=first_name,middle_name=middle_name,last_name=last_name,gender=gender,address=address,phone=phone,
                                              email=email,state=state,city=city,zip=zip,birthday=birthday_date,doctor=doctor)
-            if len(ssn) != 0:
-                patient.ssn = ssn
-            if len(address2) != 0:
-                patient.address2 =address2
-            patient.save()
-            return render_to_response('referring/patient-create-confirm.htm',{'patient':patient}, context_instance=RequestContext(request))
+        if ssn:
+            patient.ssn = ssn
+        if address2:
+            patient.address2 =address2
+        patient.save()
+        return render_to_response('referring/patient-create-confirm.htm',{'patient':patient}, context_instance=RequestContext(request))
             
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
@@ -160,70 +142,52 @@ def patient_edit_action(request, patient_id):
         state = request.POST['state']
         zip = request.POST['zip']
         city = request.POST['city']
-        print ssn
-        error = []
-        print "here1"   
-         # check form
-        if IsEmpty(first_name):
-            error.append('First name is empty')
-        if IsEmpty(last_name):
-            error.append('Last name is empty')
-        if IsEmpty(email) or not IsEmail(email):
-            error.append('First name is empty or incorrect format')
-        if not IsEmpty(ssn) and not ssn.isdigit():
-            error.append('SSN is incorrect format')
-        if not IsEmpty(ssn) and not IsSSN(ssn):
-            error.append('SSN is incorrect')
-        if IsEmpty(phone) or not phone.isdigit():
-            error.append('Phone is empty or incorrect format')
-        if IsEmpty(address):
-            error.append('Address is empty')
-        if IsEmpty(state):
-            error.append('State is empty')
-        if IsEmpty(zip) or not zip.isdigit():
-            error.append('Zip is empty or incorrect format')
-        if IsEmpty(city):
-            error.append('City is empty')
-        if IsEmpty(birthday) or not IsDate(birthday):
-            error.append('Birthday is empty or incorrect format')  
-            
-        if len(first_name) > 20:
-            error.append('First name is too long')
-        if len(last_name) > 20:
-            error.append('Last name is too long')
-        if IsEmpty(email) > 30:
-            error.append('Email address is too long')
-        if len(address) > 20:
-            error.append('Address is too long')
-        if IsEmpty(city) > 20:
-            error.append('City is too long')
+        try:
+            phone = long(request.POST['phone'])
+            zip = int(request.POST['zip'])    
+        except:
+            messages.error(request, 'Phone and zipcode must be numbers')
+            return redirect('main.views.patients.patient_edit_view') 
         
-        print "here2"
-        if len(error) != 0:
-            return render_to_response('referring/patient-edit.htm',{'errors':error, 'patient':patient},context_instance=RequestContext(request))
-        else:
-            print "here3"
-            format="%m/%d/%Y"
-            birthday_date = datetime.strptime(birthday,format)
-            patient = Patient.objects.get(id=patient_id)
-            patient.first_name = first_name
-            patient.middle_name = middle_name
-            patient.last_name = last_name
-            patient.birthday = birthday_date
-            patient.email = email
-            patient.phone = phone
-            patient.address = address
-            patient.city = city
-            patient.state = state
-            patient.zip = zip
-            if len(ssn) != 0:
-                patient.ssn = ssn
-            if len(address2) != 0:
-                patient.address2 =address2
-            patient.save()
-            date = datetime.now()
-            print "here4"
-            return render_to_response('referring/patient-edit-confirm.htm',{'patient':patient, 'date':date}, context_instance=RequestContext(request))
+        if (not first_name.strip() or not last_name.strip() or not email.strip() 
+            or not address.strip() or not city.strip() or not state.strip()):
+            messages.error(request, 'Only middle name and address line 2 can be empty.')
+            return redirect('main.views.patients.patient_edit_view') 
+        
+        if not email_re.match(email):
+            messages.error(request, 'Email format not correct.')
+            return redirect('main.views.patients.patient_edit_view') 
+        
+        if ssn.strip() and not IsSSN(ssn):
+            messages.error(request, 'SSN not correct.')
+            return redirect('main.views.patients.patient_edit_view') 
+        
+        if not IsDate(birthday):
+            messages.error(request, 'Birthday format not correct.')
+            return redirect('main.views.patients.patient_edit_view') 
+       
+            
+        format="%m/%d/%Y"
+        birthday_date = datetime.strptime(birthday,format)
+        patient = Patient.objects.get(id=patient_id)
+        patient.first_name = first_name
+        patient.middle_name = middle_name
+        patient.last_name = last_name
+        patient.birthday = birthday_date
+        patient.email = email
+        patient.phone = phone
+        patient.address = address
+        patient.city = city
+        patient.state = state
+        patient.zip = zip
+        if ssn:
+            patient.ssn = ssn
+        if address2:
+            patient.address2 =address2
+        patient.save()
+        date = datetime.now()
+         
+        return render_to_response('referring/patient-edit-confirm.htm',{'patient':patient, 'date':date}, context_instance=RequestContext(request))
         
     else: 
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))

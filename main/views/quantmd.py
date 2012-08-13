@@ -304,27 +304,38 @@ def create_mri_action(request):
     if request.user.is_authenticated():
         name = request.POST['name']
         email = request.POST['email']
-        phone = request.POST['phone']
         address = request.POST['address']
         address2 = request.POST['address2']
         state = request.POST['state']
-        zip = request.POST['zip']
         city = request.POST['city']
-        error = []  
-       
         
+        try:
+            phone = long(request.POST['phone'])
+            zip = int(request.POST['zipcode'])    
+        except:
+            messages.error(request, 'Phone and zipcode must be numbers')
+            return redirect('main.views.quantmd.create_mri_view') 
+        
+        if (not name.strip() or not email.strip() or not address.strip() or not city.strip() or not state.strip()): 
+            messages.error(request, 'Only address line 2 can be empty.')
+            return redirect('main.views.quantmd.create_mri_view')
+        
+        if not email_re.match(email):
+            messages.error(request, 'Email format not correct.')
+            return redirect('main.views.quantmd.create_mri_view')
+    
         if MRICenter.objects.filter(name=name).exists():
-            error.append('There is a same name MRI center in quantmd')
+            messages.error('There is a same name MRI center in quantmd')
+            return redirect('main.views.quantmd.create_mri_view')
         
-        if len(error) != 0:
-            return render_to_response('quantmd/mri-create.htm',{'errors':error},context_instance=RequestContext(request))
-        else:
-            city = city.upper()
-            mri = MRICenter.objects.create(name=name,address=address,phone=phone,email=email,state=state,city=city,zip=zip)
-            if len(address2) != 0:
-                mri.address2 =address2
-            mri.save()
-            return render_to_response('quantmd/mri-create-confirm.htm',{'mri':mri}, context_instance=RequestContext(request))   
+        city = city.upper()
+        mri = MRICenter.objects.create(name=name,address=address,phone=phone,email=email,state=state,city=city,zip=zip)
+        if len(address2) != 0:
+            mri.address2 =address2
+            
+        mri.save()
+        return render_to_response('quantmd/mri-create-confirm.htm',{'mri':mri}, context_instance=RequestContext(request))
+    
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
@@ -346,26 +357,37 @@ def edit_mri_action(request):
         state = request.POST['state']
         zip = request.POST['zip']
         city = request.POST['city']
-        error = []
         
-        if len(error) != 0:
-            return render_to_response('quantmd/mri-edit.htm',{'errors':error},context_instance=RequestContext(request))
-        else:
-            mri = MRICenter.objects.get(id = mri_id)
-            city = city.upper()
-            mri.name = name
-            mri.email = email
-            mri.phone = phone
-            mri.address = address
-            mri.address2 = address2
-            mri.state = state
-            mri.zip = zip
-            mri.city = city
+        try:
+            phone = long(request.POST['phone'])
+            zip = int(request.POST['zipcode'])    
+        except:
+            messages.error(request, 'Phone and zipcode must be numbers')
+            return redirect('main.views.quantmd.edit_mri_view') 
+        
+        if (not name.strip() or not email.strip() or not address.strip() or not city.strip() or not state.strip()): 
+            messages.error(request, 'Only address line 2 can be empty.')
+            return redirect('main.views.quantmd.edit_mri_view')
+        
+        if not email_re.match(email):
+            messages.error(request, 'Email format not correct.')
+            return redirect('main.views.quantmd.edit_mri_view')
+        
+        mri = MRICenter.objects.get(id = mri_id)
+        city = city.upper()
+        mri.name = name
+        mri.email = email
+        mri.phone = phone
+        mri.address = address
+        mri.address2 = address2
+        mri.state = state
+        mri.zip = zip
+        mri.city = city
             
-            if len(address2) != 0:
-                mri.address2 =address2
-            mri.save()
-            return render_to_response('quantmd/mri-edit-confirm.htm',{'mri':mri}, context_instance=RequestContext(request))   
+        if address2.strip() != 0:
+            mri.address2 =address2
+        mri.save()
+        return render_to_response('quantmd/mri-edit-confirm.htm',{'mri':mri}, context_instance=RequestContext(request))   
     else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
