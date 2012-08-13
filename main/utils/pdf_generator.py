@@ -114,15 +114,11 @@ def go(CardiologistName, PatientFirstName, PatientLastName,
     doc.build(Story, onFirstPage=myFirstPage, onLaterPages=myLaterPages)
     
 def Report2PDF(CardiologistFirstName, CardiologistLastName, PatientFirstName, PatientLastName,
-               PatientGender, PatientDOB, image_dir, pdf_path, diagnosis):
+               PatientGender, PatientDOB, data_dir, image_list, comments_list, pdf_path, diagnosis):
     CardiologistName = CardiologistFirstName + " " + CardiologistLastName
     now = datetime.datetime.today()
     date = now.strftime("%m %d %Y %H:%M:%S")
-    if not image_dir:
-        dirlist = []
-    else:
-        dirlist = os.listdir(image_dir)
     
     styles = getSampleStyleSheet()
     go(CardiologistName, PatientFirstName, PatientLastName, PatientGender,
-       PatientDOB, image_dir, date, styles, dirlist, pdf_path, diagnosis) 
+       PatientDOB, data_dir, image_list, comments_list, date, styles, dirlist, pdf_path, diagnosis) 

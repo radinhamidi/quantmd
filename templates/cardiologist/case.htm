@@ -53,7 +53,7 @@
 		});
 	});
 	function prevImage(curr) {
-		if(curr == 0) {
+		if(curr == 1) {
 			alert('min!');
 		} else {
 			var toPos = curr - 1;
@@ -63,7 +63,7 @@
 		}
 	}
 	function nextImage(curr) {
-		if(curr == {{data.image_count-1}}) {
+		if(curr == {{data.image_count}}) {
 			alert('max!');
 		} else {
 			var toPos = curr + 1;
@@ -77,6 +77,43 @@
 		$('#case-modal').fadeIn(200);
 		$('#case-large').html("<img src='{{MEDIA_URL}}dicom/{{data.name}}/" + name + "' width='600px' height='600px' />");
 	}
+	
+	function submit(){
+		a = Array();
+	    for (i=1; i<= {{data.image_count}}, i++) {
+			var ele = $("#image-comments-" + i + "-text");
+			if (ele.val().length != 0 ){
+				a.push(i + ":" + ele.val());
+			}
+		}
+		comments = a.join("!#!");
+		$.ajax({
+            url: "/cardiologist/submit_report/",
+            type: "POST",
+            timeout: 2000,
+            data: {
+                diagnosis: $("#diagnosis").val(),
+				case_id: '{{case.pk}}',
+				comments: comments 
+            },
+            beforeSend: function(XMLHttpRequest){
+                //XMLHttpRequest.setRequestHeader("X-CSRFToken", $.cookie("csrftoken"));
+            },
+            dataType: 'json',
+            success: function(data, textStatus){
+                if (typeof(data.code) != 'undefined' && data.code == '0') {
+                    alert(data.msg);
+                }
+                else {
+                    alert(data.msg);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown){
+            },
+            failure: function(data, statusText){
+            },
+        });
+	}
 </script>
 <div class="title-text">Diagnose Case</div>
 <br />
@@ -89,9 +126,9 @@
 				<div class="image-comments-placeholder">
 					<img src="{{MEDIA_URL}}dicom/{{data.name}}/{{obj.1}}" width="350px" height="350px" onClick="openLarge('{{obj.1}}')" />
 					<div class="com_header">{{obj.2}}</div>
-					{% if obj.0 != 0 %}<div class="btn_left" onClick="prevImage(2)">PREV</div>{% endif %}
-					{% if obj.0 != data.image_count - 1 %}<div class="btn_right" onClick="nextImage({{obj.0}})">NEXT</div>{% endif %}
-					<div class="position">{{obj.0 + 1}} / {{data.image_count}}</div>
+					{% if obj.0 != 1 %}<div class="btn_left" onClick="prevImage({{obj.0}})">PREV</div>{% endif %}
+					{% if obj.0 != data.image_count %}<div class="btn_right" onClick="nextImage({{obj.0}})">NEXT</div>{% endif %}
+					<div class="position">{{obj.0}} / {{data.image_count}}</div>
 				</div>
 				<br />
 				Include in Diagnosis? <input type="checkbox" name="image-comments-{{obj.0}}-check" /><br /><br />
@@ -112,23 +149,32 @@
 				<span class="orange"><a href="javascript:$('#diagnosis-upload').uploadifive('upload')" class="orange" id="diagnosis-upload-btn">Upload Files</a></span>
 				<br /><br />
 				-->
-				<input type="submit" class="btn" value="Save Diagnosis">
+				<input onclick="submit()" type="submit" class="btn" value="Save Diagnosis">
 			</div>
 	</div><br />
 	<div class="small-title">QuantMD Computational Diagnostics</div>
 	{{case.analysis.content}}
 	<br /><br />
 	<b>Other Resources</b><br /><br />
+	    <ul>
+	    	{% for v in anal_videos %}
+			<video width="320" height="240" controls="controls">
+			  <!--<source src="http://www.w3schools.com/html5/movie.mp4" type="video/mp4" />-->
+			  <source src="{{MEDIA_URL}}dicom/{{data.name}}/analysis/{{v}}" type="video/mp4" />
+			</video>
+			{% endfor %}
+	    </ul>
 		<ul>
-			<li><img src="{{STATIC_URL}}cardiologist/images/progress.png" /> <a href="">Special_Report.pdf (Text/PDF)</a></li>
-			<li><img src="{{STATIC_URL}}cardiologist/images/progress.png" /> <a href="">Special_Report.pdf (Text/PDF)</a></li>
-			<li><img src="{{STATIC_URL}}cardiologist/images/progress.png" /> <a href="">Special_Report.pdf (Text/PDF)</a></li>
+			{% for i in anal_images %}
+			<li><img height="256" src="{{MEDIA_URL}}dicom/{{data.name}}/analysis/{{i}}" /></li>
+			{% endfor %}
 		</ul>
 	<br /><br />
 </div>
 {% else %} <!-- No pending case, accept one -->
 <div id="case-absent">
 	<span class="orange"><a href="/cardiologist/accept_case/" id="new-case-btn" class="orange innerlink">Accept New Case</a></span>
+	<br />
 	{% if not messages %}
 		No case assigned, please accept one.
 	{% endif %}

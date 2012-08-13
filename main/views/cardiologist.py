@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import *
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from main.models.account import *
 from main.models.case import *
 from main.models.data import *
@@ -11,6 +12,8 @@ from main.models.report import Report
 from main.models.message import Message
 from main.models.appointment import Appointment 
 from main.utils.pdf_generator import Report2PDF
+from os import listdir, makedirs, rename
+from os.path import isfile, join
 
 def case(request):
     cases = Case.objects.filter(status=4, cardiologist__pk=request.user.pk)
@@ -26,13 +29,27 @@ def case(request):
         image_objs = []
         s_and_cs = ServiceAndCase.objects.filter(case=case)
         for i in xrange(data.image_count):
+            index = i + 1
             for s in s_and_cs:
-                if i >= s.image_start and i <= s.image_end:
-                    image_objs.append(i, (str(i)+'.dcm.png', s.service.name))
+                if index >= s.image_start and index <= s.image_end:
+                    image_objs.append((index, str(index)+'.dcm.png', s.service.name))
                     break #found service name, continue to next image
-                
+        
+        #Get analysis media
+        directory = settings.MEDIA_ROOT + 'dicom/' + data.name + '/analysis'
+        file_names = [ f for f in listdir(directory) if isfile(join(directory,f)) ]
+        anal_videos = []
+        anal_images = []
+        for fn in file_names:
+            if fn.lower().endswith('.mp4'):
+                anal_videos.append(fn)
+            else:
+                anal_images.append(fn)
+        
+          
     return render_to_response('cardiologist/case.htm', {'has_pending_case':has_pending_case,
-                                                        'case':case, 'data':data, 'image_objs':image_objs},
+                                                        'case':case, 'data':data, 'image_objs':image_objs,
+                                                        'anal_videos':anal_videos, 'anal_images':anal_images},
                                   context_instance=RequestContext(request))
 
 def accept_case(request):
@@ -53,10 +70,11 @@ def accept_case(request):
         case.save()
         return redirect('main.views.cardiologist.case')
 
+@csrf_exempt
 def submit_report(request):
-    """Need to generate PDF report"""
     profile = Profile.objects.get(pk=request.user.pk)
     diagnosis = request.POST['diagnosis']
+    comments = request.POST['comments']
     
     case_id = request.POST['case_id']
     case = Case.objects.get(pk=case_id)
