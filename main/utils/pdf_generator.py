@@ -121,4 +121,4 @@ def Report2PDF(CardiologistFirstName, CardiologistLastName, PatientFirstName, Pa
     
     styles = getSampleStyleSheet()
     go(CardiologistName, PatientFirstName, PatientLastName, PatientGender,
-       PatientDOB, data_dir, image_list, comments_list, date, styles, dirlist, pdf_path, diagnosis) 
+       PatientDOB, data_dir, image_list, comments_list, date, styles, pdf_path, diagnosis) 

@@ -16,5 +16,12 @@ class MRIData(models.Model):
     class Meta: 
         app_label = 'main'
 
+class Comment(models.Model):
+    data = models.ForeignKey(MRIData)
+    image_index = models.IntegerField(default=0)
+    content = models.CharField(max_length=1000)
+    class Meta: 
+        app_label = 'main'
+    
 
         
