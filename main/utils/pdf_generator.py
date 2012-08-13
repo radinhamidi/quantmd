@@ -111,8 +111,8 @@ def go(CardiologistName, PatientFirstName, PatientLastName, PatientGender,
             Story.append(Image(data_dir + "/" + image_list[i], width=8 * cm, height=8 * cm))
             p = Paragraph(image_list[i] + "<br\><br\>", styleImageTitle)
             Story.append(p)
-            p = Paragraph(comments_list[i]);
-            Story.applend(p);
+            p = Paragraph(comments_list[i], styleParagraph);
+            Story.append(p);
     doc.build(Story, onFirstPage=myFirstPage, onLaterPages=myLaterPages)
     
 def Report2PDF(CardiologistFirstName, CardiologistLastName, PatientFirstName, PatientLastName,

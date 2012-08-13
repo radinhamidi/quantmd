@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import *
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
+from django.contrib import messages
+from django.core.validators import email_re
 from main.models.account import *
 from main.models.patient import *
 from main.models.appointment import *
@@ -12,6 +14,8 @@ from main.utils.form_check import *
 from main.models.case import *
 from main.models.data import *
 from main.models.message import *
+from os import listdir, makedirs, rename
+from os.path import isfile, join
 import operator
 
 
@@ -212,18 +216,40 @@ def patient_case(request, case_id):
 def view_mri_images(request, case_id):
     case = Case.objects.get(pk=case_id)
     data = case.data
-    image_names = [str(i+1)+'.dcm.png' for i in xrange(data.image_count)]
+    s_and_cs = ServiceAndCase.objects.filter(case=case)
+    comments = Comment.objects.filter(data=data)
+    comments_dict = {}
+    for c in comments:
+        comments_dict[c.image_index] = c.content
+    image_objs = []
+    for i in xrange(data.image_count):
+        index = i + 1
+        for s in s_and_cs:
+            if index >= s.image_start and index <= s.image_end:
+                image_objs.append((index, str(index)+'.dcm.png', s.service.name, comments_dict.get(index, '')))
+                break #found service name, continue to next image
         
-    return render_to_response('referring/view-images.htm', 
-                              {'case':case, 'data':data, 'image_names':image_names},
+    return render_to_response('referring/view-mri.htm', 
+                              {'case':case, 'data':data, 'image_objs':image_objs},
                               context_instance=RequestContext(request))
     
 def view_analysis(request, case_id):
     case = Case.objects.get(pk=case_id)
+    data = case.data
     analysis = case.analysis
-    patient = case.patient
+    directory = settings.MEDIA_ROOT + 'dicom/' + data.name + '/analysis'
+    file_names = [ f for f in listdir(directory) if isfile(join(directory,f)) ]
+    anal_videos = []
+    anal_images = []
+    for fn in file_names:
+        if fn.lower().endswith('.mp4'):
+            anal_videos.append(fn)
+        else:
+            anal_images.append(fn)
+    
     return render_to_response('referring/view-analysis.htm', 
-                              {'case':case, 'analysis':analysis, 'patient':patient},
+                              {'case':case, 'data':data, 'analysis':analysis, 'anal_videos':anal_videos,
+                               'anal_images':anal_images},
                               context_instance=RequestContext(request))
     
 

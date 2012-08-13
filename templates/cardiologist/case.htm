@@ -82,16 +82,17 @@
 		var a = Array();
 	    for (var i=1; i<={{data.image_count}}; i++) {
 			var ele = $("#image-comments-" + i + "-text");
-			var checked = $("image-comments-" + i + "-check").attr("checked");
+			var checked = $("#image-comments-" + i + "-check").attr("checked");
 			if (ele.val().length != 0 || checked ){
 				a.push(i + ":" + ele.val());
 			}
+			
 		}
 		var comments = a.join("!#!");
 		$.ajax({
             url: "/cardiologist/submit_report/",
             type: "POST",
-            timeout: 2000,
+            timeout: 10000,
             data: {
                 diagnosis: $("#diagnosis").val(),
 				case_id: '{{case.pk}}',
@@ -174,7 +175,7 @@
 </div>
 {% else %} <!-- No pending case, accept one -->
 <div id="case-absent">
-	<span class="orange"><a href="/cardiologist/accept_case/" id="new-case-btn" class="orange innerlink">Accept New Case</a></span>
+	<span class="orange"><a href="/cardiologist/accept_case/" id="new-case-btn" class="orange btn innerlink">Accept New Case</a></span>
 	<br />
 	{% if not messages %}
 		No case assigned, please accept one.

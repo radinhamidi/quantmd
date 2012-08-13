@@ -22,6 +22,8 @@ def case(request):
         case = None #No use
         data = None
         image_objs = []
+        anal_videos = []
+        anal_images = []
     else:
         has_pending_case = 1
         case = cases[0]
@@ -99,7 +101,7 @@ def submit_report(request):
     patient_dob_str = case.patient.birthday.strftime("%m/%d/%Y")
     patient_gender = 'Male' if case.patient.gender else 'Female'
     Report2PDF(profile.first_name, profile.last_name, case.patient.first_name, case.patient.last_name,
-               patient_gender, patient_dob_str, directory, pdf_path, diagnosis)
+               patient_gender, patient_dob_str, directory, image_list, comments_list, pdf_path, diagnosis)
     report = Report(content=diagnosis)
     report.file = 'dicom/' + identifier + '/' + identifier + '.pdf'  
     report.save()
