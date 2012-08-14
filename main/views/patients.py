@@ -44,7 +44,6 @@ def patientsList(request):
 
 # patient information   
 def patientInfo(request, patient_id):
-    print 'i am here'
     if request.user.is_authenticated():
         if Patient.objects.filter(id = patient_id).exists():
             patient = Patient.objects.get(id = patient_id)
@@ -221,7 +220,7 @@ def patient_case(request, case_id):
 def view_mri_images(request, case_id):
     case = Case.objects.get(pk=case_id)
     data = case.data
-    s_and_cs = ServiceAndCase.objects.filter(case=case)
+    sequences = DataSequence.objects.filter(data=data)
     comments = Comment.objects.filter(data=data)
     comments_dict = {}
     for c in comments:
@@ -229,9 +228,9 @@ def view_mri_images(request, case_id):
     image_objs = []
     for i in xrange(data.image_count):
         index = i + 1
-        for s in s_and_cs:
+        for s in sequences:
             if index >= s.image_start and index <= s.image_end:
-                image_objs.append((index, str(index)+'.dcm.png', s.service.name, comments_dict.get(index, '')))
+                image_objs.append((index, str(index)+'.dcm.png', s.name, comments_dict.get(index, '')))
                 break #found service name, continue to next image
         
     return render_to_response('referring/view-mri.htm', 

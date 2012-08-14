@@ -30,12 +30,12 @@ def case(request):
         case = cases[0]
         data = case.data
         image_objs = []
-        s_and_cs = ServiceAndCase.objects.filter(case=case)
+        sequences = DataSequence.objects.filter(data=data)
         for i in xrange(data.image_count):
             index = i + 1
-            for s in s_and_cs:
+            for s in sequences:
                 if index >= s.image_start and index <= s.image_end:
-                    image_objs.append((index, str(index)+'.dcm.png', s.service.name))
+                    image_objs.append((index, str(index)+'.dcm.png', s.name))
                     break #found service name, continue to next image
         
         #Get analysis media

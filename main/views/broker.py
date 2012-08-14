@@ -10,7 +10,7 @@ from main.models.account import *
 from main.models.appointment import Appointment 
 from main.models.case import Case, ServiceAndCase
 from main.models.patient import Patient
-from main.models.data import MRIData
+from main.models.data import *
 from main.models.message import Message
 from main.utils.misc import generate_random_string
 from os import listdir, makedirs, rename
@@ -128,14 +128,11 @@ def upload_complete(request):
                 sequences[parts[8]] = (start, end)
             else:
                 sequences[parts[8]] = (count, count)
-        s_and_cs = ServiceAndCase.objects.filter(case=case)
-        count = 0
+        
         for key in sequences:
-            if count < len(s_and_cs):
-                s_and_cs[count].image_start = sequences[key][0]
-                s_and_cs[count].image_end = sequences[key][1]
-                s_and_cs[count].uploaded = True
-                s_and_cs[count].save()
+            ds = DataSequence(data=data, name=key, 
+                              image_start=sequences[key][0], image_end = sequences[key][1])
+            ds.save()
         
         
            
