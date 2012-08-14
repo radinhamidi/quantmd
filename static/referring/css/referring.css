@@ -20,15 +20,31 @@
 	font-family:"Tw Cen MT","Helvetica Neue";
 	font-size: 14px;
 	padding-left: 5px;
+	margin-top: 0px;
+	clear: none;
+	position: relative;
 }
 #inner-right {
 	padding: 20px;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	top: 0px;
+	overflow: auto;
 }
 #messages-inner-left {
 	padding: 20px;
+	min-width: 300px;
 }
 #messages-inner-right {
 	padding: 20px;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	top: 0px;
+	overflow: auto;
 }
 .data-table {
 	width: 95%;
@@ -37,7 +53,7 @@
 	font-size: 14px;
 	margin-top: 20px;
 }
-.data-table td {
+.data-table td, .data-table th {
 	padding: 8px;
 }
 .title-text {
@@ -66,7 +82,9 @@
 	margin-right: 0px;
 }
 .message-list-line {
-	height: 65px;
+	height: 58px;
+	overflow: hidden;
+	padding-top: 5px;
 }
 .message-list-line .header {
 	font-size: 14px;
@@ -112,6 +130,7 @@
 	width: 100%;
 	font-size: 14px;
 	font-family: "Tw Cen MT",san-serif;
+	clear: none;
 }
 #dash-summary td, #dash-summary th {
 	padding: 5px;
@@ -122,12 +141,18 @@
 	width: 80px;
 	height: 80px;
 	text-align: center;
-	background: #e0e0ef;
+	background: #40404f;
+	color: #fff;
 	margin-bottom: 10px;
 }
 .dash-float .big {
 	font-size: 28px;
 	font-weight: bold;
+}
+.grey-out {
+	background: #F0F0FF;
+	border: 1px solid #dde;
+	color: #ccc;
 }
 .floater {
 	display: none;

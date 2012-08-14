@@ -58,6 +58,10 @@ $(document).ready(function() {
 			error: function( xhr, status, index, anchor ) {
 				$( anchor.hash ).load("error.htm");
 			}
+		},
+		cache: false,
+		show: function(event, ui) {
+			$(".ui-tabs-hide").empty();
 		}
 	});
 });

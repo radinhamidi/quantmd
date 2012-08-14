@@ -39,7 +39,7 @@ a:hover, a:active {color:#CCC;}
 	position: relative;
 	height: 100%;
 	border-width: 0px 1px 1px 1px;
-	overflow: auto;
+	overflow: hidden;
 }
 .formtable td {
 	padding: 5px;
@@ -83,4 +83,7 @@ a:hover, a:active {color:#CCC;}
 	background: #ccc;
 	filter: alpha(opacity=80);
 	opacity: 0.8;
+}
+.red {
+	color: red;
 }

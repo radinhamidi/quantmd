@@ -1,38 +1,21 @@
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
 <script src="{{STATIC_URL}}common/js/datatables.js"></script>
-
-
 <script>
-	$(document).ready(function() {
-		$('.data-table').dataTable({
-		"bPaginate": false,
-		"oLanguage": {
-		  "sSearch": "<img src='{{STATIC_URL}}common/images/find.png' />"
-		},
-		"bLengthChange": false,
-		"bFilter": true,
-		"bSort": true,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 20,
-		"sPaginationType": "full_numbers"
-	});
-});
+function msgRead(mid) {
+	$("#msg-unread-"+mid).empty();
+}
 </script>
-
 <table name="message-table" id="message-table" class="data-table">
-	<thead>
+	<thead style="display: none">
 		<tr><th></th></tr>
 	</thead>
 	<tbody>
 		{% for message in messages %}
 		<tr><td>
-			<a href="/message/message_dialog/{{message.case_id}}/{{message.is_sys}}/{{message.pk}}/" class="msgloadright">
+			<a onClick="msgRead({{message.pk}});" href="/message/message_dialog/{{message.case_id}}/{{message.is_sys}}/{{message.pk}}/" class="msgloadright">
 				<div class="message-list-line">
-					<span class="unread">
+					<span class="unread" id="msg-unread-{{message.pk}}">
 						{% if message.is_read %}
 						    
 						{% else %}

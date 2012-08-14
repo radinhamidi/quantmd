@@ -4,7 +4,27 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-	$("#inner-left-messages").load('/message/message_list/');
+	$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Loading</center>");
+	$("#inner-left-messages").hide();
+	$("#inner-left-messages").load('/message/message_list/' , function() {
+		$('#message-table').dataTable({
+			"bPaginate": false,
+			"oLanguage": {
+			  "sSearch": "<img src='{{STATIC_URL}}common/images/find.png' />"
+			},
+			"bLengthChange": false,
+			"bFilter": true,
+			"bSort": false,
+			"bInfo": false,
+			"bAutoWidth": false,
+			"bRetrieve": true,
+			"bJQueryUI": false,
+			"iDisplayLength": 20,
+			"sPaginationType": "full_numbers"
+		});
+		$("#updating-text").empty();
+		$("#inner-left-messages").fadeIn(300);
+	});
 	$("#btn-messages-refresh").button({
 		icons: {
 			primary: "ui-icon-refresh"
@@ -12,10 +32,25 @@ $(document).ready(function() {
 	});
 	$("#btn-messages-refresh").click(function() {
 		$("*").css("cursor", "wait");
-		$("#updating-text").html('<br />Refreshing...');
+		$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Refreshing</center>");
 		$("#inner-left-messages").fadeOut('fast', function() {
 			$("#inner-left-messages").load('/message/message_list/', function() {
-				$("#inner-left-messages").fadeIn('fast');
+				$('#message-table').dataTable({
+					"bPaginate": false,
+					"oLanguage": {
+					  "sSearch": "<img src='{{STATIC_URL}}common/images/find.png' />"
+					},
+					"bLengthChange": false,
+					"bFilter": true,
+					"bSort": false,
+					"bInfo": false,
+					"bAutoWidth": false,
+					"bRetrieve": true,
+					"bJQueryUI": false,
+					"iDisplayLength": 20,
+					"sPaginationType": "full_numbers"
+				});
+				$("#inner-left-messages").fadeIn(300);
 				$("#updating-text").empty();
 				$("*").css("cursor", "");
 			});
@@ -23,9 +58,6 @@ $(document).ready(function() {
 	});
 });
 </script>
-
-
-
 <div id="left-bar">
 	<div id="messages-inner-left">
 		<button id="btn-messages-refresh">Refresh</button>
@@ -41,3 +73,4 @@ $(document).ready(function() {
 		<center>Select a message</center>
 	</div>
 </div>
+<img src='{{STATIC_URL}}common/images/loading.gif' width='1px' height='1px' />

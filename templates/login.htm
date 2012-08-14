@@ -8,6 +8,7 @@
 	<script src="{{STATIC_URL}}common/js/login.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/core.css" />
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/login.css" />
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/fonts.css" />
 	
@@ -17,6 +18,14 @@
 	<div id="loginbox">
 		<div id="loginbox-header">Login</div>
 		<div id="loginbox-form">
+			{% if messages %}
+				{% for message in messages %}
+					<div class="red alert {% if message.tags == 'error' %}alert-error{% endif %}">
+						{{message}}
+					</div>
+				{% endfor %}
+				<br />
+			{% endif %}
 			<form name="login" id="login" action="/login/" method="POST">{% csrf_token %}
 				<input type="text" class="defaultTextActive" id="username-clear" value="username" />
 				<input type="text" name="username" id="username-username" /><p />

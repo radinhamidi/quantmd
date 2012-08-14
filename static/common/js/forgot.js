@@ -41,7 +41,7 @@ $(document).ready(function() {
     
 	$("#backbutton").click(function(e) {
 		$("#forgotbox").fadeOut('fast', function() {
-			window.location='login.htm';
+			window.location='/';
 		});
     });
 	
