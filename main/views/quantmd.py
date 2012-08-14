@@ -196,7 +196,7 @@ def upload_action(request):
         case_id = request.POST['case_id']
         case = Case.objects.get(pk=case_id)
         
-        extentions = ['.mp4', '.jpg', '.jpeg', '.png', '.gif']
+        extentions = ['.mp4', '.jpg', '.jpeg', '.png', '.gif', '.bmp']
         extentions2 = [s.upper() for s in extentions]
         extentions.extend(extentions2)
         dot_index = uploaded.name.rfind('.')

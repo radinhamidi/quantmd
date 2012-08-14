@@ -96,10 +96,10 @@ def upload_complete(request):
             WINDOWS = sys.platform.startswith('win32')
             if LINUX or MAC:
                 call(settings.PROJECT_ROOT + 'main/utils/dicom2-unix ' + new_path + 
-                     ' -p --to=' + directory + ' --rename=cur_nm')
+                     ' -w --to=' + directory + ' --rename=cur_nm')
             else:
                 call(settings.PROJECT_ROOT + 'main/utils/dicom2-windows ' + new_path +
-                         ' -p --to=' + directory + ' --rename=cur_nm')
+                         ' -w --to=' + directory + ' --rename=cur_nm')
             image_count += 1
         
         #Update database

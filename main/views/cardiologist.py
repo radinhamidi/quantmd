@@ -35,7 +35,7 @@ def case(request):
             index = i + 1
             for s in sequences:
                 if index >= s.image_start and index <= s.image_end:
-                    image_objs.append((index, str(index)+'.dcm.png', s.name))
+                    image_objs.append((index, str(index)+'.dcm.bmp', s.name))
                     break #found service name, continue to next image
         
         #Get analysis media
@@ -93,7 +93,7 @@ def submit_report(request):
         cinstance = Comment(data=data, image_index=image_index, content=content)
         cinstance.save()
         comments_list.append(content)
-        image_list.append(str(image_index)+'.dcm.png')
+        image_list.append(str(image_index)+'.dcm.bmp')
     
     
     #Generate PDF report
