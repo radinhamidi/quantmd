@@ -47,10 +47,6 @@ class ServiceAndCase(models.Model):
     """The service that a case needs"""
     service = models.ForeignKey(Service)
     case = models.ForeignKey(Case)
-    uploaded = models.BooleanField(default=False) #whether data is uploaded by broker
-    image_start = models.IntegerField(default=0) 
-    image_end = models.IntegerField(default=0)
-    
     
     class Meta: 
         app_label = 'main'

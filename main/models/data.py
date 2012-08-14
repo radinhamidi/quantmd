@@ -23,5 +23,12 @@ class Comment(models.Model):
     class Meta: 
         app_label = 'main'
     
-
-        
+class DataSequence(models.Model):
+    """The name and index of sequence"""
+    data = models.ForeignKey(MRIData)
+    name = models.CharField(max_length=100)
+    image_start = models.IntegerField(default=0) 
+    image_end = models.IntegerField(default=0)
+    
+    class Meta: 
+        app_label = 'main'
