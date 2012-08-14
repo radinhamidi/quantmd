@@ -307,8 +307,28 @@ def appointment_cancel(request, appointment_id):
             print content
             message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 1, is_sys = True)
             message.save()
-            print "success"
-            return redirect('main.views.patients.patientInfo', patient.id)
+            
+            
+            '''
+            send message
+            '''
+            service = ''
+            service_name = case.objects.services.all()
+            for name in service_name:
+                service += name + ' '
+
+            t = loader.get_template('referring/cancel_appointment.txt')
+            c = Context({
+                     'patient': patient,
+                     'doctor': doctor,
+                     'mri': mri,
+                     'schedule':schedule,
+                     'services':service,
+                    })
+            send_mail('Your appointment at QuantMD', t.render(c), 'support@xifenfen.com', (patient.email,), fail_silently=False)
+        
+            
+            return render_to_response('case-cancel.htm',{'appointment':appointment}, context_instance=RequestContext(request))
      else:
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
@@ -340,7 +360,7 @@ def reappointment_search(request, appointment_id):
             errors.append("Zip code and date cannot be empty")
         if zip_code.strip():
             try:
-                zip_code = int(zip_code)    
+                zip_code = int(zip_code)
             except:
                 errors.append(request, 'zipcode must be numbers')
         

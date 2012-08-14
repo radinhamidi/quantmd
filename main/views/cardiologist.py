@@ -121,6 +121,18 @@ def submit_report(request):
                       'from cardiologist ' + profile.first_name + ' ' + profile.last_name + ': '\
                       + diagnosis
     message.save()
+    
+    
+    '''
+    send system message
+    '''
+    message = Message(is_sys=True, receiver=apt.doctor, case=case, type=4)
+    message.title = 'Report Available for Case #' + case_id
+    message.content = 'Report is available for Case #' + case_id + \
+                      'from cardiologist ' + profile.first_name + ' ' + profile.last_name + ': '\
+
+    message.save()
+    
     return HttpResponse('{"code":"0", "msg":"Success"}')
 
 def logs(request):

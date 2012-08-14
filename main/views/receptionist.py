@@ -84,11 +84,9 @@ def check_in_confirm(request, appointment_id):
         return render_to_response('login.htm',{}, context_instance=RequestContext(request))
     
 def check_in_cancell(request, appointment_id):
-    print "here"
     if request.user.is_authenticated():
         if Appointment.objects.filter(id=appointment_id).exists():
             appointment = Appointment.objects.get(id=appointment_id)
-            print appointment
             appointment.check_in_time = None
             appointment.is_check_in = False
             appointment.case_status = 0

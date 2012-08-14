@@ -205,6 +205,10 @@ def patient_case(request, case_id):
             appointment = Appointment.objects.filter(case=case).filter(is_current=True)[0]
             patient = appointment.patient
             messages = Message.objects.filter(case=case)
+            unread = messages.filter(is_read = False)
+            for un in unread:
+                un.is_read = True
+                  
             return render_to_response('referring/case-view.htm', {'case':case, 'appointment':appointment, 'patient':patient, 'messages':messages},
                                       context_instance=RequestContext(request))
         else:
