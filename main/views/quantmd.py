@@ -52,19 +52,19 @@ def create_user_action(request):
         zip = int(request.POST['zipcode'])    
     except:
         messages.error(request, 'Phone and zipcode must be numbers')
-        return redirect('main.views.quantmd.create_user') 
+        return redirect('main.views.quantmd.create_user', '-1') 
         
     
     if not password.strip() or password != password_confirm:
         messages.error(request, 'Password is empty or does not match')
-        return redirect('main.views.quantmd.create_user')      
+        return redirect('main.views.quantmd.create_user', '-1')      
     if not username.strip():
         messages.error(request, 'Username cannot be empty')
-        return redirect('main.views.quantmd.create_user')
+        return redirect('main.views.quantmd.create_user', '-1')
     user, created = User.objects.get_or_create(username=username)
     if not created:
         messages.error(request, 'Username already exists!')
-        return redirect('main.views.quantmd.create_user')
+        return redirect('main.views.quantmd.create_user', '-1')
     user.set_password(password)
     user.save()
     
@@ -74,7 +74,7 @@ def create_user_action(request):
         return redirect('main.views.quantmd.create_user')
     if not email_re.match(email):
         messages.error(request, 'Email format not correct.')
-        return redirect('main.views.quantmd.create_user')
+        return redirect('main.views.quantmd.create_user', '-1')
     
     profile = Profile(user=user, first_name=first_name, middle_name=middle_name,
                       last_name=last_name, gender=int(gender), email=email, phone=phone,
@@ -85,7 +85,7 @@ def create_user_action(request):
     profile.save()
     
     messages.info(request, 'Successfully created the user')
-    return redirect('main.views.quantmd.create_user')
+    return redirect('main.views.quantmd.create_user', '-1')
         
 def edit_user(request, user_id):
     profile = Profile.objects.get(pk=user_id)
@@ -112,15 +112,15 @@ def edit_user_action(request):
         zip = int(request.POST['zipcode'])    
     except:
         messages.error(request, 'Phone and zipcode must be numbers')
-        return redirect('main.views.quantmd.create_user') 
+        return redirect('main.views.quantmd.edit_user', user_id) 
         
     if (not first_name.strip() or not last_name.strip() or not email.strip() 
         or not address.strip() or not city.strip() or not state.strip()): 
         messages.error(request, 'Only middle name and address line 2 can be empty.')
-        return redirect('main.views.quantmd.create_user')
+        return redirect('main.views.quantmd.edit_user', user_id)
     if not email_re.match(email):
         messages.error(request, 'Email format not correct.')
-        return redirect('main.views.quantmd.create_user')
+        return redirect('main.views.quantmd.edit_user', user_id) 
     
     p.first_name = first_name
     p.middle_name = middle_name
