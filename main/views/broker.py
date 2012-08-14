@@ -128,6 +128,7 @@ def upload_complete(request):
                 sequences[parts[8]] = (start, end)
             else:
                 sequences[parts[8]] = (count, count)
+            count += 1
         
         for key in sequences:
             ds = DataSequence(data=data, name=key, 
