@@ -17,6 +17,7 @@ from main.models.appointment import Appointment
 from main.models.analysis import Analysis
 from main.utils.date_process import *
 from main.models.report import *
+from main.models.message import *
 import datetime
 import operator
 import time
@@ -222,12 +223,9 @@ def upload_action(request):
 @csrf_exempt
 def process_case_action(request):
     """Store the files in 'analysis' folder and save analysis"""
-    analysis.admin_id = request.user.pk
-    analysis.save()
     
     case_id = request.POST['case_id']
     case = Case.objects.get(pk=case_id)
-    case.analysis = analysis
     case.status = 3
     case.save()
     
@@ -239,7 +237,7 @@ def process_case_action(request):
     content = 'Analysis is available for CASE #: ' + str(case.id)
         # content = "You have already made an appointment"
         
-    message = Message.objects.create(receiver = appointment.doctor, case = case, title = title, content = content, type = 2, is_sys = True)
+    message = Message.objects.create(receiver = appointment.doctor, case = case, title = title, content = content, type = 5, is_sys = True)
     message.save()
         
     
