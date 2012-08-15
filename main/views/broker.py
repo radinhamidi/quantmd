@@ -19,7 +19,7 @@ from subprocess import call
 from zipfile import ZipFile
 import sys
 
-
+@login_required
 def patients(request):
     """Show lists of patients awaiting uploading of dicom file"""
     profile = Profile.objects.get(pk=request.user.pk)
@@ -31,6 +31,7 @@ def patients(request):
     return render_to_response('broker/patients.htm', {'apts':apts, 'mri_name':mri_name},
                                   context_instance=RequestContext(request))
 
+@login_required
 def upload(request, patient_id, case_id):
     """The upload interface"""
     patient = Patient.objects.get(pk=patient_id)
@@ -39,7 +40,7 @@ def upload(request, patient_id, case_id):
                                                     'identifier':identifier},
                                   context_instance=RequestContext(request))
 
-
+@login_required
 @csrf_exempt   
 def upload_action(request):
     """
@@ -65,7 +66,8 @@ def upload_action(request):
         return HttpResponse('0')
     except Exception, e:
         return HttpResponse(str(e))
-    
+
+@login_required    
 @csrf_exempt 
 def upload_complete(request):
     """Need to map Service to the unique part in file name"""
@@ -150,7 +152,7 @@ def upload_complete(request):
         return HttpResponse('{"code":"1", "msg":"Error while processing dicom files."}')
     
 
-
+@login_required
 def logs(request):
     """The logs of uploaded files"""
     profile = Profile.objects.get(pk=request.user.pk)

@@ -16,6 +16,7 @@ from os import listdir, makedirs, rename
 from os.path import isfile, join
 from datetime import datetime
 
+@login_required
 def case(request):
     cases = Case.objects.filter(status=4, cardiologist__pk=request.user.pk)
     if len(cases) == 0:
@@ -55,6 +56,7 @@ def case(request):
                                                         'anal_videos':anal_videos, 'anal_images':anal_images},
                                   context_instance=RequestContext(request))
 
+@login_required
 def accept_case(request):
     """ Need to change query status to 3 in production """
     cases = Case.objects.filter(status=4, cardiologist__pk=request.user.pk)
@@ -74,6 +76,7 @@ def accept_case(request):
         case.save()
         return redirect('main.views.index.index')
 
+@login_required
 @csrf_exempt
 def submit_report(request):
     profile = Profile.objects.get(pk=request.user.pk)
@@ -135,6 +138,7 @@ def submit_report(request):
     
     return HttpResponse('{"code":"0", "msg":"Success"}')
 
+@login_required
 def logs(request):
     cases = Case.objects.filter(status__gte=5, cardiologist__pk=request.user.pk)
     return render_to_response('cardiologist/logs.htm', {'cases':cases},

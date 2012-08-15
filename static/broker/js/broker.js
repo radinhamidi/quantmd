@@ -45,7 +45,12 @@ $(document).ready(function() {
 		ajaxOptions: {
 			error: function( xhr, status, index, anchor ) {
 				$( anchor.hash ).load("error.htm");
-			}
-		}
+			},
+			cache: false
+		},
+		show: function(event, ui) {
+			$(".ui-tabs-hide").empty();
+		},
+		cache: false
 	});
 });

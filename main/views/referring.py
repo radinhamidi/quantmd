@@ -13,6 +13,7 @@ import datetime
 import operator
 import time
 
+@login_required
 def dashboard(request):
     msg_unread_count = Message.objects.filter(receiver__pk=request.user.pk, is_read = False, is_sys = False).count()
     diagnosis_unread_count = Message.objects.filter(receiver__pk=request.user.pk, is_read = False, is_sys = True, type = 4).count()
