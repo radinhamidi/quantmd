@@ -28,11 +28,13 @@ from subprocess import call
 from zipfile import ZipFile
 import sys
 
+@login_required
 def create_user(request, role):
     mris = MRICenter.objects.all()
     return render_to_response('quantmd/create-user.htm', {'mris':mris, 'role':role},
                                   context_instance=RequestContext(request))
 
+@login_required
 def create_user_action(request):
     username = request.POST['username']
     password = request.POST['password']
@@ -87,13 +89,15 @@ def create_user_action(request):
     
     messages.info(request, 'Successfully created the user')
     return redirect('main.views.quantmd.create_user', '-1')
-        
+
+@login_required       
 def edit_user(request, user_id):
     profile = Profile.objects.get(pk=user_id)
     mris = MRICenter.objects.all()
     return render_to_response('quantmd/edit-user.htm', {'profile':profile, 'mris':mris},
                                   context_instance=RequestContext(request))
 
+@login_required
 def edit_user_action(request):
     user_id = request.POST['user_id']
     p = Profile.objects.get(pk=user_id) 
@@ -141,52 +145,55 @@ def edit_user_action(request):
     messages.info(request, 'Saved changes to user information.')
     return redirect('main.views.quantmd.edit_user', str(p.pk))
 
+@login_required
 def view_user(request, user_id):
     user = User.objects.get(pk=user_id)
     profile = Profile.objects.get(pk=user_id)
     return render_to_response('quantmd/view-user.htm', {'user':user, 'profile':profile},
                                   context_instance=RequestContext(request))
 
-
+@login_required
 def doctors(request):
     """Show lists of doctors"""
     profiles = Profile.objects.filter(role=1)
     return render_to_response('quantmd/doctors.htm', {'profiles':profiles},
                                   context_instance=RequestContext(request))
-
+@login_required
 def receptionists(request):
     """Show lists of receptionists"""
     profiles = Profile.objects.filter(role=2)
     return render_to_response('quantmd/receptionists.htm', {'profiles':profiles},
                                   context_instance=RequestContext(request))
 
+@login_required
 def brokers(request):
     """Show lists of brokers"""
     profiles = Profile.objects.filter(role=3)
     return render_to_response('quantmd/brokers.htm', {'profiles':profiles},
                                   context_instance=RequestContext(request))
     
-    
+@login_required    
 def cardiologists(request):
     """Show lists of cardiologist"""
     profiles = Profile.objects.filter(role=4)
     return render_to_response('quantmd/cardiologists.htm', {'profiles':profiles},
                                   context_instance=RequestContext(request))
 
+@login_required
 def process_cases(request):
     """Show a list of cases that need private algorithm to process"""
     cases = Case.objects.filter(status=2)
     return render_to_response('quantmd/process-cases.htm', {'cases':cases},
                                   context_instance=RequestContext(request))
 
-
+@login_required
 def process_case(request, case_id):
     """Show interfae of process one case"""
     case = Case.objects.get(pk=case_id)
     return render_to_response('quantmd/process-case.htm', {'case':case},
                                   context_instance=RequestContext(request))
 
-
+@login_required
 @csrf_exempt   
 def upload_action(request):
     """
@@ -225,6 +232,7 @@ def upload_action(request):
         return HttpResponse(str(e))
 
 @csrf_exempt
+@login_required
 def process_case_action(request):
     """Store the files in 'analysis' folder and save analysis"""
     case_id = request.POST['case_id']
@@ -246,255 +254,219 @@ def process_case_action(request):
         
     return HttpResponse('{"code":"0", "msg":"Successfully submitted analysis of case."}')
     
-
-
-#Yang xie's code below this line:
+@login_required
 def mri(request):
     """Show lists of mri center"""
-    if request.user.is_authenticated():
-        mris = MRICenter.objects.all()
-        mri_centers = {}
-        for mri in mris:
-            case_count = Appointment.objects.filter(mri = mri, is_current=True).count()
-            mri_centers[mri] = case_count
-        print mri_centers
-        return render_to_response('quantmd/mri.htm',{'mri':mri_centers}, context_instance=RequestContext(request))     
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
+    mris = MRICenter.objects.all()
+    mri_centers = {}
+    for mri in mris:
+        case_count = Appointment.objects.filter(mri = mri, is_current=True).count()
+        mri_centers[mri] = case_count
+    print mri_centers
+    return render_to_response('quantmd/mri.htm',{'mri':mri_centers}, context_instance=RequestContext(request))     
+
+@login_required
 def mri_view(request,mri_id):
     """Show mri detail"""
-    if request.user.is_authenticated():
-        mri = MRICenter.objects.get(id = mri_id)
-        profiles = Profile.objects.filter(mri_id = mri)
-        return render_to_response('quantmd/mri-view.htm',{'mri':mri, 'profiles':profiles}, context_instance=RequestContext(request))     
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    mri = MRICenter.objects.get(id = mri_id)
+    profiles = Profile.objects.filter(mri_id = mri)
+    return render_to_response('quantmd/mri-view.htm',{'mri':mri, 'profiles':profiles}, context_instance=RequestContext(request))     
 
+@login_required
 def mri_schedule(request, mri_id, month):
-    print "heiheihei"
-    if request.user.is_authenticated():
-        mri = MRICenter.objects.get(id = mri_id)
-        today = datetime.datetime.now()
-        month = int(month)
-        days = month * 30
-        if month != 0:
-            if month > 0:
-                days = month * 30
-                today = today + datetime.timedelta(days = days)
-            else:
-                days = abs(month) * 30
-                today = today - datetime.timedelta(days = days)
-        today = today.replace(day=1)    
-        date = today
-        current = today.month
-        dic = {}
-        while today.month == current:
-            schedules = Schedule.objects.filter(mri = mri, date = today.date(), is_cancelled = False).order_by('start_time')
-            dic[today.date()] = schedules
-            today = today + datetime.timedelta(days = 1)
-        
-        sorted_x = sorted(dic.iteritems(), key=operator.itemgetter(0), reverse=False)
-        return render_to_response('quantmd/mri-schedule.htm',{'dic':sorted_x, 'date': date, 'month': month, 'mri':mri}, context_instance=RequestContext(request))  
-    else: 
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    mri = MRICenter.objects.get(id = mri_id)
+    today = datetime.datetime.now()
+    month = int(month)
+    days = month * 30
+    if month != 0:
+        if month > 0:
+            days = month * 30
+            today = today + datetime.timedelta(days = days)
+        else:
+            days = abs(month) * 30
+            today = today - datetime.timedelta(days = days)
+    today = today.replace(day=1)    
+    date = today
+    current = today.month
+    dic = {}
+    while today.month == current:
+        schedules = Schedule.objects.filter(mri = mri, date = today.date(), is_cancelled = False).order_by('start_time')
+        dic[today.date()] = schedules
+        today = today + datetime.timedelta(days = 1)
+    
+    sorted_x = sorted(dic.iteritems(), key=operator.itemgetter(0), reverse=False)
+    return render_to_response('quantmd/mri-schedule.htm',{'dic':sorted_x, 'date': date, 'month': month, 'mri':mri}, context_instance=RequestContext(request))  
 
     
-    
+@login_required    
 def create_mri_view(request):
     """Create mri center view"""
-    if request.user.is_authenticated():
-        return render_to_response('quantmd/mri-create.htm',{}, context_instance=RequestContext(request))     
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    return render_to_response('quantmd/mri-create.htm',{}, context_instance=RequestContext(request))     
 
 
+@login_required
 def create_mri_action(request):
-    if request.user.is_authenticated():
-        name = request.POST['name']
-        email = request.POST['email']
-        address = request.POST['address']
-        address2 = request.POST['address2']
-        state = request.POST['state']
-        city = request.POST['city']
-        
-        try:
-            phone = long(request.POST['phone'])
-            zip = int(request.POST['zipcode'])    
-        except:
-            messages.error(request, 'Phone and zipcode must be numbers')
-            return redirect('main.views.quantmd.create_mri_view') 
-        
-        if (not name.strip() or not email.strip() or not address.strip() or not city.strip() or not state.strip()): 
-            messages.error(request, 'Only address line 2 can be empty.')
-            return redirect('main.views.quantmd.create_mri_view')
-        
-        if not email_re.match(email):
-            messages.error(request, 'Email format not correct.')
-            return redirect('main.views.quantmd.create_mri_view')
+    name = request.POST['name']
+    email = request.POST['email']
+    address = request.POST['address']
+    address2 = request.POST['address2']
+    state = request.POST['state']
+    city = request.POST['city']
     
-        if MRICenter.objects.filter(name=name).exists():
-            messages.error('There is a same name MRI center in quantmd')
-            return redirect('main.views.quantmd.create_mri_view')
-        
-        city = city.upper()
-        mri = MRICenter.objects.create(name=name,address=address,phone=phone,email=email,state=state,city=city,zip=zip)
-        if len(address2) != 0:
-            mri.address2 =address2
-            
-        mri.save()
-        return render_to_response('quantmd/mri-create-confirm.htm',{'mri':mri}, context_instance=RequestContext(request))
+    try:
+        phone = long(request.POST['phone'])
+        zip = int(request.POST['zipcode'])    
+    except:
+        messages.error(request, 'Phone and zipcode must be numbers')
+        return redirect('main.views.quantmd.create_mri_view') 
     
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    if (not name.strip() or not email.strip() or not address.strip() or not city.strip() or not state.strip()): 
+        messages.error(request, 'Only address line 2 can be empty.')
+        return redirect('main.views.quantmd.create_mri_view')
     
-def edit_mri_view(request, mri_id):
-    if request.user.is_authenticated():
-        mri = MRICenter.objects.get(id = mri_id)
-        return render_to_response('quantmd/mri-edit.htm',{'mri':mri}, context_instance=RequestContext(request))     
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    if not email_re.match(email):
+        messages.error(request, 'Email format not correct.')
+        return redirect('main.views.quantmd.create_mri_view')
 
-def edit_mri_action(request):
-    if request.user.is_authenticated():
-        mri_id = request.POST['mri_id']
-        name = request.POST['name']
-        email = request.POST['email']
-        phone = request.POST['phone']
-        address = request.POST['address']
-        address2 = request.POST['address2']
-        state = request.POST['state']
-        zip = request.POST['zip']
-        city = request.POST['city']
-        
-        try:
-            phone = long(request.POST['phone'])
-            zip = int(request.POST['zipcode'])    
-        except:
-            messages.error(request, 'Phone and zipcode must be numbers')
-            return redirect('main.views.quantmd.edit_mri_view') 
-        
-        if (not name.strip() or not email.strip() or not address.strip() or not city.strip() or not state.strip()): 
-            messages.error(request, 'Only address line 2 can be empty.')
-            return redirect('main.views.quantmd.edit_mri_view')
-        
-        if not email_re.match(email):
-            messages.error(request, 'Email format not correct.')
-            return redirect('main.views.quantmd.edit_mri_view')
-        
-        mri = MRICenter.objects.get(id = mri_id)
-        city = city.upper()
-        mri.name = name
-        mri.email = email
-        mri.phone = phone
-        mri.address = address
-        mri.address2 = address2
-        mri.state = state
-        mri.zip = zip
-        mri.city = city
-            
-        if address2.strip() != 0:
-            mri.address2 =address2
-        mri.save()
-        return render_to_response('quantmd/mri-edit-confirm.htm',{'mri':mri}, context_instance=RequestContext(request))   
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    if MRICenter.objects.filter(name=name).exists():
+        messages.error('There is a same name MRI center in quantmd')
+        return redirect('main.views.quantmd.create_mri_view')
     
+    city = city.upper()
+    mri = MRICenter.objects.create(name=name,address=address,phone=phone,email=email,state=state,city=city,zip=zip)
+    if len(address2) != 0:
+        mri.address2 =address2
         
+    mri.save()
+    return render_to_response('quantmd/mri-create-confirm.htm',{'mri':mri}, context_instance=RequestContext(request))
+
+@login_required    
+def edit_mri_view(request, mri_id):
+    mri = MRICenter.objects.get(id = mri_id)
+    return render_to_response('quantmd/mri-edit.htm',{'mri':mri}, context_instance=RequestContext(request))     
+
+@login_required 
+def edit_mri_action(request):
+    mri_id = request.POST['mri_id']
+    name = request.POST['name']
+    email = request.POST['email']
+    phone = request.POST['phone']
+    address = request.POST['address']
+    address2 = request.POST['address2']
+    state = request.POST['state']
+    zip = request.POST['zip']
+    city = request.POST['city']
+    
+    try:
+        phone = long(request.POST['phone'])
+        zip = int(request.POST['zipcode'])    
+    except:
+        messages.error(request, 'Phone and zipcode must be numbers')
+        return redirect('main.views.quantmd.edit_mri_view') 
+    
+    if (not name.strip() or not email.strip() or not address.strip() or not city.strip() or not state.strip()): 
+        messages.error(request, 'Only address line 2 can be empty.')
+        return redirect('main.views.quantmd.edit_mri_view')
+    
+    if not email_re.match(email):
+        messages.error(request, 'Email format not correct.')
+        return redirect('main.views.quantmd.edit_mri_view')
+    
+    mri = MRICenter.objects.get(id = mri_id)
+    city = city.upper()
+    mri.name = name
+    mri.email = email
+    mri.phone = phone
+    mri.address = address
+    mri.address2 = address2
+    mri.state = state
+    mri.zip = zip
+    mri.city = city
+        
+    if address2.strip() != 0:
+        mri.address2 =address2
+    mri.save()
+    return render_to_response('quantmd/mri-edit-confirm.htm',{'mri':mri}, context_instance=RequestContext(request))   
+
+@login_required      
 def logs_view(request):
     """logs list view"""
-    if request.user.is_authenticated():
-        appointments = Appointment.objects.filter(is_current = True).order_by('-create_time')
-        return render_to_response('quantmd/logs.htm',{'appointments':appointments}, context_instance=RequestContext(request))     
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
+    appointments = Appointment.objects.filter(is_current = True).order_by('-create_time')
+    return render_to_response('quantmd/logs.htm',{'appointments':appointments}, context_instance=RequestContext(request))     
 
+@login_required  
 def log_view(request, case_id):
     """logs view"""
-    if request.user.is_authenticated():
-        case = Case.objects.get(id=case_id)
-        appointments = Appointment.objects.filter(case = case, is_current = True)
-        return render_to_response('quantmd/log-view.htm',{'appointment':appointments[0], 'case':case}, context_instance=RequestContext(request))     
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
-def dashborad(request):
-    if request.user.is_authenticated():
-        monday = get_monday()
-        unprocess_count = Case.objects.filter(status=2).count()
-        complete_count = Report.objects.filter(create_time__gte= monday).count()
-        awiting_dia_count = Case.objects.filter(status=3).count() + Case.objects.filter(status=4).count()
-        schedule_count = Appointment.objects.filter(create_time__gte= monday, is_current=True, is_cancelled=False).count()
-        
-        doctors = Profile.objects.raw("select p.* from main_profile as p, main_appointment as apt \
-                        where apt.is_current = 1 and apt.is_cancelled = 0 and apt.doctor_id = p.user_id\
-                        and apt.create_time > '%s' group by apt.doctor_id \
-                        order by count(apt.doctor_id) desc limit 0,5" % monday)
-        doctors = list(doctors)
+    case = Case.objects.get(id=case_id)
+    appointments = Appointment.objects.filter(case = case, is_current = True)
+    return render_to_response('quantmd/log-view.htm',{'appointment':appointments[0], 'case':case}, context_instance=RequestContext(request))     
 
-        for i in xrange(len(doctors)):
-            doctors[i].count = Appointment.objects.filter(doctor=doctors[i],create_time__gte= monday, is_current=True, is_cancelled=False).count()
-        
-        cases = Case.objects.filter(assigned_time__gte= monday)
-        print monday
-        print cases
-        cardi_counts = {}
-        for c in cases:
-            if c.cardiologist_id:
-                if c.cardiologist_id in cardi_counts:
-                    cardi_counts[c.cardiologist_id] += 1
-                else:
-                    cardi_counts[c.cardiologist_id] = 1
-        sorted_d = sorted(cardi_counts.iteritems(), key=operator.itemgetter(1), reverse=True)
-        cardi_ids = [i[0] for i in sorted_d[:5]]
-        
-        cardiologists = Profile.objects.filter(pk__in=cardi_ids)
-        for i in xrange(len(cardiologists)):
-            cardiologists[i].count = cardi_counts[cardiologists[i].pk]
-        
-        return render_to_response('quantmd/dashboard.htm',{"unprocess":unprocess_count, 'complete':complete_count, 'awiting':awiting_dia_count, 
-                                                           'schedule':schedule_count, "doctors":doctors,
-                                                           'cardiologists':cardiologists, }, 
-                                   context_instance=RequestContext(request))     
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+@login_required 
+def dashborad(request):
+    monday = get_monday()
+    unprocess_count = Case.objects.filter(status=2).count()
+    complete_count = Report.objects.filter(create_time__gte= monday).count()
+    awiting_dia_count = Case.objects.filter(status=3).count() + Case.objects.filter(status=4).count()
+    schedule_count = Appointment.objects.filter(create_time__gte= monday, is_current=True, is_cancelled=False).count()
     
+    doctors = Profile.objects.raw("select p.* from main_profile as p, main_appointment as apt \
+                    where apt.is_current = 1 and apt.is_cancelled = 0 and apt.doctor_id = p.user_id\
+                    and apt.create_time > '%s' group by apt.doctor_id \
+                    order by count(apt.doctor_id) desc limit 0,5" % monday)
+    doctors = list(doctors)
+
+    for i in xrange(len(doctors)):
+        doctors[i].count = Appointment.objects.filter(doctor=doctors[i],create_time__gte= monday, is_current=True, is_cancelled=False).count()
+    
+    cases = Case.objects.filter(assigned_time__gte= monday)
+    print monday
+    print cases
+    cardi_counts = {}
+    for c in cases:
+        if c.cardiologist_id:
+            if c.cardiologist_id in cardi_counts:
+                cardi_counts[c.cardiologist_id] += 1
+            else:
+                cardi_counts[c.cardiologist_id] = 1
+    sorted_d = sorted(cardi_counts.iteritems(), key=operator.itemgetter(1), reverse=True)
+    cardi_ids = [i[0] for i in sorted_d[:5]]
+    
+    cardiologists = Profile.objects.filter(pk__in=cardi_ids)
+    for i in xrange(len(cardiologists)):
+        cardiologists[i].count = cardi_counts[cardiologists[i].pk]
+    
+    return render_to_response('quantmd/dashboard.htm',{"unprocess":unprocess_count, 'complete':complete_count, 'awiting':awiting_dia_count, 
+                                                       'schedule':schedule_count, "doctors":doctors,
+                                                       'cardiologists':cardiologists, }, 
+                               context_instance=RequestContext(request))     
+@login_required     
 def services_view(request):
-    if request.user.is_authenticated():
         services = Service.objects.all()
-        return render_to_response('quantmd/services.htm',{'services':services}, context_instance=RequestContext(request))     
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
+        return render_to_response('quantmd/services.htm',
+                                  {'services':services}, context_instance=RequestContext(request))
+
+@login_required 
 def services_stop(request, service_id):
-    if request.user.is_authenticated():
-        service = Service.objects.get(id=service_id)
-        service.is_active = False
-        service.save()
-        return redirect('main.views.quantmd.services_view')    
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
+    service = Service.objects.get(id=service_id)
+    service.is_active = False
+    service.save()
+    return redirect('main.views.quantmd.services_view')    
+
+@login_required     
 def services_active(request,service_id):
-    if request.user.is_authenticated():
-        service = Service.objects.get(id=service_id)
-        service.is_active = True
-        service.save()
-        return redirect('main.views.quantmd.services_view')    
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
-    
+    service = Service.objects.get(id=service_id)
+    service.is_active = True
+    service.save()
+    return redirect('main.views.quantmd.services_view')    
+
+@login_required     
 def services_add(request):
-    if request.user.is_authenticated():
-        name = request.POST['add-scan-name']
-        if not name.strip():
-            messages.error(request, 'Service name cannot be empty')
-            return redirect('main.views.quantmd.services_view') 
-        
-        service = Service.objects.create(name=name)
-        service.save()
-        return redirect('main.views.quantmd.services_view')    
-    else:
-        return render_to_response('login.htm',{}, context_instance=RequestContext(request))
+    name = request.POST['add-scan-name']
+    if not name.strip():
+        messages.error(request, 'Service name cannot be empty')
+        return redirect('main.views.quantmd.services_view') 
     
+    service = Service.objects.create(name=name)
+    service.save()
+    return redirect('main.views.quantmd.services_view')    
+

@@ -8,6 +8,7 @@ TEMPLATE_DEBUG = DEBUG
 
 APP_URL = 'http://23.20.201.4/'
 PROJECT_ROOT = os.path.dirname(__file__).replace('\\','/') + '/'  #used in webpage tagging
+LOGIN_URL = APP_URL + 'account/login/' 
 
 ADMINS = (
     #('Yifu Diao', 'alexdiaochina@gmail.com'),
