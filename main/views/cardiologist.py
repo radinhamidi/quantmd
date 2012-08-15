@@ -115,7 +115,7 @@ def submit_report(request):
     case.report = report
     case.save()
     
-    apt = Appointment.objects.get(case=case)
+    apt = Appointment.objects.get(case=case, is_current=True)
     
     message = Message(is_sys=False, receiver=apt.doctor, case=case)
     message.sender_id = request.user.pk
