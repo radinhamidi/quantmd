@@ -50,11 +50,13 @@
 
 <div class="title-text">Create Patient</div>
 <br />
-{% if errors %}
-		{% for error in errors %}
-			{{error}}</br>
-		{% endfor %}	
-{% endif %}
+{% for message in messages %}
+<div class="span8 offset2">
+	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+		{{message}}
+	</div>
+</div>
+{% endfor %}
 
 <form id="form-create-patient" name="form-create-patient" action="/referring/createPatientAction/"> {% csrf_token %}
 	<table class="formtable">
