@@ -18,30 +18,7 @@
 			$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Loading</center>");
 			$("#inner-left-patient").css('margin-left','-10000px');
 			$("#inner-left-patient").load('/referring/patientsInfo/', function () {
-				$('#patients-table').dataTable({
-					"bPaginate" : false,
-					"bLengthChange" : false,
-					"bFilter" : true,
-					"oLanguage" : {
-						"sSearch" : "<img src='{{STATIC_URL}}referring/images/find.png' />"
-					},
-					"bSort" : true,
-					"bInfo" : false,
-					"bAutoWidth" : false,
-					"bRetrieve" : true,
-					"bJQueryUI" : false,
-					"iDisplayLength" : 20,
-					"sPaginationType" : "full_numbers"
-				});
-				$("#updating-text").empty();
-				$("#inner-left-patient").css('margin-left','0px');
-			});
-			$("#btn-patient-refresh").click(function () {
-				$("*").css("cursor", "wait");
-				$("#change-password-modal").show();
-				$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Refreshing</center>");
-				$("#inner-left-patient").css('margin-left','-10000px');
-				$("#inner-left-patient").load('/referring/patientsInfo/', function () {
+				setTimeout(function() {
 					$('#patients-table').dataTable({
 						"bPaginate" : false,
 						"bLengthChange" : false,
@@ -57,10 +34,37 @@
 						"iDisplayLength" : 20,
 						"sPaginationType" : "full_numbers"
 					});
-					$("#inner-left-patient").css('margin-left','0px');
 					$("#updating-text").empty();
-					$("#change-password-modal").hide();
-					$("*").css("cursor", "");
+					$("#inner-left-patient").css('margin-left','0px');
+				},300);
+			});
+			$("#btn-patient-refresh").click(function () {
+				$("*").css("cursor", "wait");
+				$("#change-password-modal").show();
+				$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Refreshing</center>");
+				$("#inner-left-patient").css('margin-left','-10000px');
+				$("#inner-left-patient").load('/referring/patientsInfo/', function () {
+					setTimeout(function() {
+						$('#patients-table').dataTable({
+							"bPaginate" : false,
+							"bLengthChange" : false,
+							"bFilter" : true,
+							"oLanguage" : {
+								"sSearch" : "<img src='{{STATIC_URL}}referring/images/find.png' />"
+							},
+							"bSort" : true,
+							"bInfo" : false,
+							"bAutoWidth" : false,
+							"bRetrieve" : true,
+							"bJQueryUI" : false,
+							"iDisplayLength" : 20,
+							"sPaginationType" : "full_numbers"
+						});
+						$("#inner-left-patient").css('margin-left','0px');
+						$("#updating-text").empty();
+						$("#change-password-modal").hide();
+						$("*").css("cursor", "");
+					},300);
 				});
 				
 			});

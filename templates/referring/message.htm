@@ -4,38 +4,9 @@
 <script>
 $(document).ready(function() {
 	$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Loading</center>");
-	$("#inner-left-messages").hide();
+	$("#inner-left-messages").css('margin-left','-10000px');
 	$("#inner-left-messages").load('/message/message_list/' , function() {
-		$('#message-table').dataTable({
-			"bPaginate": false,
-			"oLanguage": {
-			  "sSearch": "<img src='{{STATIC_URL}}common/images/find.png' />"
-			},
-			"bLengthChange": false,
-			"bFilter": true,
-			"bSort": false,
-			"bInfo": false,
-			"bAutoWidth": false,
-			"bRetrieve": true,
-			"bJQueryUI": false,
-			"iDisplayLength": 20,
-			"sPaginationType": "full_numbers"
-		});
-		$("#updating-text").empty();
-		$("#inner-left-messages").fadeIn(300);
-	});
-	$("#btn-messages-refresh").button({
-		icons: {
-			primary: "ui-icon-refresh"
-		},
-		text: false
-	});
-	$("#btn-messages-refresh").click(function() {
-		$("*").css("cursor", "wait");
-		$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Refreshing</center>");
-		$("#inner-left-messages").css('margin-left','-10000px');
-		$(".dataTables_filter").hide();
-		$("#inner-left-messages").load('/message/message_list/', function() {
+		setTimeout(function() {
 			$('#message-table').dataTable({
 				"bPaginate": false,
 				"oLanguage": {
@@ -51,10 +22,43 @@ $(document).ready(function() {
 				"iDisplayLength": 20,
 				"sPaginationType": "full_numbers"
 			});
-			$("#inner-left-messages").css('margin-left','0px');
-			$(".dataTables_filter").show();
 			$("#updating-text").empty();
-			$("*").css("cursor", "");
+			$("#inner-left-messages").css('margin-left','0px');
+		},300);
+	});
+	$("#btn-messages-refresh").button({
+		icons: {
+			primary: "ui-icon-refresh"
+		},
+		text: false
+	});
+	$("#btn-messages-refresh").click(function() {
+		$("*").css("cursor", "wait");
+		$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Refreshing</center>");
+		$("#inner-left-messages").css('margin-left','-10000px');
+		$(".dataTables_filter").hide();
+		$("#inner-left-messages").load('/message/message_list/', function() {
+			setTimeout(function() {
+				$('#message-table').dataTable({
+					"bPaginate": false,
+					"oLanguage": {
+					  "sSearch": "<img src='{{STATIC_URL}}common/images/find.png' />"
+					},
+					"bLengthChange": false,
+					"bFilter": true,
+					"bSort": false,
+					"bInfo": false,
+					"bAutoWidth": false,
+					"bRetrieve": true,
+					"bJQueryUI": false,
+					"iDisplayLength": 20,
+					"sPaginationType": "full_numbers"
+				});
+				$("#inner-left-messages").css('margin-left','0px');
+				$(".dataTables_filter").show();
+				$("#updating-text").empty();
+				$("*").css("cursor", "");
+			},300);
 		});
 	});
 });
