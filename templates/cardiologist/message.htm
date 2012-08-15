@@ -4,7 +4,12 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-	$("#inner-left-messages").load('/message/message_list/');
+	$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Loading</center>");
+	$("#inner-left-messages").css('margin-left','-10000px');
+	$("#inner-left-messages").load('/message/message_list/', function() {
+		$("#updating-text").empty();
+		$("#inner-left-messages").css('margin-left','0px');
+	});
 	$("#btn-messages-refresh").button({
 		icons: {
 			primary: "ui-icon-refresh"
@@ -12,13 +17,16 @@ $(document).ready(function() {
 	});
 	$("#btn-messages-refresh").click(function() {
 		$("*").css("cursor", "wait");
-		$("#updating-text").html('<br />Refreshing...');
-		$("#inner-left-messages").fadeOut('fast', function() {
-			$("#inner-left-messages").load('/message/message_list/', function() {
-				$("#inner-left-messages").fadeIn('fast');
-				$("#updating-text").empty();
-				$("*").css("cursor", "");
-			});
+		$("#change-password-modal").show();
+		$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Refreshing</center>");
+		$("#inner-left-messages").css('margin-left','-10000px');
+		$(".dataTables_filter").hide();
+		$("#inner-left-messages").load('/message/message_list/', function() {
+			$("#inner-left-messages").css('margin-left','0px');
+			$(".dataTables_filter").show();
+			$("#change-password-modal").hide();
+			$("#updating-text").empty();
+			$("*").css("cursor", "");
 		});
 	});
 });
@@ -41,3 +49,4 @@ $(document).ready(function() {
 		<center>Select a message</center>
 	</div>
 </div>
+<img src='{{STATIC_URL}}common/images/loading.gif' width='1px' height='1px' />

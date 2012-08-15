@@ -52,6 +52,7 @@
 			}
 		});
 	});
+	{% if has_pending_case %}
 	function prevImage(curr) {
 		if(curr == 1) {
 			alert('min!');
@@ -116,6 +117,7 @@
             },
         });
 	}
+	{% endif %}
 </script>
 <div class="title-text">Diagnose Case</div>
 <br />
@@ -175,8 +177,8 @@
 </div>
 {% else %} <!-- No pending case, accept one -->
 <div id="case-absent">
-	<span class="orange"><a href="/cardiologist/accept_case/" id="new-case-btn" class="orange btn innerlink">Accept New Case</a></span>
-	<br />
+	<span class="orange"><a href="/cardiologist/accept_case/" id="new-case-btn" class="orange innerlink">Accept New Case</a></span>
+	<br /><br />
 	{% if not messages %}
 		No case assigned, please accept one.
 	{% endif %}

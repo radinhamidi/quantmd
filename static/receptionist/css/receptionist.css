@@ -1,6 +1,6 @@
 #patient-inhouse, #patient-incoming {
 	width: 100%;
-	font-size: 12px;
+	font-size: 13px;
 	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
 }	
 #patient-inhouse td, #patient-inhouse th {
@@ -11,7 +11,7 @@
 }
 #reschedule-table {
 	width: 100%;
-	font-size: 12px;
+	font-size: 13px;
 	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
 }
 #reschedule-table td, #reschedule-table th {
@@ -22,7 +22,7 @@
 }
 #reschedule-table-2 {
 	width: 100%;
-	font-size: 12px;
+	font-size: 13px;
 	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
 }
 #reschedule-table-2 td, #reschedule-table-2 th {

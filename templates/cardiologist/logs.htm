@@ -4,21 +4,6 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#log-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": true,
-		"oLanguage": {
-		  "sSearch": "<img src='images/find.png' />"
-		},
-		"bSort": true,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 20,
-		"sPaginationType": "full_numbers"
-	});
 	$(".checkin").button({
 			icons: {
 				primary: "ui-icon-play"
@@ -38,6 +23,25 @@ $(document).ready(function() {
 			 text: false
 		});
 });
+$(function() {
+	setTimeout(function() {
+		$('#log-table').dataTable({
+			"bPaginate": false,
+			"bLengthChange": false,
+			"bFilter": true,
+			"oLanguage": {
+			  "sSearch": "<img src='{{STATIC_URL}}common/images/find.png' />"
+			},
+			"bSort": true,
+			"bInfo": false,
+			"bAutoWidth": false,
+			"bRetrieve": true,
+			"bJQueryUI": false,
+			"iDisplayLength": 20,
+			"sPaginationType": "full_numbers"
+		});
+	},300);
+});
 </script>
 <div class="title-text">Diagnosis Log</div>
 <table id="log-table">
@@ -45,7 +49,7 @@ $(document).ready(function() {
 		<tr>
 			<th>Name</th>
 			<th width="50px">Sex</th>
-			<th width="50px">Age</th>
+			<th width="130px">Birthdate</th>
 			<th width="130px">Scan Date</th>
 			<th width="130px">Diagnose Date</th>
 			<th width="50px">View</th>
@@ -60,7 +64,6 @@ $(document).ready(function() {
 			<td align="center">{{case.data.create_time}}</td>
 			<td align="center">{{case.report.create_time}}</td>
 			<td align="center">
-			<td>
 				<span class="orange"><a target="_blank" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.pdf" class="orange view innerlink">c</a></span>
 			</td>
 		</tr>

@@ -34,6 +34,7 @@ $(document).ready(function() {
 	});
 	$("#btn-messages-refresh").click(function() {
 		$("*").css("cursor", "wait");
+		$("#change-password-modal").show();
 		$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Refreshing</center>");
 		$("#inner-left-messages").css('margin-left','-10000px');
 		$(".dataTables_filter").hide();
@@ -56,6 +57,7 @@ $(document).ready(function() {
 				});
 				$("#inner-left-messages").css('margin-left','0px');
 				$(".dataTables_filter").show();
+				$("#change-password-modal").hide();
 				$("#updating-text").empty();
 				$("*").css("cursor", "");
 			},300);
