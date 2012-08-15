@@ -43,11 +43,13 @@
 
 <div class="title-text">Edit Patient</div>
 <br />
-{% if errors %}
-		{% for error in errors %}
-			{{error}}</br>
-		{% endfor %}	
-{% endif %}
+{% for message in messages %}
+<div class="span8 offset2">
+	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+		{{message}}
+	</div>
+</div>
+{% endfor %}
 <form id="form-edit-patient" name="form-edit-patient" action="/referring/editPatientAction/{{patient.id}}/"> {% csrf_token %}
 	<table class="formtable">
 		<tr>

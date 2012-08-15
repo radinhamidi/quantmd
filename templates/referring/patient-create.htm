@@ -45,16 +45,20 @@
 			event.preventDefault();
 		}
 	}); 
+	$("#birthday").datepicker();
+	$("#birthday").datepicker('setDate', new Date());
 });
 </script>
 
 <div class="title-text">Create Patient</div>
 <br />
-{% if errors %}
-		{% for error in errors %}
-			{{error}}</br>
-		{% endfor %}	
-{% endif %}
+{% for message in messages %}
+<div class="span8 offset2">
+	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+		{{message}}
+	</div>
+</div>
+{% endfor %}
 
 <form id="form-create-patient" name="form-create-patient" action="/referring/createPatientAction/"> {% csrf_token %}
 	<table class="formtable">
@@ -86,7 +90,7 @@
 		</tr>
 		<tr>
 			<td>Birthday:</td>
-			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday"  class="required birthday"/></td>
+			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday" id="birthday" class="required birthday"/></td>
 		</tr>
 		<tr>
 			<td>Phone:</td>
