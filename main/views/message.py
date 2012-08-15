@@ -34,6 +34,7 @@ def message_list(request):
         template = 'referring/message-list.htm'
     else: #role == 3
         template = 'cardiologist/message-list.htm'
+    print messages
     return render_to_response(template, {'messages':messages},
                                   context_instance=RequestContext(request))
 
