@@ -23,6 +23,7 @@ import operator
 import time
 from os import listdir, makedirs, rename
 from os.path import isfile, join
+from shutil import rmtree
 from subprocess import call
 from zipfile import ZipFile
 import sys
@@ -196,11 +197,14 @@ def upload_action(request):
         case_id = request.POST['case_id']
         case = Case.objects.get(pk=case_id)
         
+        directory = settings.MEDIA_ROOT + 'dicom/' + case.data.name + '/analysis'
+        
         extentions = ['.mp4', '.jpg', '.jpeg', '.png', '.gif', '.bmp']
         extentions2 = [s.upper() for s in extentions]
         extentions.extend(extentions2)
         dot_index = uploaded.name.rfind('.')
         if uploaded.name[dot_index:] not in extentions:
+            rmtree(directory) #Have user to upload all files again
             return HttpResponse('Only mp4 and image files can be uploaded.')
         
         #Create a folder holding analysis files
@@ -223,26 +227,24 @@ def upload_action(request):
 @csrf_exempt
 def process_case_action(request):
     """Store the files in 'analysis' folder and save analysis"""
-    
     case_id = request.POST['case_id']
     case = Case.objects.get(pk=case_id)
     case.status = 3
     case.save()
     
+    analysis = Analysis()
+    analysis.admin_id = request.user.pk
+    analysis.save()
+    
     appointment = Appointment.objects.filter(case = case, is_current = True, is_cancelled = False)[0]
     
     title = 'Analysis is available for CASE #' + str(case.id) 
     title = title.upper()
-     
     content = 'Analysis is available for CASE #: ' + str(case.id)
-        # content = "You have already made an appointment"
-        
     message = Message.objects.create(receiver = appointment.doctor, case = case, title = title, content = content, type = 5, is_sys = True)
     message.save()
         
-    
-    messages.info(request, 'Successfully submited diagnosis of case.')
-    return redirect('main.views.quantmd.process_cases')
+    return HttpResponse('{"code":"0", "msg":"Successfully submitted analysis of case."}')
     
 
 

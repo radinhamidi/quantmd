@@ -35,11 +35,12 @@
 				'queueID'      : 'queue',
 				'uploadScript' : '/broker/upload_action/',
 				'onUploadStart' : function() {
-					$('#change-password-modal').fadeIn(100);
+					$('#change-password-modal').show();
 				},
 				'onQueueComplete' : function() {
 					$('#upload-btn').hide();
 					$('#complete-btn').show();
+					$('#change-password-modal').hide();
 				}
 			});
 			},800);
