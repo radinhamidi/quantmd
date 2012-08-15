@@ -16,7 +16,6 @@ $(document).ready(function() {
     $("*").mouseup(function(){ 
         if(!mouse_is_inside) $('#user-box-options').fadeOut("fast");
     });
-	$('.ui-tabs-panel').jScrollPane();
 });
 //Logout Confirmation Dialog
 function logout(e) {

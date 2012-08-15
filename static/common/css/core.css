@@ -1,89 +1,34 @@
 *{margin:0}
-body{background-image:url('../images/bg.png'); font-size:13px; height:100%; color:#777; font-family:"Tw Cen MT","Helvetica Neue";}
-html{height:100%; width:100%; overflow:hidden; }
-#wrapper{ width: 100%; height: 100%; overflow:hidden;}
-#container { position: absolute; bottom: 138px; top: 20px; left: 20px; right: 20px; display: none;}
-a:link, a:visited {color:#000; text-decoration:none; }
-a:hover, a:active {color:#CCC;}
-#footer a:link, #footer  a:visited {color:#DDD; text-decoration:none; }
-#footer  a:hover, #footer  a:active {color:#60C2FF;}
-.userbox a:link, .userbox  a:visited {color:#DDD; text-decoration:none; }
-.userbox  a:hover, .userbox  a:active {color:#60C2FF;}
-.data-table a:link, .data-table a:visited{color:#000; text-decoration:none; }
-.data-table a:hover, .data-table a:active{color:#20A2DF;}
-.format-table {
-	margin-top: 5px;
-	font-family:"Tw Cen MT","Helvetica Neue";
-	font-size: 13px;
-}
-.format-table td, .format-table th {
-	padding: 2px;
-}
-#tabs-nohdr {
-	margin: 5px;
-	position: relative;
-	padding: 0px;
-	background: none;
-	border-width: 0px;
-}
-#tabs-nohdr .ui-tabs-nav {
-	padding-left: 0px;
-	background: transparent;
-	border-width: 0px 0px 1px 0px;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	border-radius: 0px;
-}
-#tabs-nohdr .ui-tabs-panel {
-	background: #fff;
-	position: relative;
-	height: 100%;
-	border-width: 0px 1px 1px 1px;
-	overflow: hidden;
-}
-.formtable td {
-	padding: 5px;
-}
+body{background-image:url('../images/bg.png'); font-size:13px; height:100%; color:#777; font-family:"Tw Cen MT","Helvetica Neue"}
+html{height:100%; width:100%; overflow:hidden}
+#wrapper{width:100%; height:100%; overflow:hidden}
+#container{position:absolute; bottom:138px; top:20px; left:20px; right:20px; display:none}
+a:link, a:visited{color:#000; text-decoration:none}
+a:hover, a:active{color:#CCC}
+#footer a:link, #footer a:visited{color:#DDD; text-decoration:none}
+#footer a:hover, #footer a:active{color:#60C2FF}
+.userbox a:link, .userbox a:visited{color:#DDD; text-decoration:none}
+.userbox a:hover, .userbox a:active{color:#60C2FF}
+.data-table a:link, .data-table a:visited{color:#000; text-decoration:none}
+.data-table a:hover, .data-table a:active{color:#20A2DF}
+.format-table{margin-top:5px; font-family:"Tw Cen MT","Helvetica Neue"; font-size:13px}
+.format-table td, .format-table th{padding:2px}
+#tabs-nohdr{margin:5px; position:relative; padding:0px; background:none; border-width:0px}
+#tabs-nohdr .ui-tabs-nav{padding-left:0px; background:transparent; border-width:0px 0px 1px 0px; -moz-border-radius:0px; -webkit-border-radius:0px; border-radius:0px}
+#tabs-nohdr .ui-tabs-panel{background:#fff; position:relative; height:100%; border-width:0px 1px 1px 1px; overflow:hidden; min-width:980px}
+.formtable td{padding:5px}
 /* Footer Components */
-#footer{min-width:900px; position:relative; margin-top:-40px; height:40px; clear:both; background-color:#000; display: none;}
-#footer-left{padding-left:11px; padding-top:11px; font-size:13px; color:#DDD; float:left; width: 200px;}
-#footer-left-logo{ float: left; }
+#footer{min-width:900px; position:relative; margin-top:-40px; height:40px; clear:both; background-color:#000; display:none}
+#footer-left{padding-left:11px; padding-top:11px; font-size:13px; color:#DDD; float:left; width:200px}
+#footer-left-logo{float:left}
 #footer-right{padding-right:11px; padding-top:11px; font-size:13px; color:#DDD; float:right}
 /* User Box Components */
-#user-box{position:absolute; margin-top:0px; height:40px; background-color:#000; width:200px; right:30px; z-index:10; cursor:pointer; display: none;}
+#user-box{position:absolute; margin-top:0px; height:40px; background-color:#000; width:200px; right:30px; z-index:10; cursor:pointer; display:none}
 #user-box-text{width:180px; font-size:13px; color:#EEE; margin-left:auto; margin-right:auto; padding-top:10px}
-#user-box-options{width:200px; height:70px; position:relative; margin-top:17px; background-color:#fff; border: 1px solid #000; filter:alpha(opacity=90); opacity:0.9; z-index:15000; display:none}
+#user-box-options{width:200px; height:70px; position:relative; margin-top:17px; background-color:#fff; border:1px solid #000; filter:alpha(opacity=90); opacity:0.9; z-index:15000; display:none}
 #user-box-options-text{width:180px; font-size:13px; color:#000; margin-left:auto; margin-right:auto; padding-top:10px; line-height:24px}
 #user-box-options-text a:link, #user-box-options-text a:visited{color:#000; text-decoration:none}
 #user-box-options-text a:hover, #user-box-options-text a:active{color:#39588A}
-#change-password {
-	width: 300px;
-	height: 300px;
-	margin-left: -160px;
-	margin-top: -160px;
-	overflow: auto;
-	display: none;
-	border: 1px solid #000;
-	padding: 10px;
-	background: #FFF;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	z-index: 805;
-	font-size: 11px;
-}
-#change-password-modal {
-	display: none;
-	width: 100%;
-	height: 100%;
-	z-index: 800;
-	top: 0;
-	left: 0;
-	position: absolute;
-	background: #ccc;
-	filter: alpha(opacity=80);
-	opacity: 0.8;
-}
-.red {
-	color: red;
-}
+#change-password{width:300px; height:300px; margin-left:-160px; margin-top:-160px; overflow:auto; display:none; border:1px solid #000; padding:10px; background:#FFF; position:absolute; top:50%; left:50%; z-index:805; font-size:11px}
+#change-password-modal{display:none; width:100%; height:100%; z-index:800; top:0; left:0; position:absolute; background:#ccc; filter:alpha(opacity=80); opacity:0.8}
+.red{color:red}

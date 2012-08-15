@@ -1,239 +1,46 @@
-#left-bar {
-	width: 30%;
-	min-width: 300px;
-	height: 100%;
-	float: left;
-	border-right: 1px solid #000;
-	overflow-y: scroll;
-	overflow-x: hidden;
-	font-family:"Tw Cen MT","Helvetica Neue";
-	font-size: 13px;
-}
-#inner-left {
-	padding: 20px;
-	min-width: 300px;
-}
-#right-bar {
-	width: 70%;
-	margin-left: 30%;
-	height: 100%;
-	font-family:"Tw Cen MT","Helvetica Neue";
-	font-size: 14px;
-	padding-left: 5px;
-	margin-top: 0px;
-	clear: none;
-	position: relative;
-}
-#inner-right {
-	padding: 20px;
-	position: absolute;
-	left: 0px;
-	right: 0px;
-	bottom: 0px;
-	top: 0px;
-	overflow: auto;
-}
-#messages-inner-left {
-	padding: 20px;
-	min-width: 300px;
-}
-#messages-inner-right {
-	padding: 20px;
-	position: absolute;
-	left: 0px;
-	right: 0px;
-	bottom: 0px;
-	top: 0px;
-	overflow: auto;
-}
-.data-table {
-	width: 95%;
-	min-width: 250px;
-	font-family:"Tw Cen MT","Helvetica Neue";
-	font-size: 14px;
-	margin-top: 20px;
-}
-.data-table td, .data-table th {
-	padding: 8px;
-}
-.title-text {
-	font-size: 24px;
-	margin-bottom: 2px;
-	font-family:"Helvetica Neue";
-}
-.small-title {
-	font-size: 16px;
-	margin-bottom: 6px;
-	color: #AAD;
-}
-#case-table {
-	width: 100%;
-	font-size: 14px;
-}
-#case-table td, #case-table th {
-	padding: 7px;
-}
-#patient-info-nav {
-	float: right;
-	margin-right: 0px;
-}
-#case-info-nav {
-	float: right;
-	margin-right: 0px;
-}
-.message-list-line {
-	height: 58px;
-	overflow: hidden;
-	padding-top: 5px;
-}
-.message-list-line .header {
-	font-size: 14px;
-	font-weight: bold;
-}
-#message-table {
-	margin-top: -10px;
-}
-#mri-centers {
-	width: 100%;
-	font-size: 14px;
-}
-#mri-centers td {
-	padding: 7px;
-	background-color: #efefef;
-}
-#mri-centers .left {
-	background-color: #dddddf;
-	font-weight: bold;
-}
-#timeslot-confirm {
-	width: 350px;
-	height: 400px;
-	display: none;
-}
-#dash-header {
-	width: 400px;
-	height: 50px;
-	margin-left: 10px;
-	margin-top: 10px;
-}
-#dash-overview {
-	float: left;
-	width: 100px;
-	height: 450px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-}
-#dash-main {
-	margin-left: 140px;
-}
-#dash-summary {
-	width: 100%;
-	font-size: 14px;
-	font-family: "Tw Cen MT",san-serif;
-	clear: none;
-}
-#dash-summary td, #dash-summary th {
-	padding: 5px;
-}
-.dash-float{
-	font-size: 14px;
-	padding: 10px;
-	width: 80px;
-	height: 80px;
-	text-align: center;
-	background: #40404f;
-	color: #fff;
-	margin-bottom: 10px;
-}
-.dash-float .big {
-	font-size: 28px;
-	font-weight: bold;
-}
-.grey-out {
-	background: #F0F0FF;
-	border: 1px solid #dde;
-	color: #ccc;
-}
-.floater {
-	display: none;
-	border: 1px solid #000;
-	padding: 10px;
-	background: #FFF;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	z-index: 800;
-}
-#referring-modal {
-	display: none;
-	width: 100%;
-	height: 100%;
-	z-index: 700;
-	top: 0;
-	left: 0;
-	position: absolute;
-	background: #ccc;
-	filter: alpha(opacity=80);
-	opacity: 0.8;
-}
-#view-box {
-	width: 550px;
-	height: 650px;
-	margin-left: -310px;
-	margin-top: -335px;
-	overflow: auto;
-}
-.image-placeholder {
-	position: relative;
-	height: 550px;
-	width: 550px;
-}
-.btn_left {
-	position: absolute;
-	width: 40px;
-	padding: 10px;
-	left: 0px;
-	bottom: 15px;
-	background: #000;
-	color: #fff;
-	text-align: center;
-	cursor: pointer;
-}
-.btn_right {
-	position: absolute;
-	width: 40px;
-	padding: 10px;
-	right: 0px;
-	bottom: 15px;
-	background: #000;
-	color: #fff;
-	text-align: center;
-	cursor: pointer;
-}
-.position {
-	position: absolute;
-	width: 60px;
-	bottom: 15px;
-	left: 50%;
-	margin-left: -40px;
-	background: #000;
-	color: #fff;
-	padding: 10px;
-	text-align: center;
-	filter: alpha(opacity=50);
-	opacity: 0.5;
-}
-.com_header {
-	position: absolute;
-	width: 200px;
-	padding: 10px;
-	left: 50%;
-	top: 0px;
-	margin-left: -110px;
-	background: #000;
-	color: #fff;
-	text-align: center;
-}
-.mri-image {
-	display: none;
-}
+#left-bar{width:30%; min-width:300px; height:100%; float:left; border-right:1px solid #000; overflow-y:scroll; overflow-x:hidden; font-family:"Tw Cen MT","Helvetica Neue"; font-size:13px}
+#inner-left{padding:20px; min-width:300px}
+#right-bar{width:70%; margin-left:30%; height:100%; font-family:"Tw Cen MT","Helvetica Neue"; font-size:14px; padding-left:5px; margin-top:0px; clear:none; position:relative}
+#inner-right{padding:20px; position:absolute; left:0px; right:0px; bottom:0px; top:0px; overflow:auto}
+#messages-inner-left{padding:20px; min-width:300px}
+#messages-inner-right{padding:20px; position:absolute; left:0px; right:0px; bottom:0px; top:0px; overflow:auto}
+.data-table{width:95%; min-width:250px; font-family:"Tw Cen MT","Helvetica Neue"; font-size:14px; margin-top:20px}
+.data-table td, .data-table th{padding:8px}
+.title-text{font-size:24px; margin-bottom:2px; font-family:"Helvetica Neue"}
+.small-title{font-size:16px; margin-bottom:6px; color:#AAD}
+#case-table{width:100%; font-size:14px}
+#case-table td, #case-table th{padding:7px}
+#patient-info-nav{float:right; margin-right:0px}
+#case-info-nav{float:right; margin-right:0px}
+.message-list-line{height:58px; overflow:hidden; padding-top:5px}
+.message-list-line .header{font-size:16px; font-weight:bold; margin-bottom:3px}
+.message-list-line .grey{color:#555}
+#message-table{margin-top:-10px; font-size:13px; font-family:"Tw Cen MT","Helvetica Neue",sans-serif}
+#mri-centers{width:100%; font-size:14px}
+#mri-centers td{padding:7px; background-color:#efefef}
+#mri-centers .left{background-color:#dddddf; font-weight:bold}
+#timeslot-confirm{width:350px; height:400px; display:none}
+#dash-header{width:400px; height:50px; margin-left:10px; margin-top:10px}
+#dash-overview{float:left; width:100px; height:450px; margin-bottom:10px; margin-left:10px}
+#dash-main{margin-left:140px}
+#dash-summary{width:100%; font-size:14px; font-family:"Tw Cen MT",san-serif; clear:none}
+#dash-summary td, #dash-summary th{padding:5px}
+.dash-float{font-size:14px; padding:10px; width:80px; height:80px; text-align:center; background:#40404f; color:#fff; margin-bottom:10px}
+.dash-float .big{font-size:28px; font-weight:bold}
+.grey-out{background:#F0F0FF; border:1px solid #dde; color:#ccc}
+.floater{display:none; border:1px solid #000; padding:10px; background:#FFF; position:absolute; top:50%; left:50%; z-index:800}
+#referring-modal{display:none; width:100%; height:100%; z-index:700; top:0; left:0; position:absolute; background:#ccc; filter:alpha(opacity=80); opacity:0.8}
+#view-box{width:550px; height:650px; margin-left:-310px; margin-top:-335px; overflow:auto}
+.image-placeholder{position:relative; height:550px; width:550px}
+.btn_left{position:absolute; width:40px; padding:10px; left:0px; bottom:15px; background:#000; color:#fff; text-align:center; cursor:pointer}
+.btn_right{position:absolute; width:40px; padding:10px; right:0px; bottom:15px; background:#000; color:#fff; text-align:center; cursor:pointer}
+.position{position:absolute; width:60px; bottom:15px; left:50%; margin-left:-40px; background:#000; color:#fff; padding:10px; text-align:center; filter:alpha(opacity=50); opacity:0.5}
+.com_header{position:absolute; width:200px; padding:10px; left:50%; top:0px; margin-left:-110px; background:#000; color:#fff; text-align:center}
+.mri-image{display:none}
+.chat-bubble-arrow-border{border-color:transparent #38691a transparent transparent; border-style:solid; border-width:6px; height:0; width:0; position:absolute; bottom:-3px; left:-5px; -webkit-transform:rotate(70deg); -moz-transform:rotate(70deg)}
+.chat-bubble-arrow{border-color:transparent #a5ff45 transparent transparent; border-style:solid; border-width:6px;  height:0; width:0; position:absolute; bottom:-1px; left:-3px; -webkit-transform:rotate(70deg); -moz-transform:rotate(70deg);  transform:rotate(70deg)}
+.chat-bubble-glare{position:absolute; top:0px; left:4px; height:6px; width:154px; padding:6px 0;  -webkit-border-radius:10px; -moz-border-radius:10px;  border-radius:10px; background:-moz-linear-gradient(top,rgba(255,255,255,0.9),rgba(255,255,255,0)); background:-webkit-gradient(linear,0% 0%,0% 95%,from(rgba(255,255,255,0.9)),to(rgba(255,255,255,0)))}
+.chat-bubble{ font-size:14px; line-height:1.3em; margin:6px auto; padding:6px; position:relative; text-align:left; width:350px; background:-webkit-gradient(linear,left top,left bottom,color-stop(0,rgb(90,150,40)),color-stop(0.28,rgb(160,215,60)),color-stop(1,rgb(165,255,69))); background:-moz-linear-gradient(center top,rgb(90,150,40) 0%,rgb(160,215,60) 28%,rgb(165,255,69) 100%);  border:1px solid #38691a; -moz-border-radius:10px; -webkit-border-radius:10px;  border-radius:10px; -webkit-box-shadow:rgba(160,215,60,0.7) 2px 4px 5px; -moz-box-shadow:rgba(160,215,60,0.7) 2px 4px 5px; /* FF 3.5+*/ box-shadow:rgba(160,215,60,0.7) 2px 4px 5px}
+.chat-bubble-right{ font-size:14px; line-height:1.3em; margin:6px auto; padding:6px; position:relative; text-align:left; width:350px; background:-webkit-gradient(linear,left top,left bottom,color-stop(0,rgb(255,255,255)),color-stop(0.28,rgb(230,230,230)),color-stop(1,rgb(200,200,200))); background:-moz-linear-gradient(center top,rgb(255,255,255) 0%,rgb(230,230,230) 28%,rgb(200,200,200) 100%);  border:1px solid #bbb; -moz-border-radius:10px; -webkit-border-radius:10px;  border-radius:10px; -webkit-box-shadow:rgba(140,140,140,0.7) 2px 4px 5px; -moz-box-shadow:rgba(140,140,140,0.7) 2px 4px 5px; /* FF 3.5+*/ box-shadow:rgba(140,140,140,0.7) 2px 4px 5px}
+.chat-bubble-arrow-border-right{border-color:transparent #bbb transparent transparent; border-style:solid; border-width:6px; height:0; width:0; position:absolute; bottom:-8px; right:-5px; -webkit-transform:rotate(-20deg); -moz-transform:rotate(-20deg)}
+.chat-bubble-arrow-right{border-color:transparent #d0d0d0 transparent transparent; border-style:solid; border-width:6px;  height:0; width:0; position:absolute; bottom:-7px; right:-3px; -webkit-transform:rotate(-20deg); -moz-transform:rotate(-20deg);  transform:rotate(-20deg)}

@@ -6,60 +6,87 @@ $(document).ready(function() {
 			});
 		});
 	});
+	$("#container").delegate(".loadright", "click", function(event) {
+		$("#inner-right").hide();
+		$("#inner-right").empty();
+		$("*").css("cursor", "wait");
+		$("#inner-right").load(this.href, function() {
+			$("#inner-right").delay(200).fadeIn('fast', function() {
+				$("*").css("cursor", "");
+			});
+		});
+		event.preventDefault();
+		return false;
+	});
+	$("#container").delegate('.innerlink', 'click', function(event) {
+		$('.ui-tabs-panel:not(.ui-tabs-hide)').hide();
+		$('.ui-tabs-panel:not(.ui-tabs-hide)').empty();
+		$("*").css("cursor", "wait");
+		$('.ui-tabs-panel:not(.ui-tabs-hide)').load(this.href, function() {
+			$('.ui-tabs-panel:not(.ui-tabs-hide)').delay(200).fadeIn('fast', function() {
+				$("*").css("cursor", "");
+			});
+		});
+		event.preventDefault();
+		return false;
+	});
+	$("#container").delegate('.dashlink', 'click', function(event) {
+		$('.ui-tabs-panel:not(.ui-tabs-hide)').hide();
+		$('.ui-tabs-panel:not(.ui-tabs-hide)').empty();
+		var pat_id = $(this).attr('patientid');
+		$("*").css("cursor", "wait");
+		$tabs.tabs('select', 1).bind('tabsshow', function() {
+			url = '/referring/patientCase/' + pat_id + '/';
+			$("#inner-right").hide();
+			$("#inner-right").empty();
+			$("#inner-right").load(url, function() {
+				$("#inner-right").delay(200).fadeIn('fast', function() {
+					$("*").css("cursor", "");
+				});
+			});
+		});
+		event.preventDefault();
+		return false;
+	});
+	$("#container").delegate('.msglink', 'click', function(event) {
+		$('.ui-tabs-panel:not(.ui-tabs-hide)').hide();
+		$('.ui-tabs-panel:not(.ui-tabs-hide)').empty();
+		var pat_id = $(this).attr('patientid');
+		$("*").css("cursor", "wait");
+		var url = this.href;
+		$tabs.tabs('select', 2).bind('tabsshow', function() {
+			$("#messages-inner-right").hide();
+			$("#messages-inner-right").empty();
+			$("#messages-inner-right").load(url, function() {
+				$("#messages-inner-right").delay(200).fadeIn('fast', function() {
+					$("*").css("cursor", "");
+				});
+			});
+		});
+		event.preventDefault();
+		return false;
+	});
+	$("#container").delegate('.msgloadright', 'click', function(event) {
+		$("#messages-inner-right").hide();
+		$("#messages-inner-right").empty();
+		$("*").css("cursor", "wait");
+		$("#messages-inner-right").load(this.href, function() {
+			$("#messages-inner-right").delay(200).fadeIn('fast', function() {
+				$("*").css("cursor", "");
+			});
+		});
+		event.preventDefault();
+		return false;
+	});
 	var $tabs = $("#tabs-nohdr").tabs({
 		fx: { 
             opacity: 'toggle' 
         },
-		load: function(event, ui) {
-			$(ui.panel).delegate('.innerlink', 'click', function(event) {
-				$(ui.panel).hide();
-				$("*").css("cursor", "wait")
-				$(ui.panel).load(this.href, function() {
-					$(ui.panel).delay(200).fadeIn('fast', function() {
-						$("*").css("cursor", "")
-					});
-				});
-				event.preventDefault();
-			});
-			$(ui.panel).delegate('.dashlink', 'click', function(event) {
-				$(ui.panel).hide();
-				var pat_id = $(this).attr('patientid');
-				$("*").css("cursor", "wait")
-				$tabs.tabs('select', 1).bind('tabsshow', function() {
-					url = '/referring/patientCase/' + pat_id + '/';
-					$("#inner-right").load(url);
-					$("*").css("cursor", "");
-				});
-
-				event.preventDefault();
-			});
-			$(ui.panel).delegate('.loadright', 'click', function(event) {
-				$("#inner-right").hide();
-				$("*").css("cursor", "wait")
-				$("#inner-right").load(this.href, function() {
-					$("#inner-right").delay(200).fadeIn('fast', function() {
-						$("*").css("cursor", "")
-					});
-				});
-				event.preventDefault();
-			});
-			$(ui.panel).delegate('.msgloadright', 'click', function(event) {
-				$("#messages-inner-right").hide();
-				$("*").css("cursor", "wait")
-				$("#messages-inner-right").load(this.href, function() {
-					$("#messages-inner-right").delay(200).fadeIn('fast', function() {
-						$("*").css("cursor", "")
-					});
-				});
-				event.preventDefault();
-			});
-		},
 		ajaxOptions: {
 			error: function( xhr, status, index, anchor ) {
 				$( anchor.hash ).load("error.htm");
 			}
 		},
-		cache: false,
 		show: function(event, ui) {
 			$(".ui-tabs-hide").empty();
 		}
