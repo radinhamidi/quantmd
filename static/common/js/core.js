@@ -16,7 +16,6 @@ $(document).ready(function() {
     $("*").mouseup(function(){ 
         if(!mouse_is_inside) $('#user-box-options').fadeOut("fast");
     });
-	$('.ui-tabs-panel').jScrollPane();
 });
 //Logout Confirmation Dialog
 function logout(e) {
@@ -101,8 +100,13 @@ function confirmBookingForReschedule2(id1,id2) {
 			"Confirm": function() {
 				//Confirm Logout
 				//Process Booking
-				$("#ui-tabs-2").load('/receptionist/rescheduleAction2/' + id1 + '/' + id2+'/')
 				$(this).dialog("close");
+				$("*").css("cursor", "wait");
+				$("#ui-tabs-2").hide();
+				$("#ui-tabs-2").load('/receptionist/rescheduleAction2/' + id1 + '/' + id2+'/', function() {
+					$("#ui-tabs-2").fadeIn(200);
+					$("*").css("cursor", "");
+				});
 			},
 			Cancel: function() {
 				$(this).dialog("close");

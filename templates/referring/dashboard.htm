@@ -1,7 +1,8 @@
+<script src="{{STATIC_URL}}common/js/jquery.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
+<script src="{{STATIC_URL}}common/js/datatables.js"></script>
 <script>
 	$(document).ready(function() {
-		$("table#dash-summary tr:even").css("background-color", "#F4F4F8");
-		$("table#dash-summary tr:odd").css("background-color", "#EFF1F1");
 		$(".patient-goto").button({
 			icons: {
 				primary: "ui-icon-carat-1-e"
@@ -9,78 +10,89 @@
 			text: false
 		});
 	});
-	function goToPatient(id) {
-		
+	$(function() {
+		formDT();
+	});
+	function formDT() {
+		if($('#dash-summary').length != 0) {
+			$('#dash-summary').dataTable({
+				"bPaginate" : true,
+				"bLengthChange" : false,
+				"bFilter" : false,
+				"oLanguage" : {
+					"sSearch" : "<img src='{{STATIC_URL}}referring/images/find.png' />"
+				},
+				"bSort" : true,
+				"bInfo" : false,
+				"bAutoWidth" : false,
+				"bRetrieve" : true,
+				"bJQueryUI" : false,
+				"iDisplayLength" : 10,
+				"sPaginationType" : "full_numbers"
+			});
+		}
 	}
 </script>
 <div id="dash-header">
 	<div class="title-text">Dr. {{doctor}}</div>
 </div>
 <div id="dash-overview">
-	<div id="dash-float-1" class="dash-float">
+	<div id="dash-float-1" class="dash-float {% if msg == 0 %}grey-out{% endif %}">
 		<div class="big">{{msg}}</div>
 		New Messages
 	</div>
-	<div id="dash-float-2" class="dash-float">
-		<div class="big">{{schedule}}</div>
-		Patients Scheduled
+	<div id="dash-float-2" class="dash-float {% if diagnosis == 0 %}grey-out{% endif %}">
+		<div class="big">{{diagnosis}}</div>
+		New Diagnoses
 	</div>
-	<div id="dash-float-3" class="dash-float">
-		<div class="big">{{cancelled}}</div>
-		Patients Scheduled
-	</div>
-	<div id="dash-float-4" class="dash-float">
+	<div id="dash-float-3" class="dash-float {% if reschedule == 0 %}grey-out{% endif %}">
 		<div class="big">{{reschedule}}</div>
 		Reschedule Notices
 	</div>
-	<div id="dash-float-5" class="dash-float">
-		<div class="big">{{analysis}}</div>
-		New Analysis
-	</div>
-	<div id="dash-float-6" class="dash-float">
-		<div class="big">{{dicom}}</div>
-		New Dicoms
-	</div>
-	<div id="dash-float-7" class="dash-float">
-		<div class="big">{{diagnosis}}</div>
-		New Diagnosis
+	<div id="dash-float-4" class="dash-float {% if schedule == 0 %}grey-out{% endif %}">
+		<div class="big">{{schedule}}</div>
+		Confirmation Notices
 	</div>
 </div>
 <div id="dash-main">
 	<table id="dash-summary">
+		<thead>
 		<tr>
 			<th width="120px">Event</th>
 			<th>Summary</th>
-			<th width="180px">Date</th>
-			<th width="60px">More</th>
+			<th width="180px">Date/Time</th>
+			<th width="60px">Case</th>
 		</tr>
+		</thead>
+		<tbody>
 		{% for message in messages %}
 		<tr>
 			{% if message.type == -1%}
-			<td align="center">Chat</td>
+			<td align="center">CHAT</td>
 			{% endif %}
 			{% if message.type == 0 %}
 			<td align="center">SCHEDULED</td>
 			{% endif %}
 			{% if message.type == 1 %}
-			<td align="center">CONCELLED</td>
+			<td align="center">CANCELLED</td>
 			{% endif %}
 			{% if message.type == 2 %}
 			<td align="center">RESCHEDULE</td>
 			{% endif %}
 			{% if message.type == 3 %}
-			<td align="center">DICOM FILE</td>
+			<td align="center">SCAN UPLOADED</td>
 			{% endif %}
 			{% if message.type == 4 %}
-			<td align="center">DIAGNOSIS</td>
+			<td align="center">QUANT MD</td>
 			{% endif %}
 			{% if message.type == 5 %}
-			<td align="center">ANALYSIS</td>
+			<td align="center">DIAGNOSED</td>
 			{% endif %}
 			<td>{{message.content}}</td>
 			<td align="center">{{message.create_time}}</td>
-			<td align="center"><a class="patient-goto dashlink" href="/referring/patientCase/" patientid="{{message.case.id}}">d</a></td>
+			<td align="center"><a class="patient-goto msglink" href="/message/message_dialog/{{message.case_id}}/{{message.is_sys}}/{{message.pk}}/" patientid="{{message.case.id}}">{{message.id}}</a></td>
 		</tr>
 		{% endfor %}
+		</tbody>
 	</table>
 </div>

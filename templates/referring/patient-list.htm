@@ -2,18 +2,12 @@
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
 <script src="{{STATIC_URL}}common/js/datatables.js"></script>
 
-
-<script>
-	$(document).ready(function() {
-});
-</script>
-
 <table id="patients-table" class="data-table">
 	<thead>
 		<tr>
-			<th width="50%">Name</th>
-			<th width="25%">Sex</th>
-			<th width="25%">Birthday</th>
+			<th>Name</th>
+			<th width="40px">Sex</th>
+			<th width="100px">Birthday</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -21,12 +15,12 @@
 		<tr>
 			<td><b><a href="/referring/patientInfo/{{patient.id}}/" class="loadright">{{patient}}</a></b></td>
 			{% if patient.gender == 1 %}
-			<td>Male</td>
+			<td align="center">Male</td>
 			{% endif %}
 			{% if patient.gender == 0 %}
-			<td>Female</td>
+			<td align="center">Female</td>
 			{% endif %}
-			<td>{{patient.birthday|date:"SHORT_DATE_FORMAT"}}</td>
+			<td><center>{{patient.birthday|date:"SHORT_DATE_FORMAT"}}<center></td>
 		</tr>
 		{% endfor %}
 	</tbody>

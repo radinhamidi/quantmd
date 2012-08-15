@@ -25,11 +25,30 @@ $(document).ready(function() {
 			primary: "ui-icon-closethick"
 		}
 	});
-
-	 $('#referring-modal').click(function() {
+	$("#view-mri").button({
+	icons: {
+		primary: "ui-icon-note"
+	}
+	});
+	$("#download-mri").button({
+		icons: {
+			primary: "ui-icon-arrowthickstop-1-s"
+		}
+	});
+	$("#view-quant").button({
+		icons: {
+			primary: "ui-icon-image"
+		}
+	});
+	$("#view-diagnosis").button({
+		icons: {
+			primary: "ui-icon-script"
+		}
+	});
+	$('#referring-modal').click(function() {
 		$('#view-box').fadeOut(200);
 		$('#referring-modal').fadeOut(200);
-	 });
+	});
 });
 
 function mriViewer(id) {
@@ -134,14 +153,6 @@ function quantViewer(id) {
 		<tr>
 			<td width="200px"><b>Case Created</b></td>
 			<td>{{case.create_time}}</td>
-			{% if case.status == 0 %}
-				<td>
-					<a id="change-schedule" href="referring/reschedule/{{appointment.id}}/" class="loadright">Change Appointment</a>
-				</td>
-				<td>
-					<a id="case-cancel" href="/referring/cancelAppointment/{{appointment.id}}/" class="orange loadright">Cancel Appointment</a>
-				</td>
-			{% endif %}
 		</tr>
 		{% if case.status == 1%}
 			<tr>
@@ -154,11 +165,9 @@ function quantViewer(id) {
 				<td width="200px"><b>Patient Checked In</b></td>
 				<td>{{appointment.check_in_time}}</td>
 			</tr>
-				<tr>
+			<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><a id="view-diagnosis" href="" onClick="mriViewer('{{case.pk}}');return false;">View MRI images</a></td>
-				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 		{% endif %}
 		{% if case.status == 3 or case.status == 4 %}
@@ -169,13 +178,10 @@ function quantViewer(id) {
 			<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><td><a id="view-diagnosis" href="" onClick="mriViewer('{{case.pk}}');return false;">View MRI images</a></td>
-				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 			<tr>
-				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
+				<td width="200px"><b>QuantMD Analysis Uploaded</b></td>
 				<td>{{appointment.case.analysis.create_time}}</td>
-				<td><a id="view-quant" href="" onClick="quantViewer('{{case.pk}}');return false;">View Quant Diagnosis</a></td>
 			</tr>
 		{% endif %}
 		{% if case.status >= 5 %}
@@ -186,21 +192,44 @@ function quantViewer(id) {
 			<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><td><a id="view-diagnosis" href="" onClick="mriViewer('{{case.pk}}');return false;">View MRI images</a></td>
-				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 			<tr>
-				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
+				<td width="200px"><b>QuantMD Analysis Uploaded</b></td>
 				<td>{{appointment.case.analysis.create_time}}</td>
-				<td><a id="view-quant" href="" onClick="quantViewer('{{case.pk}}');return false;">View Quant Diagnosis</a></td>
 			</tr>
 			<tr>
 				<td width="200px"><b>Diagnosis Uploaded</b></td>
 				<td>{{appointment.case.report.create_time}}</td>
-				<td><a id="view-MRI" target="_blank" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.pdf" >Download Diagnosis</a></td>
 			</tr>
 		{% endif %}
 	</table>
+	{% if case.status == 0 %}
+		<br />
+		<a id="change-schedule" href="referring/reschedule/{{appointment.id}}/" class="loadright">Change Appointment</a> 
+		<a id="case-cancel" href="/referring/cancelAppointment/{{appointment.id}}/" class="orange loadright">Cancel Appointment</a>
+		<br />
+	{% endif %}
+	{% if case.status == 2 %}
+		<br />
+		<a id="view-mri" href="" onClick="mriViewer('{{case.pk}}');return false;">View MRI</a> 
+		<a id="download-mri" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI</a> 
+		<br />
+	{% endif %}
+	{% if case.status == 3 or case.status == 4 %}
+		<br />
+		<a id="view-mri" href="" onClick="mriViewer('{{case.pk}}');return false;">View MRI</a> 
+		<a id="download-mri" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI</a> 
+		<a id="view-quant" href="" onClick="quantViewer('{{case.pk}}');return false;">QuantMD Analysis</a> 
+		<br />
+	{% endif %}
+	{% if case.status >= 5 %}
+		<br />
+		<a id="view-mri" href="" onClick="mriViewer('{{case.pk}}');return false;">View MRI</a> 
+		<a id="download-mri" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI</a> 
+		<a id="view-quant" href="" onClick="quantViewer('{{case.pk}}');return false;">QuantMD Analysis</a> 
+		<a id="view-diagnosis" target="_blank" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.pdf" >Download Diagnosis</a>
+		<br />
+	{% endif %}
 	<br />
 <div class="small-title">Case Messages</div>
 	{% if messages %}

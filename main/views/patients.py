@@ -230,7 +230,7 @@ def view_mri_images(request, case_id):
         index = i + 1
         for s in sequences:
             if index >= s.image_start and index <= s.image_end:
-                image_objs.append((index, str(index)+'.dcm.png', s.name, comments_dict.get(index, '')))
+                image_objs.append((index, str(index)+'.dcm.bmp', s.name, comments_dict.get(index, '')))
                 break #found service name, continue to next image
         
     return render_to_response('referring/view-mri.htm', 

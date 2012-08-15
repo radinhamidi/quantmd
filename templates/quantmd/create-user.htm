@@ -20,7 +20,7 @@ $(document).ready(function() {
 	
     /* stop form from submitting normally */
 		event.preventDefault(); 
-		$( "#ui-tabs-5" ).hide();
+		$( "#ui-tabs-9" ).hide();
         
     /* get some values from elements on the page: */
 		var $form = $( this ),
@@ -29,8 +29,8 @@ $(document).ready(function() {
     /* Send the data using post and put the results in a div */
 		$.post( url, $("#create-user-form").serialize(),
 		function( data ) {
-			$( "#ui-tabs-5" ).empty().append($(data));
-			$( "#ui-tabs-5" ).fadeIn('fast');
+			$( "#ui-tabs-9" ).empty().append($(data));
+			$( "#ui-tabs-9" ).fadeIn('fast');
 		});
      });
 });

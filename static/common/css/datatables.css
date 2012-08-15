@@ -32,7 +32,7 @@
 
 .dataTables_wrapper {
 	position: relative;
-	clear: both;
+	clear: right;
 	zoom: 1; /* Feeling sorry for IE */
 }
 
@@ -160,6 +160,7 @@ table.display thead th {
 	border-bottom: 1px solid black;
 	font-weight: bold;
 	cursor: pointer;
+	background: #000;
 	* cursor: hand;
 }
 
@@ -189,14 +190,17 @@ table.display td.center {
 
 .sorting_asc {
 	background: url('../images/sort_asc.png') no-repeat center right;
+	background-color: #d0d0d4;
 }
 
 .sorting_desc {
 	background: url('../images/sort_desc.png') no-repeat center right;
+	background-color: #d0d0d4;
 }
 
 .sorting {
 	background: url('../images/sort_both.png') no-repeat center right;
+	background-color: #d0d0d4;
 }
 
 .sorting_asc_disabled {

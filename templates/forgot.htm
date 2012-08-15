@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/login.css" />
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/core.css" />
 	
 </head>
 <body>
@@ -22,7 +23,7 @@
 			{% else %}
 				{% for message in messages %}
 				<div class="span8 offset2">
-					<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+					<div class="red alert {% if message.tags == 'error' %}alert-error{% endif %}">
 						{{message}}
 					</div>
 				</div>

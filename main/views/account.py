@@ -24,7 +24,8 @@ def login_action(request):
         login(request, user)
         return redirect('main.views.index.index')             
     else:
-        return HttpResponse('{"code":"1","msg":"Username or password incorrect."}')
+        messages.error(request, 'Incorrect username or password. Please try again.')
+        return redirect('main.views.index.index') 
 
 def logout_view(request):
     logout(request)

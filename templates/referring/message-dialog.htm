@@ -29,32 +29,46 @@
 });
 </script>
 {% if messages %}
-	<div class="title-text">Case #{{messages.0.case_id}} Messages</div><br />
-		{{messages.0.case.patient}}
-	<hr><br />
+	<div class="title-text">Case #{{messages.0.case_id}} Messages</div>
+		{{messages.0.case.patient}}<br /><br />
+
 {% endif %}
 {% for message in messages %}
-	{% if message.is_sys %}
-	    <div class="small-title">{{message.title}}</div>
-	{% else %}
-	    {% if message.receiver_id == user.pk %}
-			<div class="small-title">From: {{message.sender}}</div>
+	{% if message.receiver_id == user.pk %}
+	<div class="chat-bubble">
+		<div class="chat-bubble-glare"></div>
+		{% if message.is_sys %}
+			<b>{{message.title}}</b><br />
+		{% else %}
+			<b>{{message.sender}}</b><br />
 		{% endif %}
+		{{message.create_time}}<p />
+		{{ message.content }}<br />
+		<div class="chat-bubble-arrow-border"></div>
+		<div class="chat-bubble-arrow"></div>
+	</div>
+	{% else %}
+	<div class="chat-bubble-right">
+		<div class="chat-bubble-glare"></div>
+		<b>Message Sent</b><br />
+		{{message.create_time}}<p />
+		{{ message.content }}<br />
+		<div class="chat-bubble-arrow-border-right"></div>
+		<div class="chat-bubble-arrow-right"></div>
+	</div>
 	{% endif %}
-	{{message.create_time}}<br /><br />
-	{{ message.content }}<br /><br />
-	<hr>
-	<br/>
+	<br />
 {% endfor %} 
 
 {% if not is_sys %}
+<center>
 <form id="message-reply" method="POST" action="/message/send/">
 	{% csrf_token %}
 	<input type="hidden" name="receiver_id" value="{{sender_id}}" />
 	<input type="hidden" name="case_id" value="{{messages.0.case_id}}" />
-	Reply:<br />
-	<textarea name="content" cols="80" rows="6"></textarea>
-	<br />
+	<textarea name="content" cols="50" rows="4"></textarea>
+	<br /><br />
 	<input type="submit" id="submit-message-reply" class="replybutton" value="Reply" />
 </form>
+</center>
 {% endif %}

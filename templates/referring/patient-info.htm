@@ -65,12 +65,13 @@
 		<td><a href="mailto:{{patient.email}}">{{patient.email}}</a></td>
 	</tr>
 </table>
-<br /><br />
+<br />
 {% if errors%}
 	{% for error in errors%}
-		{{error}}
+		{{error}}<br />
 	{% endfor%}
 {% endif %}
+<br />
 <div class="small-title">Case History</div>
 	{% if not appointments %}
 		No cases available. Create a new appointment for this patient.
@@ -87,7 +88,7 @@
 		</tr>
 		{% for appointment in  appointments%}
 		<tr>
-			<td align="center">CASE#{{appointment.case.id}}</td>
+			<td align="center">CASE #{{appointment.case.id}}</td>
 			<td align="center">{{appointment.case.create_time}}</td>
 			{% if appointment.case.status == -1%}
 				<td>Case has been cancelled</td>
