@@ -19,11 +19,6 @@
 				primary: "ui-icon-check"
 			}
 		});
-		$("#file_upload").button({
-			icons: {
-				primary: "ui-icon-check"
-			}
-		});
 		
 		$(function() {
 			setTimeout(function() {
@@ -34,16 +29,19 @@
 				                  'identifier': '{{identifier}}'},
 				'queueID'      : 'queue',
 				'uploadScript' : '/broker/upload_action/',
-				'onUploadStart' : function() {
+				'onUpload' : function() {
 					$('#change-password-modal').show();
+					$("*").css('cursor','wait');
 				},
 				'onQueueComplete' : function() {
 					$('#upload-btn').hide();
+					$('#upload-back').hide();
 					$('#complete-btn').show();
 					$('#change-password-modal').hide();
+					$("*").css('cursor','');
 				}
 			});
-			},800);
+			},500);
 		});
 	});
 </script>
@@ -51,10 +49,12 @@
 <script type="text/javascript">
 
 	function complete(){
+		$('#change-password-modal').show();
+		$("*").css('cursor','wait');
 		$.ajax({
             url: "/broker/upload_complete/",
             type: "POST",
-            timeout: 10000,
+            timeout: 600000,
             data: {
                 identifier: '{{identifier}}',
 				case_id: '{{case_id}}' 
@@ -65,10 +65,17 @@
             dataType: 'json',
             success: function(data, textStatus){
                 if (typeof(data.code) != 'undefined' && data.code == '0') {
-                    alert(data.msg);
+                    $('#ui-tabs-1').empty();
+					$('#ui-tabs-1').fadeTo('fast','0.001');
+					alert('Upload Completed');
+					$('#ui-tabs-1').load('/broker/patients/', function() {
+						$('#ui-tabs-1').fadeTo('fast','1');
+						$('#change-password-modal').hide();
+						$("*").css('cursor','');
+					});
                 }
                 else {
-                    alert(data.msg);
+                    alert("Error Occured During Processing");
                 }
             },
             error: function(xhr, textStatus, errorThrown){
