@@ -38,6 +38,7 @@
 	
    
      });
+	 $("birthday").datepicker();
 });
 </script>
 
@@ -86,7 +87,7 @@
 		</tr>
 		<tr>
 			<td>Birthday:</td>
-			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday" value={{patient.birthday|date:"SHORT_DATE_FORMAT"}} class="required birthday"></td>
+			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday" id="birthday" value={{patient.birthday|date:"SHORT_DATE_FORMAT"}} class="required birthday"></td>
 		</tr>
 		<tr>
 			<td>Phone:</td>
