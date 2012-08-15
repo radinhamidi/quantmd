@@ -22,6 +22,7 @@
 			},
 			text: false
 		});
+	
 	});
 
 </script>
@@ -44,9 +45,9 @@
 		<td align="center">{{k.0}}</td>
 		<td>{% for schedule in k.1 %}
 			{% if schedule.is_available%}
-			{{schedule.start_time|time:"H:i"}},
+				{{schedule.start_time|time:"H:i"}} | 
 			{% else %}
-			<strike>{{schedule.start_time|time:"H:i"}}</strike>,
+				<strike>{{schedule.start_time|time:"H:i"}}</strike> | 
 			{% endif %}
 		{% endfor %}
 		</td>

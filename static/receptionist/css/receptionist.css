@@ -1,6 +1,6 @@
 #patient-inhouse, #patient-incoming {
 	width: 100%;
-	font-size: 14px;
+	font-size: 12px;
 	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
 }	
 #patient-inhouse td, #patient-inhouse th {
@@ -11,7 +11,7 @@
 }
 #reschedule-table {
 	width: 100%;
-	font-size: 13px;
+	font-size: 12px;
 	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
 }
 #reschedule-table td, #reschedule-table th {
@@ -22,7 +22,7 @@
 }
 #reschedule-table-2 {
 	width: 100%;
-	font-size: 13px;
+	font-size: 12px;
 	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
 }
 #reschedule-table-2 td, #reschedule-table-2 th {
@@ -44,7 +44,8 @@
 }
 #patients-table {
 	width: 100%;
-	font-size: 14px;
+	font-size: 13px;
+	margin-top: 5px;
 	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
 }
 #patients-table td, #patients-table th {
@@ -76,6 +77,11 @@
 	color: #88A;
 }
 #timeslot-confirm-3 {
+	width: 350px;
+	height: 400px;
+	display: none;
+}
+#timeslot-confirm-2 {
 	width: 350px;
 	height: 400px;
 	display: none;

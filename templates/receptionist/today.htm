@@ -75,18 +75,18 @@
 <div id="datetime">b</div>
 <br />
 <div class="small-title">Patients In Clinic</div>
-<table id="patient-inhouse">
+<table id="patient-inhouse" class="table-font">
 	<tr>
 		<th width="120px">Time Scheduled</th>
 		<th width="120px">Time Registered</th>
 		<th>Patient Name</th>
 		<th width="70px">Gender</th>
-		<th width="80px">Services</th>
+		<th width="150px">Services</th>
 		<th width="100px">Status</th>
 		<th width="80px"></th>
 	</tr>
 	{% if not checkins%}
-		<td Colspan= 7 align="center">NO PATIENT CHECKIN</td>
+		<td Colspan= 7 align="center">No Patients Checked In</td>
 	{% endif %}
 	{% for checkin in checkins%}
 	<tr>
@@ -102,17 +102,17 @@
 						
 		<td align="center">
 			{% for service in checkin.case.services.all%}
-				{{service.name}}&nbsp
+				{{service.name}}&nbsp;
 			{% endfor%}
 		</td>
 		{% if checkin.case.status == 2%}
-			<td align="center">DICOM UPLOAD</td>
+			<td align="center">Uploaded</td>
+			<td></td>
 		{% else %}
 		<td align="center">
-			Waiting!
+			Waiting
 		</td>
 		<td align="center"> <span class="orange"><a href="/receptionist/checkInCancell/{{checkin.id}}/" class="orange cancel innerlink">c</a></span></td>
-		
 		{% endif%}
 	</tr>
 	{% endfor %}
@@ -123,12 +123,12 @@
 	<tr>
 		<th width="120px">Time Scheduled</th>
 		<th>Patient Name</th>
-		<th>Gender</th>
-		<th width="80px">Services</th>
+		<th width="60px">Gender</th>
+		<th width="150px">Services</th>
 		<th width="80px"></th>
 	</tr>
 	{% if not appointments %}
-		<td Colspan=7 align="center" >NO APPOINTMENT </td>
+		<td Colspan=7 align="center" >No Scheduled Appointments Today</td>
 	{% endif %}
 	{% for appointment in appointments%}
 	<tr>

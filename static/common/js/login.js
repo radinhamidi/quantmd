@@ -32,7 +32,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	$("#loginbutton").click(function(e) {
+	$("#login").submit(function(e) {
 		e.preventDefault();
         $("#loginbox").fadeOut('fast', function() {
 			$("#login").submit();
