@@ -62,19 +62,19 @@ def accept_case(request):
     cases = Case.objects.filter(status=4, cardiologist__pk=request.user.pk)
     if len(cases) != 0:
         messages.error(request, 'You can only accept one case at a time')
-        return redirect('main.views.index.index')
+        return redirect('main.views.cardiologist.case')
     
     cases = Case.objects.filter(status=3).order_by('id')
     if len(cases) == 0:
         messages.error(request, 'No pending cases to review.')
-        return redirect('main.views.index.index')
+        return redirect('main.views.cardiologist.case')
     else:
         case = cases[0]
         case.status = 4
         case.cardiologist_id = request.user.pk
         case.assigned_time = datetime.now()
         case.save()
-        return redirect('main.views.index.index')
+        return redirect('main.views.cardiologist.case')
 
 @login_required
 @csrf_exempt
