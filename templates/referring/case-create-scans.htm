@@ -38,6 +38,13 @@
 </script>
 
 <div class="title-text">Select Scans to Perform</div>
+{% for message in messages %}
+<div class="span8 offset2">
+	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+		{{message}}
+	</div>
+</div>
+{% endfor %}
 <br />
 Appointment for {{patient}} at:<br />
 <br />

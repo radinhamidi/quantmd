@@ -14,6 +14,7 @@ from django.template import loader, Context
 from django.core.mail import send_mail
 import operator
 import datetime
+from django.contrib import messages
 
 @login_required
 def appointment_view(request, patient_id):
@@ -144,13 +145,12 @@ def mri_info(request, mri_id):
 def service_view(request,patient_id, schedule_id):
         patient = Patient.objects.get(id = patient_id)
         schedule = Schedule.objects.get(id = schedule_id)
-        print patient
-        print schedule
         services = Service.objects.filter(is_active = True)
         print services
         return render_to_response('referring/case-create-scans.htm',
                                   {'patient':patient, 'schedule':schedule, 'services':services},
                                   context_instance=RequestContext(request))
+
     
 @login_required  
 def make_appointment(request):
@@ -160,9 +160,17 @@ def make_appointment(request):
     services = request.POST.getlist('services')
     patient = Patient.objects.get(id=patient_id)
     
-    if not Patient.objects.filter(id=patient_id).exists():
-        error.append("Patient is not exist")
+    if len(services) == 0:
+        messages.error(request, 'Service cannot be empty')
+        return redirect('main.views.referring.service_view', patient_id, schedule_id)      
+    
+    schedule = Schedule.objects.get(id=schedule_id)
+    if schedule.date < datetime.datetime.now().date() or (schedule.date == datetime.datetime.now().date() and schedule.start_time < datetime.datetime.now().time()):
+        error.append('Please choose another day, you cannot make an appointment before today')
         
+    if len(error) != 0:
+        return render_to_response('referring/case-create.htm',{'errors':error, 'patient':patient}, context_instance=RequestContext(request))
+
     if not Schedule.objects.filter(id=schedule_id).exists():
         error.append("Schedule is not exist")
     

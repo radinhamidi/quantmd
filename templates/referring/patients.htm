@@ -16,7 +16,7 @@
 				text : false
 			});
 			$("#updating-text").html("<br /><br /><br /><center><img src='{{STATIC_URL}}common/images/loading.gif' width='30px' height='30px' /><br />Loading</center>");
-			$("#inner-left-patient").hide();
+			$("#inner-left-patient").css('margin-left','-10000px');
 			$("#inner-left-patient").load('/referring/patientsInfo/', function () {
 				$('#patients-table').dataTable({
 					"bPaginate" : false,
@@ -34,7 +34,7 @@
 					"sPaginationType" : "full_numbers"
 				});
 				$("#updating-text").empty();
-				$("#inner-left-patient").fadeIn(300);
+				$("#inner-left-patient").css('margin-left','0px');
 			});
 			$("#btn-patient-refresh").click(function () {
 				$("*").css("cursor", "wait");

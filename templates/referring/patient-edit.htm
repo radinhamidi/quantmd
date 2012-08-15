@@ -38,6 +38,7 @@
 	
    
      });
+	 $("birthday").datepicker();
 });
 </script>
 
@@ -54,7 +55,7 @@
 	<table class="formtable">
 		<tr>
 			<td width="120px">SSN:</td>
-			<td><input type="text" name="ssn" value={{patient.ssn}} class="required ssn"></td>
+			<td><input type="text" name="ssn" value={{patient.ssn}} class="ssn"></td>
 		</tr>
 		<tr>
 			<td width="120px">First Name</td>
@@ -66,7 +67,7 @@
 		</tr>
 		<tr>
 			<td>Middle name:</td>
-			<td><input type="text" name="middle_name" value={{patient.middle_name}} class="required"></td>
+			<td><input type="text" name="middle_name" value={{patient.middle_name}} ></td>
 		</tr>
 		<tr>
 			<td>Email</td>
@@ -86,7 +87,7 @@
 		</tr>
 		<tr>
 			<td>Birthday:</td>
-			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday" value={{patient.birthday|date:"SHORT_DATE_FORMAT"}} class="required birthday"></td>
+			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday" id="birthday" value={{patient.birthday|date:"SHORT_DATE_FORMAT"}} class="required birthday"></td>
 		</tr>
 		<tr>
 			<td>Phone:</td>
