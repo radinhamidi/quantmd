@@ -43,3 +43,7 @@
 	width: 100%;
 	min-height: 200px;
 }
+.button-right {
+	float: right;
+	margin-right: 10px;
+}

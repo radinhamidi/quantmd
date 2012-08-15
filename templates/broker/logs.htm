@@ -4,7 +4,23 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#log-table').dataTable({
+		
+	$(".checkin").button({
+			icons: {
+				primary: "ui-icon-play"
+			},
+			 text: false
+		});
+		$(".reschedule").button({
+			icons: {
+				primary: "ui-icon-clock"
+			},
+			 text: false
+		});
+});
+$(function() {
+	setTimeout(function() {
+	$('#log-table').dataTable({
 		"bPaginate": false,
 		"bLengthChange": false,
 		"bFilter": true,
@@ -19,18 +35,7 @@ $(document).ready(function() {
 		"iDisplayLength": 20,
 		"sPaginationType": "full_numbers"
 	});
-	$(".checkin").button({
-			icons: {
-				primary: "ui-icon-play"
-			},
-			 text: false
-		});
-		$(".reschedule").button({
-			icons: {
-				primary: "ui-icon-clock"
-			},
-			 text: false
-		});
+	},200);
 });
 </script>
 <div class="title-text">Upload Log</div>
@@ -39,10 +44,10 @@ $(document).ready(function() {
 		<tr>
 			<th>Name</th>
 			<th width="50px">Sex</th>
-			<th width="50px">Age</th>
-			<th width="130px">Scheduled</th>
-			<th width="130px">Check In</th>
-			<th width="130px">Upload Time</th>
+			<th width="120px">Birthdate</th>
+			<th width="140px">Scheduled</th>
+			<th width="140px">Check In</th>
+			<th width="140px">Upload Time</th>
 		</tr>
 	</thead>
 	<tbody>

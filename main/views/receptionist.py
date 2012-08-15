@@ -23,7 +23,7 @@ from django.core.mail import send_mail
 def register_list(request):
     profile = Profile.objects.get(user = request.user)
     mri = profile.mri_id
-    appointments = Appointment.objects.filter(mri=profile.mri_id).filter(is_cancelled = False)
+    appointments = Appointment.objects.filter(mri=profile.mri_id).filter(is_cancelled = False).filter(case__status=1)
     today_appointments = []
     today_checkin_appointments = []
     for appointment in appointments:

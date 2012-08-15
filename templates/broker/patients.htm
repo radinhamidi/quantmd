@@ -11,6 +11,18 @@
 			},
 			text: false
 		});
+		$("#refresh-btn").button({
+			icons : {
+				primary : "ui-icon-refresh"
+			}
+		});
+		$("#refresh-btn").click(function() {
+			$('#ui-tabs-1').empty();
+			$('#ui-tabs-1').fadeTo('fast','0.001');
+			$('#ui-tabs-1').load('/broker/patients/', function() {
+				$('#ui-tabs-1').fadeTo('fast','1');
+			});
+		});
 		startTime();
 	});
 	function startTime()
@@ -43,8 +55,10 @@
 	  }
 	return i;
 	}
+	
 </script>
 <div class="title-text">{{mri_name}}</div>
+<div class="button-right"><a id="refresh-btn">Refresh</a></div>
 <div id="datetime">b</div>
 <br />
 <div class="small-title">Patients Awaiting Upload</div>
