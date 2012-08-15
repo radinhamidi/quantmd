@@ -113,15 +113,11 @@
 				{{service.name}}&nbsp;
 			{% endfor%}
 		</td>
-		{% if checkin.case.status != 1%}
-			<td align="center">Uploaded</td>
-			<td></td>
-		{% else %}
 		<td align="center">
 			Waiting
 		</td>
 		<td align="center"> <span class="orange"><a href="/receptionist/checkInCancell/{{checkin.id}}/" class="orange cancel innerlink">c</a></span></td>
-		{% endif%}
+
 	</tr>
 	{% endfor %}
 </table>
