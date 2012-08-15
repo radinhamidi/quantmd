@@ -87,6 +87,11 @@ def check_in_cancell(request, appointment_id):
     if request.user.is_authenticated():
         if Appointment.objects.filter(id=appointment_id).exists():
             appointment = Appointment.objects.get(id=appointment_id)
+            
+            if appointment.case.status > 1:
+                 messages.error(request, 'This case already upload MRI data, it cannot be cancelled')
+                 return redirect('main.views.receptionist.register_list') 
+
             appointment.check_in_time = None
             appointment.is_check_in = False
             appointment.case_status = 0

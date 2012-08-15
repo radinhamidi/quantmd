@@ -74,6 +74,14 @@
 <div class="title-text">{{mri.name}}</div>
 <div id="datetime">b</div>
 <br />
+
+{% for message in messages %}
+<div class="span8 offset2">
+	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+		{{message}}
+	</div>
+</div>
+{% endfor %}
 <div class="small-title">Patients In Clinic</div>
 <table id="patient-inhouse">
 	<tr>
