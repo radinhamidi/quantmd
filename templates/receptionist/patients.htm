@@ -4,7 +4,22 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#patients-table').dataTable({
+		
+		$(".checkin").button({
+			icons: {
+				primary: "ui-icon-play"
+			},
+			 text: false
+		});
+		$(".reschedule").button({
+			icons: {
+				primary: "ui-icon-clock"
+			},
+			 text: false
+		});
+});
+$(function() {
+	$('#patients-table').dataTable({
 		"bPaginate": false,
 		"bLengthChange": false,
 		"bFilter": true,
@@ -19,18 +34,6 @@ $(document).ready(function() {
 		"iDisplayLength": 20,
 		"sPaginationType": "full_numbers"
 	});
-	$(".checkin").button({
-			icons: {
-				primary: "ui-icon-play"
-			},
-			 text: false
-		});
-		$(".reschedule").button({
-			icons: {
-				primary: "ui-icon-clock"
-			},
-			 text: false
-		});
 });
 </script>
 <div class="title-text">Patients List</div>
