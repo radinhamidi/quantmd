@@ -57,6 +57,7 @@
 		<th width="90px">D.O.B</th>
 		<th width="60px"></th>
 	</tr>
+	{% if apts %}
 	{% for apt in apts %}
 	<tr>
 		<td align="center">{{apt.schedule.start_time}}</td>
@@ -69,5 +70,10 @@
 		</td>
 	</tr>
     {% endfor %}
+	{% else %}
+		<tr>
+			<td colspan="7" align="center">No Patients Awaiting Upload</td>
+		</tr>
+	{% endif %}
 </table>
 <br />

@@ -45,6 +45,8 @@
 			event.preventDefault();
 		}
 	}); 
+	$("#birthday").datepicker();
+	$("#birthday").datepicker('setdate',new Date());
 });
 </script>
 
@@ -86,7 +88,7 @@
 		</tr>
 		<tr>
 			<td>Birthday:</td>
-			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday"  class="required birthday"/></td>
+			<td><input type="text" placeholder="mm/dd/yyyy" name="birthday" id="birthday" class="required birthday"/></td>
 		</tr>
 		<tr>
 			<td>Phone:</td>
