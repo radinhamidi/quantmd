@@ -33,9 +33,8 @@ $(document).ready(function() {
 	});
 	
 	$("#login").submit(function(e) {
-		e.preventDefault();
         $("#loginbox").fadeOut('fast', function() {
-			$("#login").submit();
+			return true;
 		});
     });
     
