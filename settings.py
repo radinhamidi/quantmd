@@ -18,8 +18,8 @@ MANAGERS = ADMINS
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'support@xifenfen.com'
-EMAIL_HOST_PASSWORD = 'Eg4> aZGy' 
+EMAIL_HOST_USER = 'service@quant.md'
+EMAIL_HOST_PASSWORD = 'Qu@nt1t@t1v3' 
 EMAIL_PORT = 587
 
 

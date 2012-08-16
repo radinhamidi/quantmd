@@ -62,33 +62,6 @@ $(function() {
 	},800);
 });
 
-function complete(){
-	$.ajax({
-        url: "/quantmd/process_case_action/",
-        type: "POST",
-        timeout: 10000,
-        data: {
-			case_id: '{{case.pk}}' 
-        },
-        beforeSend: function(XMLHttpRequest){
-            //XMLHttpRequest.setRequestHeader("X-CSRFToken", $.cookie("csrftoken"));
-        },
-        dataType: 'json',
-        success: function(data, textStatus){
-            if (typeof(data.code) != 'undefined' && data.code == '0') {
-                alert(data.msg);
-				window.location = "{% url main.views.index.index %}";
-            }
-            else {
-                alert(data.msg);
-            }
-        },
-        error: function(xhr, textStatus, errorThrown){
-        },
-        failure: function(data, statusText){
-        },
-    });
-}
 </script>
 <div class="title-text">Process one case</div>
 <br />
@@ -99,5 +72,12 @@ function complete(){
 	<div id="queue"></div>
 	<input id="file_upload" name="file_upload" type="file" multiple="true">
 	<a href="javascript:$('#file_upload').uploadifive('upload')" id="upload-btn">Upload Files</a>
-	<a href="javascript:;" onclick="complete()" id="complete-btn" style="display:none;">Complete</a>
+</form>
+
+<br /><br />
+<form method="post", action="/quantmd/process_case_action/">
+	{% csrf_token %}
+	<input type="hidden" name="case_id" value="{{case.pk}}" />
+	<textarea id="analysis" cols="55" rows="10" name="analysis"></textarea><br /><br />
+	<input type="submit" value="Submit" />
 </form>

@@ -242,6 +242,7 @@ def process_case_action(request):
     
     analysis = Analysis()
     analysis.admin_id = request.user.pk
+    analysis.content = request.POST['analysis']
     analysis.save()
     
     appointment = Appointment.objects.filter(case = case, is_current = True, is_cancelled = False)[0]
@@ -252,7 +253,8 @@ def process_case_action(request):
     message = Message.objects.create(receiver = appointment.doctor, case = case, title = title, content = content, type = 5, is_sys = True)
     message.save()
         
-    return HttpResponse('{"code":"0", "msg":"Successfully submitted analysis of case."}')
+    messages.info(request, 'Successfully submited diagnosis of case.')
+    return redirect('main.views.quantmd.process_cases') 
     
 @login_required
 def mri(request):

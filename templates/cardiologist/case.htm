@@ -156,8 +156,10 @@
 				<input onclick="saveDiagnosis()" type="button" class="btn" value="Save Diagnosis" />
 			</div>
 	</div><br />
-	<div class="small-title">QuantMD Computational Diagnostics</div>
+	
 	<a href="{{MEDIA_URL}}dicom/{{data.name}}/{{data.name}}.zip" >Dowload the dicome files</a>
+	<div class="small-title">QuantMD Computational Diagnostics</div>
+	{{analysis.content}}
 	<br /><br />
 	<b>Other Resources</b><br /><br />
 	    <ul>

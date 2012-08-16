@@ -246,7 +246,7 @@ def make_appointment(request):
                  'schedule':schedule,
                  'services':service,
                  })
-    send_mail('Your appointment at QuantMD', t.render(c), 'support@xifenfen.com', (patient.email,), fail_silently=False)
+    send_mail('Your appointment at QuantMD', t.render(c), 'service@quant.md', (patient.email,), fail_silently=False)
     
     return render_to_response('referring/case-create-confirm.htm',{'schedule':schedule, 'appointment':appointment, 'services': case.services.all()}, context_instance=RequestContext(request))
 
@@ -317,7 +317,7 @@ def appointment_cancel(request, appointment_id):
                  'schedule':schedule,
                  'services':service,
                 })
-        send_mail('Your appointment at QuantMD', t.render(c), 'support@xifenfen.com', (patient.email,), fail_silently=False)
+        send_mail('Your appointment at QuantMD', t.render(c), 'service@quant.md', (patient.email,), fail_silently=False)
     
         
         return render_to_response('case-cancel.htm',{'appointment':appointment}, context_instance=RequestContext(request))
@@ -495,7 +495,7 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
                  'old_schedule': old_appointment.schedule,
                  'old_mri': old_appointment.mri,
                  })
-    send_mail('Your appointment have been rescheduled at QuantMD', t.render(c), 'support@xifenfen.com', (patient.email,), fail_silently=False)  
+    send_mail('Your appointment have been rescheduled at QuantMD', t.render(c), 'service@quant.md', (patient.email,), fail_silently=False)  
     return render_to_response('referring/case-create-confirm.htm',
                               {'schedule':schedule, 'appointment':appointment}, 
                               context_instance=RequestContext(request))

@@ -54,7 +54,7 @@ def forgot_password_action(request):
         'url': settings.APP_URL,
         'new_password': new_password 
     })
-    send_mail('Your new password at QuantMD', t.render(c), 'support@xifenfen.com', (email,), fail_silently=False)
+    send_mail('Your new password at QuantMD', t.render(c), 'service@quant.md', (email,), fail_silently=False)
     
     messages.info(request, 'Your new password has been sent to your email')
     return redirect('main.views.account.forgot_password')

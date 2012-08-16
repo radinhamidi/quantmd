@@ -348,7 +348,7 @@ def reschedule_action2(request, schedule_id, appointment_id):
                  'services':service,
                  'old_schedule': old_appointment.schedule,
                  })
-    send_mail('Your appointment have been rescheduled at QuantMD', t.render(c), 'support@xifenfen.com', (old_appointment.patient.email,), fail_silently=False)
+    send_mail('Your appointment have been rescheduled at QuantMD', t.render(c), 'service@quant.md', (old_appointment.patient.email,), fail_silently=False)
     
     return redirect('main.views.receptionist.patients_view')    
 
@@ -475,7 +475,7 @@ def reschedule_action(request, schedule_id, appointment_id):
                  'services':service,
                  'old_schedule': old_appointment.schedule,
                  })
-    send_mail('Your appointment have been rescheduled at QuantMD', t.render(c), 'support@xifenfen.com', (old_appointment.patient.email,), fail_silently=False)
+    send_mail('Your appointment have been rescheduled at QuantMD', t.render(c), 'service@quant.md', (old_appointment.patient.email,), fail_silently=False)
     
     
    
