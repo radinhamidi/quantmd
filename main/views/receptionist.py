@@ -23,16 +23,9 @@ from django.core.mail import send_mail
 def register_list(request):
     profile = Profile.objects.get(user = request.user)
     mri = profile.mri_id
-    appointments = Appointment.objects.filter(mri=profile.mri_id).filter(is_cancelled = False)
-    today_appointments = []
-    today_checkin_appointments = []
-    for appointment in appointments:
-        schedule = appointment.schedule
-        if schedule.date == datetime.datetime.now().date():
-            if appointment.is_check_in:
-                today_checkin_appointments.append(appointment)
-            else:
-                today_appointments.append(appointment)
+    today = datetime.datetime.now().date()
+    today_appointments = Appointment.objects.filter(mri=profile.mri_id, is_cancelled = False, is_current = True, schedule__date= today,case__status=0)
+    today_checkin_appointments = Appointment.objects.filter(mri=profile.mri_id, is_cancelled = False, is_current = True, schedule__date=today,case__status=1)
     
     return render_to_response('receptionist/today.htm',{'appointments':today_appointments, 'checkins':  today_checkin_appointments, 'mri':mri}, context_instance=RequestContext(request))  
 
