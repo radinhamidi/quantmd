@@ -106,10 +106,11 @@ def go(CardiologistName, PatientFirstName, PatientLastName, PatientGender,
     Story.append(p)
     Story.append(Spacer(1, 0.2 * inch))
     
+    
     for i in xrange(len(comments_list)):
         if imghdr.what(data_dir + "/" + image_list[i]) == "bmp":
             Story.append(Image(data_dir + "/" + image_list[i], width=8 * cm, height=8 * cm))
-            p = Paragraph(image_list[i] + "<br\><br\>", styleImageTitle)
+            p = Paragraph('Figure ' + str(i+1) + "<br\><br\>", styleImageTitle)
             Story.append(p)
             p = Paragraph(comments_list[i], styleParagraph);
             Story.append(p);

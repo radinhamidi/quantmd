@@ -31,6 +31,8 @@ def case(request):
         case = cases[0]
         data = case.data
         image_objs = []
+        anal_videos = []
+        anal_images = []
         sequences = DataSequence.objects.filter(data=data)
         for i in xrange(data.image_count):
             index = i + 1
@@ -39,17 +41,18 @@ def case(request):
                     image_objs.append((index, str(index)+'.dcm.bmp', s.name))
                     break #found service name, continue to next image
         
-        #Get analysis media
-        directory = settings.MEDIA_ROOT + 'dicom/' + data.name + '/analysis'
-        file_names = [ f for f in listdir(directory) if isfile(join(directory,f)) ]
-        anal_videos = []
-        anal_images = []
-        for fn in file_names:
-            if fn.lower().endswith('.mp4'):
-                anal_videos.append(fn)
-            else:
-                anal_images.append(fn)
-        
+        #Get analysis media. If developint in local environment, the folder may not exist
+        try:
+            directory = settings.MEDIA_ROOT + 'dicom/' + data.name + '/analysis'
+            file_names = [ f for f in listdir(directory) if isfile(join(directory,f)) ]
+            
+            for fn in file_names:
+                if fn.lower().endswith('.mp4'):
+                    anal_videos.append(fn)
+                else:
+                    anal_images.append(fn)
+        except:
+            pass
           
     return render_to_response('cardiologist/case.htm', {'has_pending_case':has_pending_case,
                                                         'case':case, 'data':data, 'image_objs':image_objs,
