@@ -16,6 +16,7 @@ $(document).ready(function() {
 	});
 	
 });
+
 </script>
 <div class="title-text">{{mri.name}}</div>
 <br />
@@ -25,7 +26,7 @@ Address: {{mri.address}} {{mri.address2}}, {{mri.city}}, {{mri.state}} {{mri.zip
 <br /><br />
 
 <span class="orange">
-	<a href="/quantmd/editMRIView/{{k.id}}/" class="innerlink editbutton orange">Edit Information</a>
+	<a href="/quantmd/editMRIView/{{mri.id}}/" class="innerlink editbutton orange">Edit Information</a>
 </span>
 </br></br>
 
@@ -35,17 +36,24 @@ Address: {{mri.address}} {{mri.address2}}, {{mri.city}}, {{mri.state}} {{mri.zip
 			<th width="150px">Gender</th>
 			<th width="180px">Role</th>
 		</tr>
+		
+		{% if not profiles%}
+			<tr>
+				<td Colspan = 3 align="center">NO ACCOUNT FOR THIS CENTER NOW </td>
+			</tr>
+		{% endif%}
+		
 		{%for profile in profiles%}
-		<tr>
-			<td>{{profile}}</td>
-			<td>{% if profile.gender == 1 %}
+		</tr>
+			<td align="center">{{profile}}</td>
+			<td align="center">{% if profile.gender == 1 %}
 								Male
 							{% endif %}
 					{% if profile.gender == 0 %}
 							   Female
 						{% endif %}</tdh>
 						
-			<td>
+			<td align="center">
 				{% if profile.role == 2 %}
 							Receptionist
 							{% endif %}
@@ -53,8 +61,8 @@ Address: {{mri.address}} {{mri.address2}}, {{mri.city}}, {{mri.state}} {{mri.zip
 							   Broker
 						{% endif %}
 			</td>
-			<td><a href="/quantmd/edit_user/{{profile.id}}/" class="innerlink editbutton">Edit</a>
-				<a href="/quantmd/view_user/{{profile.id}}/" class="innerlink viewcasebutton">View</a></td>
+			<td align="center"><a href="/quantmd/edit_user/{{profile.pk}}/" class="innerlink editbutton">Edit</a>
+				<a href="/quantmd/view_user/{{profile.pk}}/" class="innerlink viewcasebutton">View</a></td>
 		</tr>
 		{%endfor%}
 </table>

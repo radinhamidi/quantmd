@@ -114,9 +114,11 @@ $(document).ready(function() {
 		<tr>
 			<td class="left">{{center.name}}</td>
 			<td>{{schedules.0.date}}</td>
+			<td>
 			{% for schedule in schedules %}
-			<td><a onClick="confirmBookingForReschedule({{patient.id}},{{schedule.id}},{{appointment.id}});">{{schedule.start_time}}</a></td>
+			<a onClick="confirmBookingForReschedule({{patient.id}},{{schedule.id}},{{appointment.id}});">{{schedule.start_time|time:"H:i"}}&nbsp</a>
 			{% endfor %}
+			</td>
 		</tr>
 		{% endfor %}
 	</table>

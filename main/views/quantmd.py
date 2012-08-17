@@ -235,15 +235,18 @@ def upload_action(request):
 @login_required
 def process_case_action(request):
     """Store the files in 'analysis' folder and save analysis"""
-    case_id = request.POST['case_id']
-    case = Case.objects.get(pk=case_id)
-    case.status = 3
-    case.save()
-    
     analysis = Analysis()
     analysis.admin_id = request.user.pk
     analysis.content = request.POST['analysis']
     analysis.save()
+    
+    case_id = request.POST['case_id']
+    case = Case.objects.get(pk=case_id)
+    case.analysis =  analysis
+    case.status = 3
+    case.save()
+    
+    
     
     appointment = Appointment.objects.filter(case = case, is_current = True, is_cancelled = False)[0]
     
@@ -317,7 +320,7 @@ def create_mri_action(request):
     
     try:
         phone = long(request.POST['phone'])
-        zip = int(request.POST['zipcode'])    
+        zip = int(request.POST['zip'])    
     except:
         messages.error(request, 'Phone and zipcode must be numbers')
         return redirect('main.views.quantmd.create_mri_view') 
@@ -352,27 +355,25 @@ def edit_mri_action(request):
     mri_id = request.POST['mri_id']
     name = request.POST['name']
     email = request.POST['email']
-    phone = request.POST['phone']
     address = request.POST['address']
     address2 = request.POST['address2']
     state = request.POST['state']
-    zip = request.POST['zip']
     city = request.POST['city']
     
     try:
         phone = long(request.POST['phone'])
-        zip = int(request.POST['zipcode'])    
+        zip = int(request.POST['zip'])    
     except:
         messages.error(request, 'Phone and zipcode must be numbers')
-        return redirect('main.views.quantmd.edit_mri_view') 
+        return redirect('main.views.quantmd.edit_mri_view', mri_id) 
     
     if (not name.strip() or not email.strip() or not address.strip() or not city.strip() or not state.strip()): 
         messages.error(request, 'Only address line 2 can be empty.')
-        return redirect('main.views.quantmd.edit_mri_view')
+        return redirect('main.views.quantmd.edit_mri_view', mri_id)
     
     if not email_re.match(email):
         messages.error(request, 'Email format not correct.')
-        return redirect('main.views.quantmd.edit_mri_view')
+        return redirect('main.views.quantmd.edit_mri_view', mri_id)
     
     mri = MRICenter.objects.get(id = mri_id)
     city = city.upper()
@@ -390,10 +391,10 @@ def edit_mri_action(request):
     mri.save()
     return render_to_response('quantmd/mri-edit-confirm.htm',{'mri':mri}, context_instance=RequestContext(request))   
 
-@login_required      
+@login_required
 def logs_view(request):
     """logs list view"""
-    appointments = Appointment.objects.filter(is_current = True).order_by('-create_time')
+    appointments = Appointment.objects.filter(is_current = True).order_by('-case')
     return render_to_response('quantmd/logs.htm',{'appointments':appointments}, context_instance=RequestContext(request))     
 
 @login_required  

@@ -38,13 +38,6 @@
 </script>
 
 <div class="title-text">Select Scans to Perform</div>
-{% for message in messages %}
-<div class="span8 offset2">
-	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
-		{{message}}
-	</div>
-</div>
-{% endfor %}
 <br />
 Appointment for {{patient}} at:<br />
 <br />
@@ -56,6 +49,14 @@ Appointment for {{patient}} at:<br />
 
 <br /><br />
 <div class="small-title">Select Scans</div>
+{% for message in messages %}
+<div class="span8 offset2">
+	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+		{{message}}
+	</div>
+</div>
+{% endfor %}
+</br>
 <form id="case-select-scans" action="/referring/makeAppointment/" method="post"> {% csrf_token %}
 	<input type="hidden" name= "patientId" value="{{patient.id}}" /> 
 	<input type="hidden" name= "scheduleId" value="{{schedule.id}}" />

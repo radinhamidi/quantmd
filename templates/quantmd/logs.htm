@@ -33,7 +33,7 @@ $(document).ready(function() {
 		});
 });
 </script>
-<div class="title-text">Upload Log</div>
+<div class="title-text">Case Logs</div>
 <table id="log-table">
 	<thead>
 		<tr>
@@ -47,7 +47,7 @@ $(document).ready(function() {
 	<tbody>
 		{% for appointment in appointments%}
 		<tr>
-			<td>CASE# {{appointment.case.id}}</td>
+			<td>{{appointment.case.id}}</td>
 			<td align="center">{{appointment.case.create_time}}</td>
 			{% if appointment.case.status == -1%}
 				<td>Case has been cancelled</td>

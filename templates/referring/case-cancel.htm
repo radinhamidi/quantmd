@@ -20,8 +20,8 @@ Appointment for {{appointment.patient}} concelled for:<br />
 {{appointment.mri.address}} {{appointment.mri.address2}}<br />
 {{appointment.mri.city}}, {{appointment.mri.state}} {{appointment.mri.zip}}<br />
 <br />
-{{appointment.schedule.date}} AT {{appointment.schedule.start_time}}
+{{appointment.schedule.date}} at {{appointment.schedule.start_time}}
 
 <br /><br />
 <span class="orange">
-<a id="create-patient-complete" href="/referring/patientInfo/{{patient.id}}/" class="orange loadright">Back to Patient</a></span>
+<a id="create-patient-complete" href="/referring/patientInfo/{{appointment.patient.id}}/" class="orange loadright">Back to Patient</a></span>

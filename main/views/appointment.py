@@ -68,13 +68,13 @@ def appointment_search(request, patient_id):
             errors.append(request, 'zipcode must be numbers')
     
     if len(schedule_date) != 0 and not IsValidDate(schedule_date):
-        errors.append('Please enter correct date format and choose a date before today')
+        errors.append('Please enter correct date format and choose a date after today')
         
     if len(errors) != 0:
         return render_to_response('referring/case-create.htm',{'patient': patient, 'errors':errors}, context_instance=RequestContext(request)) 
     
     dic = {}
-    if len(schedule_date) == 0 and len(zip_code) != 0:
+    if len(schedule_date) == 0 and zip_code:
         code = int(zip_code)
         upper = code + 500
         lower = code - 500
@@ -82,14 +82,13 @@ def appointment_search(request, patient_id):
         today = datetime.datetime.now().date()
         for center in centers:
             schedules = Schedule.objects.filter(mri=center).filter(is_available=True).filter(is_cancelled=False).filter(date__gte = today)
-            print schedules
             if len(schedules) != 0:
                  schedules = Schedule.objects.filter(mri=center).filter(is_available=True).filter(is_cancelled=False).filter(date=schedules[0].date).order_by('start_time')
                  dic[center] = schedules
-    elif len(schedule_date) != 0 and len(zip_code) == 0:
+    elif len(schedule_date) != 0 and not zip_code:
         format="%m/%d/%Y"
         date = datetime.datetime.strptime(schedule_date,format)
-        schedules = Schedule.objects.filter(date = date).filter(is_available = True).filter(is_cancelled = False)
+        schedules = Schedule.objects.filter(date = date).filter(is_available = True).filter(is_cancelled = False).order_by('start_time')
         for schedule in schedules:
             if schedule.mri in dic:
                 timeslot = dic[schedule.mri]
@@ -102,7 +101,7 @@ def appointment_search(request, patient_id):
     else:
         format="%m/%d/%Y"
         date = datetime.datetime.strptime(schedule_date,format)
-        schedules = Schedule.objects.filter(date = date).filter(is_available = True).filter(is_cancelled = False)
+        schedules = Schedule.objects.filter(date = date).filter(is_available = True).filter(is_cancelled = False).order_by('start_time')
         code = int(zip_code)
         upper = code + 500
         lower = code - 500
@@ -118,7 +117,7 @@ def appointment_search(request, patient_id):
                     timeslot.append(schedule)
                     dic[schedule.mri] = timeslot
     if len(dic) == 0 :
-        errors.append('No schedule available on that date, please change a date!')
+        errors.append('No schedule available on that day, please change a date!')
         return render_to_response('referring/case-create.htm',{'errors':errors, 'patient':patient}, context_instance=RequestContext(request))
     
     return render_to_response('referring/case-create.htm',{'dic':dic, 'patient':patient}, context_instance=RequestContext(request))  
@@ -139,7 +138,7 @@ def mri_info(request, mri_id):
     
     sorted_x = sorted(dic.iteritems(), key=operator.itemgetter(0), reverse=False)
     return render_to_response('referring/view-mri-details.htm',
-                              {'dic':sorted_x}, context_instance=RequestContext(request))   
+                              {'dic':sorted_x, 'mri':mri}, context_instance=RequestContext(request))   
 
 @login_required      
 def service_view(request,patient_id, schedule_id):
@@ -162,7 +161,7 @@ def make_appointment(request):
     
     if len(services) == 0:
         messages.error(request, 'Service cannot be empty')
-        return redirect('main.views.referring.service_view', patient_id, schedule_id)      
+        return redirect('main.views.appointment.service_view', patient_id, schedule_id)      
     
     schedule = Schedule.objects.get(id=schedule_id)
     if schedule.date < datetime.datetime.now().date() or (schedule.date == datetime.datetime.now().date() and schedule.start_time < datetime.datetime.now().time()):
@@ -185,16 +184,16 @@ def make_appointment(request):
     doctor = Profile.objects.get(user=request.user)
     mri = schedule.mri
     
-    print "here 2"
+
     # update schedule
     schedule = Schedule.objects.get(id=schedule_id)
     schedule.is_available = False
     schedule.save()
     
-    print "here4" 
+  
     # create case
     case = Case.objects.create(patient = patient)
-    print "here5"
+  
     case.save()
     
     service_name = []
@@ -206,7 +205,7 @@ def make_appointment(request):
     
         
     
-    print "here3"
+  
     # create appointment
     appointment = Appointment.objects.create(doctor=doctor, patient=patient,schedule=schedule,mri=mri,case=case)
     appointment.save()
@@ -216,17 +215,17 @@ def make_appointment(request):
     
     title =  'APPOINTMENT CONFIRMATION for CASE #' +  str(case.id)
     title = title.upper()
-    print title
-    content ='Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have made an appointment: at ' + mri.name
+
+    content ='Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have made an appointment: \n ' + mri.name
     
-    content += 'on ' + str(schedule.date) + '   ' 
+    content += ' on ' + str(schedule.date) + ' at ' 
     
-    content += str(schedule.start_time) 
+    content += str(schedule.start_time) + ' . '
     
     content += ' Address is : ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) 
     
     # content = "You have already made an appointment"
-    print content
+
     message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 0, is_sys = True)
     message.save()
     
@@ -264,7 +263,7 @@ def appointment_cancel(request, appointment_id):
     appointment = Appointment.objects.get(id=appointment_id)
     schedule = appointment.schedule
     case = appointment.case
-    print case
+    
     
     if case.status != 0:
         errors.append("This appointment cannot be cancel")
@@ -287,29 +286,31 @@ def appointment_cancel(request, appointment_id):
     
         title = 'APPOINTMENT CONCELLATION for CASE #' + str(case.id)
         title = title.upper()
-        content = 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have cancelled an appointment: MRI Center: ' + mri.name
+        content = 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have cancelled an appointment: at ' + mri.name
     
-        content += 'Time: ' + str(schedule.date) + '   '
+        content += ' on ' + str(schedule.date) + ' at '
     
-        content += str(schedule.start_time) 
+        content += str(schedule.start_time) + ' . '
     
-        content += 'Address: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip)
+        content += ' Address is: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip)
     
         # content = "You have already made an appointment"
         print content
         message = Message.objects.create(receiver = doctor, case = case, title = title, content = content, type = 1, is_sys = True)
         message.save()
         
+        print "aaaaa"
         
         '''
         send message
         '''
         service = ''
-        service_name = case.objects.services.all()
+        service_name = case.services.all()
+        print service_name
         for name in service_name:
-            service += name + ' '
+            service += name.name + ' '
     
-        t = loader.get_template('referring/cancel_appointment.txt')
+        t = loader.get_template('referring/cancel-appointment.txt')
         c = Context({
                  'patient': patient,
                  'doctor': doctor,
@@ -320,7 +321,7 @@ def appointment_cancel(request, appointment_id):
         send_mail('Your appointment at QuantMD', t.render(c), 'service@quant.md', (patient.email,), fail_silently=False)
     
         
-        return render_to_response('case-cancel.htm',{'appointment':appointment}, context_instance=RequestContext(request))
+        return render_to_response('referring/case-cancel.htm',{'appointment':appointment}, context_instance=RequestContext(request))
 
 @login_required
 def appointment_reschedule(request, appointment_id):
@@ -351,14 +352,14 @@ def reappointment_search(request, appointment_id):
             errors.append(request, 'zipcode must be numbers')
     
     if len(schedule_date) != 0 and not IsValidDate(schedule_date):
-        errors.append('Please enter correct date format and choose a date before today')
+        errors.append('Please enter correct date format and choose a date after today')
         
 
     if len(errors) != 0:
         return render_to_response('referring/schedule-change.htm',{'errors':errors,'patient':patient,'appointment':appointment}, context_instance=RequestContext(request))
     
     dic = {}
-    if len(schedule_date) == 0 and len(zip_code) != 0:
+    if len(schedule_date) == 0 and zip_code:
         code = int(zip_code)
         upper = code + 500
         lower = code - 500
@@ -370,7 +371,7 @@ def reappointment_search(request, appointment_id):
             if len(schedules) != 0:
                  schedules = Schedule.objects.filter(mri=center).filter(is_available=True).filter(is_cancelled=False).filter(date=schedules[0].date).order_by('start_time')
                  dic[center] = schedules
-    elif len(schedule_date) != 0 and len(zip_code) == 0:
+    elif len(schedule_date) != 0 and not zip_code:
         format="%m/%d/%Y"
         date = datetime.datetime.strptime(schedule_date,format)
         schedules = Schedule.objects.filter(date = date).filter(is_available = True).filter(is_cancelled = False)
@@ -403,7 +404,7 @@ def reappointment_search(request, appointment_id):
                     dic[schedule.mri] = timeslot
                     
     if len(dic) == 0 :
-        errors.append('No schedule available on that date, please change a date!')
+        errors.append('No schedule available on that day, please change a date!')
         return render_to_response('referring/schedule-change.htm',{'errors':errors, 'patient':patient,'appointment':appointment}, context_instance=RequestContext(request))
     return render_to_response('referring/schedule-change.htm',{'dic':dic, 'patient':patient, 'appointment':appointment}, context_instance=RequestContext(request))  
 
@@ -461,13 +462,13 @@ def remake_appointment(request, patient_id, schedule_id, appointment_id):
     print title
     content = 'Patient: ' + patient.first_name + ' ' +  patient.last_name + ' have reschedule an appointment:'
     print content
-    content += 'The original appointment is: ' + 'at ' + old_appointment.mri.name +'  on ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
+    content += 'the original appointment is: ' + 'at ' + old_appointment.mri.name +'  on ' + str(old_appointment.schedule.date) + ' at ' + str(old_appointment.schedule.start_time)
     
-    content += 'New appointment is:  at ' + mri.name
+    content += 'new appointment is:  at ' + mri.name
     
-    content += ' on ' + str(schedule.date) + ' ' 
+    content += ' on ' + str(schedule.date) + 'at ' 
     
-    content += str(schedule.start_time)
+    content += str(schedule.start_time) + ' . '
     
     content += 'Address is: ' + mri.address + ' ' + mri.address2 + ',' + mri.city + ',' + mri.state + ',' + str(mri.zip) 
     

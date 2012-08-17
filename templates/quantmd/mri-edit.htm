@@ -35,8 +35,16 @@ $(document).ready(function() {
      });
 });
 </script>
-<div class="title-text">Editing Imaging Center (#022)</div>
+<div class="title-text">Editing Imaging Center (#{{mri.id}})</div>
 <br /><br />
+{% for message in messages %}
+<div class="span8 offset2">
+	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
+		{{message}}
+	</div>
+</div>
+{% endfor %}
+
 <form id="mri-edit-form" name="mri-edit-form" action="/quantmd/editMRIAction/" method="post"> {% csrf_token %}
 	<table class="formtable">
 		<input type="hidden" name="mri_id" value="{{mri.id}}" />
@@ -128,3 +136,5 @@ $(document).ready(function() {
 
 <input type="submit" value="Submit" id="mri-edit-submit" />
 </form>
+
+<a href="/quantmd/mri/" class="innerlink backbutton">Back</a>

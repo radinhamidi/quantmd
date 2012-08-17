@@ -55,7 +55,11 @@
 	<table class="formtable">
 		<tr>
 			<td width="120px">SSN:</td>
+			{% if patient.ssn%}
 			<td><input type="text" name="ssn" value={{patient.ssn}} class="ssn"></td>
+			{% else %}
+			<td><input type="text" name="ssn" class="ssn"></td>
+			{% endif %}
 		</tr>
 		<tr>
 			<td width="120px">First Name</td>

@@ -44,7 +44,7 @@ $(document).ready(function() {
 		{{message}}
 	</div>
 </div>
-
+{% endfor %}
 <form id="mri-create-form" name="mri-create-form" action="/quantmd/createMRI/"> {% csrf_token %}
 	<table class="formtable">
 		<tr>

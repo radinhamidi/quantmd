@@ -17,7 +17,7 @@ $(document).ready(function() {
 		
 });
 </script>
-<div class="title-text">Edited Imaging Center (#022)</div>
+<div class="title-text">Edited Imaging Center (#{{mri.id}})</div>
 <br />
 You have edited the information for Center {{mri.name}}:</br>
 Phone: {{mri.phone}}</br>
@@ -28,4 +28,4 @@ Address: {{mri.address}} {{mri.address2}}, {{mri.city}}, {{mri.state}} {{mri.zip
 <span class="orange">
 	<a href="/quantmd/mri/" class="innerlink backbutton orange">Back To List</a>
 </span>
-<a href="mri-view.htm" class="innerlink viewbutton">View MRI Center</a>
+<a href="/quantmd/MRIView/{{mri.id}}/" class="innerlink viewbutton">View MRI Center</a>

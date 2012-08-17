@@ -2,13 +2,7 @@
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
 <script src="{{STATIC_URL}}common/js/datatables.js"></script>
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
-<script>
-function image_popup(url) {
-	newwindow=window.open(url,'View MRI Images','height=300,width=300');
-	if (window.focus) newwindow.focus();
-	return false;
-}
-</script>
+
 
 <div class="title-text">Case #{{case.id}}</div>
 
@@ -74,7 +68,6 @@ function image_popup(url) {
 			<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><a id="view-MRI" onclick="image_popup('/referring/view_mri_images/{{case.id}}/')" class="loadright">View MRI data</a></td>
 				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 				<td><a href="/quantmd/process_case/{{case.pk}}/" class="editbutton innerlink">Process</a></td>
 			</tr>
@@ -87,13 +80,12 @@ function image_popup(url) {
 			<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><a id="view-MRI" onclick="image_popup('/referring/view_mri_images/{{case.id}}/')" href="javascript:;" class="loadright">View MRI images</a></td>
 				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 			<tr>
 				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
 				<td>{{appointment.case.analysis.create_time}}</td>
-				<td><a id="view-analysis" href="" >View Quantmd Analysis</a></td>
+				<td><a id="view-analysis" href="/referring/view_analysis/{{case.id}}/" >View Quantmd Analysis</a></td>
 			</tr>
 		{% endif %}
 		{% if case.status >= 5 %}
@@ -104,13 +96,12 @@ function image_popup(url) {
 			<tr>
 				<td width="200px"><b>Scan Uploaded</b></td>
 				<td>{{appointment.case.data.create_time}}</td>
-				<td><a id="view-MRI" onclick="image_popup('/referring/view_mri_images/{{case.id}}/')" href="javascript:;" class="loadright">View MRI images</a></td>
 				<td><a id="view-MRI" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download MRI data</a></td>
 			</tr>
 			<tr>
 				<td width="200px"><b>Quantmd Analysis Uploaded</b></td>
 				<td>{{appointment.case.analysis.create_time}}</td>
-				<td><a id="view-analysis" href="" class="loadright">View Quantmd Analysis</a></td>
+				<td><a id="view-analysis" href="/referring/view_analysis/{{case.id}}/" class="loadright">View Quantmd Analysis</a></td>
 			</tr>
 			<tr>
 				<td width="200px"><b>Diagnosis Uploaded</b></td>

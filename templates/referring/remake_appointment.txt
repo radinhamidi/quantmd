@@ -3,13 +3,13 @@ Hi {{patient}}:
 Your doctor {{doctor}} have reschedule an appointment for you for {{services}} at:
 		{{mri.name}}
 Address: {{mri.address}} {{mri.address2}}
-         {{mri.city}}, {{mri.state}},{{mri.state}}
+         {{mri.city}}, {{mri.state}},{{mri.zip}}
 on {{schedule.date}} at {{schedule.start_time}}
 
 Your original appointment is:
 		{{old_mri.name}}
 Address: {{old_mri.address}} {{old_mri.address2}}
-         {{old_mri.city}}, {{old_mri.state}},{{old_mri.state}}
+         {{old_mri.city}}, {{old_mri.state}},{{old_mri.zip}}
 on {{old_schedule.date}} at {{old_schedule.start_time}}
 
 QuantMD Team

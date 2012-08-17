@@ -11,7 +11,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for patient,message in dic.iteritems%}
+		{% for patient in patients%}
 		<tr>
 			<td><b><a href="/referring/patientInfo/{{patient.id}}/" class="loadright">{{patient}}</a></b></td>
 			{% if patient.gender == 1 %}

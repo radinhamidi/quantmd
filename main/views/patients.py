@@ -20,25 +20,28 @@ from os.path import isfile, join
 import operator
 
 @login_required
-def patients_view(request):   
+def patients_view(request):
+    '''
+     return to patients html
+    '''
     return render_to_response('referring/patients.htm',{}, context_instance=RequestContext(request))
 
   
 @login_required
 def patientsList(request):
+    '''
+    get patient list 
+    '''
     profile = Profile.objects.get(user=request.user)
     patients = Patient.objects.filter(doctor = profile)
-    print patients
-    dic = {}
-    for patient in patients:
-        appointments = Appointment.objects.filter(patient=patient).filter(is_cancelled=False)
-        dic[patient] = False
-    print dic
-    return render_to_response('referring/patient-list.htm',{'dic': dic}, context_instance=RequestContext(request)) 
+    return render_to_response('referring/patient-list.htm',{'patients': patients}, context_instance=RequestContext(request)) 
     
 
 @login_required
 def patientInfo(request, patient_id):
+    '''
+    patient's information
+    '''
     if Patient.objects.filter(id = patient_id).exists():
         patient = Patient.objects.get(id = patient_id)
         appointments = Appointment.objects.filter(patient=patient).filter(is_current=True).order_by('-case')
@@ -51,11 +54,17 @@ def patientInfo(request, patient_id):
 
 @login_required
 def createView(request):
+    '''
+    return create patient page
+    '''
     return render_to_response('referring/patient-create.htm', {},
                           context_instance=RequestContext(request))
 
 @login_required
 def createPatient(request):
+    '''
+    create patient action
+    '''
     first_name = request.POST['first_name']
     middle_name = request.POST['middle_name']
     ssn = request.POST['ssn']
@@ -70,6 +79,7 @@ def createPatient(request):
     zip = request.POST['zip']
     city = request.POST['city']
     # check form
+
     try:
         phone = long(request.POST['phone'])
         zip = int(request.POST['zip'])    
@@ -97,7 +107,7 @@ def createPatient(request):
     doctor = Profile.objects.get(user=request.user)
     birthday_date = datetime.strptime(birthday,format)
     city = city.upper()
-    patient = Patient.objects.create(first_name=first_name,middle_name=middle_name,last_name=last_name,gender=gender,address=address,phone=phone,
+    patient = Patient.objects.create(first_name=first_name,middle_name=middle_name,last_name=last_name,gender=int(gender),address=address,phone=phone,
                                          email=email,state=state,city=city,zip=zip,birthday=birthday_date,doctor=doctor)
     if ssn:
         patient.ssn = ssn
@@ -109,6 +119,9 @@ def createPatient(request):
 
 @login_required
 def patient_edit_view(request, patient_id):
+    '''
+    return edit patient page
+    '''
     patient = Patient.objects.get(id=patient_id)
     
     return render_to_response('referring/patient-edit.htm', {'patient':patient},
@@ -116,6 +129,9 @@ def patient_edit_view(request, patient_id):
 
 @login_required
 def patient_edit_action(request, patient_id):
+    '''
+    edit patient action
+    '''
     patient = Patient.objects.get(id=patient_id)
     first_name = request.POST['first_name']
     middle_name = request.POST['middle_name']
@@ -161,6 +177,7 @@ def patient_edit_action(request, patient_id):
     patient.first_name = first_name
     patient.middle_name = middle_name
     patient.last_name = last_name
+    patient.gender = int(gender)
     patient.birthday = birthday_date
     patient.email = email
     patient.phone = phone
