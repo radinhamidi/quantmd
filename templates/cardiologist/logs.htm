@@ -43,7 +43,7 @@ $(function() {
 	},300);
 });
 </script>
-<div class="title-text">Diagnosis Log</div>
+<div class="title-text">Diagnosis Log</div><br />
 <table id="log-table">
 	<thead>
 		<tr>
@@ -64,7 +64,7 @@ $(function() {
 			<td align="center">{{case.data.create_time}}</td>
 			<td align="center">{{case.report.create_time}}</td>
 			<td align="center">
-				<span class="orange"><a target="_blank" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.pdf" class="orange view innerlink">c</a></span>
+				<span class="orange"><a target="_blank" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.pdf" class="orange view">c</a></span>
 			</td>
 		</tr>
 		{% endfor %}

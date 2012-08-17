@@ -16,6 +16,11 @@
 			},
 			text: false
 		});
+		$("#download-btn").button({
+			icons: {
+				primary: "ui-icon-arrowthickstop-1-s"
+			}
+		});
 		if($('#image-comments-1').length != 0) {
 			$('#image-comments-1').show();
 		}
@@ -155,9 +160,10 @@
 				-->
 				<input onclick="saveDiagnosis()" type="button" class="btn" value="Save Diagnosis" />
 			</div>
-	</div><br />
-	
-	<a href="{{MEDIA_URL}}dicom/{{data.name}}/{{data.name}}.zip" >Dowload the dicome files</a>
+	</div>
+	<span class="orange">
+	<a href="{{MEDIA_URL}}dicom/{{data.name}}/{{data.name}}.zip" id="download-btn" class="orange">Download DICOM</a>
+	</span><br /><br />
 	<div class="small-title">QuantMD Computational Diagnostics</div>
 	{{analysis.content}}
 	<br /><br />
