@@ -70,7 +70,6 @@ def upload_action(request):
 @login_required    
 @csrf_exempt 
 def upload_complete(request):
-    """Need to map Service to the unique part in file name"""
     try:
         identifier = request.POST['identifier']
         case_id = request.POST['case_id']
@@ -136,9 +135,7 @@ def upload_complete(request):
             ds = DataSequence(data=data, name=key, 
                               image_start=sequences[key][0], image_end = sequences[key][1])
             ds.save()
-        
-        
-           
+
         apt = Appointment.objects.get(case=case_id, is_current=True)
         
         #Send message to referring doctor to notify him that scan is complete and uploaded
@@ -147,9 +144,11 @@ def upload_complete(request):
         message.content = 'The MRI scan is complete for case ' + case_id \
                           + '. Please wait for cardiologist to upload report' 
         message.save()
+        
         return HttpResponse('{"code":"0", "msg":"Completed!"}')
-    except:
+    except Exception, e:
         return HttpResponse('{"code":"1", "msg":"Error while processing dicom files."}')
+        #return HttpResponse('{"code":"1", "msg":"' + str(e) + '"}') 
     
 
 @login_required

@@ -17,11 +17,10 @@ build-essential python-dev python-setuptools python-pip python-imaging
 
 When installing mysql-server, and prompted for password, choose a strong password and put this password in settings.py.
 The default password is 'quantmd:cool1'
-                 
-Install reportlab(pdf generator) from installer: http://www.reportlab.com/software/opensource/rl-toolkit/download/  
-                   
+                                   
 Python module dependencies:
 sudo pip install django-debug-toolbar
+sudo pip install reportlab
 
 Make a folder '/home/media/', and a subfolder '/home/media/dicom/', 
 sudo chown -R www-data /home/media/
@@ -29,6 +28,7 @@ sudo chgrp -R www-data /home/media/
 
 Put the code in /var/www/ after apache is installed, name the code folder as 'quantmd'
 Configure /etc/apache2/http.conf using the file in configuration folder.
+cd /var/www/quantmd/main/utils; sudo chmod +x dicom2-unix 
 Change PRODUCTION=True in settings.py each time before deploy, and run command:
 'sudo service apache2 restart' to restart the server, 
 
@@ -60,5 +60,13 @@ pip insall pil
 Install reportlab: http://www.reportlab.com/software/opensource/rl-toolkit/download/
 
 Sync database as mentioned in Linux part and 'python manage.py runserver' to start developing.
+
+Note about MAC
+==============
+Since the third party tool we used to convert dicom file to images does not support Mac,
+so upload functionality of broker role cannot be run on Mac
+
+
+
 
 
