@@ -12,7 +12,7 @@ LOGIN_URL = APP_URL + 'account/login/'
 if WINDOWS:
     MEDIA_ROOT = 'c:/media/quantmd/'
 elif MAC:
-    MEDIA_ROOT = '/home/media/quantmd/'
+    MEDIA_ROOT = '/Users/renyifeng/media/quantmd/'
 else:
     MEDIA_ROOT = '/home/media/quantmd/'
 
