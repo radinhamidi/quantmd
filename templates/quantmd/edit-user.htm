@@ -1,6 +1,7 @@
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
 <script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.validate.js"></script>
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
@@ -23,21 +24,24 @@ $(document).ready(function() {
 	});
 	document.getElementById('select-state').value ="{{profile.state}}";
 	$("#edit-user-form").submit(function(event) {
-	
-    /* stop form from submitting normally */
-		event.preventDefault(); 
-		$( "#ui-tabs-5" ).hide();
-        
-    /* get some values from elements on the page: */
-		var $form = $( this ),
-			url = $form.attr( 'action' );
+		if($("#edit-user-form").valid()) {
+		    /* stop form from submitting normally */
+			event.preventDefault(); 
+			$( "#ui-tabs-5" ).hide();
+	        
+	    /* get some values from elements on the page: */
+			var $form = $( this ),
+				url = $form.attr( 'action' );
 
-    /* Send the data using post and put the results in a div */
-		$.post( url, $("#edit-user-form").serialize(),
-		function( data ) {
-			$( "#ui-tabs-5" ).empty().append($(data));
-			$( "#ui-tabs-5" ).fadeIn('fast');
-		});
+	    /* Send the data using post and put the results in a div */
+			$.post( url, $("#edit-user-form").serialize(),
+			function( data ) {
+				$( "#ui-tabs-5" ).empty().append($(data));
+				$( "#ui-tabs-5" ).fadeIn('fast');
+			});
+		} else {
+			event.preventDefault(); 
+		}
      });
 });
 
@@ -78,7 +82,7 @@ function role_change(){
     	</tr>
 		<tr>
     		<td>First Name:</td>
-			<td><input type="text" name="first_name" value="{{profile.first_name}}"/></td>
+			<td><input type="text" name="first_name" value="{{profile.first_name}}" class="required"/></td>
     	</tr>
 		<tr>
     		<td>Middle Name:</td>
@@ -86,7 +90,7 @@ function role_change(){
     	</tr>
 		<tr>
     		<td>Last Name:</td>
-			<td><input type="text" name="last_name" value="{{profile.last_name}}" /></td>
+			<td><input type="text" name="last_name" value="{{profile.last_name}}" class="required"/></td>
     	</tr>
 		<tr>
     		<td>Gender</td>
@@ -99,15 +103,15 @@ function role_change(){
     	</tr>
         <tr>
     		<td>Email:</td>
-			<td><input type="text" name="email" value="{{profile.email}}" /></td>
+			<td><input type="text" name="email" value="{{profile.email}}" class="required email"/></td>
     	</tr>
 		<tr>
     		<td>Phone:</td>
-			<td><input type="text" name="phone" value="{{profile.phone}}"/></td>
+			<td><input type="text" name="phone" value="{{profile.phone}}" class="required phoneUS"/></td>
     	</tr>
 		<tr>
     		<td>Address:</td>
-			<td><input type="text" name="address" value="{{profile.address}}" /></td>
+			<td><input type="text" name="address" value="{{profile.address}}" class="required"/></td>
     	</tr>
 		<tr>
     		<td>Address Line 2:</td>
@@ -115,7 +119,7 @@ function role_change(){
     	</tr>
 		<tr>
     		<td>City:</td>
-			<td><input type="text" name="city" value="{{profile.city}}" /></td>
+			<td><input type="text" name="city" value="{{profile.city}}" class="required"/></td>
     	</tr>
 		<tr>
     		<td>State:</td>
@@ -175,7 +179,7 @@ function role_change(){
     	</tr>
 		<tr>
     		<td>Zipcode:</td>
-			<td><input type="text" name="zipcode" value="{{profile.zip}}" /></td>
+			<td><input type="text" name="zipcode" value="{{profile.zip}}" class="required zip"/></td>
     	</tr>
 		<tr id="mri" {%if profile.role != 2 and profile.role != 3%}style="display:none;"{% endif %}>
     		<td>MRI Center</td>
