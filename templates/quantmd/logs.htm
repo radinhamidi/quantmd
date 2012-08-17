@@ -10,9 +10,9 @@ $(document).ready(function() {
 			},
 			 text: false
 		});
-		$(".reschedule").button({
+		$(".editbutton").button({
 			icons: {
-				primary: "ui-icon-clock"
+				primary: "ui-icon-pencil"
 			},
 			 text: false
 		});
@@ -20,7 +20,7 @@ $(document).ready(function() {
 $(function() {
 	setTimeout(function() {
 		$('#log-table').dataTable({
-			"bPaginate": false,
+			"bPaginate": true,
 			"bLengthChange": false,
 			"bFilter": true,
 			"oLanguage": {
@@ -31,7 +31,7 @@ $(function() {
 			"bAutoWidth": false,
 			"bRetrieve": true,
 			"bJQueryUI": false,
-			"iDisplayLength": 20,
+			"iDisplayLength": 6,
 			"sPaginationType": "full_numbers"
 		});
 	},300);
@@ -42,11 +42,11 @@ $(function() {
 <table id="log-table">
 	<thead>
 		<tr>
-			<th width="50px">Case Number</th>
-			<th width="50px">Create Time</th>
-			<th width="130px">Summary</th>
-			<th width="50px">Status</th>
-			<th width="130px">More</th>
+			<th width="70px">Case #</th>
+			<th width="140px">Create Time</th>
+			<th>Summary</th>
+			<th width="160px">Status</th>
+			<th width="60px">More</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -78,7 +78,7 @@ $(function() {
 				<td>Diagnosis is available on {{appointment.case.report.create_time}}</td>
 				<td align="center">Complete</td>
 			{% endif %}
-			<td align="center"><a href="/quantmd/logView/{{appointment.case.id}}/"  class="editbutton innerlink">View Case</a></td>
+			<td align="center"><a href="/quantmd/logView/{{appointment.case.id}}/" class="editbutton innerlink">View Case</a></td>
 		</tr>
 		{% endfor %}
 	</tbody>

@@ -95,13 +95,13 @@
 #dash-main {
 	margin-left: 140px;
 }
-#dash-summary {
+.dash-summary {
 	width: 100%;
 	font-size: 14px;
 	font-family: "Tw Cen MT",san-serif;
 }
-#dash-summary td, #dash-summary th {
-	padding: 5px;
+.dash-summary td, .dash-summary th {
+	padding: 7px;
 }
 .dash-float{
 	font-size: 14px;
