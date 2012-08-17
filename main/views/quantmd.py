@@ -153,6 +153,21 @@ def view_user(request, user_id):
                                   context_instance=RequestContext(request))
 
 @login_required
+def users(request):
+    """Show all users"""
+    admins = Profile.objects.filter(role=0)
+    doctors = Profile.objects.filter(role=1)
+    receps = Profile.objects.filter(role=2)
+    brokers = Profile.objects.filter(role=3)
+    cardis = Profile.objects.filter(role=4)
+    
+    return render_to_response('quantmd/users.htm', {'admins':admins, 'doctors':doctors,
+                                                      'receps':receps, 'brokers':brokers,
+                                                      'cardis':cardis
+                                                      },
+                                  context_instance=RequestContext(request))
+
+@login_required
 def doctors(request):
     """Show lists of doctors"""
     profiles = Profile.objects.filter(role=1)
