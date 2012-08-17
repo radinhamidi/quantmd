@@ -4,19 +4,25 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-	$(".checkin").button({
-			icons: {
-				primary: "ui-icon-play"
-			},
-			 text: false
-		});
-		$("#cardiologist-create-submit").button({
-			icons: {
-				primary: "ui-icon-clock"
-			},
-			 text: false
-		});
-		$("#create-user-form").submit(function(event) {
+	$("#edit-submit").button({
+		icons: {
+			primary: "ui-icon-play"
+		},
+		 text: false
+	});
+	$("#back-btn").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#cardiologist-create-submit").button({
+		icons: {
+			primary: "ui-icon-clock"
+		},
+		 text: false
+	});
+	document.getElementById('select-state').value ="{{profile.state}}";
+	$("#edit-user-form").submit(function(event) {
 	
     /* stop form from submitting normally */
 		event.preventDefault(); 
@@ -27,7 +33,7 @@ $(document).ready(function() {
 			url = $form.attr( 'action' );
 
     /* Send the data using post and put the results in a div */
-		$.post( url, $("#create-user-form").serialize(),
+		$.post( url, $("#edit-user-form").serialize(),
 		function( data ) {
 			$( "#ui-tabs-5" ).empty().append($(data));
 			$( "#ui-tabs-5" ).fadeIn('fast');
@@ -47,15 +53,16 @@ function role_change(){
 
 </script>
 <div class="title-text">Edit User</div>
-<br /><br />
+<br />
 {% for message in messages %}
 <div class="span8 offset2">
 	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
 		{{message}}
 	</div>
 </div>
+<br />
 {% endfor %}
-<form id="edit-user-form" method="POST" action="/quantmd/edit_user_action/">
+<form id="edit-user-form" class="formtable" method="POST" action="/quantmd/edit_user_action/">
 	{% csrf_token %}
 	<input type="hidden" name="user_id" value="{{profile.pk}}" />
     <table>
@@ -112,7 +119,59 @@ function role_change(){
     	</tr>
 		<tr>
     		<td>State:</td>
-			<td><input type="text" name="state" value="{{profile.state}}" /></td>
+			<td><select name="state" id="select-state" class="required">
+                    <option value="" >Select a State</option> 
+                    <option value="AL">Alabama</option> 
+                    <option value="AK">Alaska</option> 
+                    <option value="AZ">Arizona</option> 
+                    <option value="AR">Arkansas</option> 
+                    <option value="CA">California</option> 
+                    <option value="CO">Colorado</option> 
+                    <option value="CT">Connecticut</option> 
+                    <option value="DE">Delaware</option> 
+                    <option value="DC">District Of Columbia</option> 
+                    <option value="FL">Florida</option> 
+                    <option value="GA">Georgia</option> 
+                    <option value="HI">Hawaii</option> 
+                    <option value="ID">Idaho</option> 
+                    <option value="IL">Illinois</option> 
+                    <option value="IN">Indiana</option> 
+                    <option value="IA">Iowa</option> 
+                    <option value="KS">Kansas</option> 
+                    <option value="KY">Kentucky</option> 
+                    <option value="LA">Louisiana</option> 
+                    <option value="ME">Maine</option> 
+                    <option value="MD">Maryland</option> 
+                    <option value="MA">Massachusetts</option> 
+                    <option value="MI">Michigan</option> 
+                    <option value="MN">Minnesota</option> 
+                    <option value="MS">Mississippi</option> 
+                    <option value="MO">Missouri</option> 
+                    <option value="MT">Montana</option> 
+                    <option value="NE">Nebraska</option> 
+                    <option value="NV">Nevada</option> 
+                    <option value="NH">New Hampshire</option> 
+                    <option value="NJ">New Jersey</option> 
+                    <option value="NM">New Mexico</option> 
+                    <option value="NY">New York</option> 
+                    <option value="NC">North Carolina</option> 
+                    <option value="ND">North Dakota</option> 
+                    <option value="OH">Ohio</option> 
+                    <option value="OK">Oklahoma</option> 
+                    <option value="OR">Oregon</option> 
+                    <option value="PA">Pennsylvania</option> 
+                    <option value="RI">Rhode Island</option> 
+                    <option value="SC">South Carolina</option> 
+                    <option value="SD">South Dakota</option> 
+                    <option value="TN">Tennessee</option> 
+                    <option value="TX">Texas</option> 
+                    <option value="UT">Utah</option> 
+                    <option value="VT">Vermont</option> 
+                    <option value="VA">Virginia</option> 
+                    <option value="WA">Washington</option> 
+                    <option value="WV">West Virginia</option> 
+                    <option value="WI">Wisconsin</option> 
+                    <option value="WY">Wyoming</option></select></td>
     	</tr>
 		<tr>
     		<td>Zipcode:</td>
@@ -128,6 +187,9 @@ function role_change(){
 				</select>
 			</td>
     	</tr>
-    </table>
+    </table><br />
+	<span class="orange">
+		<a href="/quantmd/users/" class="innerlink" id="back-btn">Back</a>
+	</span>
 	<input type="submit" value="Save Changes" id="edit-submit" />
-</form>
+</form><br /><br />

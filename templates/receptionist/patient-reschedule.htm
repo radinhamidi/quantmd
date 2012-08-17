@@ -40,6 +40,7 @@
      });
 	$(".timebuttons").button();
 	$("#rebookingdate").datepicker();
+	$("#rebookingdate").datepicker('setDate', new Date());
 });
 </script>
 
@@ -48,14 +49,17 @@
 {{appointment.patient.birthday}}
 <br /><br />
 <b>Current Appointment:</b> {{appointment.schedule.date}} {{appointment.schedule.start_time}}
+<br /><br />
+
 {% if errors %}
 	{% for error in errors %}
-		{{error}}</br>
+		<span class="red">{{error}}</span><br />
 	{% endfor %}
 	<br />
 {% endif %}
+
 <div class="small-title">Rebooking Slots</div>
-<form id="rebooking-form" name="rebooking-form" action="/receptionist/rescheduleList/{{appointment.id}}/ ">{% csrf_token %}
+<form id="rebooking-form" name="rebooking-form" action="/receptionist/rescheduleList2/{{appointment.id}}/"> {% csrf_token %}
 View 10 Days from <input type="text" id="rebookingdate" name="rebookingdate" />
 <input type="submit" id="rebooking-submit" value="Search" />
 </form>
@@ -69,21 +73,26 @@ View 10 Days from <input type="text" id="rebookingdate" name="rebookingdate" />
 	{% for k in dic%}
 	<tr>
 		<td align="center">{{k.0}}</td>
-		<td>{% for schedule in k.1 %}
-			{% if schedule.is_available%}
-			<a onClick="confirmBookingForReschedule3({{schedule.id}},{{appointment.id}});">{{schedule.start_time|time:"H:i:s"}}</a>
+		<td>
+		{% for schedule in k.1 %}
+			{% if schedule.is_available %}
+				<a onClick="confirmBookingForReschedule2({{schedule.id}},{{appointment.id}});" class="timebuttons">{{schedule.start_time|time:"H:i"}}</a> 
 			{% else %}
-			<strike>{{schedule.start_time|time:"H:i"}}</strike> 
+				<a class="timebuttons-disable">{{schedule.start_time|time:"H:i"}}</a> 
 			{% endif %}
 		{% endfor %}
 		</td>
 	</tr>
 	{% endfor %}
+	{% else %}
+	<tr>
+		<td colspan="2">Please Enter Desired Start Date</td>
+	</tr>
 	{% endif %}
 </table>
 <br /><br />
-<span class="orange"><a href="/receptionist/registerList/" id="reschedule-back" class="orange innerlink">Cancel</a></span>
-
+<span class="orange"><a href="/receptionist/patients/" id="reschedule-back" class="orange innerlink">Cancel</a></span>
+<br /><br />
 <div id="timeslot-confirm-3" title="Confirm Timeslot">
 			<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Confirm booking?<br /></p>
 </div>
