@@ -4,21 +4,6 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#mri-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": true,
-		"oLanguage": {
-		  "sSearch": "<img src='images/find.png' />"
-		},
-		"bSort": true,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 20,
-		"sPaginationType": "full_numbers"
-	});
 	$(".editbutton").button({
 			icons: {
 				primary: "ui-icon-pencil"
@@ -37,18 +22,37 @@ $(document).ready(function() {
 			}
 		});
 });
+$(function() {
+	setTimeout(function() {
+		$('#mri-table').dataTable({
+			"bPaginate": false,
+			"bLengthChange": false,
+			"bFilter": true,
+			"oLanguage": {
+			  "sSearch": "<img src='{{STATIC_URL}}quantmd/images/find.png' />"
+			},
+			"bSort": true,
+			"bInfo": false,
+			"bAutoWidth": false,
+			"bRetrieve": true,
+			"bJQueryUI": false,
+			"iDisplayLength": 20,
+			"sPaginationType": "full_numbers"
+		});
+	},300);
+});
 </script>
 <div class="title-text">MRI Centers</div><br />
 <span class="orange">
 	<a href="/quantmd/createMRIView/" class="innerlink createnew orange">Create New Center</a>
-</span><br />
+</span><br /><br />
 <table id="mri-table">
 	<thead>
 		<tr>
 			<th>MRI Name</th>
-			<th width="100px">City</th>
-			<th width="100px">Member Since</th>
-			<th width="80px">Cases Scheduled</th>
+			<th width="120px">City</th>
+			<th width="150px">Member Since</th>
+			<th width="80px">Cases</th>
 			<th width="80px">More</th>
 		</tr>
 	</thead>
@@ -56,7 +60,7 @@ $(document).ready(function() {
 		{% for k,v in  mri.iteritems %}
 		<tr>
 			<td>{{k.name}}</td>
-			<td align="center">{{k.city}},{{k.state}}</td>
+			<td align="center">{{k.city}}, {{k.state}}</td>
 			<td align="center">{{k.create_time}}</td>
 			<td align="center">{{v}}</td>
 			<td align="center">

@@ -4,21 +4,6 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#cardiologist-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": true,
-		"oLanguage": {
-		  "sSearch": "<img src='images/find.png' />"
-		},
-		"bSort": true,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 20,
-		"sPaginationType": "full_numbers"
-	});
 	$(".editbutton").button({
 			icons: {
 				primary: "ui-icon-pencil"
@@ -36,17 +21,42 @@ $(document).ready(function() {
 				primary: "ui-icon-plus"
 			}
 		});
+		$("#back-btn").button({
+			icons: {
+				primary: "ui-icon-arrowthick-1-w"
+			}
+		});
+});
+$(function() {
+	setTimeout(function() {
+		$('#receptionist-table').dataTable({
+			"bPaginate": false,
+			"bLengthChange": false,
+			"bFilter": true,
+			"oLanguage": {
+			  "sSearch": "<img src='{{STATIC_URL}}quantmd/images/find.png' />"
+			},
+			"bSort": true,
+			"bInfo": false,
+			"bAutoWidth": false,
+			"bRetrieve": true,
+			"bJQueryUI": false,
+			"iDisplayLength": 20,
+			"sPaginationType": "full_numbers"
+		});
+	},300);
 });
 </script>
 <div class="title-text">Receptionists</div><br />
+	<a href="/quantmd/users/" class="innerlink" id="back-btn">Back</a>
 <span class="orange">
 	<a href="/quantmd/create_user/2/" class="innerlink createnew orange">Create New Receptionist</a>
-</span><br />
-<table id="cardiologist-table">
+</span><br /><br />
+<table id="receptionist-table">
 	<thead>
 		<tr>
 			<th width="30px">ID</th>
-			<th>Cardiologist Name</th>
+			<th>Receptionist Name</th>
 			<th width="100px">City</th>
 			<th width="100px">Institution</th>
 			<th width="100px">Member Since</th>

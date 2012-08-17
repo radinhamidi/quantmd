@@ -4,21 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#doctor-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": true,
-		"oLanguage": {
-		  "sSearch": "<img src='images/find.png' />"
-		},
-		"bSort": true,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 20,
-		"sPaginationType": "full_numbers"
-	});
+		
 	$(".editbutton").button({
 			icons: {
 				primary: "ui-icon-pencil"
@@ -37,6 +23,25 @@ $(document).ready(function() {
 			}
 		});
 });
+$(function() {
+	setTimeout(function() {
+		$('#doctor-table').dataTable({
+			"bPaginate": false,
+			"bLengthChange": false,
+			"bFilter": true,
+			"oLanguage": {
+			  "sSearch": "<img src='{{STATIC_URL}}quantmd/images/find.png' />"
+			},
+			"bSort": true,
+			"bInfo": false,
+			"bAutoWidth": false,
+			"bRetrieve": true,
+			"bJQueryUI": false,
+			"iDisplayLength": 20,
+			"sPaginationType": "full_numbers"
+		});
+	},300);
+});
 </script>
 <div class="title-text">Process Cases</div><br />
 <table id="doctor-table">
@@ -45,7 +50,7 @@ $(document).ready(function() {
 			<th width="30px">ID</th>
 			<th width="100px">Case Created At</th>
 			<th width="150px">MRI Uploaded At</th>
-			<th width="80px">More</th>
+			<th width="80px">Complete</th>
 		</tr>
 	</thead>
 	<tbody>

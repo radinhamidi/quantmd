@@ -4,21 +4,6 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#log-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": true,
-		"oLanguage": {
-		  "sSearch": "<img src='images/find.png' />"
-		},
-		"bSort": true,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 20,
-		"sPaginationType": "full_numbers"
-	});
 	$(".checkin").button({
 			icons: {
 				primary: "ui-icon-play"
@@ -32,8 +17,28 @@ $(document).ready(function() {
 			 text: false
 		});
 });
+$(function() {
+	setTimeout(function() {
+		$('#log-table').dataTable({
+			"bPaginate": false,
+			"bLengthChange": false,
+			"bFilter": true,
+			"oLanguage": {
+			  "sSearch": "<img src='{{STATIC_URL}}quantmd/images/find.png' />"
+			},
+			"bSort": true,
+			"bInfo": false,
+			"bAutoWidth": false,
+			"bRetrieve": true,
+			"bJQueryUI": false,
+			"iDisplayLength": 20,
+			"sPaginationType": "full_numbers"
+		});
+	},300);
+});
 </script>
 <div class="title-text">Case Logs</div>
+<br />
 <table id="log-table">
 	<thead>
 		<tr>

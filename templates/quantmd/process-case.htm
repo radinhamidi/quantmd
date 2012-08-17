@@ -6,18 +6,28 @@
 <script>
 $(document).ready(function() {
 	$(".checkin").button({
-			icons: {
-				primary: "ui-icon-play"
-			},
-			 text: false
-		});
-		$("#diagnose-form-submit").button({
-			icons: {
-				primary: "ui-icon-clock"
-			},
-			 text: false
-		});
-		$("#diagnose-form").submit(function(event) {
+		icons: {
+			primary: "ui-icon-play"
+		},
+		 text: false
+	});
+	$("#diagnose-form-submit").button({
+		icons: {
+			primary: "ui-icon-clock"
+		},
+		 text: false
+	});
+	$("#upload-btn").button({
+		icons: {
+			primary: "ui-icon-check"
+		}
+	});
+	$("#download-btn").button({
+		icons: {
+			primary: "ui-icon-arrowthickstop-1-s"
+		}
+	});
+	$("#diagnose-form").submit(function(event) {
 	
     /* stop form from submitting normally */
 		event.preventDefault(); 
@@ -63,9 +73,11 @@ $(function() {
 });
 
 </script>
-<div class="title-text">Process one case</div>
+<div class="title-text">Process Case #{{case.pk}}</div>
 <br />
-<a href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download Compressed Dicom Files</a>
+<span class="orange">
+<a id="download-btn" class="orange" href="{{MEDIA_URL}}dicom/{{case.data.name}}/{{case.data.name}}.zip">Download DICOM Files</a>
+</span>
 <br /><br />
 
 <form>

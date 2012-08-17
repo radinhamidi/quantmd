@@ -4,23 +4,21 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-	$(".checkin").button({
-			icons: {
-				primary: "ui-icon-play"
-			},
-			 text: false
-		});
-		$("#cardiologist-create-submit").button({
-			icons: {
-				primary: "ui-icon-clock"
-			},
-			 text: false
-		});
-		$("#create-user-form").submit(function(event) {
+	$("#create-submit").button({
+		icons: {
+			primary: "ui-icon-plus"
+		}
+	});
+	$("#back-btn").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+	$("#create-user-form").submit(function(event) {
 	
     /* stop form from submitting normally */
 		event.preventDefault(); 
-		$( "#ui-tabs-9" ).hide();
+		$( "#ui-tabs-5" ).hide();
         
     /* get some values from elements on the page: */
 		var $form = $( this ),
@@ -29,8 +27,8 @@ $(document).ready(function() {
     /* Send the data using post and put the results in a div */
 		$.post( url, $("#create-user-form").serialize(),
 		function( data ) {
-			$( "#ui-tabs-9" ).empty().append($(data));
-			$( "#ui-tabs-9" ).fadeIn('fast');
+			$( "#ui-tabs-5" ).empty().append($(data));
+			$( "#ui-tabs-5" ).fadeIn('fast');
 		});
      });
 });
@@ -47,15 +45,15 @@ function role_change(){
 
 </script>
 <div class="title-text">Create New User</div>
-<br /><br />
+<br />
 {% for message in messages %}
 <div class="span8 offset2">
 	<div class="alert {% if message.tags == 'error' %}alert-error{% endif %}">
 		{{message}}
 	</div>
-</div>
+</div><br />
 {% endfor %}
-<form id="create-user-form" method="POST" action="/quantmd/create_user_action/">
+<form id="create-user-form" class="formtable" method="POST" action="/quantmd/create_user_action/">
 	{% csrf_token %}
     <table>
 		<tr>
@@ -142,5 +140,9 @@ function role_change(){
 			</td>
     	</tr>
     </table>
+	<br />
+	<span class="orange">
+		<a href="/quantmd/users/" class="innerlink" id="back-btn">Back</a>
+	</span>
 	<input type="submit" value="Submit" id="create-submit" />
 </form>

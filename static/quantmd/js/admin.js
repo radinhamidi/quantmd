@@ -6,42 +6,24 @@ $(document).ready(function() {
 			});
 		});
 	});
+	$("#container").delegate('.innerlink', 'click', function(event) {
+		$('.ui-tabs-panel:not(.ui-tabs-hide)').hide();
+		$("#change-password-modal").show();
+		$('.ui-tabs-panel:not(.ui-tabs-hide)').empty();
+		$("*").css("cursor", "wait");
+		$('.ui-tabs-panel:not(.ui-tabs-hide)').load(this.href, function() {
+			$('.ui-tabs-panel:not(.ui-tabs-hide)').delay(200).fadeIn('fast', function() {
+				$("*").css("cursor", "");
+				$("#change-password-modal").hide();
+			});
+		});
+		event.preventDefault();
+		return false;
+	});
 	var $tabs = $("#tabs-nohdr").tabs({
 		fx: { 
             opacity: 'toggle' 
         },
-		load: function(event, ui) {
-			$(ui.panel).delegate('.innerlink', 'click', function(event) {
-				$(ui.panel).hide();
-				$("*").css("cursor", "wait")
-				$(ui.panel).load(this.href, function() {
-					$(ui.panel).delay(200).fadeIn('fast', function() {
-						$("*").css("cursor", "")
-					});
-				});
-				event.preventDefault();
-			});
-			$(ui.panel).delegate('.loadright', 'click', function(event) {
-				$("#inner-right").hide();
-				$("*").css("cursor", "wait")
-				$("#inner-right").load(this.href, function() {
-					$("#inner-right").delay(200).fadeIn('fast', function() {
-						$("*").css("cursor", "")
-					});
-				});
-				event.preventDefault();
-			});
-			$(ui.panel).delegate('.msgloadright', 'click', function(event) {
-				$("#messages-inner-right").hide();
-				$("*").css("cursor", "wait")
-				$("#messages-inner-right").load(this.href, function() {
-					$("#messages-inner-right").delay(200).fadeIn('fast', function() {
-						$("*").css("cursor", "")
-					});
-				});
-				event.preventDefault();
-			});
-		},
 		ajaxOptions: {
 			error: function( xhr, status, index, anchor ) {
 				$( anchor.hash ).load("error.htm");

@@ -4,45 +4,55 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#cardiologist-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": true,
-		"oLanguage": {
-		  "sSearch": "<img src='images/find.png' />"
-		},
-		"bSort": true,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 20,
-		"sPaginationType": "full_numbers"
-	});
 	$(".editbutton").button({
-			icons: {
-				primary: "ui-icon-pencil"
+		icons: {
+			primary: "ui-icon-pencil"
+		},
+		 text: false
+	});
+	$(".viewcasebutton").button({
+		icons: {
+			primary: "ui-icon-search"
+		},
+		 text: false
+	});
+	$(".createnew").button({
+		icons: {
+			primary: "ui-icon-plus"
+		}
+	});
+	$("#back-btn").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
+});
+$(function() {
+	setTimeout(function() {
+		$('#broker-table').dataTable({
+			"bPaginate": false,
+			"bLengthChange": false,
+			"bFilter": true,
+			"oLanguage": {
+			  "sSearch": "<img src='{{STATIC_URL}}quantmd/images/find.png' />"
 			},
-			 text: false
+			"bSort": true,
+			"bInfo": false,
+			"bAutoWidth": false,
+			"bRetrieve": true,
+			"bJQueryUI": false,
+			"iDisplayLength": 20,
+			"sPaginationType": "full_numbers"
 		});
-		$(".viewcasebutton").button({
-			icons: {
-				primary: "ui-icon-search"
-			},
-			 text: false
-		});
-		$(".createnew").button({
-			icons: {
-				primary: "ui-icon-plus"
-			}
-		});
+	},300);
 });
 </script>
 <div class="title-text">Brokers</div><br />
+	<a href="/quantmd/users/" class="innerlink" id="back-btn">Back</a>
 <span class="orange">
 	<a href="/quantmd/create_user/3/" class="innerlink createnew orange">Create New Broker</a>
-</span><br />
-<table id="doctor-table">
+</span><br /><br />
+<table id="broker-table">
 	<thead>
 		<tr>
 			<th width="30px">ID</th>

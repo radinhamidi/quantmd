@@ -17,6 +17,16 @@ $(document).ready(function() {
 				primary: "ui-icon-cancel"
 			}
 		});
+		$(".enablebtn").button({
+			icons: {
+				primary: "ui-icon-check"
+			}
+		});
+		$("#add-btn").button({
+			icons: {
+				primary: "ui-icon-plus"
+			}
+		});
 		$("#add-scan-form").submit(function(event) {
 	
     /* stop form from submitting normally */
@@ -50,22 +60,24 @@ Add or remove scan options for MRI post-processing.
 			<td>{{service.name}}</td>
 			{% if service.is_active%}
 			<td align="center">Available</td>
-			<td align="center"><a href="/quantmd/stopService/{{service.id}}/" class="disablebtn">Stop</a></td>
+			<td align="center" class="orange"><a href="/quantmd/stopService/{{service.id}}/" class="innerlink orange disablebtn">Stop</a></td>
 			{% endif %}
 			{% if not service.is_active%}
 			<td align="center">Unavailable</td>
-			<td align="center"><a href="/quantmd/activeService/{{service.id}}" class="disablebtn">Active</a></td>
+			<td align="center"><a href="/quantmd/activeService/{{service.id}}" class="innerlink enablebtn">Active</a></td>
 			{% endif %}
 		</tr>
 		{% endfor%}
 </table>
 <br />
 <div class="small-title">Add New Scan Option</div>
+Enter scan name and click "Add Scan" to create new scan<br /><br />
 <form id="add-scan-form" action="/quantmd/addService/"> {% csrf_token %}
 <table class="formtable">
 	<tr>
 		<td><input type="text" name="add-scan-name" /></td>
-		<td><input type="submit" value="Add Scan" /></td>
+		<td><input type="submit" id="add-btn" class="orange" value="Add Scan" /></td>
 	</tr>
 </table>
+<br />
 </form>

@@ -47,6 +47,22 @@
 #doctor-table td, #doctor-table th {
 	padding: 8px;
 }
+#receptionist-table {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#receptionist-table td, #receptionist-table th {
+	padding: 8px;
+}
+#broker-table {
+	width: 100%;
+	font-size: 13px;
+	font-family: "Tw Cen MT","Helvetica Neue",san-serif;
+}
+#broker-table td, #broker-table th {
+	padding: 8px;
+}
 #mri-table {
 	width: 100%;
 	font-size: 13px;
@@ -99,4 +115,20 @@
 .dash-float .big {
 	font-size: 28px;
 	font-weight: bold;
+}
+#create-user-form {
+	font-size: 13px;
+}
+#create-user-form td {
+	font-size: 13px;
+}
+#scan-table {
+	font-size: 13px;
+}
+#scan-table td {
+	font-size: 13px;
+}
+#scan-table th {
+	padding: 5px;
+	font-size: 13px;
 }

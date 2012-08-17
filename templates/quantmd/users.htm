@@ -4,185 +4,41 @@
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
-		$('#doctor-table').dataTable({
-		"bPaginate": false,
-		"bLengthChange": false,
-		"bFilter": true,
-		"oLanguage": {
-		  "sSearch": "<img src='images/find.png' />"
-		},
-		"bSort": true,
-		"bInfo": false,
-		"bAutoWidth": false,
-		"bRetrieve": true,
-		"bJQueryUI": false,
-		"iDisplayLength": 20,
-		"sPaginationType": "full_numbers"
+	$("#doctor-btn").button({
+		icons: {
+			primary: "ui-icon-pencil"
+		}
 	});
-	$(".editbutton").button({
-			icons: {
-				primary: "ui-icon-pencil"
-			},
-			 text: false
-		});
-		$(".viewcasebutton").button({
-			icons: {
-				primary: "ui-icon-search"
-			},
-			 text: false
-		});
-		$(".createnew").button({
-			icons: {
-				primary: "ui-icon-plus"
-			}
-		});
+	$("#reception-btn").button({
+		icons: {
+			primary: "ui-icon-pencil"
+		}
+	});
+	$("#broker-btn").button({
+		icons: {
+			primary: "ui-icon-pencil"
+		}
+	});
+	$("#cardi-btn").button({
+		icons: {
+			primary: "ui-icon-pencil"
+		}
+	});
+	$("#create-btn").button({
+		icons: {
+			primary: "ui-icon-plus"
+		}
+	});
 });
 </script>
-<div class="title-text">Referring Doctors</div><br />
+<div class="title-text">Users List</div>
+Select a category of users to view.<br /><br />
 <span class="orange">
-	<a href="/quantmd/create_user/1/" class="innerlink createnew orange">Create New Doctor</a>
-</span><br />
+<a href="/quantmd/create_user/-1/" id="create-btn" class="innerlink orange">Create User</a>
+</span>
+<br /><br />
+<a href="/quantmd/doctors/" id="doctor-btn" class="innerlink">Doctors</a> 
+<a href="/quantmd/receptionists/" id="reception-btn" class="innerlink">Receptionists</a> 
+<a href="/quantmd/brokers/" id="broker-btn" class="innerlink">MRI Broker</a> 
+<a href="/quantmd/cardiologists/" id="cardi-btn" class="innerlink">Cardiologists</a>
 
-<table id="admin-table"> <!-- Admins -->
-	<thead>
-		<tr>
-			<th width="30px">ID</th>
-			<th>Name</th>
-			<th width="100px">City</th>
-			<th width="100px">Member Since</th>
-			<th width="150px">Last Activity</th>
-			<th width="80px">More</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for p in admins %}
-		<tr>
-			<td align="center">{{p.pk}}</td>
-			<td>{{p}}</td>
-			<td align="center">{{p.city}}</td>
-			<td align="center">{{p.user.date_joined}}</td>
-			<td align="center">{{p.user.last_login}}</td>
-			<td align="center">
-				<a href="/quantmd/edit_user/{{p.pk}}/" class="editbutton innerlink">Edit</a>
-				<a href="/quantmd/view_user/{{p.pk}}/" class="viewcasebutton innerlink">View</a>
-			</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
-<br /><br />
-<table id="doctor-table"> <!-- Doctors -->
-	<thead>
-		<tr>
-			<th width="30px">ID</th>
-			<th>Doctor Name</th>
-			<th width="100px">City</th>
-			<th width="100px">Member Since</th>
-			<th width="150px">Last Activity</th>
-			<th width="80px">More</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for p in doctors %}
-		<tr>
-			<td align="center">{{p.pk}}</td>
-			<td>{{p}}</td>
-			<td align="center">{{p.city}}</td>
-			<td align="center">{{p.user.date_joined}}</td>
-			<td align="center">{{p.user.last_login}}</td>
-			<td align="center">
-				<a href="/quantmd/edit_user/{{p.pk}}/" class="editbutton innerlink">Edit</a>
-				<a href="/quantmd/view_user/{{p.pk}}/" class="viewcasebutton innerlink">View</a>
-			</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
-<br /><br />
-<table id="resps-table"> <!-- Receptionist -->
-	<thead>
-		<tr>
-			<th width="30px">ID</th>
-			<th>Name</th>
-			<th width="100px">City</th>
-			<th width="100px">Institution</th>
-			<th width="100px">Member Since</th>
-			<th width="150px">Last Activity</th>
-			<th width="80px">More</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for p in receps %}
-		<tr>
-			<td align="center">{{p.pk}}</td>
-			<td>{{p}}</td>
-			<td align="center">{{p.city}}</td>
-			<td align="center">{{p.mri_id}}</td>
-			<td align="center">{{p.user.date_joined}}</td>
-			<td align="center">{{p.user.last_login}}</td>
-			<td align="center">
-				<a href="/quantmd/edit_user/{{p.pk}}/" class="editbutton innerlink">Edit</a>
-				<a href="/quantmd/view_user/{{p.pk}}/" class="viewcasebutton innerlink">View</a>
-			</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
-<br /><br />
-<table id="broker-table"> <!-- Broker -->
-	<thead>
-		<tr>
-			<th width="30px">ID</th>
-			<th>Name</th>
-			<th width="100px">City</th>
-			<th width="100px">Institution</th>
-			<th width="100px">Member Since</th>
-			<th width="150px">Last Activity</th>
-			<th width="80px">More</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for p in  brokers %}
-		<tr>
-			<td align="center">{{p.pk}}</td>
-			<td>{{p}}</td>
-			<td align="center">{{p.city}}</td>
-			<td align="center">{{p.mri_id}}</td>
-			<td align="center">{{p.user.date_joined}}</td>
-			<td align="center">{{p.user.last_login}}</td>
-			<td align="center">
-				<a href="/quantmd/edit_user/{{p.pk}}/" class="editbutton innerlink">Edit</a>
-				<a href="/quantmd/view_user/{{p.pk}}/" class="viewcasebutton innerlink">View</a>
-			</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
-<br /><br />
-<table id="cardiologist-table">
-	<thead>
-		<tr>
-			<th width="30px">ID</th>
-			<th>Cardiologist Name</th>
-			<th width="100px">City</th>
-			<th width="100px">Member Since</th>
-			<th width="150px">Last Activity</th>
-			<th width="80px">More</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for p in cardis %}
-		<tr>
-			<td align="center">{{p.pk}}</td>
-			<td>{{p}}</td>
-			<td align="center">{{p.city}}</td>
-			<td align="center">{{p.user.date_joined}}</td>
-			<td align="center">{{p.user.last_login}}</td>
-			<td align="center">
-				<a href="/quantmd/edit_user/{{p.pk}}/" class="editbutton innerlink">Edit</a>
-				<a href="/quantmd/view_user/{{p.pk}}/" class="viewcasebutton innerlink">View</a>
-			</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
