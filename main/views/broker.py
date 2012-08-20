@@ -96,8 +96,8 @@ def upload_complete(request):
             MAC = sys.platform.startswith('darwin')
             WINDOWS = sys.platform.startswith('win32')
             if LINUX or MAC:
-                call(settings.PROJECT_ROOT + 'main/utils/dicom2-unix ' + new_path + 
-                     ' -w --to=' + directory + ' --rename=cur_nm')
+                call([settings.PROJECT_ROOT + 'main/utils/dicom2-unix', new_path, 
+                     '-w', '--to=' + directory,  '--rename=cur_nm'])
             else:
                 call(settings.PROJECT_ROOT + 'main/utils/dicom2-windows ' + new_path +
                          ' -w --to=' + directory + ' --rename=cur_nm')

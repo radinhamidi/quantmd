@@ -2,9 +2,5 @@
 from django.conf.urls.defaults import patterns
 
 urlpatterns = patterns('main.views.api',
-    (r'^patients/$', 'patients'),
-    (r'^upload/(?P<patient_id>\d+)/(?P<case_id>\d+)/$', 'upload'),
-    (r'^upload_action/$', 'upload_action'),
-    (r'^upload_complete/$', 'upload_complete'),
-    (r'^logs/$', 'logs'),
+    (r'^dicom_zip/(?P<case_id>\d+)/$', 'dicom_zip'),
 )

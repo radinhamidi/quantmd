@@ -9,4 +9,4 @@ def dicom_zip(request, case_id):
     d = {}
     d['code'] = '0'
     d['dicom_zip_']
-    
+    return HttpResponse('')
