@@ -110,7 +110,12 @@
             dataType: 'json',
             success: function(data, textStatus){
                 if (typeof(data.code) != 'undefined' && data.code == '0') {
-                    window.location = '{{APP_URL}}';
+					$('#ui-tabs-1').empty();
+					$('#ui-tabs-1').fadeTo('fast','0.001');
+					$('#ui-tabs-1').load('/cardiologist/case/', function() {
+						$('#ui-tabs-1').fadeTo('fast','1');
+						$("*").css('cursor','');
+					});
                 }
                 else {
                     alert(data.msg);
