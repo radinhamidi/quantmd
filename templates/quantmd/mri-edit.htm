@@ -17,6 +17,11 @@ $(document).ready(function() {
 			},
 			 text: false
 		});
+		$("#back-btn").button({
+			icons: {
+				primary: "ui-icon-arrowthick-1-w"
+			}
+		});
 		$("#mri-edit-form").submit(function(event) {
 			if($("#mri-edit-form").valid()) {
 			    /* stop form from submitting normally */
@@ -137,8 +142,8 @@ $(document).ready(function() {
 				<td><input type="text" name="zip" value="{{mri.zip}}" class="required zip" /></td>
 			</tr>
 	</table>
-
+	<span class="orange">
+		<a href="/quantmd/mri/" class="innerlink" id="back-btn">Back</a>
+	</span>
 <input type="submit" value="Submit" id="mri-edit-submit" />
 </form>
-
-<a href="/quantmd/mri/" class="innerlink backbutton">Back</a>

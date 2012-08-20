@@ -10,6 +10,11 @@ $(document).ready(function() {
 			},
 			 text: false
 		});
+	$("#back-btn").button({
+		icons: {
+			primary: "ui-icon-arrowthick-1-w"
+		}
+	});
 		$("#cardiologist-create-submit").button({
 			icons: {
 				primary: "ui-icon-clock"
@@ -36,7 +41,7 @@ $(document).ready(function() {
 });
 
 </script>
-<div class="title-text">Edit User</div>
+<div class="title-text">View User</div>
 <br /><br />
 <table>
 	<tr>
@@ -105,3 +110,6 @@ $(document).ready(function() {
 		<td>{{profile.mri_id}}</td>
 	</tr>
 </table>
+<span class="orange">
+	<a href="/quantmd/users/" class="innerlink" id="back-btn">Back</a>
+</span>
