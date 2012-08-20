@@ -260,9 +260,7 @@ def process_case_action(request):
     case.analysis =  analysis
     case.status = 3
     case.save()
-    
-    
-    
+
     appointment = Appointment.objects.filter(case = case, is_current = True, is_cancelled = False)[0]
     
     title = 'Analysis is available for CASE #' + str(case.id) 
@@ -271,7 +269,6 @@ def process_case_action(request):
     message = Message.objects.create(receiver = appointment.doctor, case = case, title = title, content = content, type = 5, is_sys = True)
     message.save()
         
-    messages.info(request, 'Successfully submited diagnosis of case.')
     return redirect('main.views.quantmd.process_cases') 
     
 @login_required
