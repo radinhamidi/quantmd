@@ -27,7 +27,7 @@ $(document).ready(function() {
 			primary: "ui-icon-arrowthickstop-1-s"
 		}
 	});
-	$("#diagnose-form").submit(function(event) {
+	$("#process-form").submit(function(event) {
 	
     /* stop form from submitting normally */
 		event.preventDefault(); 
@@ -38,7 +38,7 @@ $(document).ready(function() {
 			url = $form.attr( 'action' );
 
     /* Send the data using post and put the results in a div */
-		$.post( url, $("#diagnose-form").serialize(),
+		$.post( url, $("#process-form").serialize(),
 		function( data ) {
 			$( "#ui-tabs-2" ).empty().append($(data));
 			$( "#ui-tabs-2" ).fadeIn('fast');
@@ -87,7 +87,7 @@ $(function() {
 </form>
 
 <br /><br />
-<form method="post", action="/quantmd/process_case_action/">
+<form method="post" id="process-form" action="/quantmd/process_case_action/">
 	{% csrf_token %}
 	<input type="hidden" name="case_id" value="{{case.pk}}" />
 	<textarea id="analysis" cols="55" rows="10" name="analysis"></textarea><br /><br />
