@@ -27,4 +27,5 @@ urlpatterns += patterns('main.views',
     (r'^cardiologist/', include('main.urls.cardiologist')),
     (r'^quantmd/', include('main.urls.quantmd')),
     (r'^message/', include('main.urls.message')),
+    (r'^api/', include('main.urls.api')),
 )

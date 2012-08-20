@@ -12,7 +12,6 @@ def index(request):
                               context_instance=RequestContext(request))
     
     profile = Profile.objects.get(pk=request.user.pk)
-    print profile.first_name
     if profile.role == 1:
         return render_to_response('referring/index.htm', {'profile':profile},
                                   context_instance=RequestContext(request))

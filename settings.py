@@ -159,8 +159,6 @@ LOGGING = {
     }
 }
 
-#Django default is False, set it as True, so we can ask user whether he would like to auto login next time.
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True 
 
 
 #Use local setting to override production settings

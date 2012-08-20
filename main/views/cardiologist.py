@@ -84,7 +84,7 @@ def accept_case(request):
 def submit_report(request):
     profile = Profile.objects.get(pk=request.user.pk)
     diagnosis = request.POST['diagnosis']
-    comments = (request.POST['comments']).split('!#!')
+    
     
     case_id = request.POST['case_id']
     case = Case.objects.get(pk=case_id)
@@ -92,14 +92,17 @@ def submit_report(request):
     
     image_list = []
     comments_list = [] #list of string
-    for c in comments:
-        split_index = c.find(':')
-        image_index = int(c[:split_index])        
-        content = c[split_index+1:] if split_index != len(c) - 1 else ''
-        cinstance = Comment(data=data, image_index=image_index, content=content)
-        cinstance.save()
-        comments_list.append(content)
-        image_list.append(str(image_index)+'.dcm.bmp')
+    comments_str = request.POST['comments']
+    if comments_str:
+        comments = comments_str.split('!#!')
+        for c in comments:
+            split_index = c.find(':')
+            image_index = int(c[:split_index])        
+            content = c[split_index+1:] if split_index != len(c) - 1 else ''
+            cinstance = Comment(data=data, image_index=image_index, content=content)
+            cinstance.save()
+            comments_list.append(content)
+            image_list.append(str(image_index)+'.dcm.bmp')
     
     
     #Generate PDF report

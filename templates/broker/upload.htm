@@ -39,7 +39,10 @@
 					$('#complete-btn').show();
 					$('#change-password-modal').hide();
 					$("*").css('cursor','');
+				},
+				'onDialogClose' : function() {
 				}
+				
 			});
 			},500);
 		});
@@ -115,7 +118,7 @@
 <form>
 	<div id="queue"></div>
 	<input id="file_upload" name="file_upload" type="file" multiple="true">
-	<a href="javascript:$('#file_upload').uploadifive('upload')" id="upload-btn">Upload Files</a>
+	<a href="javascript:$('#file_upload').uploadifive('upload')" id="upload-btn" >Upload Files</a>
 	<a href="javascript:;" onclick="complete()" id="complete-btn" style="display:none;">Complete</a>
 </form>
 
