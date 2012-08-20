@@ -1,6 +1,7 @@
 <script src="{{STATIC_URL}}common/js/jquery.js"></script>
 <script src="{{STATIC_URL}}common/js/jquery-ui.js"></script>
 <script src="{{STATIC_URL}}common/js/datatables.js"></script>
+<script src="{{STATIC_URL}}common/js/jquery.validate.js"></script>
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}common/css/theme_orange/jquery-ui.css" />
 <script>
 $(document).ready(function() {
@@ -17,21 +18,24 @@ $(document).ready(function() {
 			 text: false
 		});
 		$("#mri-create-form").submit(function(event) {
-	
-    /* stop form from submitting normally */
-		event.preventDefault(); 
-		$( "#ui-tabs-4" ).hide();
-        
-    /* get some values from elements on the page: */
-		var $form = $( this ),
-			url = $form.attr( 'action' );
+			if($("#mri-create-form").valid()) {
+			    /* stop form from submitting normally */
+				event.preventDefault(); 
+				$( "#ui-tabs-4" ).hide();
+		        
+		    /* get some values from elements on the page: */
+				var $form = $( this ),
+					url = $form.attr( 'action' );
 
-    /* Send the data using post and put the results in a div */
-		$.post( url, $("#mri-create-form").serialize(),
-		function( data ) {
-			$( "#ui-tabs-4" ).empty().append($(data));
-			$( "#ui-tabs-4" ).fadeIn('fast');
-		});
+		    /* Send the data using post and put the results in a div */
+				$.post( url, $("#mri-create-form").serialize(),
+				function( data ) {
+					$( "#ui-tabs-4" ).empty().append($(data));
+					$( "#ui-tabs-4" ).fadeIn('fast');
+				});
+			} else {
+				event.preventDefault(); 
+			}
      });
 });
 </script>
@@ -49,19 +53,19 @@ $(document).ready(function() {
 	<table class="formtable">
 		<tr>
 			<td width="120px">Name:</td>
-			<td><input type="text" name="name" /></td>
+			<td><input type="text" name="name" class="required"/></td>
 		</tr>
 		<tr>
 			<td>Email:</td>
-			<td><input type="text" name="email" /></td>
+			<td><input type="text" name="email" class="required email" /></td>
 		</tr>
 		<tr>
 			<td>Phone:</td>
-			<td><input type="text" name="phone" /></td>
+			<td><input type="text" name="phone" class="required phoneUS"/></td>
 		</tr>
 		<tr>
 			<td>Address:</td>
-			<td><input type="text" name="address"/></td>
+			<td><input type="text" name="address" class="required"/></td>
 		</tr>
 		<tr>
 			<td>Address2:</td>
@@ -69,12 +73,12 @@ $(document).ready(function() {
 		</tr>
 		<tr>
 			<td>City:</td>
-			<td><input type="text" name="city"/></td>
+			<td><input type="text" name="city" class="required"/></td>
 		</tr>
 		<tr>
 			<td>State:</td>
-			<td><select class="textfield" name="state" id="validselection">
-                    <option value="0" selected="selected">Select a State</option> 
+			<td><select class="required" name="state" id="select">
+                    <option value="" selected="selected">Select a State</option> 
                     <option value="AL">Alabama</option> 
                     <option value="AK">Alaska</option> 
                     <option value="AZ">Arizona</option> 
@@ -129,7 +133,7 @@ $(document).ready(function() {
             </tr>
             <tr>
 				<td>Zip:</td>
-				<td><input type="text" name="zip" /></td>
+				<td><input type="text" name="zip" class="required zip"/></td>
 			</tr>
 	</table>
 
