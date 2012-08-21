@@ -33,6 +33,15 @@ $(document).ready(function() {
 		}
 		);
      });
+	
+	 $('#view-box').click(function() {
+			$('#referring-modal').fadeOut(200);
+			$('#view-box').fadeOut(200);
+		 });
+	  $('#referring-modal').click(function() {
+			$('#view-box').fadeOut(200);
+			$('#referring-modal').fadeOut(200);
+		 });
 });
 
 function centerView(id) {
