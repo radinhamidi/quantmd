@@ -1,6 +1,7 @@
 import datetime
 import imghdr
 import os 
+from django.conf import settings
 from reportlab.platypus import *
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.rl_config import defaultPageSize
@@ -57,11 +58,24 @@ def go(CardiologistName, PatientFirstName, PatientLastName, PatientGender,
     styles['h3'].spaceAfter = 0 
     styles['h3'].spaceBefore = 2
 #    styles['h2'].bold = 0
+
+    styles['h4'].fontSize = 20  
+    styles['h4'].leading = 14 
+    styles['h4'].alignment = 1
+    styles['h4'].spaceAfter = 10
+    styles['h4'].spaceBefore = 2
     
+    styleTitle = styles['h4']
     styleSubtitle = styles['h1']
     styleInfo = styles['h2']
     styleParagraph = styles["Normal"]
     styleImageTitle = styles['h3']
+    
+    im = Image(settings.STATIC_ROOT +"quantmd/images/"+'logo.jpeg', width=11*cm,height = 11*cm)
+    Story.append(im)
+    
+    p = Paragraph('Made Possible By QuantMD<br\><br\><br\><br\><br\>', styleTitle)
+    Story.append(p)
     
     p = Paragraph(date, styleSubtitle)
     Story.append(p)
